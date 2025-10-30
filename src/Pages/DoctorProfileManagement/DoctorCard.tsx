@@ -18,7 +18,7 @@ export default function DoctorCard({
   setAddDoctor,
 }: DoctorCardProps) {
   return (
-    <div className="bg-white py-4 px-5 rounded-xl 2xl:h-[calc(45vh-109px)] xl:h-auto">
+    <div className="bg-white py-4 px-5 rounded-xl h-auto">
       <div className="flex justify-between flex-wrap items-start">
         <div className="flex items-center gap-3 md:w-auto w-full">
           <Avatar src={doctor?.image} className="w-10 h-10" />
