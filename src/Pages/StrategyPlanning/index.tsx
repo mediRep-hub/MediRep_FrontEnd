@@ -242,7 +242,7 @@ export default function StrategyPlanning() {
       doctorName: "",
     },
     validationSchema: StrategySchema,
-    onSubmit: (values) => {
+    onSubmit: () => {
       setAddStrategy(false);
     },
   });
