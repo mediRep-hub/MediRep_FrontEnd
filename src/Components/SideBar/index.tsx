@@ -114,7 +114,7 @@ export default function SideBar() {
           scrollbarWidth: "none",
           msOverflowStyle: "none",
         }}
-        className={`fixed xl:relative top-0 left-0 h-full overflow-y-auto xl:h-[calc(100vh-32px)] bg-[#F7F7F7] xl:w-[320px] lg:w-[260px] md:w-[260px] sm:w-[200px] w-[320px] p-2 flex flex-col rounded-[12px] transition-transform z-40
+        className={`fixed xl:relative top-0 left-0 h-full overflow-y-auto xl:h-[calc(100vh-32px)] bg-[#F7F7F7] xl:w-[320px] lg:w-[260px] md:w-[260px] sm:w-[200px] w-[320px] p-2 flex flex-col xl:rounded-[12px] rounded-tr-[12px] rounded-br-[12px] transition-transform z-40
           ${isOpen ? "translate-x-0" : "-translate-x-full"} xl:translate-x-0`}
       >
         <div className="flex items-center gap-2">

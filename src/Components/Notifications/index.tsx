@@ -40,7 +40,7 @@ export default function Notification() {
       </div>
 
       <div
-        className={`absolute left-1/2 -translate-x-1/2 mt-2 w-64 bg-white shadow-xl rounded-xl overflow-hidden z-50 transform transition-all duration-300 ${
+        className={`absolute lg:left-1/2 left-0 lg:-translate-x-1/2 mt-2 w-64 bg-white shadow-xl rounded-xl overflow-hidden z-50 transform transition-all duration-300 ${
           open
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
