@@ -1,11 +1,6 @@
 import { Avatar } from "antd";
 import { MdEdit, MdPhone, MdEmail } from "react-icons/md";
-import {
-  FaRegLightbulb,
-  FaClock,
-  FaDotCircle,
-  FaCalendar,
-} from "react-icons/fa";
+import { FaClock, FaDotCircle, FaCalendar } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoBulb } from "react-icons/io5";
 

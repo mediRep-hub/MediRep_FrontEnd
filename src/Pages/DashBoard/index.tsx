@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
 import { Avatar } from "antd";
-import { FaPercentage, FaTablets } from "react-icons/fa";
-import { CiDollar } from "react-icons/ci";
-import { IoTimeOutline } from "react-icons/io5";
-import { GiAchievement, GiPill } from "react-icons/gi";
+import { FaPercentage } from "react-icons/fa";
+import { GiAchievement } from "react-icons/gi";
 import dummay from "../../../src/assets/dummay.jpg";
 import LineChart from "../../Components/LineChart";
 import { GoDotFill } from "react-icons/go";

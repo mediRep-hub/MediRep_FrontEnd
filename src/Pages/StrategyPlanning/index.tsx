@@ -2,16 +2,12 @@ import { GoGoal } from "react-icons/go";
 import CustomTable from "../../Components/CustomTable";
 import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { Dayjs } from "dayjs";
 import { PiStrategyDuotone } from "react-icons/pi";
 import { BiMessageDetail } from "react-icons/bi";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import CustomTextarea from "../../Components/CustomTextaera";
-import MultiSelect from "../../Components/MultiSelect";
-import MultiDatePicker from "../../Components/MultiDatePicker";
 import { useFormik } from "formik";
 import { StrategySchema } from "../../utils/validation";
 

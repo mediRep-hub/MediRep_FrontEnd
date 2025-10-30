@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CustomTable from "../../Components/CustomTable";
-import { FaEdit } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRequisition } from "../../api/requisitionServices";
-import { getAllDoctors } from "../../api/doctorServices";
-import { getAllProducts } from "../../api/productServices";
 import { useNavigate } from "react-router-dom";
 
 const titles = [
@@ -26,7 +23,7 @@ export default function Requisition() {
   });
   let Requisitions = data?.data;
   let tableData: any = [];
-  Requisitions?.map((v: any, ind: any) => {
+  Requisitions?.map((v: any) => {
     tableData.push([
       v?.reqId,
       v?.doctorName,

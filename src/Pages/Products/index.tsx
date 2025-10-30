@@ -76,7 +76,7 @@ export default function Products() {
   let ProductData = data?.data?.data;
 
   let tableData: any = [];
-  ProductData?.map((v: any, ind: any) => {
+  ProductData?.map((v: any) => {
     tableData.push([
       v?.sku,
       v?.productName,

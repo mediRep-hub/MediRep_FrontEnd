@@ -47,7 +47,7 @@ export default function ManageMR() {
   });
   let AllMR = data?.data;
   let tableData: any = [];
-  AllMR?.map((v: any, ind: any) => {
+  AllMR?.map((v: any) => {
     tableData.push([
       v?.mrId,
       v?.mrName,

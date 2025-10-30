@@ -4,7 +4,6 @@ import bgiamge from "../../assets/login bg.png";
 import { Checkbox, Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
-import { setItem } from "../../utils/localStorageHelper";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import Logo from "../../assets/Logo/logo.png";
 import LoginImage from "../../assets/loginImage.png";

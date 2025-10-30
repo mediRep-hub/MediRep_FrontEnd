@@ -131,7 +131,7 @@ export default function DataReporting() {
       reports: [],
     },
     validationSchema: reportSchema,
-    onSubmit: (values) => {},
+    onSubmit: () => {},
   });
 
   useEffect(() => {

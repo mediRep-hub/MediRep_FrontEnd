@@ -1,29 +1,27 @@
-import React from "react";
 import CustomTable from "../../Components/CustomTable";
 import { MdAdd } from "react-icons/md";
-import { LuSearch } from "react-icons/lu";
 
 const titles = [
-  <div className="relative">
-    <div className="absolute  inset-y-0 left-2 flex items-center gap-1 text-gray-600 pointer-events-none">
-      <LuSearch size={14} />
-      <span className="text-xs font-medium">SKU</span>
-    </div>
-    <input
-      type="text"
-      className="h-8 pl-16 pr-3 border border-gray-400 rounded-md text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-400"
-    />
-  </div>,
-  <div className="relative">
-    <div className="absolute  inset-y-0 left-2 flex items-center gap-1 text-gray-600 pointer-events-none">
-      <LuSearch size={14} />
-      <span className="text-xs font-medium">Product Name</span>
-    </div>
-    <input
-      type="text"
-      className="h-8 pl-16 pr-3 border border-gray-400 rounded-md text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-400"
-    />
-  </div>,
+  // <div className="relative">
+  //   <div className="absolute  inset-y-0 left-2 flex items-center gap-1 text-gray-600 pointer-events-none">
+  //     <LuSearch size={14} />
+  //     <span className="text-xs font-medium">SKU</span>
+  //   </div>
+  //   <input
+  //     type="text"
+  //     className="h-8 pl-16 pr-3 border border-gray-400 rounded-md text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-400"
+  //   />
+  // </div>,
+  // <div className="relative">
+  //   <div className="absolute  inset-y-0 left-2 flex items-center gap-1 text-gray-600 pointer-events-none">
+  //     <LuSearch size={14} />
+  //     <span className="text-xs font-medium">Product Name</span>
+  //   </div>
+  //   <input
+  //     type="text"
+  //     className="h-8 pl-16 pr-3 border border-gray-400 rounded-md text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-400"
+  //   />
+  // </div>,
   "Form",
   "Status",
   "Enter Target",
