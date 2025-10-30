@@ -380,7 +380,7 @@ export default function ManageAccount() {
                                 ? "text"
                                 : "Confirm Password"
                             }
-                            placeholder="PassConfirm Passwordword"
+                            placeholder="Confirm Password"
                             onChange={formik.handleChange}
                             value={formik.values.confirmPassword}
                             className="rounded-md w-full h-14 px-3 py-2 text-sm outline-none border-primary border-[0.5px]"

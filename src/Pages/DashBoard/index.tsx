@@ -173,7 +173,7 @@ export default function DashBoard() {
               </p>
             </div>
             <div className="flex flex-wrap items-stretch gap-4 ">
-              {AllRequisition?.map((v: any, ind: number) => (
+              {AllRequisition?.slice(0, 3).map((v: any, ind: number) => (
                 <div
                   key={ind}
                   className="lg:w-[calc(33.33%-10.66px)] border-[#D4D4D4] border-[1px] w-full bg-white p-4 rounded-xl"

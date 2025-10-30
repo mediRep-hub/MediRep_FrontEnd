@@ -55,7 +55,19 @@ const categoryOptions = [
   "Herbal Products",
 ];
 
-const fromOptions = ["Hospital", "Clinic", "Pharmacy"];
+const medicineForms = [
+  "Tablet",
+  "Capsule",
+  "Syrup",
+  "Injection",
+  "Cream",
+  "Ointment",
+  "Drops",
+  "Inhaler",
+  "Spray",
+  "Powder",
+];
+
 const statusOptions = ["Active", "Discontinued"];
 export default function Products() {
   const [openModel, setOpenModel] = useState(false);
@@ -279,7 +291,7 @@ export default function Products() {
                   </div>
                   <div className="mt-3">
                     <CustomSelect
-                      options={fromOptions}
+                      options={medicineForms}
                       value={formik.values.isfrom}
                       onChange={(val) => formik.setFieldValue("isfrom", val)}
                       placeholder="From"

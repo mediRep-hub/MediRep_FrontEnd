@@ -66,7 +66,7 @@ export default function SearchBar() {
             <Notification />
           </div>
 
-          <div className="md:w-[270px] lg:w-[200px] w-full mt-4  lg:mt-0 xl:mt-0 md:ml-4 md:mt-0 ml-0 h-12 bg-white rounded-[12px] px-2 flex gap-3 items-center">
+          <div className="w-auto mt-4  lg:mt-0 xl:mt-0 md:ml-4 md:mt-0 ml-0 h-12 bg-white rounded-[12px] px-2 flex gap-3 items-center">
             <Avatar src={admin?.image} size={40} />
             <div>
               <p className="text-primary text-sm leading-[14px]">
