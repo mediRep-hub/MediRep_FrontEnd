@@ -1,11 +1,9 @@
 import { MdAdd } from "react-icons/md";
-import UploadFile from "../../Components/TargetUploads";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllProducts, updateProducts } from "../../api/productServices";
 import { TbEdit } from "react-icons/tb";
 import { FaCheckCircle } from "react-icons/fa";
-import { LuSearch } from "react-icons/lu";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import TargetsUploadFile from "../../Components/TargetUploads";
 
