@@ -14,12 +14,14 @@ export const ENDPOINTS = {
   DOCTOR_ADD_DOCTOR: "/doctor/addDoctor",
   DOCTOR_UPDATE: "/doctor/updateDoctor",
   DOCTOR_DELETE: "/doctor/deleteDoctor",
+  DOCTOR_uploadCSVDOCTOR: "/doctor/uploadDoctorsCSV",
 
   //   -----------Products-------------
   PRODUCT_ADD_PRODUCT: "/product/addProduct",
   PRODUCT_GET_ALL: "/product/getAllProducts",
   PRODUCT_UPDATE: "/product/updateproduct",
   PRODUCT_DELETE: "/product/deleteProduct",
+  PRODUCT_uploadCSVTarget: "/product/uploadCSVUpdateTarget",
 
   //   -----------call Reporting-------------
   PRODUCTS_GET_ALL: "/callRepoeting/getAllReports",

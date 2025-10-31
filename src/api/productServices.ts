@@ -14,3 +14,9 @@ export const updateProducts = (id: string, values: any) => {
 export const deleteProducts = (id: string) => {
   return HTTP_CLIENT.delete(`${ENDPOINTS.PRODUCT_DELETE}/${id}`);
 };
+
+export const uploadCSVTarget = (data: any[]) => {
+  return HTTP_CLIENT.post(ENDPOINTS.PRODUCT_uploadCSVTarget, data, {
+    headers: { "Content-Type": "application/json" },
+  });
+};

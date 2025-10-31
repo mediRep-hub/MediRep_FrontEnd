@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import DoctorCard from "./DoctorCard";
-import UploadFile from "../../Components/Upload File";
 import CustomSelect from "../../Components/Select";
 import { useFormik } from "formik";
 import ImagePicker from "../../Components/ImagePicker";
@@ -20,6 +19,7 @@ import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import CustomTimePicker from "../../Components/TimeRangePicker";
+import DoctorUploads from "../../Components/DoctorsUpload";
 interface Doctor {
   _id?: string;
   name: string;
@@ -467,7 +467,7 @@ export default function DoctorProfileManagement() {
           </div>
         </div>
       )}
-      {openModal && <UploadFile closeModle={setOpenModal} />}
+      {openModal && <DoctorUploads closeModle={setOpenModal} />}
     </>
   );
 }

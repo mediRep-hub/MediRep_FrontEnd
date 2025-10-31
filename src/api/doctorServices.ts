@@ -20,3 +20,8 @@ export const updateDoctor = (id: string, values: any) => {
 export const deleteDoctor = (id: string) => {
   return HTTP_CLIENT.delete(`${ENDPOINTS.DOCTOR_DELETE}/${id}`);
 };
+export const uploadCSVDoctor = (formData: FormData) => {
+  return HTTP_CLIENT.post(ENDPOINTS.DOCTOR_uploadCSVDOCTOR, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};

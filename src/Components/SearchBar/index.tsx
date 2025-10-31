@@ -32,7 +32,7 @@ export default function SearchBar() {
   return (
     <>
       <div className="bg-secondary p-4 rounded-[8px] w-full xl:h-20 md:justify-start xl:justify-between h-auto flex flex-wrap lg:items-center items-start xl-flex-row flex-col-reverse lg:flex-row">
-        <div className="flex flex-wrap lg:mt-0 mt-4  w-full lg:w-[65%] items-center gap-4">
+        <div className="flex flex-wrap lg:mt-0 mt-4  w-full lg:w-[60%] items-center gap-4">
           <div className="xl:w-[calc(33%-10px)] lg:w-[calc(32%-10px)] lg:mt-0 mt-3  w-full">
             <SearchSelection
               placeholder="Select MR"
@@ -66,12 +66,12 @@ export default function SearchBar() {
             <Notification />
           </div>
 
-          <div className="w-auto mt-0  lg:mt-0 xl:mt-0 md:ml-4 md:mt-0 ml-4 h-12 bg-white rounded-[12px] px-2 flex gap-3 items-center">
+          <div className="w-full md:w-[250px] mt-4  lg:mt-0 xl:mt-0 md:ml-4 md:mt-0 ml-0 h-12 bg-white rounded-[12px] px-2 flex gap-3 items-center">
             <Avatar src={admin?.image} size={40} />
             <div>
-              <p className="text-primary text-sm leading-[14px]">
+              <p className="text-primary text-sm leading-[14px] w-[150px] truncate overflow-hidden whitespace-nowrap">
                 {admin?.position}
-              </p>{" "}
+              </p>
               <p className="text-heading text-sm leading-[14px]">
                 {" "}
                 {admin?.name}
