@@ -57,7 +57,7 @@ export default function LineChart() {
     <>
       <ResponsiveContainer
         width="100%"
-        height={200}
+        height={170}
         style={{ outline: "none", fontFamily: "inherit" }}
       >
         <ReLineChart

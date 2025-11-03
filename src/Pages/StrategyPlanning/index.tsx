@@ -12,6 +12,7 @@ import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { getAllDoctors } from "../../api/doctorServices";
 import { getAllMR } from "../../api/mrServices";
+import { BiMessageDetail } from "react-icons/bi";
 import {
   addStrategy,
   deleteStrategy,
@@ -23,6 +24,7 @@ import { RiAlertFill } from "react-icons/ri";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
+import { getAllAccounts } from "../../api/adminServices";
 
 const titles = [
   "Strategy Name",
@@ -54,6 +56,7 @@ const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function StrategyPlanning() {
   const [addStrategyModel, setAddStrategyModel] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [isloading, setLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const antIcon = (
@@ -68,11 +71,12 @@ export default function StrategyPlanning() {
     staleTime: 5 * 60 * 1000,
   });
   const { data: allMr } = useQuery({
-    queryKey: ["AllMR"],
-    queryFn: () => getAllMR(),
+    queryKey: ["AllAccount"],
+    queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
-  let AllMR = allMr?.data;
+  let AllMR = allMr?.data?.admins;
+  console.log("🚀 ~ StrategyPlanning ~ AllMR:", AllMR);
   const { data: allStraties, refetch } = useQuery({
     queryKey: ["AllStrategy"],
     queryFn: () => getAllStrategy(),
@@ -105,7 +109,14 @@ export default function StrategyPlanning() {
       v?.route,
       v?.activeRequisition,
       v?.day,
-      <div className="flex gap-3 items-center">
+      <div
+        className="flex gap-3 items-center"
+        onClick={() => {
+          setOpenView(true);
+          setEditingProduct(v);
+        }}
+      >
+        <BiMessageDetail size={16} color="#7d7d7d" />
         <p className="text-xs font-normal text-[#131313]">View</p>
       </div>,
       <div className="flex items-center gap-2">
@@ -184,6 +195,69 @@ export default function StrategyPlanning() {
       .catch((error) => {
         console.error("Failed to delete product:", error);
         notifyError("Failed to delete product. Please try again.");
+      });
+  };
+  const handleMoveUp = (index: number) => {
+    if (!editingProduct || index <= 0) return;
+
+    const updatedDoctorList = [...editingProduct.doctorList];
+    [updatedDoctorList[index - 1], updatedDoctorList[index]] = [
+      updatedDoctorList[index],
+      updatedDoctorList[index - 1],
+    ];
+
+    setEditingProduct({
+      ...editingProduct,
+      doctorList: updatedDoctorList,
+    });
+  };
+
+  const handleMoveDown = (index: number) => {
+    if (!editingProduct || index >= editingProduct.doctorList.length - 1)
+      return;
+
+    const updatedDoctorList = [...editingProduct.doctorList];
+    [updatedDoctorList[index], updatedDoctorList[index + 1]] = [
+      updatedDoctorList[index + 1],
+      updatedDoctorList[index],
+    ];
+
+    setEditingProduct({
+      ...editingProduct,
+      doctorList: updatedDoctorList,
+    });
+  };
+  const handleSaveOrder = () => {
+    if (!editingProduct) {
+      notifyError("No product selected for editing.");
+      return;
+    }
+    const strategyId = editingProduct.id || editingProduct._id;
+
+    if (!strategyId) {
+      console.error("No valid ID found in editingProduct:", editingProduct);
+      notifyError("Invalid product data. Please refresh and try again.");
+      return;
+    }
+    updateStrategy(strategyId, {
+      doctorList: editingProduct.doctorList,
+    })
+      .then((response) => {
+        if (response) {
+          notifySuccess("Doctor order has been successfully updated!");
+        } else {
+          notifyError("Failed to update doctor order. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to save doctor order:", error);
+        notifyError(
+          "Service is currently undergoing maintenance. Please try again in 5-10 minutes."
+        );
+      })
+      .finally(() => {
+        refetch();
+        setOpenView(false);
       });
   };
   return (
@@ -327,7 +401,11 @@ export default function StrategyPlanning() {
                   </div>
                   <div className="mt-3">
                     <CustomSelect
-                      options={AllMR?.map((doc: any) => doc.mrName) || []}
+                      options={
+                        AllMR?.filter(
+                          (doc: any) => doc.position === "MedicalRep(MR)"
+                        )?.map((doc: any) => doc.name) || []
+                      }
                       value={formik.values.mrName}
                       onChange={(val) => formik.setFieldValue("mrName", val)}
                       placeholder="Select MR"
@@ -406,6 +484,141 @@ export default function StrategyPlanning() {
           </div>
         </div>
       )}
+      {openView && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[880px] xl:h-auto h-[90vh] overflow-y-auto shadow-2xl relative">
+            <div className="flex items-center justify-between mb-4 px-6 py-2">
+              <p className="text-[22px] font-semibold text-gray-800">
+                Doctor List
+              </p>
+              <IoMdCloseCircle
+                size={26}
+                onClick={() => setOpenView(false)}
+                className="cursor-pointer text-primary hover:text-red-500 transition-all"
+              />
+            </div>
+
+            <div className="divide-y divide-gray-200 border rounded-none">
+              {editingProduct ? (
+                <div className="">
+                  <div className="border rounded-none divide-y divide-gray-200">
+                    {editingProduct.doctorList &&
+                    editingProduct.doctorList.length > 0 ? (
+                      <div className="doctor-list-container">
+                        {editingProduct.doctorList.map(
+                          (doc: string, index: number) => (
+                            <DoctorListItem
+                              key={index}
+                              doctor={doc}
+                              index={index}
+                              onMoveUp={
+                                index > 0
+                                  ? () => handleMoveUp(index)
+                                  : undefined
+                              }
+                              onMoveDown={
+                                index < editingProduct.doctorList.length - 1
+                                  ? () => handleMoveDown(index)
+                                  : undefined
+                              }
+                            />
+                          )
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400 text-center py-4">
+                        No doctors found in this strategy.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Save Button */}
+                  <div className="flex justify-end p-4 border-t">
+                    <button
+                      onClick={handleSaveOrder}
+                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    >
+                      Save Order
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-gray-400 text-center py-6">
+                  No strategy available.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
+const DoctorListItem = ({
+  doctor,
+  index,
+  onMoveUp,
+  onMoveDown,
+}: {
+  doctor: string;
+  index: number;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
+}) => {
+  return (
+    <div className="flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-all group">
+      <div className="flex items-center gap-3 flex-1">
+        <span className="text-gray-500 font-medium w-12 text-center">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div className="w-2 h-2 bg-gray-400 rounded-full" />
+        <p className="text-gray-800 font-medium">{doctor}</p>
+      </div>
+
+      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        {onMoveUp && (
+          <button
+            onClick={onMoveUp}
+            className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            title="Move up"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </button>
+        )}
+        {onMoveDown && (
+          <button
+            onClick={onMoveDown}
+            className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            title="Move down"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};

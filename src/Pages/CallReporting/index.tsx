@@ -11,10 +11,9 @@ const titles = [
   "MR Name",
   "Doctor Name",
   "Area",
-  "Date",
   "Check in",
   "Check out",
-  "Details",
+  "Action",
 ];
 
 export default function CallReporting() {

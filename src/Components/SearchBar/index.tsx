@@ -12,7 +12,7 @@ const mrOptions: string[] = [
 ];
 
 const areaOptions: string[] = [
-  "All Aera",
+  "All Area",
   "Lahore",
   "Karachi",
   "Islamabad",
