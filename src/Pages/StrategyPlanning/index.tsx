@@ -1,9 +1,7 @@
-import { GoGoal } from "react-icons/go";
 import CustomTable from "../../Components/CustomTable";
 import { useEffect, useState } from "react";
 import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { PiStrategyDuotone } from "react-icons/pi";
-import { BiMessageDetail } from "react-icons/bi";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";

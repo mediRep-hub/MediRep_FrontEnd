@@ -179,7 +179,6 @@ export default function RequisitionDetail() {
 
     try {
       setLoading2(true);
-      const res = await updateRequisition(requisition._id, { remarks });
       notifySuccess("Remarks updated successfully!");
       handleGetSingle(requisition._id);
     } catch (error: any) {
