@@ -3,6 +3,7 @@ import Notification from "../Notifications";
 import { useState } from "react";
 import SearchSelection from "./SearchSelection";
 import { useAuth } from "../../Context/AuthContext";
+
 const mrOptions: string[] = [
   "MR Ali",
   "MR Bilal",

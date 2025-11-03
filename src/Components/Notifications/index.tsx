@@ -1,14 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { FaBell } from "react-icons/fa";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 export default function Notification() {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const notifications = [
-    "New appointment booked",
-    "Doctor updated profile",
-    "Reminder: Meeting at 3 PM",
+    {
+      title: "Requisition Approved",
+      message: "Dr. Umair Requisition Approved",
+    },
+    {
+      title: "New Doctor Added",
+      message: "Dr. Sarah Khan was successfully added to the list",
+    },
+    {
+      title: "Strategy Updated",
+      message: "North Punjab strategy updated successfully",
+    },
+    {
+      title: "Target Achieved",
+      message: "Monthly sales target achieved by MR Bilal Hassan",
+    },
   ];
 
   useEffect(() => {
@@ -40,26 +54,51 @@ export default function Notification() {
       </div>
 
       <div
-        className={`absolute lg:left-1/2 left-0 lg:-translate-x-1/2 mt-2 w-64 bg-white shadow-xl rounded-xl overflow-hidden z-50 transform transition-all duration-300 ${
+        className={`absolute lg:left-1/2 left-0 lg:-translate-x-1/2 mt-2 w-[392px] bg-white shadow-xl rounded-xl overflow-hidden z-50 transform transition-all duration-300 ${
           open
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
         }`}
       >
-        <div className="p-3 font-medium border-b-[3px] border-primary">
+        <div className="flex justify-center">
+          <div className="border-t-[1px] w-20 border-primary mt-2"></div>
+        </div>
+        <div className="p-3 font-medium border-b-[1px] border-[#7d7d7d]">
           Notifications
         </div>
-        <ul className="max-h-60 overflow-y-auto">
+        <div className="space-y-2 p-4">
           {notifications.length > 0 ? (
             notifications.map((note, i) => (
-              <li key={i} className="p-3 text-sm hover:bg-gray-100 transition">
-                {note}
-              </li>
+              <div
+                key={i}
+                className="p-3 flex items-center justify-between text-sm border border-[#E5EBF7] rounded-[6px] bg-[#f7f7f7] transition"
+              >
+                <div className="flex gap-4 items-center">
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                    <span className="text-xs font-semibold text-primary">
+                      N
+                    </span>
+                  </div>
+
+                  <div>
+                    <p className="text-[14px] text-heading font-medium">
+                      {note.title}
+                    </p>
+                    <p className="text-[11px] text-gray-600">{note.message}</p>
+                  </div>
+                </div>
+
+                <div className="border border-[#D2D2D2] w-10 h-10 rounded-[8px] flex justify-center items-center">
+                  <HiDotsHorizontal className="text-heading" size={18} />
+                </div>
+              </div>
             ))
           ) : (
-            <li className="p-3 text-sm text-gray-500">No notifications</li>
+            <p className="p-3 text-sm text-gray-500 text-center">
+              No notifications
+            </p>
           )}
-        </ul>
+        </div>
       </div>
     </div>
   );
