@@ -1,7 +1,7 @@
 import { GoGoal } from "react-icons/go";
 import CustomTable from "../../Components/CustomTable";
 import { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { PiStrategyDuotone } from "react-icons/pi";
 import { BiMessageDetail } from "react-icons/bi";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -10,242 +10,184 @@ import CustomSelect from "../../Components/Select";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useFormik } from "formik";
 import { StrategySchema } from "../../utils/validation";
+import MultiSelect from "../../Components/MultiSelect";
+import { useQuery } from "@tanstack/react-query";
+import { getAllDoctors } from "../../api/doctorServices";
+import { getAllMR } from "../../api/mrServices";
+import {
+  addStrategy,
+  deleteStrategy,
+  getAllStrategy,
+  updateStrategy,
+} from "../../api/strategyServices";
+import { TbEdit } from "react-icons/tb";
+import { RiAlertFill } from "react-icons/ri";
+import { notifyError, notifySuccess } from "../../Components/Toast";
+import { Spin } from "antd";
+import { Loading3QuartersOutlined } from "@ant-design/icons";
 
-const titles = ["Strategy Name", "Product", "Status", "Goals", "Doctors List"];
-const data = [
-  [
-    <>
-      <div className="flex gap-2">
-        <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
-        <div>
-          <p>Shalimar Road</p>
-          <div className="flex items-center gap-7">
-            <p className="w-[100px]">MR: Zain Hassan</p>
-            <div className="flex items-center gap-3">
-              <HiOutlineLocationMarker
-                size={16}
-                color="#7d7d7d"
-                className="inline"
-              />
-              <p>Punjab</p>
-            </div>
-            <p>45-Doctors</p>
-          </div>
-        </div>
-      </div>
-    </>,
-    "Naunehal Baby Soap - 100 gm",
-    <div className="p-1 bg-[#008000] rounded-sm w-max">
-      <p className="text-white leading-[100%]">View</p>
-    </div>,
-    <>
-      <GoGoal size={16} className="inline text-[#7d7d7d] mr-2" /> 80%{" "}
-      <span className="text-[10px]">Achieved</span>
-    </>,
-    <>
-      <BiMessageDetail size={16} className="inline text-[#7d7d7d] mr-2" />
-      View
-    </>,
-  ],
-  [
-    <>
-      <div className="flex gap-2">
-        <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
-        <div>
-          <p>Canal Road</p>
-          <div className="flex items-center gap-7">
-            <p className="w-[100px]">MR: Ali Raza</p>
-            <div className="flex items-center gap-3">
-              <HiOutlineLocationMarker
-                size={16}
-                color="#7d7d7d"
-                className="inline"
-              />
-              <p>Sindh</p>
-            </div>
-            <p>30-Doctors</p>
-          </div>
-        </div>
-      </div>
-    </>,
-    "Paracetamol Syrup - 120 ml",
-    <div className="p-1 bg-[#FFA500] rounded-sm w-max">
-      <p className="text-white leading-[100%]">Planing</p>
-    </div>,
-    <>
-      <GoGoal size={16} className="inline text-[#7d7d7d] mr-2" /> 65%{" "}
-      <span className="text-[10px]">Achieved</span>
-    </>,
-    <>
-      <BiMessageDetail size={16} className="inline text-[#7d7d7d] mr-2" />
-      View
-    </>,
-  ],
-  [
-    <>
-      <div className="flex gap-2">
-        <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
-        <div>
-          <p>Shalimar Road</p>
-          <div className="flex items-center gap-7">
-            <p className="w-[100px]">MR: Sana Iqbal</p>
-            <div className="flex items-center gap-3">
-              <HiOutlineLocationMarker
-                size={16}
-                color="#7d7d7d"
-                className="inline"
-              />
-              <p>KPK</p>
-            </div>
-            <p>28-Doctors</p>
-          </div>
-        </div>
-      </div>
-    </>,
-    "Skin Care Lotion - 200 ml",
-    <div className="p-1 bg-primary rounded-sm w-max">
-      <p className="text-white leading-[100%]">Scheduled</p>
-    </div>,
-    <>
-      <GoGoal size={16} className="inline text-[#7d7d7d] mr-2" /> 25%{" "}
-      <span className="text-[10px]">Achieved</span>
-    </>,
-    <>
-      <BiMessageDetail size={16} className="inline text-[#7d7d7d] mr-2" />
-      View
-    </>,
-  ],
-  [
-    <>
-      <div className="flex gap-2">
-        <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
-        <div>
-          <p>Airport Road</p>
-          <div className="flex items-center gap-7">
-            <p className="w-[100px]">MR: Bilal Khan</p>
-            <div className="flex items-center gap-3">
-              <HiOutlineLocationMarker
-                size={16}
-                color="#7d7d7d"
-                className="inline"
-              />
-              <p>Balochistan</p>
-            </div>
-            <p>18-Doctors</p>
-          </div>
-        </div>
-      </div>
-    </>,
-    "Calcium Tablets - 500 mg",
-    <div className="p-1 bg-[#008000] rounded-sm w-max">
-      <p className="text-white leading-[100%]">Active</p>
-    </div>,
-    <>
-      <GoGoal size={16} className="inline text-[#7d7d7d] mr-2" /> 92%{" "}
-      <span className="text-[10px]">Achieved</span>
-    </>,
-    <>
-      <BiMessageDetail size={16} className="inline text-[#7d7d7d] mr-2" />
-      View
-    </>,
-  ],
-  [
-    <>
-      <div className="flex gap-2">
-        <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
-        <div>
-          <p>Riwind Road</p>
-          <div className="flex items-center gap-7">
-            <p className="w-[100px]">MR: Hina Ahmed</p>
-            <div className="flex items-center gap-3">
-              <HiOutlineLocationMarker
-                size={16}
-                color="#7d7d7d"
-                className="inline"
-              />
-              <p>Punjab</p>
-            </div>
-            <p>40-Doctors</p>
-          </div>
-        </div>
-      </div>
-    </>,
-    "Vitamin C Sachets - 1 gm",
-    <div className="p-1 bg-[#FFA500] rounded-sm w-max">
-      <p className="text-white leading-[100%]">Planing</p>
-    </div>,
-    <>
-      <GoGoal size={16} className="inline text-[#7d7d7d] mr-2" /> 55%{" "}
-      <span className="text-[10px]">Achieved</span>
-    </>,
-    <>
-      <BiMessageDetail size={16} className="inline text-[#7d7d7d] mr-2" />
-      View
-    </>,
-  ],
-  [
-    <>
-      <div className="flex gap-2">
-        <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
-        <div>
-          <p>Canal Road </p>
-          <div className="flex items-center gap-7">
-            <p className="w-[100px]">MR: Asif Malik</p>
-            <div className="flex items-center gap-3">
-              <HiOutlineLocationMarker
-                size={16}
-                color="#7d7d7d"
-                className="inline"
-              />
-              <p>Sindh</p>
-            </div>
-            <p>32-Doctors</p>
-          </div>
-        </div>
-      </div>
-    </>,
-    "Neurotonic Syrup - 60 ml",
-    <div className="p-1 bg-primary rounded-sm w-max">
-      <p className="text-white leading-[100%]">Scheduled</p>
-    </div>,
-    <>
-      <GoGoal size={16} className="inline text-[#7d7d7d] mr-2" /> 15%{" "}
-      <span className="text-[10px]">Achieved</span>
-    </>,
-    <>
-      <BiMessageDetail size={16} className="inline text-[#7d7d7d] mr-2" />
-      View
-    </>,
-  ],
+const titles = [
+  "Strategy Name",
+  "Route Status",
+  "Active Requisition",
+  "Visit Day",
+  "Doctors List",
+  "Actions",
 ];
-const doctorOPtions = ["Dr. Hussain", "Dr. Salim", "Dr. ali", "Dr. umer"];
 
-const assignToMROptions = ["MR 1", "MR 2", "MR 3"];
-const selectRegionOptions = ["Region 1", "Region 2", "Region 3"];
-const selectProductOptions = ["Product A", "Product B", "Product C"];
-const cityOptions = ["Product A", "Product B", "Product C"];
+const selectRegionOptions = [
+  "North Punjab",
+  "Kashmir",
+  "South Punjab",
+  "Gilgit",
+];
+const selectDaysOptions = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+const selectRouteOptions = ["Active", "Planning", "In-active"];
+const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 
 export default function StrategyPlanning() {
-  const [addStrategy, setAddStrategy] = useState(false);
+  const [addStrategyModel, setAddStrategyModel] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [isloading, setLoading] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<any>(null);
+  const antIcon = (
+    <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
+  );
   useEffect(() => {
     document.title = "MediRep | Strategy & Planning";
   }, []);
+  const { data: doctorss } = useQuery({
+    queryKey: ["AllDoctors"],
+    queryFn: () => getAllDoctors(),
+    staleTime: 5 * 60 * 1000,
+  });
+  const { data: allMr } = useQuery({
+    queryKey: ["AllMR"],
+    queryFn: () => getAllMR(),
+    staleTime: 5 * 60 * 1000,
+  });
+  let AllMR = allMr?.data;
+  const { data: allStraties, refetch } = useQuery({
+    queryKey: ["AllStrategy"],
+    queryFn: () => getAllStrategy(),
+    staleTime: 5 * 60 * 1000,
+  });
+  let AllStrategy = allStraties?.data?.data;
+  let tableData: any = [];
+  AllStrategy?.map((v: any) => {
+    tableData.push([
+      <>
+        <div className="flex gap-2">
+          <PiStrategyDuotone size={16} className="inline text-[#7d7d7d]" />
+          <div>
+            <p>{v?.strategyName}</p>
+            <div className="flex items-center gap-7">
+              <p className="w-[100px]">MR: {v?.mrName}</p>
+              <div className="flex items-center gap-3">
+                <HiOutlineLocationMarker
+                  size={16}
+                  color="#7d7d7d"
+                  className="inline"
+                />
+                <p>{v?.region}</p>
+              </div>
+              <p>45-Doctors</p>
+            </div>
+          </div>
+        </div>
+      </>,
+      v?.route,
+      v?.activeRequisition,
+      v?.day,
+      <div className="flex gap-3 items-center">
+        <p className="text-xs font-normal text-[#131313]">View</p>
+      </div>,
+      <div className="flex items-center gap-2">
+        <TbEdit
+          size={18}
+          className="text-primary cursor-pointer"
+          onClick={() => {
+            setAddStrategyModel(true);
+            setEditingProduct(v);
+          }}
+        />
+        <MdDeleteOutline
+          onClick={() => {
+            setDeleteConfirmation(true);
+            setEditingProduct(v);
+          }}
+          size={18}
+          className="text-red-600 cursor-pointer"
+        />
+      </div>,
+    ]);
+  });
 
+  const AllDOctors = doctorss?.data;
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      region: "",
-      area: "",
-      strategyName: "",
-      route: "",
-      day: "",
-      mrName: "",
-      doctorName: "",
+      region: editingProduct?.region || "",
+      area: editingProduct?.area || "",
+      strategyName: editingProduct?.strategyName || "",
+      route: editingProduct?.route || "",
+      day: editingProduct?.day || "",
+      mrName: editingProduct?.mrName || "",
+      doctorList: editingProduct?.doctorList || [],
     },
     validationSchema: StrategySchema,
-    onSubmit: () => {
-      setAddStrategy(false);
+    onSubmit: (values) => {
+      setLoading(true);
+      if (editingProduct) {
+        updateStrategy(editingProduct._id, values)
+          .then(() => {
+            notifySuccess("Product updated successfully");
+            addStrategy(false);
+            setEditingProduct(null);
+            formik.resetForm();
+            refetch();
+          })
+          .catch((error) => {
+            console.error(error);
+            notifyError("Failed to update Strategy.");
+          })
+          .finally(() => setLoading(false));
+      } else {
+        addStrategy(values)
+          .then(() => {
+            notifySuccess("Strategy added successfully");
+            setAddStrategyModel(false);
+            formik.resetForm();
+            refetch();
+          })
+          .catch((error) => {
+            console.error(error);
+            notifyError("Failed to add Strategy.");
+          })
+          .finally(() => setLoading(false));
+      }
     },
   });
+  const handleDelete = () => {
+    deleteStrategy(editingProduct._id)
+      .then(() => {
+        notifySuccess("Product deleted successfully");
+        setDeleteConfirmation(false);
+        refetch();
+      })
+      .catch((error) => {
+        console.error("Failed to delete product:", error);
+        notifyError("Failed to delete product. Please try again.");
+      });
+  };
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -255,7 +197,8 @@ export default function StrategyPlanning() {
           </p>
           <button
             onClick={() => {
-              setAddStrategy(true);
+              setAddStrategyModel(true);
+              setEditingProduct(null);
             }}
             className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
           >
@@ -276,11 +219,11 @@ export default function StrategyPlanning() {
             }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-157px)] xl:h-[calc(65vh-79px)]  mt-4 overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={data} />
+            <CustomTable titles={titles} data={tableData} />
           </div>
         </div>
       </div>
-      {addStrategy && (
+      {addStrategyModel && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             style={{
@@ -291,12 +234,14 @@ export default function StrategyPlanning() {
           >
             <div className="flex items-center justify-between ">
               <p className="text-[24px] text-heading capitalize font-medium">
-                Create Strategy
+                {editingProduct === null
+                  ? "Create Strategy"
+                  : "Update  Strategy"}
               </p>
               <IoMdCloseCircle
                 size={20}
                 onClick={() => {
-                  setAddStrategy(false);
+                  setAddStrategyModel(false);
                 }}
                 className="cursor-pointer text-primary"
               />
@@ -319,7 +264,7 @@ export default function StrategyPlanning() {
                     />
                     {formik.touched.region && formik.errors.region && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.region}
+                        *{String(formik.errors.region)}
                       </div>
                     )}
                   </div>
@@ -332,7 +277,7 @@ export default function StrategyPlanning() {
                     />
                     {formik.touched.area && formik.errors.area && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.area}
+                        *{String(formik.errors.area)}
                       </div>
                     )}
                   </div>
@@ -347,20 +292,20 @@ export default function StrategyPlanning() {
                     {formik.touched.strategyName &&
                       formik.errors.strategyName && (
                         <div className="text-red-500 text-xs">
-                          *{formik.errors.strategyName}
+                          *{String(formik.errors.strategyName)}
                         </div>
                       )}
                   </div>
                   <div className="mt-3">
                     <CustomSelect
-                      options={selectProductOptions}
+                      options={selectRouteOptions}
                       value={formik.values.route}
                       onChange={(val) => formik.setFieldValue("route", val)}
                       placeholder="Route Status"
                     />
                     {formik.touched.route && formik.errors.route && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.route}
+                        *{String(formik.errors.route)}
                       </div>
                     )}
                   </div>
@@ -371,42 +316,44 @@ export default function StrategyPlanning() {
                   </p>
                   <div className="mt-3">
                     <CustomSelect
-                      options={selectProductOptions}
+                      options={selectDaysOptions}
                       value={formik.values.day}
                       onChange={(val) => formik.setFieldValue("day", val)}
                       placeholder="Select Day"
                     />
                     {formik.touched.day && formik.errors.day && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.day}
+                        *{String(formik.errors.day)}
                       </div>
                     )}
                   </div>
                   <div className="mt-3">
                     <CustomSelect
-                      options={assignToMROptions}
+                      options={AllMR?.map((doc: any) => doc.mrName) || []}
                       value={formik.values.mrName}
                       onChange={(val) => formik.setFieldValue("mrName", val)}
                       placeholder="Select MR"
                     />
                     {formik.touched.mrName && formik.errors.mrName && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.mrName}
+                        *{String(formik.errors.mrName)}
                       </div>
                     )}
                   </div>
                   <div className="mt-3">
-                    <CustomSelect
-                      options={doctorOPtions}
-                      value={formik.values.doctorName}
+                    <MultiSelect
+                      options={
+                        AllDOctors?.data?.map((doc: any) => doc.name) || []
+                      }
+                      value={formik.values.doctorList}
                       onChange={(val) =>
-                        formik.setFieldValue("doctorName", val)
+                        formik.setFieldValue("doctorList", val)
                       }
                       placeholder="Select Doctor"
                     />
-                    {formik.touched.doctorName && formik.errors.doctorName && (
+                    {formik.touched.doctorList && formik.errors.doctorList && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.doctorName}
+                        *{String(formik.errors.doctorList)}
                       </div>
                     )}
                   </div>
@@ -417,10 +364,47 @@ export default function StrategyPlanning() {
                   type="submit"
                   className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
                 >
-                  Create Strategy
+                  {isloading ? (
+                    <Spin indicator={antIcon} />
+                  ) : editingProduct === null ? (
+                    "Create Strategy"
+                  ) : (
+                    "Update Strategy"
+                  )}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {deleteConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] xl:h-auto h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
+            <RiAlertFill className="text-[120px] text-yellow-500 text-center mx-auto mb-2" />
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-primary mt-5">
+                Confirm Delete
+              </h2>
+              <p className="mb-6">
+                Are you sure you want to delete this <strong>Product</strong>
+              </p>
+            </div>
+            <div className="flex mt-5 justify-between gap-4">
+              <button
+                onClick={() => {
+                  setDeleteConfirmation(false);
+                }}
+                className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

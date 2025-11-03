@@ -61,14 +61,13 @@ export const ProductSchema = Yup.object().shape({
 });
 
 export const StrategySchema = Yup.object().shape({
-  selectRegion: Yup.string().required("Region is required"),
-  selectCity: Yup.string().required("City is required"),
-  strategyName: Yup.string().required("Strategy name is required"),
-  selectProduct: Yup.string().required("Product is required"),
-  details: Yup.string().required("Details are required"),
-  dates: Yup.array().min(1, "Please select at least one date"),
-  assignToMR: Yup.string().required("Assign to MR is required"),
-  selectDoctor: Yup.array().min(1, "Please select at least one doctor"),
+  region: Yup.string().required("Please select a region."),
+  area: Yup.string().required("Please select an area or city."),
+  strategyName: Yup.string().required("Strategy name is required."),
+  route: Yup.string().required("Please enter the route name."),
+  day: Yup.string().required("Please select a day."),
+  mrName: Yup.string().required("Please select the MR."),
+  doctorList: Yup.array().min(1, "Please select at least one doctor."),
 });
 
 export const reportSchema = Yup.object().shape({

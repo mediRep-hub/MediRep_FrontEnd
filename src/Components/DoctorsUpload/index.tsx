@@ -23,11 +23,10 @@ export default function DoctorUploads({ closeModle }: any) {
 
     try {
       const formData = new FormData();
-      formData.append("file", file); // 🔹 key must match Multer
-      console.log("🚀 FormData before upload:", formData.get("file")); // check this
+      formData.append("file", file);
 
       const response = await uploadCSVDoctor(formData);
-      console.log("Upload response:", response.data);
+      // console.log("Upload response:", response.data);
       notifySuccess("Doctor list uploaded successfully!");
       closeModle(false);
       refetch();

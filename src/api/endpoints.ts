@@ -39,7 +39,12 @@ export const ENDPOINTS = {
   REQUISITIONS_DELETE: "/requisition/deleteRequisition",
   REQUISITIONS_GET_SINGLE: "/requisition/getSingleRequisition",
   REQUISITIONS_UPDATEACCEPTED: "/requisition/updateAccepted",
-
+  //   -----------Strategy & Planning-------------
+  STRATEGY_ADD_STRATEGY: "/strategy/addStrategy",
+  STRATEGY_GET_ALL: "/strategy/getAllStrategies",
+  STRATEGY_UPDATE: "/strategy/updateStrategy",
+  STRATEGY_DELETE: "/strategy/deleteStrategy",
+  STRATEGY_GET_SINGLE: "/strategy/getStrategyById",
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
 };

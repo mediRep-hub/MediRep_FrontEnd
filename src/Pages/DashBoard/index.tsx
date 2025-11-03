@@ -31,7 +31,6 @@ export default function DashBoard() {
     staleTime: 5 * 60 * 1000,
   });
   let AllRequisition = data?.data;
-  console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
   return (
     <div
       style={{

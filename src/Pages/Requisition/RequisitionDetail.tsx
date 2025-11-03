@@ -16,6 +16,7 @@ import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "../../Context/AuthContext";
 
 interface Requisition {
   _id: string;
@@ -49,9 +50,12 @@ const paymentOption = ["Online", "Cheque", "Cash", "Part-payment"];
 
 export default function RequisitionDetail() {
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
   const [dataRequisitions, setRequisitionsingle] = useState<Requisition | null>(
     null
   );
+  const [remarks, setRemarks] = useState(dataRequisitions?.remarks || "");
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const location = useLocation();
@@ -168,7 +172,23 @@ export default function RequisitionDetail() {
     };
     fetchRequisition();
   }, [requisition]);
+  const { admin } = useAuth();
 
+  const handleSaveRemarks = async () => {
+    if (!remarks.trim()) return notifyError("Please enter remarks first!");
+
+    try {
+      setLoading2(true);
+      const res = await updateRequisition(requisition._id, { remarks });
+      notifySuccess("Remarks updated successfully!");
+      handleGetSingle(requisition._id);
+    } catch (error: any) {
+      console.error("Error updating remarks:", error);
+      notifyError(error?.response?.data?.error || "Failed to update remarks");
+    } finally {
+      setLoading2(false);
+    }
+  };
   return (
     <>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -183,14 +203,14 @@ export default function RequisitionDetail() {
             Requisition Details
           </p>
         </div>
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-117px)] lg:h-[calc(90vh-149px)] h-auto ">
+        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-123px)] lg:h-[calc(90vh-149px)] h-auto ">
           <p className="text-[#7d7d7d]">Requisition Details</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-5 flex gap-5  bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-101px)] xl:h-[calc(65vh-39px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5 flex gap-5  bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-105px)] xl:h-[calc(63vh-60px)] overflow-y-auto scrollbar-none"
           >
             <div className="w-[calc(70%-20px)] p-5">
               <div className="flex gap-5 pb-5 border-b-[1px] border-primary">
@@ -303,48 +323,73 @@ export default function RequisitionDetail() {
                 <p className="text-[#131313] mt-3 font-medium text-sm">
                   Manager Remarks
                 </p>
-                <div className="flex items-center gap-3 mt-4">
-                  <FaCheckCircle size={16} color="#27C840" />
-                  <p className="text-[#131313] font-medium text-xs">
-                    Manager approved requisition
+                {["Admin", "manager"].includes(admin?.position || "") && (
+                  <>
+                    <textarea
+                      className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
+                      placeholder="Enter your remarks..."
+                      value={remarks}
+                      onChange={(e) => setRemarks(e.target.value)}
+                    />
+                    <div className="flex justify-end">
+                      <button
+                        className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
+                        onClick={handleSaveRemarks}
+                      >
+                        {loading2 ? <Spin indicator={antIcon} /> : "Save"}
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {dataRequisitions?.remarks ? (
+                  <div>
+                    <div className="flex items-center gap-3 mt-4">
+                      <FaCheckCircle size={16} color="#27C840" />
+                      <p className="text-[#131313] font-medium text-xs">
+                        Manager approved requisition
+                      </p>
+                    </div>
+                    <div className="rounded-lg bg-[#F7F7F7] p-3 mt-5">
+                      <p className="text-[#7D7D7D] font-medium text-xs">
+                        {dataRequisitions.remarks}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-[#7D7D7D] mt-2">
+                    No remarks added by Manager
                   </p>
-                </div>
-                <div className="rounded-lg bg-[#F7F7F7] p-3 mt-5">
-                  <p className="text-[#7D7D7D] font-medium text-xs">
-                    Figma ipsum component variant main layer. Background
-                    vertical overflow shadow library polygon bold fill effect.
-                    Shadow figjam shadow invite prototype ellipse team. Draft
-                    star connection italic mask scrolling. Effect main prototype
-                    layer scrolling arrange horizontal connection edit. Opacity
-                    undo draft fill main align. Outline font select comment
-                    create rectangle clip scrolling arrow. Project auto
-                    community draft select. Star subtract follower fill italic
-                    scale polygon. Arrange selection rectangle clip plugin
-                    variant.
+                )}
+              </div>
+              {["Admin", "manager"].includes(admin?.position || "") && (
+                <div>
+                  <p className="text-[#131313] mt-3 font-medium text-sm">
+                    Accept Requisition
                   </p>
+                  <div className="flex justify-between items-center pb-5 mt-5">
+                    <button
+                      onClick={() => {
+                        setDeleteConfirmation(true);
+                      }}
+                      className="bg-[#F2FAFD] h-[56px] w-[100px] cursor-pointer rounded-md text-black"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => handleAccept(requisition._id)}
+                      disabled={requisition.accepted}
+                      className={`h-[56px] w-[100px] rounded-md text-white cursor-pointer ${
+                        requisition.accepted
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-primary hover:bg-primary"
+                      }`}
+                    >
+                      {requisition.accepted ? "Accepted" : "Accept"}
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="text-[#131313] mt-3 font-medium text-sm">
-                  Accept Requisition
-                </p>
-                <div className="flex justify-between items-center mt-5">
-                  <button
-                    onClick={() => {
-                      setDeleteConfirmation(true);
-                    }}
-                    className="bg-[#F2FAFD] h-[56px] w-[100px] cursor-pointer rounded-md text-black"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => handleAccept(requisition._id)}
-                    className="bg-primary h-[56px] w-[100px] cursor-pointer rounded-md text-white"
-                  >
-                    Accept
-                  </button>
-                </div>
-              </div>
+              )}
             </div>{" "}
             <div className="border-primary border-l-[1px] h-full"></div>
             <div className="w-[calc(30%-20px)] p-5">

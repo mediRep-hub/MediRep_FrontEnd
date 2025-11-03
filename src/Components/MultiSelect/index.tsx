@@ -35,16 +35,21 @@ export default function MultiSelect({
         className="flex items-center h-14 justify-between px-4 py-2 border-primary border-[0.5px] rounded-md bg-white cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="flex flex-wrap gap-2">
+        <span className="flex flex-wrap items-center gap-2">
           {value.length > 0 ? (
-            value.map((val, idx) => (
-              <span
-                key={idx}
-                className="bg-primary text-white px-2 py-1 rounded-md text-xs"
-              >
-                {val}
-              </span>
-            ))
+            <>
+              {value.slice(0, 3).map((val, idx) => (
+                <span
+                  key={idx}
+                  className="bg-primary text-white px-2 py-1 rounded-md text-xs mr-1"
+                >
+                  {val}
+                </span>
+              ))}
+              {value.length > 3 && (
+                <span className="text-gray-500 text-lg font-bold">......</span>
+              )}
+            </>
           ) : (
             <span className="text-gray-400 text-sm">Select options</span>
           )}
