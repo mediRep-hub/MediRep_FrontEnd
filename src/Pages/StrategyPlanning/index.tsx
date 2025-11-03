@@ -11,7 +11,6 @@ import { StrategySchema } from "../../utils/validation";
 import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { getAllDoctors } from "../../api/doctorServices";
-import { getAllMR } from "../../api/mrServices";
 import { BiMessageDetail } from "react-icons/bi";
 import {
   addStrategy,
