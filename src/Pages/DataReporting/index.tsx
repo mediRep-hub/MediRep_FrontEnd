@@ -8,9 +8,11 @@ import { Checkbox } from "antd";
 import { FiClock } from "react-icons/fi";
 import { useFormik } from "formik";
 import { reportSchema } from "../../utils/validation";
+import { LuDownload } from "react-icons/lu";
+import CustomTimePicker from "../../Components/TimeRangePicker";
 const titles = [
   "MR Name",
-  "Region",
+  "Strategy",
   "Planned Visits",
   "Completed Visits",
   "Duration",
@@ -104,7 +106,9 @@ const data = [
 ];
 interface ReportFormValues {
   region: string;
-  dateRange: string[];
+  startTime: string;
+  endTime: string;
+  area: string;
   selectMR: string;
   exportType: string;
   reports: string[];
@@ -119,13 +123,18 @@ const reportTitles = [
   "Route Planing & Geo-Tracking",
 ] as const;
 
-const specialtyOptions = ["aaa", "bbb", "ccc", "ddd"];
+const regionOptions = ["aaa", "bbb", "ccc", "ddd"];
+const MrOptions = ["aaa", "bbb", "ccc", "ddd"];
+const AreaOptions = ["aaa", "bbb", "ccc", "ddd"];
+const exportTypeOptions = ["aaa", "bbb", "ccc", "ddd"];
 export default function DataReporting() {
   const [openModel, setOpenModel] = useState(false);
   const formik = useFormik<ReportFormValues>({
     initialValues: {
       region: "",
-      dateRange: [],
+      startTime: "",
+      endTime: "",
+      area: "",
       selectMR: "",
       exportType: "",
       reports: [],
@@ -144,15 +153,23 @@ export default function DataReporting() {
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Reports
           </p>
-          <button
-            onClick={() => {
-              setOpenModel(true);
-            }}
-            className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
-          >
-            <MdAdd size={20} color="#fff" />{" "}
-            <p className="text-white text-base font-medium">Generate Reports</p>
-          </button>
+          <div className="flex gap-5">
+            <button className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+              <LuDownload size={20} className="text-primary" />{" "}
+              <p className="text-primary text-base font-medium">Download</p>
+            </button>{" "}
+            <button
+              onClick={() => {
+                setOpenModel(true);
+              }}
+              className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+            >
+              <MdAdd size={20} color="#fff" />{" "}
+              <p className="text-white text-base font-medium">
+                Generate Reports
+              </p>
+            </button>
+          </div>
         </div>
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] lg:h-[calc(90vh-149px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">
@@ -194,7 +211,7 @@ export default function DataReporting() {
               <div className="flex flex-wrap items-center gap-4">
                 <div className="lg:w-[calc(50%-8px)] w-full">
                   <CustomSelect
-                    options={specialtyOptions}
+                    options={regionOptions}
                     value={formik.values.region}
                     onChange={(val) => formik.setFieldValue("region", val)}
                     placeholder="Select Region"
@@ -206,20 +223,14 @@ export default function DataReporting() {
                   )}
                 </div>
                 <div className="lg:w-[calc(50%-8px)] w-full">
-                  <MultiDatePicker
-                    placeholder="Select Date Range"
-                    onChange={(dates) =>
-                      formik.setFieldValue(
-                        "dateRange",
-                        dates
-                          .filter((d) => d !== null)
-                          .map((d) => d.format("YYYY-MM-DD"))
-                      )
-                    }
+                  <CustomTimePicker
+                    value={formik.values.startTime}
+                    onChange={(val) => formik.setFieldValue("startTime", val)}
+                    placeholder="Select Start Time"
                   />
-                  {formik.touched.dateRange && formik.errors.dateRange && (
+                  {formik.touched.startTime && formik.errors.startTime && (
                     <p className="text-red-500 text-xs mt-1">
-                      {formik.errors.dateRange}
+                      {formik.errors.startTime}
                     </p>
                   )}
                 </div>
@@ -228,7 +239,33 @@ export default function DataReporting() {
               <div className="flex flex-wrap items-center gap-4 mt-4">
                 <div className="lg:w-[calc(50%-8px)] w-full">
                   <CustomSelect
-                    options={specialtyOptions}
+                    options={AreaOptions}
+                    value={formik.values.area}
+                    onChange={(val) => formik.setFieldValue("area", val)}
+                    placeholder="Select Area"
+                  />
+                  {formik.touched.area && formik.errors.area && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {formik.errors.area}
+                    </p>
+                  )}
+                </div>
+                <div className="lg:w-[calc(50%-8px)] w-full">
+                  <CustomTimePicker
+                    value={formik.values.endTime}
+                    onChange={(val) => formik.setFieldValue("endTime", val)}
+                    placeholder="Select End Time"
+                  />
+                  {formik.touched.endTime && formik.errors.endTime && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {formik.errors.endTime}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-4 mt-4">
+                <div className="lg:w-[calc(50%-8px)] w-full">
+                  <CustomTimePicker
                     value={formik.values.selectMR}
                     onChange={(val) => formik.setFieldValue("selectMR", val)}
                     placeholder="Select MR"
@@ -241,7 +278,7 @@ export default function DataReporting() {
                 </div>
                 <div className="lg:w-[calc(50%-8px)] w-full">
                   <CustomSelect
-                    options={specialtyOptions}
+                    options={exportTypeOptions}
                     value={formik.values.exportType}
                     onChange={(val) => formik.setFieldValue("exportType", val)}
                     placeholder="Select Export Type"
