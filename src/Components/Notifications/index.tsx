@@ -47,9 +47,7 @@ export default function Notification() {
       >
         <FaBell className="text-white text-[24px]" />
         {notifications.length > 0 && (
-          <span className="absolute top-2.5 right-3.5 bg-red-500 text-white text-[10px] font-bold px-[4px] py-[4px] rounded-full">
-            {/* {notifications.length} */}
-          </span>
+          <span className="absolute top-2.5 right-3.5 bg-red-500 text-white text-[10px] font-bold px-[4px] py-[4px] rounded-full"></span>
         )}
       </div>
 
@@ -73,11 +71,18 @@ export default function Notification() {
                 key={i}
                 className="p-3 flex items-center justify-between text-sm border border-[#E5EBF7] rounded-[6px] bg-[#f7f7f7] transition"
               >
-                <div className="flex gap-4 items-center">
-                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
-                    <span className="text-xs font-semibold text-primary">
-                      N
-                    </span>
+                <div className=" flex gap-4 items-center">
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <span className="text-xs font-semibold text-primary">
+                        N
+                      </span>
+                    </div>
+                    <div className="absolute top-0 border border-[#E5EBF7] left-3 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <span className="text-xs font-semibold text-primary">
+                        N
+                      </span>
+                    </div>
                   </div>
 
                   <div>
