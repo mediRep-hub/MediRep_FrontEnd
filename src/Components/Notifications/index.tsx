@@ -93,7 +93,7 @@ export default function Notification() {
                   </div>
                 </div>
 
-                <div className="border border-[#D2D2D2] w-10 h-10 rounded-[8px] flex justify-center items-center">
+                <div className="border border-[#D2D2D2] min-w-10 h-10 rounded-[8px] flex justify-center items-center">
                   <HiDotsHorizontal className="text-heading" size={18} />
                 </div>
               </div>
