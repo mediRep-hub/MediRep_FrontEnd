@@ -423,8 +423,8 @@ export default function Products() {
       )}
       {openImage && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[300px] xl:h-auto h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
-            <div className="flex justify-end cursor-pointer">
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[300px] xl:h-auto max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
+            <div className="flex justify-end cursor-pointer mb-2">
               <IoClose onClick={() => setOpenImage(false)} />
             </div>
 

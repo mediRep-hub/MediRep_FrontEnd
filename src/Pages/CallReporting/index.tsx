@@ -23,6 +23,7 @@ export default function CallReporting() {
     staleTime: 5 * 60 * 1000,
   });
   let Reports = data?.data;
+  console.log("🚀 ~ CallReporting ~ Reports:", Reports);
   let tableData: any = [];
   Reports?.map((v: any) => {
     tableData.push([
@@ -30,7 +31,6 @@ export default function CallReporting() {
       v?.mrName,
       v?.doctorName,
       v?.area,
-      dayjs(v?.date).format("DD MMM YYYY"),
       v?.checkIn,
       v?.checkOut,
       <div

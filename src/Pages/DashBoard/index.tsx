@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
 import { Avatar } from "antd";
 import { FaPercentage } from "react-icons/fa";
@@ -31,6 +31,10 @@ export default function DashBoard() {
     staleTime: 5 * 60 * 1000,
   });
   let AllRequisition = data?.data;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const activeData = AllRequisition?.[activeIndex] || {};
+  console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
   return (
     <div
       style={{
@@ -158,8 +162,8 @@ export default function DashBoard() {
         </div>
       </div>
       <div>
-        <div className="flex flex-wrap items-stretch gap-2 ">
-          <div className="lg:w-[calc(75%-2px)] w-full ">
+        <div className="flex flex-wrap items-stretch gap-2">
+          <div className="lg:w-[calc(75%-2px)] w-full">
             <div className="mb-3 flex justify-between items-center">
               <p className="font-medium text-heading text-base leading-3">
                 Requisitions
@@ -171,16 +175,21 @@ export default function DashBoard() {
                 See All
               </p>
             </div>
-            <div className="flex flex-wrap items-stretch gap-2 ">
+            <div className="flex flex-wrap items-stretch gap-2">
               {AllRequisition?.slice(0, 3).map((v: any, ind: number) => (
                 <div
                   key={ind}
-                  className="lg:w-[calc(33.33%-5.33px)] border-[#D4D4D4] border-[1px] w-full bg-white p-4 rounded-xl"
+                  onClick={() => setActiveIndex(ind)}
+                  className={`lg:w-[calc(33.33%-5.33px)] border-[1px] w-full p-4 rounded-xl cursor-pointer ${
+                    activeIndex === ind
+                      ? "border-primary bg-[#F0F8FF]"
+                      : "border-[#D4D4D4] bg-white"
+                  }`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex gap-2 items-center">
                       <Avatar
-                        src={v?.image || dummay}
+                        src={v?.doctor?.image || dummay}
                         className="h-10 w-10 object-cover rounded-full"
                       />
                       <p className="text-heading font-semibold text-xs">
@@ -189,7 +198,7 @@ export default function DashBoard() {
                     </div>
 
                     <p
-                      className={`inline-block rounded-[3px] px-2  font-normal text-sm border ${
+                      className={`inline-block rounded-[3px] px-2 font-normal text-sm border ${
                         v?.status === "Pending"
                           ? "text-[#E90761] border-[#E90761]"
                           : v?.status === "Approved"
@@ -223,9 +232,7 @@ export default function DashBoard() {
                             className="w-5 h-auto"
                           />
                           <p className="text-xs font-medium leading-[12px] text-heading">
-                            <span className="text-heading">
-                              {item.value || "-"}
-                            </span>
+                            {item.value || "-"}
                           </p>
                         </div>
                       ))}
@@ -238,25 +245,32 @@ export default function DashBoard() {
           <div className="lg:w-[calc(25%-6px)] min-h-[190px] relative border-[#D4D4D4] border-[1px] w-full bg-white rounded-xl p-[16px]">
             <div className="flex gap-2 items-center justify-between">
               <p className="text-heading font-semibold text-xs">
-                Dr. Ahmad Khan
-              </p>{" "}
-              <Avatar src={dummay} className="h-10 w-10" />
+                {activeData?.doctorName || "Unknown Doctor"}
+              </p>
+              <Avatar
+                src={activeData?.doctor?.image || dummay}
+                className="h-10 w-10"
+              />
             </div>
             <div className="flex justify-between items-center mt-2">
               <div>
                 <p className="text-[#7D7D7D] text-[10px] font-normal">
                   Prescriptions Goal
                 </p>
-                <p className="text-heading text-sm font-semibold">500</p>
+                <p className="text-heading text-sm font-semibold">
+                  {activeData?.quantity || 0}
+                </p>
               </div>
               <div>
                 <p className="text-[#7D7D7D] text-[10px] font-normal">Amount</p>
-                <p className="text-heading text-sm font-semibold">150,000</p>
+                <p className="text-heading text-sm font-semibold">
+                  {activeData?.amount || 0}
+                </p>
               </div>
             </div>
             <div className="absolute md:bottom-4 bottom-0 left-1/2 transform -translate-x-1/2">
               <ProgressBar
-                percentage={64}
+                percentage={activeData?.percentage || 0}
                 size={200}
                 strokeWidth={15}
                 backgroundColor="#E5EAFC"

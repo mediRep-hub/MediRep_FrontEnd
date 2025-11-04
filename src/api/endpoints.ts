@@ -25,7 +25,7 @@ export const ENDPOINTS = {
   PRODUCT_uploadCSVTarget: "/product/uploadCSVUpdateTarget",
 
   //   -----------call Reporting-------------
-  PRODUCTS_GET_ALL: "/callRepoeting/getAllReports",
+  PRODUCTS_GET_ALL: "/callreport/getAllReports",
 
   //   -----------Manage MR-------------
   MR_ADD_MR: "/manageMr/addMR",

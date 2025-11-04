@@ -50,7 +50,7 @@ const paymentOption = ["Online", "Cheque", "Cash", "Part-payment"];
 
 export default function RequisitionDetail() {
   const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
 
   const [dataRequisitions, setRequisitionsingle] = useState<Requisition | null>(
     null
@@ -138,6 +138,7 @@ export default function RequisitionDetail() {
       );
     } finally {
       setLoading(false);
+      refetch();
     }
   };
 
@@ -178,16 +179,18 @@ export default function RequisitionDetail() {
     if (!remarks.trim()) return notifyError("Please enter remarks first!");
 
     try {
-      setLoading2(true);
+      setLoadingSave(true);
+      await updateRequisition(requisition._id, { remarks });
       notifySuccess("Remarks updated successfully!");
-      handleGetSingle(requisition._id);
     } catch (error: any) {
       console.error("Error updating remarks:", error);
       notifyError(error?.response?.data?.error || "Failed to update remarks");
     } finally {
-      setLoading2(false);
+      setLoadingSave(false);
+      refetch();
     }
   };
+
   return (
     <>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -209,13 +212,13 @@ export default function RequisitionDetail() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-5 flex gap-5  bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-105px)] xl:h-[calc(63vh-60px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5 flex flex-wrap gap-5  bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-105px)] xl:h-[calc(63vh-60px)] overflow-y-auto scrollbar-none"
           >
-            <div className="w-[calc(70%-20px)] p-5">
-              <div className="flex gap-5 pb-5 border-b-[1px] border-primary">
-                <div className="w-[calc(50%-10px)] flex gap-5">
+            <div className="xl:w-[calc(70%-21px)] w-full p-5">
+              <div className="flex flex-wrap gap-5 pb-5 border-b-[1px] border-primary">
+                <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
                   {" "}
-                  <div className="w-[calc(50%-10px)]">
+                  <div className="xl:w-[calc(50%-10px)] w-full">
                     <p className="text-[#131313] font-medium text-sm">
                       Requisition ID
                     </p>
@@ -235,7 +238,7 @@ export default function RequisitionDetail() {
                       Details
                     </p>
                   </div>
-                  <div className="w-[calc(50%-10px)]">
+                  <div className="xl:w-[calc(50%-10px)] w-full">
                     {" "}
                     <p className="text-[#131313] font-normal text-sm">
                       {dataRequisitions?.reqId}
@@ -269,7 +272,7 @@ export default function RequisitionDetail() {
                     </p>
                   </div>
                 </div>
-                <div className="w-[calc(50%-10px)] flex gap-5">
+                <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
                   {" "}
                   <div className="w-[calc(50%-10px)]">
                     <p className="text-[#131313] font-medium text-sm">
@@ -322,25 +325,6 @@ export default function RequisitionDetail() {
                 <p className="text-[#131313] mt-3 font-medium text-sm">
                   Manager Remarks
                 </p>
-                {["Admin", "manager"].includes(admin?.position || "") && (
-                  <>
-                    <textarea
-                      className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
-                      placeholder="Enter your remarks..."
-                      value={remarks}
-                      onChange={(e) => setRemarks(e.target.value)}
-                    />
-                    <div className="flex justify-end">
-                      <button
-                        className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
-                        onClick={handleSaveRemarks}
-                      >
-                        {loading2 ? <Spin indicator={antIcon} /> : "Save"}
-                      </button>
-                    </div>
-                  </>
-                )}
-
                 {dataRequisitions?.remarks ? (
                   <div>
                     <div className="flex items-center gap-3 mt-4">
@@ -349,16 +333,32 @@ export default function RequisitionDetail() {
                         Manager approved requisition
                       </p>
                     </div>
-                    <div className="rounded-lg bg-[#F7F7F7] p-3 mt-5">
-                      <p className="text-[#7D7D7D] font-medium text-xs">
-                        {dataRequisitions.remarks}
-                      </p>
-                    </div>
                   </div>
                 ) : (
                   <p className="text-xs text-[#7D7D7D] mt-2">
                     No remarks added by Manager
                   </p>
+                )}
+                {["Admin", "manager"].includes(admin?.position || "") && (
+                  <>
+                    <textarea
+                      className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
+                      placeholder="Enter your remarks..."
+                      value={dataRequisitions?.remarks || remarks}
+                      onChange={(e) => setRemarks(e.target.value)}
+                      disabled={!!dataRequisitions?.remarks}
+                    />
+
+                    <div className="flex justify-end">
+                      <button
+                        className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
+                        onClick={handleSaveRemarks}
+                        disabled={!!dataRequisitions?.remarks} // optional: disable button if remarks exist
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </>
                 )}
               </div>
               {["Admin", "manager"].includes(admin?.position || "") && (
@@ -391,7 +391,7 @@ export default function RequisitionDetail() {
               )}
             </div>{" "}
             <div className="border-primary border-l-[1px] h-full"></div>
-            <div className="w-[calc(30%-20px)] p-5">
+            <div className="xl:w-[calc(30%-21px)] w-full p-5">
               <p>Change Requisition</p>
               <form onSubmit={handleSubmit}>
                 <div className="mt-3">
