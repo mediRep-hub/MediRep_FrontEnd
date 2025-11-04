@@ -118,7 +118,7 @@ export default function UploadFile({ closeModle, addToList }: any) {
               <span className="text-primary">Click to upload</span>
             </p>
             <p className="text-base text-center font-medium text-[#7d7d7d]/60">
-              Supported format: CSV, XLS, XLSX
+              Supported format only: CSV
             </p>
           </label>
           <input
