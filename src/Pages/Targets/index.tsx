@@ -117,7 +117,7 @@ export default function Targets() {
                         />{" "}
                       </div>
                     </th>
-                    <th className="px-4 py-3 w-[23%]">
+                    <th className="px-4 py-3 2xl:w-[18%] w-[25%]">
                       <div className="relative flex items-center">
                         <LuSearch
                           className="absolute left-2 text-gray-500"

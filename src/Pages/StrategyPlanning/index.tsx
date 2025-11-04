@@ -92,7 +92,7 @@ export default function StrategyPlanning() {
           <div>
             <p>{v?.strategyName}</p>
             <div className="flex items-center gap-7">
-              <p className="w-[100px]">MR: {v?.mrName}</p>
+              <p className="w-[120px]">MR: {v?.mrName}</p>
               <div className="flex items-center gap-3">
                 <HiOutlineLocationMarker
                   size={16}
@@ -159,8 +159,8 @@ export default function StrategyPlanning() {
         updateStrategy(editingProduct._id, values)
           .then(() => {
             notifySuccess("Product updated successfully");
-            addStrategy(false);
             setEditingProduct(null);
+            setAddStrategyModel(false);
             formik.resetForm();
             refetch();
           })
@@ -168,7 +168,10 @@ export default function StrategyPlanning() {
             console.error(error);
             notifyError("Failed to update Strategy.");
           })
-          .finally(() => setLoading(false));
+          .finally(() => {
+            setLoading(false);
+            setAddStrategyModel(false);
+          });
       } else {
         addStrategy(values)
           .then(() => {
@@ -181,7 +184,10 @@ export default function StrategyPlanning() {
             console.error(error);
             notifyError("Failed to add Strategy.");
           })
-          .finally(() => setLoading(false));
+          .finally(() => {
+            setLoading(false);
+            setAddStrategyModel(false);
+          });
       }
     },
   });
