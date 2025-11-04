@@ -5,7 +5,7 @@ import { Checkbox, Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
 import { notifyError, notifySuccess } from "../../Components/Toast";
-import Logo from "../../assets/Logo/logo.png";
+import Logo from "../../assets/medirep-logo.png";
 import LoginImage from "../../assets/loginImage.png";
 import { LoginSchema } from "../../utils/validation";
 import { adminLogin } from "../../api/adminServices";
@@ -53,7 +53,7 @@ const Login = () => {
     <div className="w-full h-[100vh] xl:px-[95px] px-5 py-[32px] gap-[60px] flex items-center">
       <div className="xl:w-[calc(50%-30px)] w-full">
         <div className="flex items-center justify-center gap-4">
-          <img src={Logo} className="h-[92px] w-[100px]" alt="logo" />
+          <img src={Logo} className="h-auto w-[122px]" alt="logo" />
           <p className="text-primary text-[36px] font-semibold">MediRep</p>
         </div>
         <div className="bg-secondary xl:px-[46px] px-[24px] py-[32px] text-center mt-5 rounded-[1px]">
