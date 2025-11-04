@@ -1,5 +1,4 @@
 import { Avatar } from "antd";
-import dummyImg from "../../assets/dummay.jpg";
 import { FaCalendar, FaDirections } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
@@ -37,7 +36,10 @@ export default function CallReportingDetail() {
           >
             <div className="flex justify-between flex-wrap gap-4 items-center">
               <div className="flex items-center gap-3 md:w-auto w-full">
-                <Avatar src={dummyImg} className="w-10 h-10" />
+                <Avatar
+                  src="https://res.cloudinary.com/dsc7n0zmm/image/upload/v1761756604/MedRep/Manage%20MR/875f137d-b19f-4ec2-9303-bf127e1561b7-IMG_20250919_121521.jpg.jpg"
+                  className="w-10 h-10"
+                />
                 <div>
                   <p className="leading-1 text-heading font-medium text-sm">
                     {v?.mrName}
