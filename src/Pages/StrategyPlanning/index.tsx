@@ -82,6 +82,7 @@ export default function StrategyPlanning() {
     staleTime: 5 * 60 * 1000,
   });
   let AllStrategy = allStraties?.data?.data;
+  console.log("🚀 ~ StrategyPlanning ~ AllStrategy:", AllStrategy);
   let tableData: any = [];
   AllStrategy?.map((v: any) => {
     tableData.push([
@@ -100,7 +101,7 @@ export default function StrategyPlanning() {
                 />
                 <p>{v?.region}</p>
               </div>
-              <p>45-Doctors</p>
+              <p>{v?.doctorList?.length || 0} - Doctors</p>
             </div>
           </div>
         </div>
@@ -486,14 +487,14 @@ export default function StrategyPlanning() {
       {openView && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[880px] xl:h-auto h-[90vh] overflow-y-auto shadow-2xl relative">
-            <div className="flex items-center justify-between mb-4 px-6 py-2">
+            <div className="flex items-center justify-between  px-6 py-3">
               <p className="text-[22px] font-semibold text-gray-800">
                 Doctor List
               </p>
               <IoMdCloseCircle
                 size={26}
                 onClick={() => setOpenView(false)}
-                className="cursor-pointer text-primary hover:text-red-500 transition-all"
+                className="cursor-pointer text-primary transition-all"
               />
             </div>
 
@@ -535,7 +536,7 @@ export default function StrategyPlanning() {
                   <div className="flex justify-end p-4 border-t">
                     <button
                       onClick={handleSaveOrder}
-                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      className="px-6 py-2 bg-blue-600 h-[40px] text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
                     >
                       Save Order
                     </button>

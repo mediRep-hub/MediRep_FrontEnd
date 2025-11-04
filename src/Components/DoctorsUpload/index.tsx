@@ -17,11 +17,9 @@ export default function DoctorUploads({ closeModle }: any) {
     staleTime: 5 * 60 * 1000,
   });
 
-  // ✅ File select handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      // Only allow CSV
       if (!selectedFile.name.endsWith(".csv")) {
         notifyError("Please upload a valid CSV file!");
         return;
@@ -32,7 +30,6 @@ export default function DoctorUploads({ closeModle }: any) {
     e.target.value = "";
   };
 
-  // ✅ Delete selected file
   const handleDelete = () => {
     setFile(null);
     setProgress(0);
@@ -42,7 +39,6 @@ export default function DoctorUploads({ closeModle }: any) {
     if (inputElement) inputElement.value = "";
   };
 
-  // ✅ Upload handler
   const handleUpload = async () => {
     if (!file) return notifyError("Please select a file first!");
     setLoading(true);
@@ -54,8 +50,6 @@ export default function DoctorUploads({ closeModle }: any) {
 
       const response = await uploadCSVDoctor(formData);
       console.log("Upload response:", response.data);
-
-      // simulate progress
       setProgress(70);
 
       notifySuccess(response.data?.message || "Doctors uploaded successfully!");
@@ -81,7 +75,6 @@ export default function DoctorUploads({ closeModle }: any) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
       <div className="bg-white rounded-xl xl:mx-0 mx-5 xl:w-[600px] w-full xl:h-auto shadow-xl relative overflow-hidden">
-        {/* Header */}
         <div className="flex xl:p-6 p-4 bg-[#E5EBF7] items-center justify-between">
           <p className="text-[20px] text-heading font-medium">
             Bulk Upload Doctors
@@ -92,8 +85,6 @@ export default function DoctorUploads({ closeModle }: any) {
             className="cursor-pointer text-primary"
           />
         </div>
-
-        {/* Upload Box */}
         <div className="flex xl:p-6 p-4 flex-col items-center justify-center mt-10">
           <label
             htmlFor="fileUpload"
@@ -116,8 +107,6 @@ export default function DoctorUploads({ closeModle }: any) {
             className="hidden"
           />
         </div>
-
-        {/* File preview */}
         {file && (
           <div className="mt-6 xl:mx-6 mx-4 flex items-center justify-between border p-3 rounded-md bg-[#F9FAFB]">
             <div className="flex items-center gap-2">
@@ -130,8 +119,6 @@ export default function DoctorUploads({ closeModle }: any) {
             />
           </div>
         )}
-
-        {/* Progress bar */}
         {file && progress > 0 && (
           <div className="mt-4 xl:mx-6 mx-4">
             <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
@@ -143,8 +130,6 @@ export default function DoctorUploads({ closeModle }: any) {
             <p className="text-sm mt-1 text-gray-600">{progress}%</p>
           </div>
         )}
-
-        {/* Upload button */}
         <div className="flex justify-end mt-6 xl:p-6 p-4">
           <button
             className={`h-[45px] px-6 bg-primary text-white rounded-[6px] transition-all ${

@@ -353,7 +353,7 @@ export default function RequisitionDetail() {
                       <button
                         className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
                         onClick={handleSaveRemarks}
-                        disabled={!!dataRequisitions?.remarks} // optional: disable button if remarks exist
+                        disabled={!!dataRequisitions?.remarks}
                       >
                         {loadingSave ? "Loading" : "Save"}
                       </button>

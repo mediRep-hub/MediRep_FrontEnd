@@ -45,7 +45,7 @@ export default function Targets() {
       notifySuccess("Target updated successfully!");
 
       queryClient.setQueryData(["AllProducts"], (oldData: any) => {
-        if (!oldData?.data) return oldData; // Prevent crash
+        if (!oldData?.data) return oldData;
         const updated = oldData.data.map((item: any) =>
           item._id === editdata._id
             ? { ...item, target: editdata.target }
@@ -63,7 +63,7 @@ export default function Targets() {
       setnotifiedModel(true);
       setTimeout(() => {
         setnotifiedModel(false);
-      }, 20000); // 20 seconds
+      }, 20000);
     }
   };
 
@@ -195,7 +195,8 @@ export default function Targets() {
                         <td className=" px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
                           <div className="flex gap-5 items-center">
                             <TbEdit
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setEditIndex(
                                   editIndex === rowIndex ? null : rowIndex
                                 );
@@ -211,9 +212,13 @@ export default function Targets() {
                                   : "text-[#7d7d7d]"
                               }`}
                             />
+
                             <FaCheckCircle
                               size={18}
-                              onClick={() => handleEdit(editdata)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEdit(editdata);
+                              }}
                               className={`cursor-pointer ${
                                 editIndex === rowIndex
                                   ? "text-[#7d7d7d]"
