@@ -218,7 +218,7 @@ export default function DoctorProfileManagement() {
       </div>
       {addDoctor && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] xl:h-auto h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
             <div className="flex items-center justify-between">
               <p className="text-[24px] text-heading capitalize font-semibold">
                 {editingDoctor ? "Edit Doctor" : "Upload Doctor"}
@@ -406,7 +406,7 @@ export default function DoctorProfileManagement() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end mt-5">
+              <div className="flex gap-3 flex-wrap justify-end mt-5">
                 {editingDoctor && (
                   <button
                     type="button"
