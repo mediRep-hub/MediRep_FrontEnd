@@ -9,6 +9,7 @@ import TargetsUploadFile from "../../Components/TargetUploads";
 import { LuSearch } from "react-icons/lu";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
+import { FaCircleCheck } from "react-icons/fa6";
 
 interface EditData {
   _id?: string;
@@ -18,6 +19,7 @@ interface EditData {
 
 export default function Targets() {
   const [openModal, setOpenModal] = useState(false);
+  const [notifiedModel, setnotifiedModel] = useState(false);
   const [SkuNo, setskuNo] = useState("");
   const [productName, setproductName] = useState("");
   const [debouncedSku, setDebouncedSku] = useState("");
@@ -41,13 +43,15 @@ export default function Targets() {
     try {
       await updateProducts(editdata._id, { target: editdata.target });
       notifySuccess("Target updated successfully!");
+
       queryClient.setQueryData(["AllProducts"], (oldData: any) => {
-        const updated = oldData?.data?.data.map((item: any) =>
+        if (!oldData?.data) return oldData; // Prevent crash
+        const updated = oldData.data.map((item: any) =>
           item._id === editdata._id
             ? { ...item, target: editdata.target }
             : item
         );
-        return { ...oldData, data: { ...oldData.data, data: updated } };
+        return { ...oldData, data: updated };
       });
     } catch (error) {
       console.error("❌ Update error:", error);
@@ -56,6 +60,10 @@ export default function Targets() {
       setEditIndex(null);
       setEditdata({});
       refetch();
+      setnotifiedModel(true);
+      setTimeout(() => {
+        setnotifiedModel(false);
+      }, 20000); // 20 seconds
     }
   };
 
@@ -232,7 +240,33 @@ export default function Targets() {
           </div>
         </div>
       </div>
-
+      {notifiedModel && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[400px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+          >
+            <div className="h-[120px] w-[120px] bg-[#0755E91F] mx-auto mb-3 rounded-full flex justify-center items-center">
+              <FaCircleCheck size={90} className="text-primary" />
+            </div>
+            <p className="text-center text-base font-bold text-heading">
+              Uploaded
+            </p>
+            <p className="text-center text-sm font-normal text-[#7D7D7D]">
+              Your target is uploaded
+            </p>
+            <button
+              onClick={() => {
+                setnotifiedModel(false);
+              }}
+              className="w-full h-[40px] rounded-md mt-[50px] bg-primary text-white"
+            >
+              {" "}
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
       {openModal && <TargetsUploadFile closeModle={setOpenModal} />}
     </div>
   );
