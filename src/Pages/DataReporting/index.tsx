@@ -3,7 +3,6 @@ import { MdAdd } from "react-icons/md";
 import CustomTable from "../../Components/CustomTable";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
-import MultiDatePicker from "../../Components/MultiDatePicker";
 import { Checkbox } from "antd";
 import { FiClock } from "react-icons/fi";
 import { useFormik } from "formik";
@@ -123,10 +122,10 @@ const reportTitles = [
   "Route Planing & Geo-Tracking",
 ] as const;
 
-const regionOptions = ["aaa", "bbb", "ccc", "ddd"];
-const MrOptions = ["aaa", "bbb", "ccc", "ddd"];
-const AreaOptions = ["aaa", "bbb", "ccc", "ddd"];
-const exportTypeOptions = ["aaa", "bbb", "ccc", "ddd"];
+const regionOptions = ["North Punjab", "Kashmir", "South Punjab", "Gilgit"];
+const MrOptions = ["Bilal", "Salim", "Umair", "umer"];
+const AreaOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
+const exportTypeOptions = ["Excel", "Pdf", "Both"];
 export default function DataReporting() {
   const [openModel, setOpenModel] = useState(false);
   const formik = useFormik<ReportFormValues>({
@@ -265,7 +264,8 @@ export default function DataReporting() {
               </div>
               <div className="flex flex-wrap items-center gap-4 mt-4">
                 <div className="lg:w-[calc(50%-8px)] w-full">
-                  <CustomTimePicker
+                  <CustomSelect
+                    options={MrOptions}
                     value={formik.values.selectMR}
                     onChange={(val) => formik.setFieldValue("selectMR", val)}
                     placeholder="Select MR"
