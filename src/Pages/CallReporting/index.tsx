@@ -4,7 +4,6 @@ import { BiMessageDetail } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllReports } from "../../api/callReporting";
-import dayjs from "dayjs";
 
 const titles = [
   "Call ID",
