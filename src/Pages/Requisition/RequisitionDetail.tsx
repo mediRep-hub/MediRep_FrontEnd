@@ -355,7 +355,7 @@ export default function RequisitionDetail() {
                         onClick={handleSaveRemarks}
                         disabled={!!dataRequisitions?.remarks} // optional: disable button if remarks exist
                       >
-                        Save
+                        {loadingSave ? "Loading" : "Save"}
                       </button>
                     </div>
                   </>
