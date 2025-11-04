@@ -152,8 +152,8 @@ export default function DataReporting() {
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Reports
           </p>
-          <div className="flex gap-5 w-full">
-            <button className="h-[55px] w-[calc(45%-10px)] md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          <div className="flex flex-wrap gap-5 w-full">
+            <button className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
               <LuDownload size={20} className="text-primary" />{" "}
               <p className="text-primary text-base font-medium">Download</p>
             </button>{" "}
@@ -161,7 +161,7 @@ export default function DataReporting() {
               onClick={() => {
                 setOpenModel(true);
               }}
-              className="h-[55px] w-[calc(55%-10px)] md:w-[200px]  bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[200px]  bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <MdAdd size={20} color="#fff" />{" "}
               <p className="text-white text-base font-medium">

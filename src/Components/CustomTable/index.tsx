@@ -52,7 +52,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   cell === null ? null : (
                     <td
                       key={colIndex}
-                      className=" px-5 py-2 border-b-[0.5px] border-primary text-[12px] font-normal text-heading break-words"
+                      className=" px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
                       style={{ width: itemWidth }}
                     >
                       {cell}
