@@ -61,7 +61,7 @@ export default function CustomSelect({
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-50 max-h-60 overflow-y-auto"
+          className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-10 max-h-60 overflow-y-auto"
         >
           {options.map((option, index) => (
             <li
