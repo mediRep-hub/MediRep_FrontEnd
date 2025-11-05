@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logo.png";
-import { useAuth } from "../Context/AuthContext";
 import Tragets from "../Pages/Targets";
+import { useSelector } from "react-redux";
 
 const RequisitionDetail = lazy(
   () => import("../Pages/Requisition/RequisitionDetail")
@@ -23,7 +23,7 @@ const CallReportingDetail = lazy(
 );
 
 export default function MainRoutes() {
-  const { admin } = useAuth();
+  const { user } = useSelector((state: any) => state.user);
   return (
     <Suspense
       fallback={
@@ -47,7 +47,7 @@ export default function MainRoutes() {
         <Route
           path="/manageAccount"
           element={
-            admin?.position === "Admin" ? (
+            user?.position === "Admin" ? (
               <ManageAccount />
             ) : (
               <Navigate to="/dashboard" replace />

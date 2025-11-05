@@ -10,11 +10,14 @@ import LoginImage from "../../assets/loginImage.png";
 import { LoginSchema } from "../../utils/validation";
 import { adminLogin } from "../../api/adminServices";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-
+import { setItem } from "../../utils/localStorageHelper";
+import { useDispatch } from "react-redux";
+import { setIsLoggedIn, setToken, setUser } from "../../redux/userSlice";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     document.title = "MediRep | Login";
   }, []);
@@ -29,12 +32,11 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await adminLogin(values);
-      localStorage.setItem("loginData", JSON.stringify(response.data));
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("isLoggedIn", "true");
+      const data = response.data;
+      dispatch(setUser({ user: data.admin, token: data.token }));
+      dispatch(setIsLoggedIn(true));
+      dispatch(setToken(data.token));
       notifySuccess("Successfully Logged In");
-      navigate("/dashboard");
-      window.location.reload();
     } catch (error: any) {
       notifyError(
         error.response?.data?.message ||

@@ -1,19 +1,20 @@
 import axios from "axios";
-import type { AxiosInstance } from "axios";
+import { store } from "../redux/store";
 import { BASE_URL } from "../api/endpoints";
-import { getItem, setItem } from "../utils/localStorageHelper";
+import { setIsLoggedIn } from "../redux/userSlice";
 
-export const HTTP_CLIENT: AxiosInstance = axios.create({
+export const HTTP_CLIENT = axios.create({
   baseURL: BASE_URL,
 });
 
+// interceptor configuration
 export const interceptorConfig = (router: any) => {
+  // Request interceptor
   HTTP_CLIENT.interceptors.request.use(
     (config: any) => {
-      const isLoggedIn = getItem<boolean>("isLoggedIn");
-      const token = getItem<string>("token");
-
-      if (isLoggedIn && token) {
+      const state = store.getState();
+      const token = state.user?.token; // get token from Redux store
+      if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
       return config;
@@ -21,18 +22,18 @@ export const interceptorConfig = (router: any) => {
     (err: any) => Promise.reject(err)
   );
 
+  // Response interceptor
   HTTP_CLIENT.interceptors.response.use(
     (response: any) => response,
     (error: any) => {
       if (error.response) {
-        const { status, data } = error.response;
+        const { status } = error.response;
 
         if (status === 401) {
-          setItem("isLoggedIn", false);
-          setItem("token", "");
-          router.push(`/admin/login`);
+          // Logout via Redux
+          store.dispatch(setIsLoggedIn(false));
+          router.push("/admin/login");
           alert("Your session has expired. Please log in again.");
-          return Promise.reject(data);
         }
 
         if (status === 500) {

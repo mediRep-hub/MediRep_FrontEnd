@@ -2,7 +2,7 @@ import { Avatar } from "antd";
 import Notification from "../Notifications";
 import { useState } from "react";
 import SearchSelection from "./SearchSelection";
-import { useAuth } from "../../Context/AuthContext";
+import { useSelector } from "react-redux";
 
 const mrOptions: string[] = [
   "MR Ali",
@@ -29,7 +29,8 @@ const dateOptions: string[] = [
 ];
 export default function SearchBar() {
   const [selectedMR, setSelectedMR] = useState("");
-  const { admin } = useAuth();
+  const { user } = useSelector((state: any) => state.user);
+
   return (
     <>
       <div className="bg-secondary p-4 rounded-[8px] w-full xl:h-20 md:justify-start xl:justify-between h-auto flex flex-wrap lg:items-center items-start xl-flex-row flex-col-reverse lg:flex-row">
@@ -68,17 +69,17 @@ export default function SearchBar() {
           </div>
 
           <div className="w-full md:w-[250px] mt-4  lg:mt-0 xl:mt-0 md:ml-4 md:mt-0 ml-0  md:h-12 h-14 bg-white rounded-[12px] px-2 flex gap-3 items-center">
-            <Avatar src={admin?.image} size={40} />
+            <Avatar src={user?.image} size={40} />
             <div>
               <p className="text-primary text-sm leading-[14px] w-[150px] truncate overflow-hidden whitespace-nowrap">
-                {admin?.position}
+                {user?.position}
               </p>
               <p className="text-heading text-sm leading-[14px]">
                 {" "}
-                {admin?.name}
+                {user?.name}
               </p>{" "}
               <p className="text-[12px] text-[#979797] leading-[12px]">
-                {admin?.email}
+                {user?.email}
               </p>
             </div>
           </div>

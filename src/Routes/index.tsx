@@ -1,20 +1,10 @@
+import { useSelector } from "react-redux";
 import Pages from "../Pages";
-import { getItem } from "../utils/localStorageHelper";
 import AuthRoutes from "./AuthRoutes";
 
 function Routes() {
-  const isLoggedIn = getItem<string>("isLoggedIn");
-  return (
-    <>
-      {isLoggedIn ? (
-        <div>
-          <Pages />
-        </div>
-      ) : (
-        <AuthRoutes />
-      )}
-    </>
-  );
+  const { isLoggedIn } = useSelector((state: any) => state?.user);
+  return <>{isLoggedIn ? <Pages /> : <AuthRoutes />}</>;
 }
 
 export default Routes;

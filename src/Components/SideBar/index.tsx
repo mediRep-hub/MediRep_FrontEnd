@@ -12,16 +12,17 @@ import {
   FaBoxOpen,
 } from "react-icons/fa";
 import { BiLogOut, BiSolidReport } from "react-icons/bi";
-import { setItem } from "../../utils/localStorageHelper";
-import { notifySuccess } from "../Toast";
+import { notifyError, notifySuccess } from "../Toast";
 import { MdManageAccounts } from "react-icons/md";
 import { adminLogout } from "../../api/adminServices";
-import { useAuth } from "../../Context/AuthContext";
 import { GiAchievement } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLoggedIn } from "../../redux/userSlice";
+import { store } from "../../redux/store";
+import { HTTP_CLIENT } from "../../utils/httpClient";
 
 export default function SideBar() {
-  const { admin, logout } = useAuth();
-
+  const { user, token } = useSelector((state: any) => state.user);
   let links = [
     {
       name: "Dashboard",
@@ -64,8 +65,7 @@ export default function SideBar() {
       icon: <BiSolidReport size={16} />,
     },
   ];
-
-  if (admin?.position === "Admin") {
+  if (user?.position === "Admin") {
     links.splice(2, 0, {
       name: "Manage Account",
       path: "/manageAccount",
@@ -80,15 +80,26 @@ export default function SideBar() {
     setIsOpen(false);
   };
 
-  const HandleLogout = () => {
-    setItem("isLoggedIn", false);
-    logout();
-    adminLogout();
-    notifySuccess("Succesfully Logout");
-    navigate("/");
-    localStorage.clear();
+  const handleLogout = () => {
+    const { token } = store.getState().user;
 
-    window.location.reload();
+    HTTP_CLIENT.post(
+      "/admin/logout",
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+      .then((res) => {
+        store.dispatch(setIsLoggedIn(false));
+        notifySuccess("Successfully logged out");
+        navigate("/");
+      })
+      .catch((err: any) => {
+        console.error(
+          "🚀 ~ handleLogout ~ err:",
+          err.response?.data?.message || err.message
+        );
+        notifyError(err.response?.data?.message || "Logout failed");
+      });
   };
 
   return (
@@ -154,7 +165,7 @@ export default function SideBar() {
         </nav>
 
         <div
-          onClick={HandleLogout}
+          onClick={handleLogout}
           className="pl-5 flex gap-3 items-center cursor-pointer mb-2 text-heading text-base font-normal mt-auto"
         >
           <BiLogOut />

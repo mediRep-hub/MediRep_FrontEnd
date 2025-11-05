@@ -29,7 +29,6 @@ export default function DashBoard() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeData = AllRequisition?.[activeIndex] || {};
-  console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
   return (
     <div
       style={{

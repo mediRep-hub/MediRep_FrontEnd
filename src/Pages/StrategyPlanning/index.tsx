@@ -75,14 +75,12 @@ export default function StrategyPlanning() {
     staleTime: 5 * 60 * 1000,
   });
   let AllMR = allMr?.data?.admins;
-  console.log("🚀 ~ StrategyPlanning ~ AllMR:", AllMR);
   const { data: allStraties, refetch } = useQuery({
     queryKey: ["AllStrategy"],
     queryFn: () => getAllStrategy(),
     staleTime: 5 * 60 * 1000,
   });
   let AllStrategy = allStraties?.data?.data;
-  console.log("🚀 ~ StrategyPlanning ~ AllStrategy:", AllStrategy);
   let tableData: any = [];
   AllStrategy?.map((v: any) => {
     tableData.push([
