@@ -16,7 +16,7 @@ import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../Context/AuthContext";
+import { useSelector } from "react-redux";
 
 interface Requisition {
   _id: string;
@@ -51,7 +51,7 @@ const paymentOption = ["Online", "Cheque", "Cash", "Part-payment"];
 export default function RequisitionDetail() {
   const [loading, setLoading] = useState(false);
   const [loadingSave, setLoadingSave] = useState(false);
-
+  const { user } = useSelector((state: any) => state.user);
   const [dataRequisitions, setRequisitionsingle] = useState<Requisition | null>(
     null
   );
@@ -173,7 +173,6 @@ export default function RequisitionDetail() {
     };
     fetchRequisition();
   }, [requisition]);
-  const { admin } = useAuth();
 
   const handleSaveRemarks = async () => {
     if (!remarks.trim()) return notifyError("Please enter remarks first!");
@@ -339,7 +338,7 @@ export default function RequisitionDetail() {
                     No remarks added by Manager
                   </p>
                 )}
-                {["Admin", "manager"].includes(admin?.position || "") && (
+                {["Admin", "manager"].includes(user?.position || "") && (
                   <>
                     <textarea
                       className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
@@ -361,7 +360,7 @@ export default function RequisitionDetail() {
                   </>
                 )}
               </div>
-              {["Admin", "manager"].includes(admin?.position || "") && (
+              {["Admin", "manager"].includes(user?.position || "") && (
                 <div>
                   <p className="text-[#131313] mt-3 font-medium text-sm">
                     Accept Requisition

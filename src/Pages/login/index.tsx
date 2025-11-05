@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import bgiamge from "../../assets/login bg.png";
 import { Checkbox, Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
@@ -10,12 +9,10 @@ import LoginImage from "../../assets/loginImage.png";
 import { LoginSchema } from "../../utils/validation";
 import { adminLogin } from "../../api/adminServices";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { setItem } from "../../utils/localStorageHelper";
 import { useDispatch } from "react-redux";
 import { setIsLoggedIn, setToken, setUser } from "../../redux/userSlice";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {

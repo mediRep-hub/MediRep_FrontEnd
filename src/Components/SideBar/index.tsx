@@ -14,15 +14,14 @@ import {
 import { BiLogOut, BiSolidReport } from "react-icons/bi";
 import { notifyError, notifySuccess } from "../Toast";
 import { MdManageAccounts } from "react-icons/md";
-import { adminLogout } from "../../api/adminServices";
 import { GiAchievement } from "react-icons/gi";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../redux/userSlice";
 import { store } from "../../redux/store";
 import { HTTP_CLIENT } from "../../utils/httpClient";
 
 export default function SideBar() {
-  const { user, token } = useSelector((state: any) => state.user);
+  const { user } = useSelector((state: any) => state.user);
   let links = [
     {
       name: "Dashboard",
@@ -88,7 +87,7 @@ export default function SideBar() {
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     )
-      .then((res) => {
+      .then(() => {
         store.dispatch(setIsLoggedIn(false));
         notifySuccess("Successfully logged out");
         navigate("/");
