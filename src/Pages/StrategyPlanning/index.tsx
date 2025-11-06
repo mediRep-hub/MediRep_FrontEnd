@@ -57,6 +57,8 @@ export default function StrategyPlanning() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [isloading, setLoading] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingsave, setLoadingsave] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
@@ -189,18 +191,21 @@ export default function StrategyPlanning() {
       }
     },
   });
-  const handleDelete = () => {
-    deleteStrategy(editingProduct._id)
-      .then(() => {
-        notifySuccess("Product deleted successfully");
-        setDeleteConfirmation(false);
-        refetch();
-      })
-      .catch((error) => {
-        console.error("Failed to delete product:", error);
-        notifyError("Failed to delete product. Please try again.");
-      });
+  const handleDelete = async () => {
+    setLoadingDelete(true);
+    try {
+      await deleteStrategy(editingProduct._id);
+      notifySuccess("Product deleted successfully");
+      refetch();
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+      notifyError("Failed to delete product. Please try again.");
+    } finally {
+      setLoadingDelete(false);
+      setDeleteConfirmation(false);
+    }
   };
+
   const handleMoveUp = (index: number) => {
     if (!editingProduct || index <= 0) return;
 
@@ -232,6 +237,7 @@ export default function StrategyPlanning() {
     });
   };
   const handleSaveOrder = () => {
+    setLoadingsave(true);
     if (!editingProduct) {
       notifyError("No product selected for editing.");
       return;
@@ -261,6 +267,7 @@ export default function StrategyPlanning() {
       })
       .finally(() => {
         refetch();
+        setLoadingsave(false);
         setOpenView(false);
       });
   };
@@ -480,9 +487,10 @@ export default function StrategyPlanning() {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                disabled={loadingDelete}
+                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex justify-center items-center"
               >
-                Delete
+                {loadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>
             </div>
           </div>
@@ -542,7 +550,7 @@ export default function StrategyPlanning() {
                       onClick={handleSaveOrder}
                       className="px-6 py-2 bg-blue-600 h-[40px] text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
                     >
-                      Save Order
+                      {loadingsave ? "loading" : "Save"}
                     </button>
                   </div>
                 </div>
