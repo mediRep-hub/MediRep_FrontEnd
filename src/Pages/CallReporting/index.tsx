@@ -60,7 +60,7 @@ export default function CallReporting() {
             Call Reporting
           </p>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-117px)] lg:h-[calc(90vh-149px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-110px)] lg:h-[calc(90vh-142px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">
             Recent Interactions
           </p>
@@ -69,7 +69,7 @@ export default function CallReporting() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(85vh-137px)] xl:h-[calc(65vh-79px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(85vh-127px)] xl:h-[calc(65vh-35px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableData} show="default" />
           </div>

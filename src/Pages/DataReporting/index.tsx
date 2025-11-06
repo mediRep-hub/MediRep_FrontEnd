@@ -88,20 +88,6 @@ const data = [
       </div>
     </div>,
   ],
-  [
-    "Ayesha Noor",
-    "Multan, Punjab",
-    "20",
-    "10",
-    "3:15m",
-    <div className="flex items-start">
-      <FiClock size={16} className="inline text-[#7d7d7d] mr-2" />
-      <div>
-        <p>2025-09-30</p>
-        <p>01:45 PM</p>
-      </div>
-    </div>,
-  ],
 ];
 interface ReportFormValues {
   region: string;
@@ -148,11 +134,11 @@ export default function DataReporting() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Reports
           </p>
-          <div className="flex flex-wrap gap-5 w-full">
+          <div className="flex flex-wrap gap-5 md:w-auto w-full">
             <button className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
               <LuDownload size={20} className="text-primary" />{" "}
               <p className="text-primary text-base font-medium">Download</p>
@@ -170,7 +156,7 @@ export default function DataReporting() {
             </button>
           </div>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] lg:h-[calc(90vh-149px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] lg:h-[calc(90vh-162px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">
             MR Performance Table
           </p>
@@ -179,7 +165,7 @@ export default function DataReporting() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(85vh-157px)] xl:h-[calc(65vh-79px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={data} />
           </div>

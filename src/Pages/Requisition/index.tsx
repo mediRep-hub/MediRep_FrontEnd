@@ -68,14 +68,14 @@ export default function Requisition() {
             Requisition
           </p>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-120px)] xl:h-[calc(90vh-152px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(92vh-130px)] xl:h-[calc(90vh-142px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">Requisition List</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-140px)] xl:h-[calc(65vh-52px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(87vh-145px)] xl:h-[calc(65vh-35px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={titles}

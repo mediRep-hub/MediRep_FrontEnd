@@ -80,7 +80,7 @@ export default function Targets() {
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
+        <div className="flex flex-wrap  gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Target
           </p>
@@ -93,9 +93,9 @@ export default function Targets() {
           </button>
         </div>
 
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] xl:h-[calc(90vh-169px)] h-auto">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-160px)] h-auto">
           <p className="text-[#7D7D7D] font-medium text-sm">Targets List</p>
-          <div className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-157px)] xl:h-[calc(65vh-79px)] mt-4 overflow-y-auto scrollbar-none">
+          <div className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none">
             <div className="w-full flex-1 overflow-x-auto">
               <table className="w-full border-collapse min-w-[900px]">
                 <thead className="sticky top-0 z-[1] bg-white">

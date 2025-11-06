@@ -52,6 +52,7 @@ export default function DoctorProfileManagement() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
+  const [isloadingDelete, setLoadingDelete] = useState(false);
   const { data, refetch } = useQuery({
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctors(),
@@ -156,6 +157,7 @@ export default function DoctorProfileManagement() {
   );
 
   const handleDelete = async () => {
+    setLoadingDelete(true);
     deleteDoctor(deleteID)
       .then(() => {
         notifySuccess("Product delete successfully");
@@ -167,12 +169,15 @@ export default function DoctorProfileManagement() {
       .catch((error) => {
         console.error("Failed to delete doctor:", error);
         notifyError("Failed to delete doctor. Please try again.");
+      })
+      .finally(() => {
+        setLoadingDelete(false);
       });
   };
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap md:flex-nowrap  justify-between gap-4 items-center">
+        <div className="flex flex-wrap md:flex-nowrap  justify-between gap-4 \">
           <p className="text-heading font-medium text-[22px]  lg:text-[24px]">
             Doctor Profile Manangement
           </p>
@@ -200,7 +205,7 @@ export default function DoctorProfileManagement() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] h-[calc(90vh-168px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-130px)] h-[calc(90vh-160px)] overflow-y-auto scrollbar-none"
         >
           <p className="text-[#7D7D7D] font-medium text-sm">Doctors Profile</p>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mt-4">
@@ -467,7 +472,7 @@ export default function DoctorProfileManagement() {
                 onClick={handleDelete}
                 className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
               >
-                Delete
+                {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>
             </div>
           </div>

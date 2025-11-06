@@ -52,7 +52,7 @@ export default function ManageAccount() {
   const [editingAccount, setEditingAccount] = useState<any>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordonfirmVisible] = useState(false);
-
+  const [isloadingDelete, setLoadingDelete] = useState(false);
   const { data, refetch } = useQuery({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
@@ -149,7 +149,7 @@ export default function ManageAccount() {
       if (editingAccount) {
         updateAccount(editingAccount._id, values)
           .then(() => {
-            notifySuccess("MR updated successfully");
+            notifySuccess("Account updated successfully");
             setCreateAccount(false);
             setEditingAccount(null);
             formik.resetForm();
@@ -157,27 +157,28 @@ export default function ManageAccount() {
           })
           .catch((error) => {
             console.error(error);
-            notifyError("Failed to update MR.");
+            notifyError("Failed to update Account.");
           })
           .finally(() => setLoading(false));
       } else {
         addAccount(values)
           .then((res) => {
-            console.log("✅ MR added successfully:", res.data);
-            notifySuccess("MR added successfully!");
+            console.log("✅ Account added successfully:", res.data);
+            notifySuccess("Account added successfully!");
             setCreateAccount(false);
             formik.resetForm();
             refetch();
           })
           .catch((error) => {
-            console.error("❌ Error creating MR:", error);
-            notifyError("Failed to add MR. Please try again.");
+            console.error("❌ Error creating Account:", error);
+            notifyError("Failed to add Account. Please try again.");
           })
           .finally(() => setLoading(false));
       }
     },
   });
   const handleDelete = () => {
+    setLoadingDelete(true);
     deleteAccount(editingAccount?._id)
       .then(() => {
         notifySuccess("Account deleted successfully");
@@ -187,6 +188,9 @@ export default function ManageAccount() {
       .catch((error) => {
         console.error("Failed to delete Account:", error);
         notifyError("Failed to delete Account. Please try again.");
+      })
+      .finally(() => {
+        setLoadingDelete(false);
       });
   };
   const antIcon = (
@@ -199,7 +203,7 @@ export default function ManageAccount() {
     <div>
       {" "}
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Manage Account
           </p>
@@ -237,14 +241,14 @@ export default function ManageAccount() {
             Marketing
           </button>
         </div>
-        <div className="bg-[#E5EBF7] rounded-tl-none  rounded-[12px] p-4 2xl:h-[calc(89vh-175px)] xl:h-[calc(90vh-199px)] h-auto ">
+        <div className="bg-[#E5EBF7] rounded-tl-none  rounded-[12px] p-4 2xl:h-[calc(85vh-120px)] xl:h-[calc(90vh-208px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">Accounts</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(83vh-187px)] xl:h-[calc(65vh-119px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(80vh-135px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "sales" ? (
               <CustomTable titles={titles} data={tableData} />
@@ -558,7 +562,7 @@ export default function ManageAccount() {
                 onClick={handleDelete}
                 className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
               >
-                Delete
+                {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>
             </div>
           </div>

@@ -57,9 +57,9 @@ export default function StrategyPlanning() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [isloading, setLoading] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false);
   const [loadingsave, setLoadingsave] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [isloadingDelete, setLoadingDelete] = useState(false);
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
@@ -274,7 +274,7 @@ export default function StrategyPlanning() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
+        <div className="flex flex-wrap  gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Strategy & Planning
           </p>
@@ -291,7 +291,7 @@ export default function StrategyPlanning() {
             </p>
           </button>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] xl:h-[calc(90vh-169px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">
             Recent MR Strategies
           </p>
@@ -300,7 +300,7 @@ export default function StrategyPlanning() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-157px)] xl:h-[calc(65vh-79px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableData} />
           </div>
@@ -487,10 +487,10 @@ export default function StrategyPlanning() {
               </button>
               <button
                 onClick={handleDelete}
-                disabled={loadingDelete}
+                disabled={isloadingDelete}
                 className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex justify-center items-center"
               >
-                {loadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
+                {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>
             </div>
           </div>
@@ -550,7 +550,7 @@ export default function StrategyPlanning() {
                       onClick={handleSaveOrder}
                       className="px-6 py-2 bg-blue-600 h-[40px] text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
                     >
-                      {loadingsave ? "loading" : "Save"}
+                      {loadingsave ? <Spin indicator={antIcon} /> : "Save"}
                     </button>
                   </div>
                 </div>

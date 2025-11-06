@@ -33,26 +33,23 @@ const titles = [
 ];
 
 const categoryOptions = [
-  "Hygiene",
-  "Health",
-  "Medicine",
-  "Supplements",
-  "Personal Care",
-  "Skincare",
-  "Hair Care",
-  "Baby Care",
-  "Nutrition",
-  "Fitness",
-  "Medical Equipment",
-  "First Aid",
-  "Wellness",
-  "Oral Care",
-  "Vitamins",
-  "Home Care",
-  "Sanitary Products",
-  "Cosmetics",
-  "Essential Oils",
-  "Herbal Products",
+  "Cardiology",
+  "Neurology",
+  "Dermatology",
+  "Endocrinology",
+  "Gastroenterology",
+  "Pulmonology",
+  "Nephrology",
+  "Rheumatology",
+  "Oncology",
+  "Hematology",
+  "Orthopedics",
+  "Gynecology",
+  "Pediatrics",
+  "Psychiatry",
+  "Ophthalmology",
+  "Otolaryngology (ENT)",
+  "Urology",
 ];
 
 const medicineForms = [
@@ -77,6 +74,8 @@ export default function Products() {
   const [deleteID, setdeleteID] = useState<any>(null);
   const [viewImage, setViewImage] = useState<any>(null);
   const [openImage, setOpenImage] = useState(false);
+  const [isloadingDelete, setLoadingDelete] = useState(false);
+
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);
@@ -183,6 +182,7 @@ export default function Products() {
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
   const handleDelete = () => {
+    setLoadingDelete(true);
     deleteProducts(deleteID)
       .then(() => {
         notifySuccess("Product deleted successfully");
@@ -192,12 +192,15 @@ export default function Products() {
       .catch((error) => {
         console.error("Failed to delete product:", error);
         notifyError("Failed to delete product. Please try again.");
+      })
+      .finally(() => {
+        setLoadingDelete(false);
       });
   };
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Products
           </p>
@@ -212,14 +215,14 @@ export default function Products() {
             <p className="text-white text-base font-medium">Add Products</p>
           </button>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] xl:h-[calc(90vh-169px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-162px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">Products List</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-157px)] xl:h-[calc(65vh-79px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableData} />
           </div>
@@ -415,7 +418,7 @@ export default function Products() {
                 onClick={handleDelete}
                 className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
               >
-                Delete
+                {isloadingDelete ? <Spin indicator={antIcon} /> : " Delete"}
               </button>
             </div>
           </div>

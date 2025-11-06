@@ -106,8 +106,8 @@ export default function DashBoard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap items-stretch h-[62%] gap-2">
-        <div className="lg:w-[calc(75%-2px)] pb-5 w-full bg-white rounded-xl py-5 pr-5">
+      <div className="flex flex-wrap  items-stretch gap-2">
+        <div className="lg:w-[calc(75%-2px)] h-[52vh] w-full bg-white rounded-xl py-5 pr-5">
           <div className="flex flex-wrap xl:gap-5 gap-3 items-center pl-5 mb-4">
             <p className="xl:text-xl md:w-auto w-full sm:text-xl font-semibold text-heading">
               Performance
@@ -122,14 +122,16 @@ export default function DashBoard() {
               <p className="text-sm font-medium text-heading">Achievement</p>
             </div>
           </div>
-          <LineChart />
+          <div className="h-[90%] md:h-[100%]">
+            <LineChart />
+          </div>
         </div>
         <div
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="lg:w-[calc(25%-6px)] h-[100%] overflow-x-auto  w-full bg-[#E5EBF7] rounded-xl p-4"
+          className="lg:w-[calc(25%-6px)] h-[52vh]  overflow-y-auto w-full bg-[#E5EBF7] rounded-xl p-4"
         >
           <p className="text-heading text-xs mb-4">MR Activity by Type</p>
 
