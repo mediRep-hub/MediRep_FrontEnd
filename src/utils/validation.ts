@@ -58,6 +58,7 @@ export const ProductSchema = Yup.object().shape({
     .required("Amount is required"),
   isStatus: Yup.string().required("Status is required"),
   productImage: Yup.string().required("Product Image is required"),
+  packSize: Yup.string().required("Pack Size is required"),
 });
 
 export const StrategySchema = Yup.object().shape({

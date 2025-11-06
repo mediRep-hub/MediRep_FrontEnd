@@ -392,15 +392,27 @@ export default function RequisitionDetail() {
             <div className="border-primary border-l-[1px] h-full"></div>
             <div className="xl:w-[calc(30%-21px)] w-full p-5">
               <p>Change Requisition</p>
+
+              {dataRequisitions?.remarks ? (
+                <></>
+              ) : (
+                <p className="text-base mt-5 text-red-600">
+                  Please wait — the manager needs to add a remark before you can
+                  proceed.
+                </p>
+              )}
+
               <form onSubmit={handleSubmit}>
-                <div className="mt-3">
-                  <CustomSelect
-                    options={statusOption}
-                    placeholder="Change Status"
-                    value={formData.status}
-                    onChange={(val) => handleChange("status", val)}
-                  />
-                </div>
+                {["Admin"].includes(user?.position || "") && (
+                  <div className="mt-3">
+                    <CustomSelect
+                      options={statusOption}
+                      placeholder="Change Status"
+                      value={formData.status}
+                      onChange={(val) => handleChange("status", val)}
+                    />
+                  </div>
+                )}
                 <div className="mt-3">
                   <CustomInput
                     label="Quantity"
@@ -443,9 +455,15 @@ export default function RequisitionDetail() {
               <div className="mt-5 flex justify-end">
                 <button
                   onClick={handleSubmit}
-                  className="bg-primary h-[56px] w-[130px] cursor-pointer rounded-md text-white"
+                  disabled={!dataRequisitions?.remarks}
+                  className={`h-[56px] w-[130px] rounded-md text-white transition
+    ${
+      !dataRequisitions?.remarks
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary cursor-pointer"
+    }`}
                 >
-                  {loading ? <Spin indicator={antIcon} /> : " Re-submit"}
+                  {loading ? <Spin indicator={antIcon} /> : " Save"}
                 </button>
               </div>
             </div>{" "}

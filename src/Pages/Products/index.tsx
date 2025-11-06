@@ -144,6 +144,7 @@ export default function Products() {
       amount: editingProduct?.amount || "",
       productImage: editingProduct?.productImage || null,
       isStatus: editingProduct?.isStatus || "",
+      packSize: editingProduct?.packSize || "",
     },
     validationSchema: ProductSchema,
     onSubmit: (values) => {
@@ -332,7 +333,6 @@ export default function Products() {
                   <p className="text-base font-normal text-heading">
                     Set Amount
                   </p>
-
                   <div className="mt-3">
                     <CustomInput
                       placeholder="50"
@@ -372,6 +372,24 @@ export default function Products() {
                             : ""}
                         </div>
                       )}
+                  </div>{" "}
+                  <div className="mt-3">
+                    <CustomInput
+                      placeholder="Wirte the number of item in 1 pack"
+                      label="Pack Size"
+                      name="packSize"
+                      value={formik.values.packSize}
+                      onChange={formik.handleChange}
+                    />
+
+                    {formik.touched.packSize && formik.errors.packSize && (
+                      <div className="text-red-500 text-xs">
+                        *
+                        {typeof formik.errors.packSize === "string"
+                          ? formik.errors.packSize
+                          : ""}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
