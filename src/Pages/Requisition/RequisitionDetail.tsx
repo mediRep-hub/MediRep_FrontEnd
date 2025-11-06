@@ -204,17 +204,17 @@ export default function RequisitionDetail() {
             Requisition Details
           </p>
         </div>
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-123px)] lg:h-[calc(90vh-149px)] h-auto ">
+        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto ">
           <p className="text-[#7d7d7d]">Requisition Details</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-5 flex flex-wrap gap-5  bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-105px)] xl:h-[calc(63vh-60px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5 flex flex-wrap md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-90px)] xl:h-[calc(63vh-37px)] overflow-y-auto scrollbar-none"
           >
-            <div className="xl:w-[calc(70%-21px)] w-full p-5">
-              <div className="flex flex-wrap gap-5 pb-5 border-b-[1px] border-primary">
+            <div className="xl:w-[calc(70%-21px)] w-full">
+              <div className="flex flex-wrap gap-5  p-5 border-b-[1px] border-primary">
                 <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
                   {" "}
                   <div className="xl:w-[calc(50%-10px)] w-full">
@@ -320,7 +320,7 @@ export default function RequisitionDetail() {
                   </div>
                 </div>
               </div>
-              <div className="py-5 border-b-[1px] border-primary">
+              <div className="py-5 border-b-[1px] border-primary  p-5">
                 <p className="text-[#131313] mt-3 font-medium text-sm">
                   Manager Remarks
                 </p>
@@ -361,7 +361,7 @@ export default function RequisitionDetail() {
                 )}
               </div>
               {["Admin", "manager"].includes(user?.position || "") && (
-                <div>
+                <div className=" p-5">
                   <p className="text-[#131313] mt-3 font-medium text-sm">
                     Accept Requisition
                   </p>
@@ -390,15 +390,14 @@ export default function RequisitionDetail() {
               )}
             </div>{" "}
             <div className="border-primary border-l-[1px] h-full"></div>
-            <div className="xl:w-[calc(30%-21px)] w-full p-5">
+            <div className="xl:w-[calc(30%-21px)] w-full  p-5">
               <p>Change Requisition</p>
 
               {dataRequisitions?.remarks ? (
                 <></>
               ) : (
-                <p className="text-base mt-5 text-red-600">
-                  Please wait — the manager needs to add a remark before you can
-                  proceed.
+                <p className="text-sm mt-5 text-red-600">
+                  Manager remark required to proceed
                 </p>
               )}
 
@@ -447,10 +446,6 @@ export default function RequisitionDetail() {
                     onChange={(val) => handleChange("paymentType", val)}
                   />
                 </div>
-
-                <button type="submit" className="mt-4 btn btn-primary">
-                  Update Requisition
-                </button>
               </form>
               <div className="mt-5 flex justify-end">
                 <button
