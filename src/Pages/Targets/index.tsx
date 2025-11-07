@@ -95,7 +95,13 @@ export default function Targets() {
 
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-160px)] h-auto">
           <p className="text-[#7D7D7D] font-medium text-sm">Targets List</p>
-          <div className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none">
+          <div
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none"
+          >
             <div className="w-full flex-1 overflow-x-auto">
               <table className="w-full border-collapse min-w-[900px]">
                 <thead className="sticky top-0 z-[1] bg-white">

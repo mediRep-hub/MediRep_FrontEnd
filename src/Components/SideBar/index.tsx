@@ -44,7 +44,7 @@ export default function SideBar() {
       icon: <FaBoxOpen size={16} />,
     },
     {
-      name: "Requisition",
+      name: "Requisitions",
       path: "/requisition",
       icon: <FaClipboardList size={16} />,
     },
@@ -66,7 +66,7 @@ export default function SideBar() {
   ];
   if (user?.position === "Admin") {
     links.splice(2, 0, {
-      name: "Manage Account",
+      name: "Manage Accounts",
       path: "/manageAccount",
       icon: <MdManageAccounts size={16} />,
     });

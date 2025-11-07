@@ -126,16 +126,16 @@ export default function DashBoard() {
             <LineChart />
           </div>
         </div>
-        <div
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-          className="lg:w-[calc(25%-6px)] h-[52vh]  overflow-y-auto w-full bg-[#E5EBF7] rounded-xl p-4"
-        >
-          <p className="text-heading text-xs mb-4">MR Activity by Type</p>
+        <div className="lg:w-[calc(25%-6px)] h-[52vh] w-full bg-[#E5EBF7] rounded-xl p-4">
+          <p className="text-heading  text-xs  mb-4">MR Activity by Type</p>
 
-          <div className="relative">
+          <div
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="relative overflow-y-scroll hide-scrollbar h-[calc(49vh-30px)]"
+          >
             {[
               "New Doctor Meetings — 48",
               "Follow-up Meetings — 32",

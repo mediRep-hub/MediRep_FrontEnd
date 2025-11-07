@@ -51,7 +51,7 @@ export default function Requisition() {
   });
 
   useEffect(() => {
-    document.title = "MediRep | Requisition";
+    document.title = "MediRep | Requisitions";
     refetch();
   }, []);
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export default function Requisition() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap items-center gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Requisition
+            Requisitions
           </p>
         </div>
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(92vh-130px)] xl:h-[calc(90vh-142px)] h-auto ">

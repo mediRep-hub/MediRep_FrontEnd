@@ -197,7 +197,7 @@ export default function ManageAccount() {
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
   useEffect(() => {
-    document.title = "MediRep | Manage Account";
+    document.title = "MediRep | Manage Accounts";
   }, []);
   return (
     <div>
@@ -205,7 +205,7 @@ export default function ManageAccount() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Manage Account
+            Manage Accounts
           </p>
           <button
             onClick={() => {
@@ -241,7 +241,11 @@ export default function ManageAccount() {
             Marketing
           </button>
         </div>
-        <div className="bg-[#E5EBF7] rounded-tl-none  rounded-[12px] p-4 2xl:h-[calc(85vh-120px)] xl:h-[calc(90vh-208px)] h-auto ">
+        <div
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(85vh-120px)] xl:h-[calc(90vh-208px)] h-auto ${
+            selectTab === "marketing" ? "rounded-tl-[12px]" : "rounded-tl-none"
+          }`}
+        >
           <p className="text-[#7D7D7D] font-medium text-sm">Accounts</p>
           <div
             style={{

@@ -338,7 +338,9 @@ export default function RequisitionDetail() {
                     No remarks added by Manager
                   </p>
                 )}
-                {["Admin", "manager"].includes(user?.position || "") && (
+                {["Admin", "Area Sales Manager (ASM)"].includes(
+                  user?.position || ""
+                ) && (
                   <>
                     <textarea
                       className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
@@ -360,7 +362,9 @@ export default function RequisitionDetail() {
                   </>
                 )}
               </div>
-              {["Admin", "manager"].includes(user?.position || "") && (
+              {["Admin", "Area Sales Manager (ASM)"].includes(
+                user?.position || ""
+              ) && (
                 <div className=" p-5">
                   <p className="text-[#131313] mt-3 font-medium text-sm">
                     Accept Requisition
@@ -389,7 +393,7 @@ export default function RequisitionDetail() {
                 </div>
               )}
             </div>{" "}
-            <div className="border-primary border-l-[1px] h-full"></div>
+            <div className="border-primary border-l-[1px] h-auto"></div>
             <div className="xl:w-[calc(30%-21px)] w-full  p-5">
               <p>Change Requisition</p>
 

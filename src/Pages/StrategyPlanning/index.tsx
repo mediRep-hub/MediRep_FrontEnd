@@ -83,6 +83,7 @@ export default function StrategyPlanning() {
     staleTime: 5 * 60 * 1000,
   });
   let AllStrategy = allStraties?.data?.data;
+  console.log("🚀 ~ StrategyPlanning ~ AllStrategy:", AllStrategy);
   let tableData: any = [];
   AllStrategy?.map((v: any) => {
     tableData.push([
@@ -150,7 +151,7 @@ export default function StrategyPlanning() {
       route: editingProduct?.route || "",
       day: editingProduct?.day || "",
       mrName: editingProduct?.mrName || "",
-      doctorList: editingProduct?.doctorList || [],
+      doctorList: editingProduct?.doctorList?.map((doc: any) => doc.name) || [],
     },
     validationSchema: StrategySchema,
     onSubmit: (values) => {
@@ -209,7 +210,7 @@ export default function StrategyPlanning() {
   const handleMoveUp = (index: number) => {
     if (!editingProduct || index <= 0) return;
 
-    const updatedDoctorList = [...editingProduct.doctorList];
+    const updatedDoctorList = [...editingProduct.doctorList]; // ✅ create new array
     [updatedDoctorList[index - 1], updatedDoctorList[index]] = [
       updatedDoctorList[index],
       updatedDoctorList[index - 1],
@@ -236,41 +237,32 @@ export default function StrategyPlanning() {
       doctorList: updatedDoctorList,
     });
   };
-  const handleSaveOrder = () => {
-    setLoadingsave(true);
-    if (!editingProduct) {
-      notifyError("No product selected for editing.");
-      return;
-    }
-    const strategyId = editingProduct.id || editingProduct._id;
 
-    if (!strategyId) {
-      console.error("No valid ID found in editingProduct:", editingProduct);
-      notifyError("Invalid product data. Please refresh and try again.");
-      return;
-    }
-    updateStrategy(strategyId, {
-      doctorList: editingProduct.doctorList,
-    })
-      .then((response) => {
-        if (response) {
-          notifySuccess("Doctor order has been successfully updated!");
-        } else {
-          notifyError("Failed to update doctor order. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to save doctor order:", error);
-        notifyError(
-          "Service is currently undergoing maintenance. Please try again in 5-10 minutes."
-        );
-      })
-      .finally(() => {
-        refetch();
-        setLoadingsave(false);
-        setOpenView(false);
+  const handleSaveOrder = async () => {
+    if (!editingProduct) return;
+
+    setLoadingsave(true);
+    try {
+      // Save the current doctorList exactly as it is
+      const updatedDoctorList = editingProduct.doctorList.map((doc: any) =>
+        typeof doc === "string" ? doc : doc.name
+      );
+
+      await updateStrategy(editingProduct._id, {
+        doctorList: updatedDoctorList,
       });
+
+      notifySuccess("Doctor list saved successfully!");
+      refetch(); // refresh table
+      setOpenView(false); // close modal
+    } catch (error) {
+      console.error(error);
+      notifyError("Failed to save doctor list.");
+    } finally {
+      setLoadingsave(false);
+    }
   };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -518,10 +510,10 @@ export default function StrategyPlanning() {
                     editingProduct.doctorList.length > 0 ? (
                       <div className="doctor-list-container">
                         {editingProduct.doctorList.map(
-                          (doc: string, index: number) => (
+                          (doc: any, index: number) => (
                             <DoctorListItem
-                              key={index}
-                              doctor={doc}
+                              key={doc._id || index}
+                              doctor={doc.name} // ✅ doc is now an object
                               index={index}
                               onMoveUp={
                                 index > 0
