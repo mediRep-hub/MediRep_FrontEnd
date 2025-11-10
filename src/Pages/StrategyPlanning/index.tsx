@@ -77,7 +77,11 @@ export default function StrategyPlanning() {
     staleTime: 5 * 60 * 1000,
   });
   let AllMR = allMr?.data?.admins;
-  const { data: allStraties, refetch } = useQuery({
+  const {
+    data: allStraties,
+    refetch,
+    isFetching,
+  } = useQuery({
     queryKey: ["AllStrategy"],
     queryFn: () => getAllStrategy(),
     staleTime: 5 * 60 * 1000,
@@ -210,7 +214,7 @@ export default function StrategyPlanning() {
   const handleMoveUp = (index: number) => {
     if (!editingProduct || index <= 0) return;
 
-    const updatedDoctorList = [...editingProduct.doctorList]; // ✅ create new array
+    const updatedDoctorList = [...editingProduct.doctorList];
     [updatedDoctorList[index - 1], updatedDoctorList[index]] = [
       updatedDoctorList[index],
       updatedDoctorList[index - 1],
@@ -243,7 +247,6 @@ export default function StrategyPlanning() {
 
     setLoadingsave(true);
     try {
-      // Save the current doctorList exactly as it is
       const updatedDoctorList = editingProduct.doctorList.map((doc: any) =>
         typeof doc === "string" ? doc : doc.name
       );
@@ -294,7 +297,11 @@ export default function StrategyPlanning() {
             }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={tableData} />
+            <CustomTable
+              titles={titles}
+              data={tableData}
+              isFetching={isFetching}
+            />
           </div>
         </div>
       </div>

@@ -79,7 +79,7 @@ export default function Products() {
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllProducts"],
     queryFn: () => getAllProducts(),
     staleTime: 5 * 60 * 1000,
@@ -225,7 +225,11 @@ export default function Products() {
             }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={tableData} />
+            <CustomTable
+              isFetching={isFetching}
+              titles={titles}
+              data={tableData}
+            />
           </div>
         </div>
       </div>

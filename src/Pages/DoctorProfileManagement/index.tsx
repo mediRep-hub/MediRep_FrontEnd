@@ -53,7 +53,7 @@ export default function DoctorProfileManagement() {
   const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctors(),
     staleTime: 5 * 60 * 1000,
@@ -155,7 +155,9 @@ export default function DoctorProfileManagement() {
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
-
+  const antIcon22 = (
+    <Loading3QuartersOutlined style={{ fontSize: 40, color: "#0755E9" }} spin />
+  );
   const handleDelete = async () => {
     setLoadingDelete(true);
     deleteDoctor(deleteID)
@@ -208,17 +210,23 @@ export default function DoctorProfileManagement() {
           className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-130px)] h-[calc(90vh-160px)] overflow-y-auto scrollbar-none"
         >
           <p className="text-[#7D7D7D] font-medium text-sm">Doctors Profile</p>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mt-4">
-            {doctorsList.map((doc: any, index: number) => (
-              <DoctorCard
-                key={index}
-                doctor={doc}
-                onEdit={() => handleEditDoctor(doc)}
-                setdeleteID={setdeleteID}
-                setAddDoctor={setAddDoctor}
-              />
-            ))}
-          </div>
+          {isFetching ? (
+            <div className="py-5 text-center text-gray-500">
+              <Spin indicator={antIcon22} />
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mt-4">
+              {doctorsList.map((doc: any, index: number) => (
+                <DoctorCard
+                  key={index}
+                  doctor={doc}
+                  onEdit={() => handleEditDoctor(doc)}
+                  setdeleteID={setdeleteID}
+                  setAddDoctor={setAddDoctor}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       {addDoctor && (

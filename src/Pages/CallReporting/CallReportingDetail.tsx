@@ -1,6 +1,6 @@
 import { Avatar } from "antd";
-import { FaCalendar, FaDirections } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { FaArrowLeft, FaCalendar, FaDirections } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -14,14 +14,25 @@ const markerIcon = new L.Icon({
 export default function CallReportingDetail() {
   const location = useLocation();
   const { v } = location.state || {};
+  console.log("🚀 ~ CallReportingDetail ~ v:", v);
   const lat = v?.checkInLocation?.lat;
   const lng = v?.checkInLocation?.lng;
   const [openmap, setOpenMap] = useState(false);
+  const navigate = useNavigate();
+  const handleBack = () => {
+    navigate("/callReporting");
+  };
   return (
     <div>
       {" "}
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
+        <div className="flex flex-wrap items-center gap-4 ">
+          <div
+            onClick={handleBack}
+            className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+          >
+            <FaArrowLeft size={16} color="#000000" />
+          </div>
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Call Reporting Details
           </p>
@@ -65,13 +76,13 @@ export default function CallReportingDetail() {
               </button>
             </div>
             <div className="flex  mt-5">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Call ID:
               </p>
               <p className="text-xs font-normal text-heading">{v?.callId}</p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Doctor Name:
               </p>
               <p className="text-xs font-normal text-heading">
@@ -79,7 +90,15 @@ export default function CallReportingDetail() {
               </p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
+                Strategy Name:
+              </p>
+              <p className="text-xs font-normal text-heading">
+                {v?.strategyName}
+              </p>
+            </div>{" "}
+            <div className="flex  mt-2">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Doctor Address:
               </p>
               <p className="text-xs font-normal text-heading">
@@ -87,13 +106,7 @@ export default function CallReportingDetail() {
               </p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
-                Area:
-              </p>
-              <p className="text-xs font-normal text-heading">{v?.area}</p>
-            </div>{" "}
-            <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Date:
               </p>
               <p className="text-xs font-normal text-heading">
@@ -101,25 +114,25 @@ export default function CallReportingDetail() {
               </p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Check in:
               </p>
               <p className="text-xs font-normal text-heading">{v?.checkIn}</p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Check out:
               </p>
               <p className="text-xs font-normal text-heading">{v?.checkOut}</p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Duration:
               </p>
               <p className="text-xs font-normal text-heading">{v?.duration}</p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
                 Product Discussed:
               </p>
               <p className="text-xs font-normal text-heading">
@@ -127,17 +140,43 @@ export default function CallReportingDetail() {
               </p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
-                Type:
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
+                Doctor Response:
               </p>
-              <p className="text-xs font-normal text-heading">{v?.type}</p>
+              <p className="text-xs font-normal text-heading">
+                {v?.doctorResponse}
+              </p>
             </div>{" "}
             <div className="flex  mt-2">
-              <p className="text-xs font-normal text-[#7d7d7d] min-w-[120px]">
-                Notes:
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
+                Follow-up Required:
               </p>
               <p className="text-xs font-normal w-[300px] text-heading">
-                {v?.notes}
+                {v?.followUpRequired}
+              </p>
+            </div>{" "}
+            <div className="flex  mt-2">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
+                Doctor Purchase Intrest:
+              </p>
+              <p className="text-xs font-normal w-[300px] text-heading">
+                {v?.doctorPurchaseInterest}
+              </p>
+            </div>{" "}
+            <div className="flex  mt-2">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
+                Key Discussion Points:
+              </p>
+              <p className="text-xs font-normal w-[300px] text-heading">
+                {v?.keyDiscussionPoints}
+              </p>
+            </div>{" "}
+            <div className="flex  mt-2">
+              <p className="text-xs font-normal text-[#7d7d7d] min-w-[150px]">
+                Doctor’s Concerns:
+              </p>
+              <p className="text-xs font-normal w-[300px] text-heading">
+                {v?.doctorConcerns}
               </p>
             </div>{" "}
           </div>

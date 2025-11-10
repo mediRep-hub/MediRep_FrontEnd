@@ -1,12 +1,20 @@
 import React from "react";
+import { Spin } from "antd";
+import { Loading3QuartersOutlined } from "@ant-design/icons";
+
+const antIcon = (
+  <Loading3QuartersOutlined style={{ fontSize: 40, color: "#0755E9" }} spin />
+);
+
 interface CustomTableProps {
   titles?: string[];
-  data?: any[];
+  data?: any[][];
   handleGoToDetail?: (id: any) => void;
   headerWidth?: string;
   itemWidth?: string;
   height?: string | number;
   show?: string;
+  isFetching?: boolean;
 }
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -17,21 +25,17 @@ const CustomTable: React.FC<CustomTableProps> = ({
   itemWidth,
   height,
   show,
+  isFetching,
 }) => {
   return (
-    <div
-      style={{
-        height: height ? height : "auto",
-      }}
-      className="w-full flex-1  "
-    >
+    <div style={{ height: height ? height : "auto" }} className="w-full flex-1">
       <table className="w-full border-collapse min-w-[800px]">
         <thead className="sticky top-0 z-[1] h-[56px] bg-white">
-          <tr className="pl-5">
+          <tr>
             {titles?.map((title, index) => (
               <th
                 key={index}
-                className="border-b border-primary px-5 py-2 text-[12px] font-medium leading-[14px] tracking-[-0.25px] text-heading bg-white text-left"
+                className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white"
                 style={{ width: headerWidth }}
               >
                 {title}
@@ -40,31 +44,40 @@ const CustomTable: React.FC<CustomTableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {data && data.length > 0 ? (
+          {isFetching ? (
+            <tr>
+              <td
+                colSpan={titles?.length || 7}
+                className="py-5 text-center text-gray-500"
+              >
+                <Spin indicator={antIcon} />
+              </td>
+            </tr>
+          ) : data && data.length > 0 ? (
             data.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
                 className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
                 style={{ cursor: show ? show : "pointer" }}
-                onClick={() => handleGoToDetail && handleGoToDetail(rowIndex)}
+                onClick={() => handleGoToDetail?.(rowIndex)}
               >
                 {row.map((cell: any, colIndex: number) =>
-                  cell === null ? null : (
+                  cell !== null ? (
                     <td
                       key={colIndex}
-                      className=" px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
+                      className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
                       style={{ width: itemWidth }}
                     >
                       {cell}
                     </td>
-                  )
+                  ) : null
                 )}
               </tr>
             ))
           ) : (
             <tr>
               <td
-                colSpan={titles?.length}
+                colSpan={titles?.length || 7}
                 className="px-3 py-6 text-center text-heading"
               >
                 No data found

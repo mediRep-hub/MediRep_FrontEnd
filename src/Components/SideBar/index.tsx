@@ -63,6 +63,11 @@ export default function SideBar() {
       path: "/dataReporting",
       icon: <BiSolidReport size={16} />,
     },
+    {
+      name: "Orders",
+      path: "/orders",
+      icon: <BiSolidReport size={16} />,
+    },
   ];
   if (user?.position === "Admin") {
     links.splice(2, 0, {

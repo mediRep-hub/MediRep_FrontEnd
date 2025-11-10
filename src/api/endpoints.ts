@@ -46,6 +46,13 @@ export const ENDPOINTS = {
   STRATEGY_UPDATE: "/strategy/updateStrategy",
   STRATEGY_DELETE: "/strategy/deleteStrategy",
   STRATEGY_GET_SINGLE: "/strategy/getStrategyById",
+
+  // ----------------- Orders -----------------
+  ORDER_ADD: "/orders/addOrder",
+  ORDER_GET_ALL: "/orders/getAllOrders",
+  ORDER_GET_SINGLE: "/orders/getOrder",
+  ORDER_UPDATE: "/orders/updateOrder",
+  ORDER_DELETE: "/orders/deleteOrder",
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
 };

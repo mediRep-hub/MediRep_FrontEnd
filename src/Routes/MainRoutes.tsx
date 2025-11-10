@@ -3,6 +3,8 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logo.png";
 import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
+import Orders from "../Pages/Orders";
+import OrderDetails from "../Pages/Orders/orderDetails";
 
 const RequisitionDetail = lazy(
   () => import("../Pages/Requisition/RequisitionDetail")
@@ -66,6 +68,9 @@ export default function MainRoutes() {
           path="/callReporting/callReportingDetail"
           element={<CallReportingDetail />}
         />
+        <Route path="/callReporting" element={<CallReporting />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/orderDetails" element={<OrderDetails />} />
       </Routes>
     </Suspense>
   );

@@ -16,7 +16,7 @@ const titles = [
 ];
 
 export default function CallReporting() {
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllReports"],
     queryFn: () => getAllReports(),
     staleTime: 5 * 60 * 1000,
@@ -52,6 +52,7 @@ export default function CallReporting() {
   const handleDetail = (v: any) => {
     navigate("callReportingDetail", { state: { v } });
   };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -71,7 +72,12 @@ export default function CallReporting() {
             }}
             className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(85vh-127px)] xl:h-[calc(65vh-35px)] mt-4 overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={tableData} show="default" />
+            <CustomTable
+              titles={titles}
+              data={tableData}
+              show="default"
+              isFetching={isFetching}
+            />
           </div>
         </div>
       </div>

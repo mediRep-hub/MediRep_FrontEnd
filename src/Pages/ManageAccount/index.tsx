@@ -53,7 +53,7 @@ export default function ManageAccount() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordonfirmVisible] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
@@ -255,9 +255,17 @@ export default function ManageAccount() {
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(80vh-135px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "sales" ? (
-              <CustomTable titles={titles} data={tableData} />
+              <CustomTable
+                titles={titles}
+                data={tableData}
+                isFetching={isFetching}
+              />
             ) : (
-              <CustomTable titles={titles} data={tableDatamark} />
+              <CustomTable
+                titles={titles}
+                data={tableDatamark}
+                isFetching={isFetching}
+              />
             )}
           </div>
         </div>

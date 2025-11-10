@@ -16,7 +16,7 @@ const titles = [
 ];
 
 export default function Requisition() {
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllRequisition"],
     queryFn: () => getAllRequisition(),
     staleTime: 5 * 60 * 1000,
@@ -79,6 +79,7 @@ export default function Requisition() {
           >
             <CustomTable
               titles={titles}
+              isFetching={isFetching}
               data={tableData}
               handleGoToDetail={(index) => handleGoDetails(Requisitions[index])}
             />
