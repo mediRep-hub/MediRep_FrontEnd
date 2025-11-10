@@ -70,7 +70,7 @@ export default function MainRoutes() {
         />
         <Route path="/callReporting" element={<CallReporting />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/orderDetails" element={<OrderDetails />} />
+        <Route path="/orders/orderDetails" element={<OrderDetails />} />
       </Routes>
     </Suspense>
   );

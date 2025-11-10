@@ -14,7 +14,6 @@ const markerIcon = new L.Icon({
 export default function CallReportingDetail() {
   const location = useLocation();
   const { v } = location.state || {};
-  console.log("🚀 ~ CallReportingDetail ~ v:", v);
   const lat = v?.checkInLocation?.lat;
   const lng = v?.checkInLocation?.lng;
   const [openmap, setOpenMap] = useState(false);

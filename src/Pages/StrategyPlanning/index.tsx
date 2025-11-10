@@ -87,7 +87,6 @@ export default function StrategyPlanning() {
     staleTime: 5 * 60 * 1000,
   });
   let AllStrategy = allStraties?.data?.data;
-  console.log("🚀 ~ StrategyPlanning ~ AllStrategy:", AllStrategy);
   let tableData: any = [];
   AllStrategy?.map((v: any) => {
     tableData.push([

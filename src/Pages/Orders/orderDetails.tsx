@@ -1,17 +1,55 @@
 import { FaArrowLeft } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import logo from "../../assets/medirep-logo.png";
 import { LuDownload } from "react-icons/lu";
 import dayjs from "dayjs";
+import { useRef, useState } from "react";
+import { Spin } from "antd";
+import { Loading3QuartersOutlined } from "@ant-design/icons";
 export default function OrderDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const { order } = location.state || {};
-  console.log("🚀 ~ OrderDetails ~ order:", order);
+  const invoiceRef = useRef<HTMLDivElement>(null);
+
+  const [loading, setLoading] = useState(false);
+
   const handleBack = () => {
     navigate("/orders");
   };
+
+  const handleDownloadPDF = async () => {
+    if (!invoiceRef.current) return;
+    setLoading(true);
+
+    try {
+      const canvas = await html2canvas(invoiceRef.current, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pageWidth = 210;
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pageWidth;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`Invoice-${order?.orderId}.pdf`);
+    } catch (err) {
+      console.error("Error generating PDF:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const antIcon = (
+    <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
+  );
   return (
     <div>
       {" "}
@@ -28,18 +66,33 @@ export default function OrderDetails() {
               Order Details
             </p>
           </div>
-          <button className="h-[55px] w-full md:w-[220px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
-            <LuDownload size={20} className="text-white" />
-            <p className="text-white text-base font-medium">Download Invoice</p>
+          <button
+            onClick={handleDownloadPDF}
+            className="h-[55px] w-full md:w-[220px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+          >
+            {loading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <>
+                <LuDownload size={20} className="text-white" />
+                <p className="text-white text-base font-medium">
+                  {" "}
+                  Download Invoice
+                </p>
+              </>
+            )}
           </button>
         </div>
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto ">
+        <div
+          ref={invoiceRef}
+          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] lg:h-[calc(90vh-149px)] h-auto "
+        >
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-40px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-52px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex items-center ">
               <div className="w-[40%]">
