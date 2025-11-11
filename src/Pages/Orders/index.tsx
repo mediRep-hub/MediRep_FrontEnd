@@ -102,9 +102,16 @@ export default function Orders() {
 
         tempDiv.innerHTML = `
     <div style="font-family:Arial, sans-serif;">
-      <div style="display:flex;align-items:center;margin-bottom:20px;">
-        <img src="${logo}" style="width:52px;height:auto;margin-right:20px;"/>
-        <h2>MediRep Bill Invoice</h2>
+      <div style="
+    display: flex;
+    align-items: center;
+    justify-content: center; /* centers horizontally */
+    margin-bottom: 20px;
+    text-align: center;
+  "
+>
+        <img src="${logo}" style="width:80px;height:auto;margin-right:30px;"/>
+        <h1 style="font-size: 34px; font-weight: bold;">MediRep Bill Invoice</h1>
       </div>
       <div style="margin-bottom:20px;">
         <p><strong>Order ID:</strong> ${order.orderId}</p>
@@ -117,8 +124,13 @@ export default function Orders() {
         <p><strong>Strategy Name:</strong> ${order.strategyName}</p>
         <p><strong>Order Type:</strong> ${order.orderType}</p>
       </div>
-      <table border="1" cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;">
-        <tr>
+     <table
+  border="1"
+  cellspacing="0"
+  cellpadding="5"
+  style="width: 100%; border-top: 0.5px solid #000; border-collapse: collapse;"
+>
+   <tr>
           <th style="width:40%">Item Detail</th>
           <th style="width:20%;text-align:right;">Qty</th>
           <th style="width:20%;text-align:right;">Rate</th>
@@ -136,12 +148,23 @@ export default function Orders() {
           )
           .join("")}
       </table>
-      <div style="margin-top:20px;text-align:right;">
-        <p>Subtotal: Rs.${order.subtotal}</p>
-        <p>Tax (10%): Rs.${order.tax}</p>
-        <p><strong>Total: Rs.${order.total}</strong></p>
-      </div>
-      <p style="margin-top:20px;font-weight:bold;">Thank you for your business.</p>
+     <div
+  style="
+    margin-top: 20px;
+    text-align: right;
+    border-top: 0.5px solid #000;
+    border-bottom: 0.5px solid #000;
+    padding: 10px 0;
+  "
+>
+  <p>Subtotal: Rs.${order.subtotal}</p>
+  <p>Tax (10%): Rs.${order.tax}</p>
+<div style="border-top: 0.5px solid #000; margin-top: 20px;">
+  <p><strong>Total: Rs.${order.total}</strong></p>
+</div>
+</div>
+
+      <p style="margin-top:20px;font-weight:bold; text-align:center">Thank you for your business.</p>
     </div>
   `;
 

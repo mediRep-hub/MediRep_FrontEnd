@@ -195,7 +195,7 @@ export default function OrderDetails() {
             </div>
 
             <div className=" flex  justify-end mt-5 ">
-              <div className="mf:w-1/2 w-full ">
+              <div className="md:w-1/2 w-full ">
                 <div className="flex items-center justify-between ">
                   <p className="text-heading text-xs">Subtotal</p>
                   <p className="text-heading text-xs">Rs.{order?.subtotal}</p>
