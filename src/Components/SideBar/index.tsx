@@ -4,7 +4,6 @@ import Logo from "../../assets/Logo/logo.png";
 import {
   FaBriefcaseMedical,
   FaUserMd,
-  FaChartLine,
   FaUserFriends,
   FaTimes,
   FaBars,

@@ -89,7 +89,7 @@ export default function CallReporting() {
   console.log("🚀 ~ CallReporting ~ AllStrategy:", AllStrategy);
   let tableData: any = [];
   if (selectedStrategy?.doctorList?.length) {
-    selectedStrategy.doctorList.forEach((doc: any, index: number) => {
+    selectedStrategy.doctorList.forEach((doc: any) => {
       const doctorName = doc.doctor?.name || "--"; // ✅ you are already extracting name
       tableData.push([
         doc.callId,
@@ -220,30 +220,6 @@ export default function CallReporting() {
       ...editingProduct,
       doctorList: updatedDoctorList,
     });
-  };
-
-  const handleSaveOrder = async () => {
-    if (!editingProduct) return;
-
-    setLoadingsave(true);
-    try {
-      const updatedDoctorList = editingProduct.doctorList.map((doc: any) =>
-        typeof doc === "string" ? doc : doc.name
-      );
-
-      await updateReports(editingProduct._id, {
-        doctorList: updatedDoctorList,
-      });
-
-      notifySuccess("Doctor list saved successfully!");
-      refetch();
-      setOpenView(false);
-    } catch (error) {
-      console.error(error);
-      notifyError("Failed to save doctor list.");
-    } finally {
-      setLoadingsave(false);
-    }
   };
 
   return (
