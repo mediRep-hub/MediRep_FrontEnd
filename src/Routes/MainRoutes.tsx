@@ -14,15 +14,11 @@ const DashBoard = lazy(() => import("../Pages/DashBoard"));
 const DoctorProfileManagement = lazy(
   () => import("../Pages/DoctorProfileManagement")
 );
-const StrategyPlanning = lazy(() => import("../Pages/StrategyPlanning"));
+const StrategyPlanning = lazy(() => import("../Pages/CallReporting"));
 const DataReporting = lazy(() => import("../Pages/DataReporting"));
-const ManageMR = lazy(() => import("../Pages/ManageMR"));
 const Products = lazy(() => import("../Pages/Products"));
 const Requisition = lazy(() => import("../Pages/Requisition"));
 const CallReporting = lazy(() => import("../Pages/CallReporting"));
-const CallReportingDetail = lazy(
-  () => import("../Pages/CallReporting/CallReportingDetail")
-);
 
 export default function MainRoutes() {
   const { user } = useSelector((state: any) => state.user);
@@ -45,7 +41,6 @@ export default function MainRoutes() {
         />
         <Route path="/strategyPlanning" element={<StrategyPlanning />} />
         <Route path="/dataReporting" element={<DataReporting />} />
-        <Route path="/manageMR" element={<ManageMR />} />
         <Route
           path="/manageAccount"
           element={
@@ -64,10 +59,6 @@ export default function MainRoutes() {
           element={<RequisitionDetail />}
         />
         <Route path="/callReporting" element={<CallReporting />} />
-        <Route
-          path="/callReporting/callReportingDetail"
-          element={<CallReportingDetail />}
-        />
         <Route path="/callReporting" element={<CallReporting />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />

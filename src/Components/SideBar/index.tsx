@@ -48,11 +48,7 @@ export default function SideBar() {
       path: "/requisition",
       icon: <FaClipboardList size={16} />,
     },
-    {
-      name: "Strategy & Planning",
-      path: "/strategyPlanning",
-      icon: <FaChartLine size={16} />,
-    },
+
     {
       name: "Call Reporting",
       path: "/callReporting",

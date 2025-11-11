@@ -1,5 +1,5 @@
-export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-// export const BASE_URL = "http://localhost:5001";
+// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -25,7 +25,11 @@ export const ENDPOINTS = {
   PRODUCT_uploadCSVTarget: "/product/uploadCSVUpdateTarget",
 
   //   -----------call Reporting-------------
-  PRODUCTS_GET_ALL: "/callreport/getAllReports",
+  REPORTING_GET_ALL: "/callreport/getAllReports",
+  REPORTING_ADD_REPORT: "/callreport/addReport",
+  REPORTING_GET_SINGLE: "/callreport/getSingleReport",
+  REPORTING_UPDATE_REPORT: "/callreport/updateReport",
+  REPORTING_DELETE_REPORT: "/callreport/deleteReport",
 
   //   -----------Manage MR-------------
   MR_ADD_MR: "/manageMr/addMR",
@@ -40,13 +44,6 @@ export const ENDPOINTS = {
   REQUISITIONS_DELETE: "/requisition/deleteRequisition",
   REQUISITIONS_GET_SINGLE: "/requisition/getSingleRequisition",
   REQUISITIONS_UPDATEACCEPTED: "/requisition/updateAccepted",
-  //   -----------Strategy & Planning-------------
-  STRATEGY_ADD_STRATEGY: "/strategy/addStrategy",
-  STRATEGY_GET_ALL: "/strategy/getAllStrategies",
-  STRATEGY_UPDATE: "/strategy/updateStrategy",
-  STRATEGY_DELETE: "/strategy/deleteStrategy",
-  STRATEGY_GET_SINGLE: "/strategy/getStrategyById",
-
   // ----------------- Orders -----------------
   ORDER_ADD: "/orders/addOrder",
   ORDER_GET_ALL: "/orders/getAllOrders",
