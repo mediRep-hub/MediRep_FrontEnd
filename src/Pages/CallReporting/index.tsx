@@ -209,8 +209,8 @@ export default function CallReporting() {
             </p>
           </button>
         </div>
-        <div className="bg-[#E5EBF7] flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
-          <div className="w-[calc(20%-8px)]">
+        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
+          <div className="lg:w-[calc(20%-8px)] w-full">
             <p className="text-[#7D7D7D] font-medium text-sm">
               Strategies List
             </p>
@@ -273,7 +273,7 @@ export default function CallReporting() {
               ))}
             </div>
           </div>{" "}
-          <div className="w-[calc(80%-8px)]">
+          <div className="lg:w-[calc(80%-8px)] w-full">
             <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
             <div
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
