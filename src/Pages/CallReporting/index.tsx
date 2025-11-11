@@ -52,10 +52,8 @@ const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function CallReporting() {
   const [addStrategyModel, setAddStrategyModel] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [openView, setOpenView] = useState(false);
   const [isloading, setLoading] = useState(false);
   const [selectedStrategy, setSelectedStrategy] = useState<any>(null);
-  const [loadingsave, setLoadingsave] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const antIcon = (
@@ -190,37 +188,6 @@ export default function CallReporting() {
       setSelectedStrategy(AllStrategy[0]);
     }
   }, [AllStrategy]);
-
-  const handleMoveUp = (index: number) => {
-    if (!editingProduct || index <= 0) return;
-
-    const updatedDoctorList = [...editingProduct.doctorList];
-    [updatedDoctorList[index - 1], updatedDoctorList[index]] = [
-      updatedDoctorList[index],
-      updatedDoctorList[index - 1],
-    ];
-
-    setEditingProduct({
-      ...editingProduct,
-      doctorList: updatedDoctorList,
-    });
-  };
-
-  const handleMoveDown = (index: number) => {
-    if (!editingProduct || index >= editingProduct.doctorList.length - 1)
-      return;
-
-    const updatedDoctorList = [...editingProduct.doctorList];
-    [updatedDoctorList[index], updatedDoctorList[index + 1]] = [
-      updatedDoctorList[index + 1],
-      updatedDoctorList[index],
-    ];
-
-    setEditingProduct({
-      ...editingProduct,
-      doctorList: updatedDoctorList,
-    });
-  };
 
   return (
     <>
@@ -515,140 +482,9 @@ export default function CallReporting() {
           </div>
         </div>
       )}
-      {openView && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[880px] max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            <div className="flex items-center justify-between  px-6 py-3">
-              <p className="text-[22px] font-semibold text-gray-800">
-                Doctor List
-              </p>
-              <IoMdCloseCircle
-                size={26}
-                onClick={() => setOpenView(false)}
-                className="cursor-pointer text-primary transition-all"
-              />
-            </div>
-
-            <div className="divide-y divide-gray-200 border rounded-none">
-              {editingProduct ? (
-                <div className="">
-                  <div className="border rounded-none divide-y divide-gray-200">
-                    {editingProduct.doctorList &&
-                    editingProduct.doctorList.length > 0 ? (
-                      <div className="doctor-list-container">
-                        {editingProduct.doctorList.map(
-                          (doc: any, index: number) => (
-                            <DoctorListItem
-                              key={doc._id || index}
-                              doctor={doc.name}
-                              index={index}
-                              onMoveUp={
-                                index > 0
-                                  ? () => handleMoveUp(index)
-                                  : undefined
-                              }
-                              onMoveDown={
-                                index < editingProduct.doctorList.length - 1
-                                  ? () => handleMoveDown(index)
-                                  : undefined
-                              }
-                            />
-                          )
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-gray-400 text-center py-4">
-                        No doctors found in this strategy.
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="flex justify-end p-4 border-t">
-                    <button className="px-6 py-2 bg-blue-600 h-[40px] text-white rounded-md hover:bg-blue-700 transition-colors font-medium">
-                      {loadingsave ? <Spin indicator={antIcon} /> : "Save"}
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-gray-400 text-center py-6">
-                  No strategy available.
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
-const DoctorListItem = ({
-  doctor,
-  index,
-  onMoveUp,
-  onMoveDown,
-}: {
-  doctor: string;
-  index: number;
-  onMoveUp?: () => void;
-  onMoveDown?: () => void;
-}) => {
-  return (
-    <div className="flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-all group">
-      <div className="flex items-center gap-3 flex-1">
-        <span className="text-gray-500 font-medium w-12 text-center">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <div className="w-2 h-2 bg-gray-400 rounded-full" />
-        <p className="text-gray-800 font-medium">{doctor}</p>
-      </div>
-
-      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        {onMoveUp && (
-          <button
-            onClick={onMoveUp}
-            className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
-            title="Move up"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 15l7-7 7 7"
-              />
-            </svg>
-          </button>
-        )}
-        {onMoveDown && (
-          <button
-            onClick={onMoveDown}
-            className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
-            title="Move down"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const CustomSelectMR = ({
   options = [],
