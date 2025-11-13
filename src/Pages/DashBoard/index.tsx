@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
-import { Avatar } from "antd";
+// import { Avatar } from "antd";
 import { FaPercentage } from "react-icons/fa";
 import { GiAchievement } from "react-icons/gi";
 import LineChart from "../../Components/LineChart";
 import { GoDotFill } from "react-icons/go";
-import ProgressBar from "../../Components/ProgressBar";
+// import ProgressBar from "../../Components/ProgressBar";
 import { FiTarget } from "react-icons/fi";
 import { HiUsers } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRequisition } from "../../api/requisitionServices";
 
@@ -16,10 +16,10 @@ export default function DashBoard() {
   useEffect(() => {
     document.title = "MediRep | Dashboard";
   }, []);
-  const navigate = useNavigate();
-  const handleGOtoSeeAll = () => {
-    navigate("/requisition");
-  };
+  // const navigate = useNavigate();
+  // const handleGOtoSeeAll = () => {
+  //   navigate("/requisition");
+  // };
   const { data } = useQuery({
     queryKey: ["AllRequisition"],
     queryFn: () => getAllRequisition(),
@@ -27,17 +27,17 @@ export default function DashBoard() {
   });
   let AllRequisition = data?.data?.requisitions;
   console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
-  const [activeIndex, setActiveIndex] = useState(0);
+  // const [activeIndex, setActiveIndex] = useState(0);
 
-  const activeData = AllRequisition?.[activeIndex] || {};
+  // const activeData = AllRequisition?.[activeIndex] || {};
 
-  const requisitions = Array.isArray(AllRequisition?.data)
-    ? AllRequisition.data
-    : Array.isArray(AllRequisition)
-    ? AllRequisition
-    : [];
+  // const requisitions = Array.isArray(AllRequisition?.data)
+  //   ? AllRequisition.data
+  //   : Array.isArray(AllRequisition)
+  //   ? AllRequisition
+  //   : [];
 
-  const recent = requisitions.slice(0, 5);
+  // const recent = requisitions.slice(0, 5);
   return (
     <div
       style={{
