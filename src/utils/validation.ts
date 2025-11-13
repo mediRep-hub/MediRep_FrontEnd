@@ -11,13 +11,21 @@ export const DoctorSchema = Yup.object().shape({
   specialty: Yup.string().required("Specialty is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   phone: Yup.string().required("Phone number is required"),
-  address: Yup.string().required("Address is required"),
   startTime: Yup.string().required("Start Time is required"),
   endTime: Yup.string().required("End Time is required"),
   region: Yup.string().required("Region is required"),
   area: Yup.string().required("Area is required"),
   affiliation: Yup.string().required("Affiliation is required"),
   image: Yup.string().required("Doctor Image is required"),
+  location: Yup.array()
+    .of(
+      Yup.object().shape({
+        address: Yup.string().required("Address is required"),
+        lat: Yup.string().required("Latitude is required"),
+        lng: Yup.string().required("Longitude is required"),
+      })
+    )
+    .min(1, "Location is required"),
 });
 
 export const MRSchema = Yup.object().shape({

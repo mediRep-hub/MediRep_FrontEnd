@@ -59,6 +59,7 @@ export default function DoctorProfileManagement() {
     staleTime: 5 * 60 * 1000,
   });
   const doctorsList = data?.data?.data || [];
+  console.log("🚀 ~ DoctorProfileManagement ~ doctorsList:", doctorsList);
   useEffect(() => {
     document.title = "MediRep | Doctor Profile Management";
   }, []);

@@ -1,7 +1,7 @@
 import CustomTable from "../../Components/CustomTable";
 import { useEffect, useState } from "react";
 import { MdAdd, MdDeleteOutline } from "react-icons/md";
-import { IoIosArrowDown, IoMdCloseCircle } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import { useFormik } from "formik";
@@ -21,6 +21,9 @@ import {
   getAllReports,
   updateReports,
 } from "../../api/callReporting";
+import { FiClock } from "react-icons/fi";
+import { BiMessageDetail } from "react-icons/bi";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const titles = [
   "Call ID",
@@ -51,11 +54,16 @@ const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 
 export default function CallReporting() {
   const [addStrategyModel, setAddStrategyModel] = useState(false);
+  const [viewDetails, SetViewdetails] = useState(false);
+
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloading, setLoading] = useState(false);
   const [selectedStrategy, setSelectedStrategy] = useState<any>(null);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isloadingDelete, setLoadingDelete] = useState(false);
+  const [doctorList, setDoctorList] = useState(
+    selectedStrategy?.doctorList || []
+  );
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
@@ -88,7 +96,7 @@ export default function CallReporting() {
   let tableData: any = [];
   if (selectedStrategy?.doctorList?.length) {
     selectedStrategy.doctorList.forEach((doc: any) => {
-      const doctorName = doc.doctor?.name || "--"; // ✅ you are already extracting name
+      const doctorName = doc.doctor?.name || "--";
       tableData.push([
         doc.callId,
         doctorName,
@@ -105,9 +113,23 @@ export default function CallReporting() {
         >
           {doc.status}
         </p>,
-        doc.checkIn || "--",
-        doc.checkOut || "--",
-        doc.activeRequisition || "--",
+        <div className="flex gap-3">
+          <FiClock size={16} className="inline text-[#7d7d7d]" />
+          <p>{doc.checkIn || "--"}</p>
+        </div>,
+        <div className="flex gap-3">
+          <FiClock size={16} className="inline text-[#7d7d7d]" />
+          <p>{doc.checkOut || "--"}</p>
+        </div>,
+        <div
+          className="flex gap-3"
+          onClick={() => {
+            SetViewdetails(true);
+          }}
+        >
+          <BiMessageDetail size={16} className="inline text-[#7d7d7d]" />
+          <p>Details</p>
+        </div>,
       ]);
     });
   }
@@ -189,6 +211,38 @@ export default function CallReporting() {
     }
   }, [AllStrategy]);
 
+  useEffect(() => {
+    if (selectedStrategy && AllDOctors) {
+      const fullDoctors = selectedStrategy.doctorList.map((doc: any) => {
+        // if doctor is an object with _id already, keep it
+        if (doc._id) return doc;
+
+        // otherwise, find in all doctors by name
+        const found = AllDOctors?.data?.find((d: any) => d.name === doc);
+        return found ? found : { name: doc }; // fallback
+      });
+      setDoctorList(fullDoctors);
+    }
+  }, [selectedStrategy, AllDOctors]);
+
+  useEffect(() => {
+    setDoctorList(selectedStrategy?.doctorList || []);
+  }, [selectedStrategy]);
+
+  const moveUp = (index: number) => {
+    if (index === 0) return;
+    const updated = [...doctorList];
+    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
+    setDoctorList(updated);
+  };
+
+  const moveDown = (index: number) => {
+    if (index === doctorList.length - 1) return;
+    const updated = [...doctorList];
+    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+    setDoctorList(updated);
+  };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -231,7 +285,7 @@ export default function CallReporting() {
                   <div className="flex items-start justify-between">
                     <Avatar size={42} src={mr?.mrName?.image} />
                     <div className="flex items-center gap-2">
-                      <TbEdit
+                      {/* <TbEdit
                         size={18}
                         className="text-primary cursor-pointer"
                         onClick={(e) => {
@@ -239,7 +293,7 @@ export default function CallReporting() {
                           setAddStrategyModel(true);
                           setEditingProduct(mr);
                         }}
-                      />
+                      /> */}
                       <MdDeleteOutline
                         size={18}
                         className="text-red-600 cursor-pointer"
@@ -265,9 +319,9 @@ export default function CallReporting() {
                   <p className="text-[#131313] text-sm ">
                     MR Status:{" "}
                     <span className="text-primary">
-                      {mr.mrStatus.completedCalls}
+                      {mr?.mrStatus?.completedCalls}
                     </span>
-                    /{mr.mrStatus.totalCalls}
+                    {mr?.mrStatus?.totalCalls}
                   </p>
                 </div>
               ))}
@@ -477,6 +531,99 @@ export default function CallReporting() {
                 className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex justify-center items-center"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {viewDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[700px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+          >
+            <div className="flex justify-between items-center">
+              <p className="text-[24px] font-medium">Doctor List</p>
+              <IoMdCloseCircle
+                size={20}
+                onClick={() => {
+                  SetViewdetails(false);
+                }}
+                className="cursor-pointer text-primary"
+              />
+            </div>
+
+            {/* 👇 Use doctorList here, not selectedStrategy.doctorList */}
+            <div className="space-y-3">
+              {doctorList.length > 0 ? (
+                doctorList.map((docItem: any, index: number) => (
+                  <div
+                    key={index}
+                    className="p-3 flex justify-between border mt-5 rounded-lg hover:bg-gray-50 transition"
+                  >
+                    <p className="text-sm font-medium text-gray-800">
+                      {docItem?.doctor?.name ||
+                        docItem?.name ||
+                        "Unnamed Doctor"}
+                    </p>
+
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => moveUp(index)}
+                        className={`p-1 rounded-md ${
+                          index === 0
+                            ? "opacity-40 cursor-not-allowed"
+                            : "hover:bg-gray-200"
+                        }`}
+                        disabled={index === 0}
+                      >
+                        <IoIosArrowUp />
+                      </button>
+                      <button
+                        onClick={() => moveDown(index)}
+                        className={`p-1 rounded-md ${
+                          index === doctorList.length - 1
+                            ? "opacity-40 cursor-not-allowed"
+                            : "hover:bg-gray-200"
+                        }`}
+                        disabled={index === doctorList.length - 1}
+                      >
+                        <IoIosArrowDown />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-sm text-center">
+                  No doctors found for this strategy.
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                className="bg-primary text-white mt-5 ml-auto w-[150px] h-[50px] cursor-pointer rounded-lg"
+                onClick={async () => {
+                  try {
+                    // Send only _id to backend
+                    await updateReports(selectedStrategy._id, {
+                      ...selectedStrategy,
+                      doctorList: doctorList.map((doc: any) => doc._id),
+                    });
+
+                    notifySuccess("Doctor order updated successfully");
+                    refetch();
+                    SetViewdetails(false);
+                  } catch (error) {
+                    console.error(error);
+                    notifyError("Failed to update order");
+                  }
+                }}
+              >
+                Save
               </button>
             </div>
           </div>
