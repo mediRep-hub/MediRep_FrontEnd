@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
-import CustomInput from "../../Components/CustomInput";
-import CustomSelect from "../../Components/Select";
 import dayjs from "dayjs";
 import {
   acceptRequisition,
@@ -12,12 +10,19 @@ import {
   updateRequisition,
 } from "../../api/requisitionServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
-import { Spin } from "antd";
-import { Loading3QuartersOutlined } from "@ant-design/icons";
+// import { Spin } from "antd";
+// import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
+interface Product {
+  _id: string;
+  name: string;
+  quantity: number;
+  duration: string;
+  amount: number;
+}
 interface Requisition {
   _id: string;
   reqId: string;
@@ -26,7 +31,7 @@ interface Requisition {
   status: string;
   attachedDoc?: string;
   details?: string;
-  product: string;
+  product: Product[]; // ✅ change this from string to array
   startingDate: string;
   quantity: number;
   duration: string;
@@ -36,25 +41,14 @@ interface Requisition {
   remarks?: string;
 }
 
-const statusOption = ["Pending", "Approved", "Paid", "Rejected"];
-const timeOption = [
-  "01-Month",
-  "02-Month",
-  "03-Month",
-  "04-Month",
-  "05-Month",
-  "06-Month",
-  "07-Month",
-];
-const paymentOption = ["Online", "Cheque", "Cash", "Part-payment"];
-
 export default function RequisitionDetail() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingSave, setLoadingSave] = useState(false);
   const { user } = useSelector((state: any) => state.user);
   const [dataRequisitions, setRequisitionsingle] = useState<Requisition | null>(
     null
   );
+  console.log("🚀 ~ RequisitionDetail ~ dataRequisitions:", dataRequisitions);
   const [remarks, setRemarks] = useState(dataRequisitions?.remarks || "");
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -63,16 +57,15 @@ export default function RequisitionDetail() {
 
   const handleGetSingle = async (id?: string) => {
     try {
-      setLoading(true);
+      // setLoading(true);
 
       const res = await getSingleRequisition(id || requisition._id);
-
-      setRequisitionsingle(res.data || res);
+      setRequisitionsingle(res.data?.requisition || res);
     } catch (error: any) {
       console.error("Error fetching requisition:", error);
       alert(error?.response?.data?.error || "Failed to fetch requisition");
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -86,47 +79,47 @@ export default function RequisitionDetail() {
     navigate("/requisition");
   };
 
-  const [formData, setFormData] = useState({
-    status: "",
-    quantity: 0,
-    amount: 0,
-    duration: "",
-    paymentType: "",
-  });
-  useEffect(() => {
-    if (dataRequisitions) {
-      setFormData({
-        status: dataRequisitions.status,
-        quantity: dataRequisitions.quantity,
-        amount: dataRequisitions.amount,
-        duration: dataRequisitions.duration,
-        paymentType: dataRequisitions.paymentType,
-      });
-    }
-  }, [dataRequisitions]);
-  const handleChange = (field: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const [formData, setFormData] = useState({
+  //   status: "",
+  //   quantity: 0,
+  //   amount: 0,
+  //   duration: "",
+  //   paymentType: "",
+  // });
+  // useEffect(() => {
+  //   if (dataRequisitions) {
+  //     setFormData({
+  //       status: dataRequisitions.status,
+  //       quantity: dataRequisitions.quantity,
+  //       amount: dataRequisitions.amount,
+  //       duration: dataRequisitions.duration,
+  //       paymentType: dataRequisitions.paymentType,
+  //     });
+  //   }
+  // }, [dataRequisitions]);
+  // const handleChange = (field: string, value: any) => {
+  //   setFormData((prev) => ({ ...prev, [field]: value }));
+  // };
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    try {
-      setLoading(true);
-      const res = await updateRequisition(requisition._id, formData);
-      console.log("Updated Requisition:", res);
-      notifySuccess("Requisition updated successfully!");
-    } catch (error: any) {
-      console.error("Error updating requisition:", error);
-      notifyError(error?.response?.data?.error || "Something went wrong");
-    } finally {
-      console.log("Update request finished");
-      setLoading(false);
-      handleGetSingle(requisition._id);
-    }
-  };
+  //   try {
+  //     setLoading(true);
+  //     const res = await updateRequisition(requisition._id, formData);
+  //     console.log("Updated Requisition:", res);
+  //     notifySuccess("Requisition updated successfully!");
+  //   } catch (error: any) {
+  //     console.error("Error updating requisition:", error);
+  //     notifyError(error?.response?.data?.error || "Something went wrong");
+  //   } finally {
+  //     console.log("Update request finished");
+  //     setLoading(false);
+  //     handleGetSingle(requisition._id);
+  //   }
+  // };
   const handleAccept = async (id: string) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const res = await acceptRequisition(id);
       console.log("Accepted:", res.data);
       notifySuccess("Requisition accepted!");
@@ -137,7 +130,7 @@ export default function RequisitionDetail() {
         error?.response?.data?.error || "Failed to accept requisition"
       );
     } finally {
-      setLoading(false);
+      // setLoading(false);
       refetch();
     }
   };
@@ -146,7 +139,7 @@ export default function RequisitionDetail() {
     e.preventDefault();
 
     try {
-      setLoading(true);
+      // setLoading(true);
       const res = await deleteRequisition(requisition._id);
       console.log("Updated Requisition:", res);
       notifySuccess("Requisition delete successfully!");
@@ -155,15 +148,15 @@ export default function RequisitionDetail() {
       notifyError(error?.response?.data?.error || "Something went wrong");
     } finally {
       console.log("Update request finished");
-      setLoading(false);
+      // setLoading(false);
       refetch();
       setDeleteConfirmation(false);
       navigate("/requisition");
     }
   };
-  const antIcon = (
-    <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
-  );
+  // const antIcon = (
+  //   <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
+  // );
   useEffect(() => {
     document.title = "MediRep | Requisition Details";
     const fetchRequisition = async () => {
@@ -213,7 +206,7 @@ export default function RequisitionDetail() {
             }}
             className="scroll-smooth mt-5 flex flex-wrap md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-90px)] xl:h-[calc(63vh-37px)] overflow-y-auto scrollbar-none"
           >
-            <div className="xl:w-[calc(70%-21px)] w-full">
+            <div className="xl:w-[calc(70%-1px)] w-full">
               <div className="flex flex-wrap gap-5  p-5 border-b-[1px] border-primary">
                 <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
                   {" "}
@@ -235,6 +228,9 @@ export default function RequisitionDetail() {
                     </p>
                     <p className="text-[#131313] mt-3 font-medium text-sm">
                       Details
+                    </p>
+                    <p className="text-[#131313] mt-3 font-medium text-sm">
+                      Starting Date
                     </p>
                   </div>
                   <div className="xl:w-[calc(50%-10px)] w-full">
@@ -269,53 +265,12 @@ export default function RequisitionDetail() {
                     <p className="text-[#131313] mt-3 font-normal text-sm">
                       {dataRequisitions?.details}
                     </p>
-                  </div>
-                </div>
-                <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
-                  {" "}
-                  <div className="w-[calc(50%-10px)]">
-                    <p className="text-[#131313] font-medium text-sm">
-                      Product
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Starting Date
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Quantity
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Duration
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Amount
-                    </p>{" "}
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Payment Type
-                    </p>
-                  </div>
-                  <div className="w-[calc(50%-10px)]">
-                    {" "}
-                    <p className="text-[#131313] font-normal text-sm">
-                      {dataRequisitions?.product}
-                    </p>
                     <p className="text-[#131313] mt-3 font-normal text-sm">
                       {dataRequisitions?.startingDate
                         ? dayjs(dataRequisitions.startingDate).format(
                             "DD-MM-YYYY"
                           )
                         : "-"}
-                    </p>{" "}
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.quantity}
-                    </p>
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.duration}
-                    </p>
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.amount}
-                    </p>
-                    <p className="text-[#131313] mt-3  131313 font-normal text-sm">
-                      {dataRequisitions?.paymentType}
                     </p>
                   </div>
                 </div>
@@ -394,8 +349,8 @@ export default function RequisitionDetail() {
               )}
             </div>{" "}
             <div className="border-primary border-l-[1px] h-auto"></div>
-            <div className="xl:w-[calc(30%-21px)] w-full  p-5">
-              <p>Change Requisition</p>
+            <div className="xl:w-[calc(30%-1px)] w-full  p-5">
+              {/* <p>Change Requisition</p>
 
               {dataRequisitions?.remarks ? (
                 <></>
@@ -464,7 +419,52 @@ export default function RequisitionDetail() {
                 >
                   {loading ? <Spin indicator={antIcon} /> : " Save"}
                 </button>
-              </div>
+              </div> */}
+              {dataRequisitions?.product?.map((p: any, index: any) => (
+                <div
+                  key={p._id || index}
+                  className="bg-[#E5EBF7] rounded-[8px] w-full first:mt-0 mt-3 p-4"
+                >
+                  <div className="flex items-center gap-4 ">
+                    <p className="text-heading w-[90px] text-xs font-medium">
+                      Product
+                    </p>
+                    <p className="text-heading text-xs font-normal">
+                      {p?.name}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4 mt-2">
+                    <p className="text-heading w-[90px] text-xs font-medium">
+                      Quantity
+                    </p>
+                    <p className="text-heading text-xs font-normal">
+                      {" "}
+                      {p?.quantity}
+                    </p>
+                  </div>
+                  <div className="flex items-center  gap-4 mt-2">
+                    <p className="text-heading text-xs w-[90px] font-medium">
+                      Starting Date
+                    </p>
+                    <p className="text-heading text-xs font-normal">
+                      {" "}
+                      {p?.amount}
+                    </p>
+                  </div>{" "}
+                  <div className="flex items-center gap-4 mt-2">
+                    <p className="text-heading text-xs w-[90px] font-medium">
+                      Duration
+                    </p>
+                    <p className="text-heading text-xs font-normal">
+                      {" "}
+                      {p?.duration}
+                    </p>
+                  </div>
+                  <button className="mt-5 bg-primary text-white w-full h-9 rounded-md cursor-pointer">
+                    Change Requisition
+                  </button>
+                </div>
+              ))}
             </div>{" "}
           </div>
         </div>

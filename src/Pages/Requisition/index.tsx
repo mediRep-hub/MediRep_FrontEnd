@@ -21,7 +21,8 @@ export default function Requisition() {
     queryFn: () => getAllRequisition(),
     staleTime: 5 * 60 * 1000,
   });
-  let Requisitions = data?.data;
+  let Requisitions = data?.data?.requisitions;
+  console.log("🚀 ~ Requisition ~ Requisitions:", Requisitions);
   let tableData: any = [];
   Requisitions?.map((v: any) => {
     tableData.push([
@@ -29,9 +30,9 @@ export default function Requisition() {
       v?.doctorName,
       v?.mrName,
       v?.product?.map((p: any) => p.name).join(", "),
-      v?.quantity,
-      v?.duration,
-      v?.amount,
+      v?.totalQuantity,
+      v?.totalDuration,
+      v?.totalAmount,
       <p
         className={`inline-block rounded-[3px] px-2 mt-3 font-normal text-sm border ${
           v?.status === "Pending"

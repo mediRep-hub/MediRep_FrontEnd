@@ -25,10 +25,19 @@ export default function DashBoard() {
     queryFn: () => getAllRequisition(),
     staleTime: 5 * 60 * 1000,
   });
-  let AllRequisition = data?.data;
+  let AllRequisition = data?.data?.requisitions;
+  console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeData = AllRequisition?.[activeIndex] || {};
+
+  const requisitions = Array.isArray(AllRequisition?.data)
+    ? AllRequisition.data
+    : Array.isArray(AllRequisition)
+    ? AllRequisition
+    : [];
+
+  const recent = requisitions.slice(0, 5);
   return (
     <div
       style={{
@@ -176,7 +185,7 @@ export default function DashBoard() {
         </div>
       </div>
       <div>
-        <div className="flex flex-wrap items-stretch gap-2">
+        {/* <div className="flex flex-wrap items-stretch gap-2">
           <div className="lg:w-[calc(75%-2px)] w-full">
             <div className="mb-3 flex justify-between items-center">
               <p className="font-medium text-heading text-base leading-3">
@@ -190,12 +199,12 @@ export default function DashBoard() {
               </p>
             </div>
             <div className="flex flex-wrap items-stretch gap-2">
-              {AllRequisition?.slice(0, 3).map((v: any, ind: number) => (
+              {recent?.map((v: any, index: number) => (
                 <div
-                  key={ind}
-                  onClick={() => setActiveIndex(ind)}
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
                   className={`lg:w-[calc(33.33%-5.33px)] border-[1px] w-full p-4 rounded-xl cursor-pointer ${
-                    activeIndex === ind
+                    activeIndex === index
                       ? "border-primary bg-[#F0F8FF]"
                       : "border-[#D4D4D4] bg-white"
                   }`}
@@ -235,7 +244,11 @@ export default function DashBoard() {
                     <div className="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-col-auto gap-3 mt-3">
                       {[
                         {
-                          value: v?.product,
+                          value:
+                            Array.isArray(v?.product) && v.product.length > 0
+                              ? v.product[0].name
+                              : "-",
+
                           icon: (
                             <svg
                               width="18"
@@ -252,7 +265,10 @@ export default function DashBoard() {
                           ),
                         },
                         {
-                          value: v?.quantity,
+                          value:
+                            Array.isArray(v?.product) && v.product.length > 0
+                              ? v.product[0].quantity
+                              : "-",
                           icon: (
                             <svg
                               width="18"
@@ -269,7 +285,10 @@ export default function DashBoard() {
                           ),
                         },
                         {
-                          value: v?.duration,
+                          value:
+                            Array.isArray(v?.product) && v.product.length > 0
+                              ? v.product[0].duration
+                              : "-",
                           icon: (
                             <svg
                               width="18"
@@ -288,7 +307,10 @@ export default function DashBoard() {
                           ),
                         },
                         {
-                          value: v?.amount,
+                          value:
+                            Array.isArray(v?.product) && v.product.length > 0
+                              ? v.product[0].amount
+                              : "-",
                           icon: (
                             <svg
                               width="18"
@@ -353,7 +375,7 @@ export default function DashBoard() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
