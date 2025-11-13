@@ -9,7 +9,6 @@ import { StrategySchema } from "../../utils/validation";
 import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { getAllDoctors } from "../../api/doctorServices";
-import { TbEdit } from "react-icons/tb";
 import { RiAlertFill } from "react-icons/ri";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Avatar, Spin } from "antd";
@@ -23,7 +22,6 @@ import {
 } from "../../api/callReporting";
 import { FiClock } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const titles = [
   "Call ID",
