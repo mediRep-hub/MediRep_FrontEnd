@@ -54,6 +54,7 @@ const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function CallReporting() {
   const [addStrategyModel, setAddStrategyModel] = useState(false);
   const [viewDetails, SetViewdetails] = useState(false);
+  const [isloadinOrder, setLoadingOrder] = useState(false);
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloading, setLoading] = useState(false);
@@ -692,6 +693,7 @@ export default function CallReporting() {
                 className="bg-primary text-white mt-5 ml-auto w-[150px] h-[50px] cursor-pointer rounded-lg"
                 onClick={async () => {
                   try {
+                    setLoadingOrder(true);
                     const doctorIds = doctorList
                       .map((doc: any) => doc.doctor?._id)
                       .filter(Boolean);
@@ -713,10 +715,12 @@ export default function CallReporting() {
                   } catch (error) {
                     console.error(error);
                     notifyError("Failed to update order");
+                  } finally {
+                    setLoadingOrder(false);
                   }
                 }}
               >
-                Save
+                {isloadinOrder ? <Spin indicator={antIcon} /> : " Save"}
               </button>
             </div>
           </div>
