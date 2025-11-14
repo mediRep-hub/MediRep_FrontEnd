@@ -1,5 +1,5 @@
-export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-// export const BASE_URL = "http://localhost:5001";
+// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -30,6 +30,7 @@ export const ENDPOINTS = {
   REPORTING_GET_SINGLE: "/callreport/getSingleReport",
   REPORTING_UPDATE_REPORT: "/callreport/updateReport",
   REPORTING_DELETE_REPORT: "/callreport/deleteReport",
+  REPORTING_REORDER_REPORT: "/callreport/reorderDoctorList",
 
   //   -----------Manage MR-------------
   MR_ADD_MR: "/manageMr/addMR",

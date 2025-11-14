@@ -1,6 +1,6 @@
 import { Avatar } from "antd";
 import { MdEdit, MdPhone, MdEmail } from "react-icons/md";
-import { FaClock, FaDotCircle, FaCalendar } from "react-icons/fa";
+import { FaClock, FaDotCircle } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoBulb } from "react-icons/io5";
 
@@ -112,12 +112,12 @@ export default function DoctorCard({
             </button>
           </div>
 
-          <div className="flex items-center gap-3 mt-4">
+          {/* <div className="flex items-center gap-3 mt-4">
             <FaCalendar className="text-primary" />
             <p className="text-primary text-xs  font-normal">
               Next Visit {doctor?.nextVisit}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

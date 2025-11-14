@@ -66,7 +66,10 @@ export default function CallReportingDetail() {
               <div className="flex items-center gap-2">
                 <FaCalendar className="text-primary" />
                 <p className="text-primary text-sm">
-                  Next Visit {doctor?.nextVisitDate || "--"}
+                  Next Visit{" "}
+                  {doctor?.nextVisitDate
+                    ? dayjs(doctor.nextVisitDate).format("DD MMM YYYY")
+                    : "--"}
                 </p>
               </div>
               <button

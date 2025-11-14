@@ -11,6 +11,13 @@ export const getAllReports = () => {
 export const updateReports = (id: string, values: any) => {
   return HTTP_CLIENT.put(`${ENDPOINTS.REPORTING_UPDATE_REPORT}/${id}`, values);
 };
+export const reorderDoctorList = (
+  id: string,
+  data: { orderedDoctorIds: string[] }
+) => {
+  return HTTP_CLIENT.put(`${ENDPOINTS.REPORTING_REORDER_REPORT}/${id}`, data);
+};
+
 export const deleteReports = (id: string) => {
   return HTTP_CLIENT.delete(`${ENDPOINTS.REPORTING_DELETE_REPORT}/${id}`);
 };

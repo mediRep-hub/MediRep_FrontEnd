@@ -17,6 +17,7 @@ import {
   addReport,
   deleteReports,
   getAllReports,
+  reorderDoctorList,
   updateReports,
 } from "../../api/callReporting";
 import { FiClock } from "react-icons/fi";
@@ -172,12 +173,9 @@ export default function CallReporting() {
   useEffect(() => {
     if (selectedStrategy && AllDOctors) {
       const fullDoctors = selectedStrategy.doctorList.map((doc: any) => {
-        // if doctor is an object with _id already, keep it
         if (doc._id) return doc;
-
-        // otherwise, find in all doctors by name
         const found = AllDOctors?.data?.find((d: any) => d.name === doc);
-        return found ? found : { name: doc }; // fallback
+        return found ? found : { name: doc };
       });
       setDoctorList(fullDoctors);
     }
@@ -226,7 +224,8 @@ export default function CallReporting() {
       mrId: selectedStrategy.mrName?.adminId,
       mrImage: selectedStrategy.mrName?.image,
       date: selectedStrategy?.createdAt,
-      nextVisitDate: selectedStrategy?.nextVisitDate,
+      checkInLocation: doctor?.checkInLocation,
+      nextVisitDate: doctor?.nextVisitDate,
     };
 
     navigate("/callReporting/details", { state: { doctor: plainDoctor } });
@@ -310,7 +309,7 @@ export default function CallReporting() {
                     <span className="text-primary">
                       {mr?.mrStatus?.completedCalls}
                     </span>
-                    {mr?.mrStatus?.totalCalls}
+                    /{mr?.mrStatus?.totalCalls}
                   </p>
                 </div>
               ))}
@@ -396,8 +395,9 @@ export default function CallReporting() {
                           <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
                             <div
                               className="flex gap-3"
-                              onClick={() => {
+                              onClick={(e) => {
                                 SetViewdetails(true);
+                                e.stopPropagation();
                               }}
                             >
                               <BiMessageDetail
@@ -692,10 +692,19 @@ export default function CallReporting() {
                 className="bg-primary text-white mt-5 ml-auto w-[150px] h-[50px] cursor-pointer rounded-lg"
                 onClick={async () => {
                   try {
-                    // Send only _id to backend
-                    await updateReports(selectedStrategy._id, {
-                      ...selectedStrategy,
-                      doctorList: doctorList.map((doc: any) => doc._id),
+                    const doctorIds = doctorList
+                      .map((doc: any) => doc.doctor?._id)
+                      .filter(Boolean);
+
+                    if (doctorIds.length === 0) {
+                      notifyError("No doctor IDs to save.");
+                      return;
+                    }
+
+                    console.log("Sending doctor IDs:", doctorIds);
+
+                    await reorderDoctorList(selectedStrategy._id, {
+                      orderedDoctorIds: doctorIds,
                     });
 
                     notifySuccess("Doctor order updated successfully");
