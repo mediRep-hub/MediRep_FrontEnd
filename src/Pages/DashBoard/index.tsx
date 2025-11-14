@@ -20,13 +20,12 @@ export default function DashBoard() {
   // const handleGOtoSeeAll = () => {
   //   navigate("/requisition");
   // };
-  const { data } = useQuery({
-    queryKey: ["AllRequisition"],
-    queryFn: () => getAllRequisition(),
-    staleTime: 5 * 60 * 1000,
-  });
-  let AllRequisition = data?.data?.requisitions;
-  console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
+  // const { data } = useQuery({
+  //   queryKey: ["AllRequisition"],
+  //   queryFn: () => getAllRequisition(),
+  //   staleTime: 5 * 60 * 1000,
+  // });
+  // let AllRequisition = data?.data?.requisitions;
   // const [activeIndex, setActiveIndex] = useState(0);
 
   // const activeData = AllRequisition?.[activeIndex] || {};

@@ -11,7 +11,7 @@ const titles = [
   "Product",
   "Quantity",
   "Duration",
-  "Amount",
+  "Requisition Type",
   "Status",
 ];
 
@@ -31,8 +31,8 @@ export default function Requisition() {
       v?.mrName,
       v?.product?.map((p: any) => p.name).join(", "),
       v?.totalQuantity,
-      v?.totalDuration,
-      v?.totalAmount,
+      v?.duration,
+      <p className="capitalize">{v?.requisitionType}</p>,
       <p
         className={`inline-block rounded-[3px] px-2 mt-3 font-normal text-sm border ${
           v?.status === "Pending"

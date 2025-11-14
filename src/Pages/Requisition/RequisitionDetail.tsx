@@ -442,24 +442,7 @@ export default function RequisitionDetail() {
                       {p?.quantity}
                     </p>
                   </div>
-                  <div className="flex items-center  gap-4 mt-2">
-                    <p className="text-heading text-xs w-[90px] font-medium">
-                      Starting Date
-                    </p>
-                    <p className="text-heading text-xs font-normal">
-                      {" "}
-                      {p?.amount}
-                    </p>
-                  </div>{" "}
-                  <div className="flex items-center gap-4 mt-2">
-                    <p className="text-heading text-xs w-[90px] font-medium">
-                      Duration
-                    </p>
-                    <p className="text-heading text-xs font-normal">
-                      {" "}
-                      {p?.duration}
-                    </p>
-                  </div>
+
                   <button className="mt-5 bg-primary text-white w-full h-9 rounded-md cursor-pointer">
                     Change Requisition
                   </button>

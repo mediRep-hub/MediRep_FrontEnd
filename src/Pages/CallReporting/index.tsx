@@ -1,4 +1,3 @@
-import CustomTable from "../../Components/CustomTable";
 import { useEffect, useState } from "react";
 import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp, IoMdCloseCircle } from "react-icons/io";
@@ -22,6 +21,7 @@ import {
 } from "../../api/callReporting";
 import { FiClock } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const titles = [
   "Call ID",
@@ -67,7 +67,7 @@ export default function CallReporting() {
   );
 
   useEffect(() => {
-    document.title = "MediRep | Strategy & Planning";
+    document.title = "MediRep | Call Reporting";
   }, []);
   const { data: doctorss } = useQuery({
     queryKey: ["AllDoctors"],
@@ -91,46 +91,6 @@ export default function CallReporting() {
   });
   let AllStrategy = allStraties?.data?.data;
   console.log("🚀 ~ CallReporting ~ AllStrategy:", AllStrategy);
-  let tableData: any = [];
-  if (selectedStrategy?.doctorList?.length) {
-    selectedStrategy.doctorList.forEach((doc: any) => {
-      const doctorName = doc.doctor?.name || "--";
-      tableData.push([
-        doc.callId,
-        doctorName,
-        <p
-          className={`inline-block px-2 py-1 capitalize  rounded-md font-medium text-sm border ${
-            doc.status === "pending"
-              ? "text-[#E90761] border-[#E90761]"
-              : doc.status === "close"
-              ? "text-[#0BA69C] border-[#0BA69C]"
-              : doc.status === "rejected"
-              ? "text-[#FF9500] border-[#FF9500]"
-              : "text-gray-600 border-gray-300"
-          }`}
-        >
-          {doc.status}
-        </p>,
-        <div className="flex gap-3">
-          <FiClock size={16} className="inline text-[#7d7d7d]" />
-          <p>{doc.checkIn || "--"}</p>
-        </div>,
-        <div className="flex gap-3">
-          <FiClock size={16} className="inline text-[#7d7d7d]" />
-          <p>{doc.checkOut || "--"}</p>
-        </div>,
-        <div
-          className="flex gap-3"
-          onClick={() => {
-            SetViewdetails(true);
-          }}
-        >
-          <BiMessageDetail size={16} className="inline text-[#7d7d7d]" />
-          <p>Details</p>
-        </div>,
-      ]);
-    });
-  }
 
   const AllDOctors = doctorss?.data;
   const formik = useFormik({
@@ -241,12 +201,43 @@ export default function CallReporting() {
     setDoctorList(updated);
   };
 
+  const navigate = useNavigate();
+  const handleGoTODetails = (doctor: any) => {
+    if (!selectedStrategy) return;
+
+    const plainDoctor = {
+      _id: doctor._id,
+      callId: doctor.callId,
+      name: doctor.doctor?.name || doctor.name || "--",
+      address: doctor.doctor?.address || "--",
+      duration: doctor.duration || "--",
+      productDiscussed: doctor.productDiscussed || "--",
+      doctorResponse: doctor.doctorResponse || "--",
+      promotionalMaterialGiven: doctor.promotionalMaterialGiven || "--",
+      followUpRequired: doctor.followUpRequired || "--",
+      doctorPurchaseInterest: doctor.doctorPurchaseInterest || "--",
+      keyDiscussionPoints: doctor.keyDiscussionPoints || "--",
+      doctorConcerns: doctor.doctorConcerns || "--",
+      checkIn: doctor.checkIn || "--",
+      checkOut: doctor.checkOut || "--",
+      status: doctor.status || "--",
+      strategyName: selectedStrategy.strategyName,
+      mrName: selectedStrategy.mrName?.name,
+      mrId: selectedStrategy.mrName?.adminId,
+      mrImage: selectedStrategy.mrName?.image,
+      date: selectedStrategy?.createdAt,
+      nextVisitDate: selectedStrategy?.nextVisitDate,
+    };
+
+    navigate("/callReporting/details", { state: { doctor: plainDoctor } });
+  };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap  gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Strategy & Planning
+            Strategies
           </p>
           <button
             onClick={() => {
@@ -331,11 +322,106 @@ export default function CallReporting() {
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
             >
-              <CustomTable
-                titles={titles}
-                data={tableData}
-                isFetching={isFetching}
-              />
+              <table className="w-full border-collapse min-w-[800px]">
+                <thead className="sticky top-0 z-[1] h-[56px] bg-white">
+                  <tr>
+                    {titles?.map((title, index) => (
+                      <th
+                        key={index}
+                        className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white"
+                      >
+                        {title}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {isFetching ? (
+                    <tr>
+                      <td
+                        colSpan={titles?.length || 7}
+                        className="py-5 text-center text-gray-500"
+                      >
+                        <Spin indicator={antIcon} />
+                      </td>
+                    </tr>
+                  ) : selectedStrategy?.doctorList &&
+                    selectedStrategy.doctorList.length > 0 ? (
+                    selectedStrategy.doctorList.map(
+                      (doc: any, rowIndex: number) => (
+                        <tr
+                          key={rowIndex}
+                          className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
+                          onClick={() => handleGoTODetails(doc)}
+                        >
+                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                            {doc.callId}
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                            {doc.doctor?.name || "--"}
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                            <p
+                              className={`inline-block px-2 py-1 capitalize  rounded-md font-medium text-sm border ${
+                                doc.status === "pending"
+                                  ? "text-[#E90761] border-[#E90761]"
+                                  : doc.status === "close"
+                                  ? "text-[#0BA69C] border-[#0BA69C]"
+                                  : doc.status === "rejected"
+                                  ? "text-[#FF9500] border-[#FF9500]"
+                                  : "text-gray-600 border-gray-300"
+                              }`}
+                            >
+                              {doc.status}
+                            </p>
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                            <div className="flex gap-3">
+                              <FiClock
+                                size={16}
+                                className="inline text-[#7d7d7d]"
+                              />
+                              {doc.checkIn || "--"}
+                            </div>
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                            <div className="flex gap-3">
+                              <FiClock
+                                size={16}
+                                className="inline text-[#7d7d7d]"
+                              />{" "}
+                              {doc.checkOut || "--"}
+                            </div>
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                            <div
+                              className="flex gap-3"
+                              onClick={() => {
+                                SetViewdetails(true);
+                              }}
+                            >
+                              <BiMessageDetail
+                                size={16}
+                                className="inline text-[#7d7d7d]"
+                              />{" "}
+                              Details
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    )
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={titles?.length || 7}
+                        className="px-3 py-6 text-center text-heading"
+                      >
+                        No data found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

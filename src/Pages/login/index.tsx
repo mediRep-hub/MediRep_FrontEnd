@@ -30,6 +30,14 @@ const Login = () => {
     try {
       const response = await adminLogin(values);
       const data = response.data;
+
+      const position = data.admin?.position;
+
+      if (position === "MedicalRep(MR)" || position === "MR") {
+        notifyError("You are not allowed to login.");
+        setLoading(false);
+        return;
+      }
       dispatch(setUser({ user: data.admin, token: data.token }));
       dispatch(setIsLoggedIn(true));
       dispatch(setToken(data.token));

@@ -5,6 +5,7 @@ import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
 import Orders from "../Pages/Orders";
 import OrderDetails from "../Pages/Orders/orderDetails";
+import CallReportingDetail from "../Pages/CallReporting/callReportingDetail";
 
 const RequisitionDetail = lazy(
   () => import("../Pages/Requisition/RequisitionDetail")
@@ -59,7 +60,10 @@ export default function MainRoutes() {
           element={<RequisitionDetail />}
         />
         <Route path="/callReporting" element={<CallReporting />} />
-        <Route path="/callReporting" element={<CallReporting />} />
+        <Route
+          path="/callReporting/details"
+          element={<CallReportingDetail />}
+        />
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
       </Routes>
