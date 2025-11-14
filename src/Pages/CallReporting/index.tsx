@@ -354,13 +354,13 @@ export default function CallReporting() {
                           className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
                           onClick={() => handleGoTODetails(doc)}
                         >
-                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                          <td className="px-5 py-2 min-w-[200px] border-b-[0.5px] text-[13px] border-primary">
                             {doc.callId}
                           </td>
-                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                             {doc.doctor?.name || "--"}
                           </td>
-                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                             <p
                               className={`inline-block px-2 py-1 capitalize  rounded-md font-medium text-sm border ${
                                 doc.status === "pending"
@@ -375,7 +375,7 @@ export default function CallReporting() {
                               {doc.status}
                             </p>
                           </td>
-                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                             <div className="flex gap-3">
                               <FiClock
                                 size={16}
@@ -384,7 +384,7 @@ export default function CallReporting() {
                               {doc.checkIn || "--"}
                             </div>
                           </td>
-                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                             <div className="flex gap-3">
                               <FiClock
                                 size={16}
@@ -393,7 +393,7 @@ export default function CallReporting() {
                               {doc.checkOut || "--"}
                             </div>
                           </td>
-                          <td className="px-5 py-2 border-b-[0.5px] text-[13px] border-primary">
+                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                             <div
                               className="flex gap-3"
                               onClick={(e) => {

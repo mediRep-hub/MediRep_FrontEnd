@@ -112,25 +112,28 @@ export default function Targets() {
                           className="absolute left-2 text-gray-500"
                           size={14}
                         />
-                        <div className="absolute left-7 border-r-[1px] border-gray-400 pr-2 text-xs font-medium text-heading">
+                        <div className="absolute left-7 flex items-center h-full pr-2 border-r border-gray-400 text-xs font-medium text-heading">
                           SKU
                         </div>
                         <input
                           value={SkuNo}
                           onChange={(e) => setskuNo(e.target.value)}
                           type="text"
-                          className="h-8 pl-[66px] pr-3 w-full border font-medium border-gray-400 rounded-md text-sm text-gray-800 focus:outline-none"
-                        />{" "}
+                          className="h-8 pl-[66px] pr-3 w-full border font-medium border-gray-400 rounded-md text-xs text-gray-800 focus:outline-none"
+                        />
                       </div>
                     </th>
+
                     <th className="px-4 py-3 2xl:w-[18%] w-[25%]">
                       <div className="relative flex items-center">
                         <LuSearch
                           className="absolute left-2 text-gray-500"
                           size={14}
                         />
-                        <div className="absolute left-7 border-r-[1px] border-gray-400 pr-2 text-xs font-medium text-heading">
-                          Product Name
+                        <div className="absolute left-7 top-0 h-full flex items-center border-r border-gray-400 pr-2">
+                          <p className="text-heading text-xs font-medium">
+                            Product Name
+                          </p>
                         </div>
                         <input
                           value={productName}
@@ -140,11 +143,21 @@ export default function Targets() {
                         />{" "}
                       </div>
                     </th>
-                    <th className="px-4 py-3 w-[14%]">Form</th>
-                    <th className="px-4 py-3 w-[14%]">Status</th>
-                    <th className="px-4 py-3 w-[14%]">Target</th>
-                    <th className="px-4 py-3 w-[14%]">Achievement</th>
-                    <th className="px-4 py-3 w-[10%]">Action</th>
+                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                      Form
+                    </th>
+                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                      Status
+                    </th>
+                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                      Target
+                    </th>
+                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                      Achievement
+                    </th>
+                    <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
+                      Action
+                    </th>
                   </tr>
                 </thead>
 

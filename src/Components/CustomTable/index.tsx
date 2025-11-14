@@ -35,7 +35,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
             {titles?.map((title, index) => (
               <th
                 key={index}
-                className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white"
+                className="border-b min-w-[150px] border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white"
                 style={{ width: headerWidth }}
               >
                 {title}
@@ -57,7 +57,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
             data.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
+                className="hover:bg-[#E5EBF7]  h-[56px] hover:text-black cursor-pointer"
                 style={{ cursor: show ? show : "pointer" }}
                 onClick={() => handleGoToDetail?.(rowIndex)}
               >
@@ -65,7 +65,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   cell !== null ? (
                     <td
                       key={colIndex}
-                      className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
+                      className="px-5 py-2 min-w-[150px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
                       style={{ width: itemWidth }}
                     >
                       {cell}
