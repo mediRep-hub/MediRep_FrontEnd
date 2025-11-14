@@ -9,8 +9,6 @@ import { GoDotFill } from "react-icons/go";
 import { FiTarget } from "react-icons/fi";
 import { HiUsers } from "react-icons/hi";
 // import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getAllRequisition } from "../../api/requisitionServices";
 
 export default function DashBoard() {
   useEffect(() => {
