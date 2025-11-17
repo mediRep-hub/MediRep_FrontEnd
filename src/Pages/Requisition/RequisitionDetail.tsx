@@ -106,6 +106,7 @@ export default function RequisitionDetail() {
     try {
       setLoading(true);
       const res = await acceptRequisition(id);
+      console.log("🚀 ~ handleAccept ~ res:", res);
       notifySuccess("Requisition accepted!");
       await handleGetSingle(id);
     } catch (error: any) {
