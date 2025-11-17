@@ -10,11 +10,14 @@ import {
   updateRequisition,
 } from "../../api/requisitionServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
-// import { Spin } from "antd";
-// import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { Loading3QuartersOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import CustomInput from "../../Components/CustomInput";
+import { IoMdCloseCircle } from "react-icons/io";
+import CustomSelect from "../../Components/Select";
 
 interface Product {
   _id: string;
@@ -23,6 +26,7 @@ interface Product {
   duration: string;
   amount: number;
 }
+
 interface Requisition {
   _id: string;
   reqId: string;
@@ -31,7 +35,7 @@ interface Requisition {
   status: string;
   attachedDoc?: string;
   details?: string;
-  product: Product[]; // ✅ change this from string to array
+  product: Product[];
   startingDate: string;
   quantity: number;
   duration: string;
@@ -39,33 +43,54 @@ interface Requisition {
   paymentType: string;
   accepted: boolean;
   remarks?: string;
+  requisitionType: "cash" | "other" | "house" | "car" | "tour";
+  totalQuantity: number;
 }
 
+const requisitionTypeOptions: Requisition["requisitionType"][] = [
+  "cash",
+  "other",
+  "house",
+  "car",
+  "tour",
+];
+
 export default function RequisitionDetail() {
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [changeRequisition, setChangeRequisition] = useState(false);
+
   const { user } = useSelector((state: any) => state.user);
+
   const [dataRequisitions, setRequisitionsingle] = useState<Requisition | null>(
     null
   );
-  console.log("🚀 ~ RequisitionDetail ~ dataRequisitions:", dataRequisitions);
-  const [remarks, setRemarks] = useState(dataRequisitions?.remarks || "");
 
+  const [requisitionType, setRequisitionType] = useState<
+    Requisition["requisitionType"]
+  >(dataRequisitions?.requisitionType || "cash");
+
+  const [remarks, setRemarks] = useState(dataRequisitions?.remarks || "");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
   const location = useLocation();
   const requisition = location.state?.requisition;
+  const navigate = useNavigate();
+
+  const antIcon = (
+    <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
+  );
 
   const handleGetSingle = async (id?: string) => {
     try {
-      // setLoading(true);
-
       const res = await getSingleRequisition(id || requisition._id);
       setRequisitionsingle(res.data?.requisition || res);
+      setRequisitionType(res.data?.requisition?.requisitionType || "cash");
     } catch (error: any) {
       console.error("Error fetching requisition:", error);
       alert(error?.response?.data?.error || "Failed to fetch requisition");
-    } finally {
-      // setLoading(false);
     }
   };
 
@@ -74,98 +99,41 @@ export default function RequisitionDetail() {
     queryFn: () => getAllRequisition(),
     staleTime: 5 * 60 * 1000,
   });
-  const navigate = useNavigate();
-  const handleBack = () => {
-    navigate("/requisition");
-  };
 
-  // const [formData, setFormData] = useState({
-  //   status: "",
-  //   quantity: 0,
-  //   amount: 0,
-  //   duration: "",
-  //   paymentType: "",
-  // });
-  // useEffect(() => {
-  //   if (dataRequisitions) {
-  //     setFormData({
-  //       status: dataRequisitions.status,
-  //       quantity: dataRequisitions.quantity,
-  //       amount: dataRequisitions.amount,
-  //       duration: dataRequisitions.duration,
-  //       paymentType: dataRequisitions.paymentType,
-  //     });
-  //   }
-  // }, [dataRequisitions]);
-  // const handleChange = (field: string, value: any) => {
-  //   setFormData((prev) => ({ ...prev, [field]: value }));
-  // };
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
+  const handleBack = () => navigate("/requisition");
 
-  //   try {
-  //     setLoading(true);
-  //     const res = await updateRequisition(requisition._id, formData);
-  //     console.log("Updated Requisition:", res);
-  //     notifySuccess("Requisition updated successfully!");
-  //   } catch (error: any) {
-  //     console.error("Error updating requisition:", error);
-  //     notifyError(error?.response?.data?.error || "Something went wrong");
-  //   } finally {
-  //     console.log("Update request finished");
-  //     setLoading(false);
-  //     handleGetSingle(requisition._id);
-  //   }
-  // };
   const handleAccept = async (id: string) => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const res = await acceptRequisition(id);
-      console.log("Accepted:", res.data);
       notifySuccess("Requisition accepted!");
-      handleGetSingle(id);
+      await handleGetSingle(id);
     } catch (error: any) {
-      console.error("Error accepting requisition:", error);
       notifyError(
         error?.response?.data?.error || "Failed to accept requisition"
       );
     } finally {
-      // setLoading(false);
+      setLoading(false);
       refetch();
+      handleGetSingle(requisition._id);
     }
   };
 
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      // setLoading(true);
-      const res = await deleteRequisition(requisition._id);
-      console.log("Updated Requisition:", res);
-      notifySuccess("Requisition delete successfully!");
+      setLoading(true);
+      await deleteRequisition(requisition._id);
+      notifySuccess("Requisition deleted successfully!");
     } catch (error: any) {
-      console.error("Error delete requisition:", error);
       notifyError(error?.response?.data?.error || "Something went wrong");
     } finally {
-      console.log("Update request finished");
-      // setLoading(false);
+      setLoading(false);
       refetch();
       setDeleteConfirmation(false);
       navigate("/requisition");
     }
   };
-  // const antIcon = (
-  //   <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
-  // );
-  useEffect(() => {
-    document.title = "MediRep | Requisition Details";
-    const fetchRequisition = async () => {
-      if (requisition?._id) {
-        await handleGetSingle(requisition._id);
-      }
-    };
-    fetchRequisition();
-  }, [requisition]);
 
   const handleSaveRemarks = async () => {
     if (!remarks.trim()) return notifyError("Please enter remarks first!");
@@ -174,8 +142,8 @@ export default function RequisitionDetail() {
       setLoadingSave(true);
       await updateRequisition(requisition._id, { remarks });
       notifySuccess("Remarks updated successfully!");
+      await handleGetSingle(requisition._id);
     } catch (error: any) {
-      console.error("Error updating remarks:", error);
       notifyError(error?.response?.data?.error || "Failed to update remarks");
     } finally {
       setLoadingSave(false);
@@ -183,9 +151,61 @@ export default function RequisitionDetail() {
     }
   };
 
+  const handleUpdateProduct = async () => {
+    if (!selectedProduct || !dataRequisitions) return;
+
+    try {
+      setLoadingUpdate(true);
+
+      // Update products array
+      const updatedProducts = dataRequisitions.product.map((p) =>
+        p._id === selectedProduct._id
+          ? {
+              ...selectedProduct,
+              amount: requisitionType === "cash" ? selectedProduct.amount : 0,
+              duration: selectedProduct.duration || "",
+            }
+          : { ...p, amount: requisitionType === "cash" ? p.amount : 0 }
+      );
+
+      // Update main requisition
+      const updatedRequisition: Requisition = {
+        ...dataRequisitions,
+        product: updatedProducts,
+        requisitionType,
+        amount: requisitionType === "cash" ? dataRequisitions.amount : 0,
+      };
+
+      setRequisitionsingle(updatedRequisition);
+
+      const payload: Partial<Requisition> = {
+        product: updatedProducts,
+        requisitionType,
+        amount: updatedRequisition.amount,
+      };
+
+      await updateRequisition(dataRequisitions._id, payload);
+      notifySuccess("Requisition updated successfully!");
+      await handleGetSingle(dataRequisitions._id);
+      setChangeRequisition(false);
+    } catch (error: any) {
+      notifyError(
+        error?.response?.data?.error || "Failed to update requisition"
+      );
+    } finally {
+      setLoadingUpdate(false);
+    }
+  };
+
+  useEffect(() => {
+    document.title = "MediRep | Requisition Details";
+    if (requisition?._id) handleGetSingle(requisition._id);
+  }, [requisition]);
+
   return (
     <>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
+        {/* Header */}
         <div className="flex flex-wrap items-center gap-4 ">
           <div
             onClick={handleBack}
@@ -197,13 +217,12 @@ export default function RequisitionDetail() {
             Requisition Details
           </p>
         </div>
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto ">
+
+        {/* Requisition info */}
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto">
           <p className="text-[#7d7d7d]">Requisition Details</p>
           <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             className="scroll-smooth mt-5 flex flex-wrap md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-90px)] xl:h-[calc(63vh-37px)] overflow-y-auto scrollbar-none"
           >
             <div className="xl:w-[calc(70%-1px)] w-full">
@@ -226,12 +245,12 @@ export default function RequisitionDetail() {
                     <p className="text-[#131313] mt-3 font-medium text-sm">
                       Attachments
                     </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Details
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Starting Date
-                    </p>
+
+                    {(dataRequisitions?.amount ?? 0) > 0 && (
+                      <p className="text-[#131313] mt-3 font-medium text-sm">
+                        Amount
+                      </p>
+                    )}
                   </div>
                   <div className="xl:w-[calc(50%-10px)] w-full">
                     {" "}
@@ -262,6 +281,30 @@ export default function RequisitionDetail() {
                     <p className="text-primary mt-3 font-normal text-sm">
                       {dataRequisitions?.attachedDoc}
                     </p>
+                  </div>
+                </div>{" "}
+                <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
+                  {" "}
+                  <div className="xl:w-[calc(50%-10px)] w-full">
+                    <p className="text-[#131313] mt-3 font-medium text-sm">
+                      Details
+                    </p>
+                    <p className="text-[#131313] mt-3 font-medium text-sm">
+                      Starting Date
+                    </p>
+                    <p className="text-[#131313] mt-3 font-medium text-sm">
+                      Requisition Type
+                    </p>{" "}
+                    <p className="text-[#131313] mt-3 font-medium text-sm">
+                      Total Quantity
+                    </p>{" "}
+                    {(dataRequisitions?.amount ?? 0) > 0 && (
+                      <p className="text-[#131313] mt-3 font-medium text-sm">
+                        Amount
+                      </p>
+                    )}
+                  </div>
+                  <div className="xl:w-[calc(50%-10px)] w-full">
                     <p className="text-[#131313] mt-3 font-normal text-sm">
                       {dataRequisitions?.details}
                     </p>
@@ -272,6 +315,17 @@ export default function RequisitionDetail() {
                           )
                         : "-"}
                     </p>
+                    <p className="text-[#131313] capitalize mt-3 font-normal text-sm">
+                      {dataRequisitions?.requisitionType}
+                    </p>
+                    <p className="text-[#131313] mt-3 font-normal text-sm">
+                      {dataRequisitions?.totalQuantity}
+                    </p>
+                    {(dataRequisitions?.amount ?? 0) > 0 && (
+                      <p className="text-[#131313] mt-3 font-normal text-sm">
+                        {dataRequisitions?.amount}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -304,16 +358,19 @@ export default function RequisitionDetail() {
                       onChange={(e) => setRemarks(e.target.value)}
                       disabled={!!dataRequisitions?.remarks}
                     />
-
-                    <div className="flex justify-end">
-                      <button
-                        className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
-                        onClick={handleSaveRemarks}
-                        disabled={!!dataRequisitions?.remarks}
-                      >
-                        {loadingSave ? "Loading" : "Save"}
-                      </button>
-                    </div>
+                    {dataRequisitions?.remarks ? (
+                      ""
+                    ) : (
+                      <div className="flex justify-end">
+                        <button
+                          className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
+                          onClick={handleSaveRemarks}
+                          disabled={!!dataRequisitions?.remarks}
+                        >
+                          {loadingSave ? <Spin indicator={antIcon} /> : "Save"}
+                        </button>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -334,95 +391,35 @@ export default function RequisitionDetail() {
                       Delete
                     </button>
                     <button
-                      onClick={() => handleAccept(requisition._id)}
-                      disabled={requisition.accepted}
-                      className={`h-[56px] w-[100px] rounded-md text-white cursor-pointer ${
-                        requisition.accepted
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-primary hover:bg-primary"
-                      }`}
+                      onClick={() =>
+                        dataRequisitions?._id &&
+                        handleAccept(dataRequisitions._id)
+                      }
+                      disabled={dataRequisitions?.accepted}
+                      className={`h-[56px] w-[100px] rounded-md text-white  
+    ${
+      dataRequisitions?.accepted
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-primary cursor-pointer"
+    }`}
                     >
-                      {requisition.accepted ? "Accepted" : "Accept"}
+                      {loading ? (
+                        <Spin indicator={antIcon} />
+                      ) : (
+                        <span>
+                          {dataRequisitions?.accepted ? "Accepted" : "Accept"}
+                        </span>
+                      )}
                     </button>
                   </div>
                 </div>
               )}
             </div>{" "}
             <div className="border-primary border-l-[1px] h-auto"></div>
-            <div className="xl:w-[calc(30%-1px)] w-full  p-5">
-              {/* <p>Change Requisition</p>
-
-              {dataRequisitions?.remarks ? (
-                <></>
-              ) : (
-                <p className="text-sm mt-5 text-red-600">
-                  Manager remark required to proceed
-                </p>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                {["Admin"].includes(user?.position || "") && (
-                  <div className="mt-3">
-                    <CustomSelect
-                      options={statusOption}
-                      placeholder="Change Status"
-                      value={formData.status}
-                      onChange={(val) => handleChange("status", val)}
-                    />
-                  </div>
-                )}
-                <div className="mt-3">
-                  <CustomInput
-                    label="Quantity"
-                    value={formData.quantity}
-                    onChange={(e) =>
-                      handleChange("quantity", Number(e.target.value))
-                    }
-                  />
-                </div>
-                <div className="mt-3">
-                  <CustomInput
-                    label="Amount"
-                    value={formData.amount}
-                    onChange={(e) =>
-                      handleChange("amount", Number(e.target.value))
-                    }
-                  />
-                </div>
-                <div className="mt-3">
-                  <CustomSelect
-                    placeholder="Duration"
-                    options={timeOption}
-                    value={formData.duration}
-                    onChange={(val) => handleChange("duration", val)}
-                  />
-                </div>
-                <div className="mt-3">
-                  <CustomSelect
-                    placeholder="Payment Type"
-                    options={paymentOption}
-                    value={formData.paymentType}
-                    onChange={(val) => handleChange("paymentType", val)}
-                  />
-                </div>
-              </form>
-              <div className="mt-5 flex justify-end">
-                <button
-                  onClick={handleSubmit}
-                  disabled={!dataRequisitions?.remarks}
-                  className={`h-[56px] w-[130px] rounded-md text-white transition
-    ${
-      !dataRequisitions?.remarks
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary cursor-pointer"
-    }`}
-                >
-                  {loading ? <Spin indicator={antIcon} /> : " Save"}
-                </button>
-              </div> */}
-              {dataRequisitions?.product?.map((p: any, index: any) => (
+            <div className="xl:w-[calc(30%-1px)] w-full p-5">
+              {dataRequisitions?.product?.map((p) => (
                 <div
-                  key={p._id || index}
+                  key={p._id}
                   className="bg-[#E5EBF7] rounded-[8px] w-full first:mt-0 mt-3 p-4"
                 >
                   <div className="flex items-center gap-4 ">
@@ -438,17 +435,22 @@ export default function RequisitionDetail() {
                       Quantity
                     </p>
                     <p className="text-heading text-xs font-normal">
-                      {" "}
                       {p?.quantity}
                     </p>
                   </div>
 
-                  <button className="mt-5 bg-primary text-white w-full h-9 rounded-md cursor-pointer">
+                  <button
+                    onClick={() => {
+                      setSelectedProduct(p);
+                      setChangeRequisition(true);
+                    }}
+                    className="mt-5 bg-primary text-white w-full h-9 rounded-md cursor-pointer"
+                  >
                     Change Requisition
                   </button>
                 </div>
               ))}
-            </div>{" "}
+            </div>
           </div>
         </div>
         {deleteConfirmation && (
@@ -466,9 +468,7 @@ export default function RequisitionDetail() {
               </div>
               <div className="flex mt-5 justify-between gap-4">
                 <button
-                  onClick={() => {
-                    setDeleteConfirmation(false);
-                  }}
+                  onClick={() => setDeleteConfirmation(false)}
                   className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
                 >
                   Cancel
@@ -478,6 +478,71 @@ export default function RequisitionDetail() {
                   className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                 >
                   Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {changeRequisition && selectedProduct && dataRequisitions && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg w-[600px] shadow-lg">
+              <div className="flex justify-between items-center mb-5">
+                <p className="text-[24px] text-heading capitalize font-semibold">
+                  Update Requisition
+                </p>
+                <IoMdCloseCircle
+                  size={20}
+                  onClick={() => setChangeRequisition(false)}
+                  className="cursor-pointer text-primary"
+                />
+              </div>
+
+              <CustomSelect
+                placeholder="Requisition Type"
+                value={requisitionType}
+                options={requisitionTypeOptions}
+                onChange={(value) =>
+                  setRequisitionType(
+                    value as "cash" | "other" | "house" | "car" | "tour"
+                  )
+                }
+              />
+
+              {requisitionType === "cash" && (
+                <CustomInput
+                  label="Amount"
+                  type="number"
+                  className="mt-4"
+                  value={dataRequisitions.amount || 0}
+                  onChange={(e) =>
+                    setRequisitionsingle({
+                      ...dataRequisitions,
+                      amount: Number(e.target.value),
+                    })
+                  }
+                />
+              )}
+
+              <CustomInput
+                label="Quantity"
+                type="number"
+                className="mt-4"
+                value={selectedProduct.quantity}
+                onChange={(e) =>
+                  setSelectedProduct({
+                    ...selectedProduct,
+                    quantity: Number(e.target.value),
+                  })
+                }
+              />
+
+              <div className="flex justify-end gap-3 mt-6">
+                <button
+                  onClick={handleUpdateProduct}
+                  className="bg-primary text-white px-7 py-3 rounded"
+                >
+                  {loadingUpdate ? <Spin indicator={antIcon} /> : "Save"}
                 </button>
               </div>
             </div>

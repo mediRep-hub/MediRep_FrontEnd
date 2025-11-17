@@ -29,7 +29,7 @@ export default function Requisition() {
       v?.reqId,
       v?.doctorName,
       v?.mrName,
-      v?.product?.map((p: any) => p.name).join(", "),
+      v.product.map((p: any) => `${p.name} (${p.quantity})`).join(", "),
       v?.totalQuantity,
       v?.duration,
       <p className="capitalize">{v?.requisitionType}</p>,
