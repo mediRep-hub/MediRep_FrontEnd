@@ -5,7 +5,6 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import logo from "../../assets/medirep-logo.png";
 import { LuDownload } from "react-icons/lu";
-import dayjs from "dayjs";
 import { useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
