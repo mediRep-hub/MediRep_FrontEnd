@@ -106,7 +106,7 @@ export default function OrderDetails() {
               <div className="lg:w-[calc(50%-4px)] w-full">
                 <div className="flex items-center ">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
-                  <p className="text-heading text-xs">{order?.orderId}</p>
+                  <p className="text-primary text-xs">{order?.orderId}</p>
                 </div>
                 <div className="flex items-center mt-2">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">
@@ -120,13 +120,13 @@ export default function OrderDetails() {
                 </div>{" "}
                 <div className="flex items-center mt-2">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">
-                    Order Date:
+                    Doctor Name:
                   </p>
-                  <p className="text-heading text-xs">
-                    {order?.createdAt
-                      ? dayjs(order.createdAt).format("DD MMM, YYYY")
-                      : "-"}
-                  </p>
+                  <p className="text-heading text-xs">{order?.doctor?.name}</p>
+                </div>{" "}
+                <div className="flex items-center mt-2">
+                  <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
+                  <p className="text-heading text-xs">{order?.orderId}</p>
                 </div>
               </div>
               <div className="lg:w-[calc(50%-4px)] w-full">
@@ -162,6 +162,12 @@ export default function OrderDetails() {
                   </p>
                   <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
                     Qty
+                  </p>{" "}
+                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
+                    Medicine Type
+                  </p>{" "}
+                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
+                    Strength
                   </p>
                   <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
                     Rate
@@ -181,7 +187,13 @@ export default function OrderDetails() {
                       </p>
                       <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
                         {med.quantity}
-                      </p>
+                      </p>{" "}
+                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                        {med.medicineType}
+                      </p>{" "}
+                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                        {med.strength}
+                      </p>{" "}
                       <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
                         Rs.{med.rate.toLocaleString()}
                       </p>

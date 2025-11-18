@@ -77,7 +77,7 @@ export default function Orders() {
       </div>,
       v?.createdAt ? dayjs(v.createdAt).format("DD MMM, YYYY") : "-",
       v?.mrName,
-      v?.customerName,
+      v?.doctor.name,
       v?.strategyName,
       v?.orderType,
       <p key={`amount-${v.orderId}`} className="text-[12px]">
