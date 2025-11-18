@@ -77,6 +77,7 @@ export default function Products() {
   const [openImage, setOpenImage] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  console.log("🚀 ~ Products ~ currentPage:", currentPage);
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 const libraries = ["places"] as const;

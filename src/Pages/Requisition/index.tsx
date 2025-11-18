@@ -20,7 +20,7 @@ export default function Requisition() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const limit = 10;
-  const { data, refetch, isFetching } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["AllRequisition", page],
     queryFn: () => getAllRequisition(page, limit),
     placeholderData: (previous) => previous,
