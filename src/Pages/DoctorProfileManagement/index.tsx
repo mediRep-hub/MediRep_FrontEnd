@@ -15,11 +15,14 @@ import {
   updateDoctor,
 } from "../../api/doctorServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
-import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 import DoctorUploads from "../../Components/DoctorsUpload";
+import Pagination from "../../Components/Pagination";
+import { Spin } from "antd";
+import LocationPicker from "../../Components/LocationPicker";
+
 interface Doctor {
   _id?: string;
   name: string;
@@ -44,7 +47,8 @@ const specialtyOptions = [
   "Family Doctor",
 ];
 const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
-const areaOptions = ["Lahore", "Islamabad", "Bahawalpur ", "Karachi"];
+const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
+
 export default function DoctorProfileManagement() {
   const [addDoctor, setAddDoctor] = useState<boolean>(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
@@ -53,13 +57,25 @@ export default function DoctorProfileManagement() {
   const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctors(),
     staleTime: 5 * 60 * 1000,
   });
-  const doctorsList = data?.data?.data || [];
-  console.log("🚀 ~ DoctorProfileManagement ~ doctorsList:", doctorsList);
+
+  const doctorsList: Doctor[] = data?.data?.data || [];
+  const totalItems = doctorsList.length;
+
+  const paginatedDoctors = doctorsList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   useEffect(() => {
     document.title = "MediRep | Doctor Profile Management";
   }, []);
@@ -159,14 +175,19 @@ export default function DoctorProfileManagement() {
   const antIcon22 = (
     <Loading3QuartersOutlined style={{ fontSize: 40, color: "#0755E9" }} spin />
   );
+
   const handleDelete = async () => {
     setLoadingDelete(true);
     deleteDoctor(deleteID)
       .then(() => {
-        notifySuccess("Product delete successfully");
+        notifySuccess("Doctor deleted successfully");
         setDeleteConfirmation(false);
         setAddDoctor(false);
         setEditingDoctor(null);
+        // Adjust page if last item on last page is deleted
+        const newTotalItems = totalItems - 1;
+        const newTotalPages = Math.ceil(newTotalItems / itemsPerPage);
+        if (currentPage > newTotalPages) setCurrentPage(newTotalPages);
         refetch();
       })
       .catch((error) => {
@@ -177,47 +198,55 @@ export default function DoctorProfileManagement() {
         setLoadingDelete(false);
       });
   };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap md:flex-nowrap  justify-between gap-4 \">
-          <p className="text-heading font-medium text-[22px]  lg:text-[24px]">
-            Doctor Profile Manangement
+        <div className="flex flex-wrap md:flex-nowrap justify-between gap-4">
+          <p className="text-heading font-medium text-[22px] lg:text-[24px]">
+            Doctor Profile Management
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <button
               onClick={() => setOpenModal(true)}
               className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdFileUpload size={20} color="#7D7D7D" />{" "}
+              <MdFileUpload size={20} color="#7D7D7D" />
               <p className="text-heading text-base font-medium">Bulk Upload</p>
-            </button>{" "}
+            </button>
             <button
-              onClick={() => {
-                setAddDoctor(true);
-              }}
+              onClick={() => setAddDoctor(true)}
               className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdAdd size={20} color="#fff" />{" "}
+              <MdAdd size={20} color="#fff" />
               <p className="text-white text-base font-medium">Upload Doctors</p>
             </button>
           </div>
         </div>
+
         <div
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-130px)] h-[calc(90vh-160px)] overflow-y-auto scrollbar-none"
         >
-          <p className="text-[#7D7D7D] font-medium text-sm">Doctors Profile</p>
+          <div className="flex justify-between items-center">
+            <p className="text-[#7D7D7D] font-medium text-sm">
+              Doctors Profile
+            </p>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          </div>
+
           {isFetching ? (
             <div className="py-5 text-center text-gray-500">
               <Spin indicator={antIcon22} />
             </div>
           ) : (
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mt-4">
-              {doctorsList.map((doc: any, index: number) => (
+              {paginatedDoctors.map((doc: any, index: number) => (
                 <DoctorCard
                   key={index}
                   doctor={doc}
@@ -230,6 +259,7 @@ export default function DoctorProfileManagement() {
           )}
         </div>
       </div>
+
       {addDoctor && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
@@ -337,14 +367,22 @@ export default function DoctorProfileManagement() {
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Doctors</p>
                   <div className="mt-4">
-                    <CustomInput
+                    {/* <CustomInput
                       id="address"
                       name="address"
                       label="Address"
                       placeholder="Write address here.."
                       value={formik.values.address}
                       onChange={formik.handleChange}
+                    /> */}
+                    <LocationPicker
+                      label="Pick Location"
+                      placeholder="Enter your address"
+                      onChange={(address) => {
+                        formik.setFieldValue("address", address);
+                      }}
                     />
+
                     {formik.touched.address && formik.errors.address && (
                       <div className="text-red-500 text-xs">
                         *{formik.errors.address}
@@ -465,14 +503,12 @@ export default function DoctorProfileManagement() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Doctor</strong>{" "}
+                Are you sure you want to delete this <strong>Doctor</strong>
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">
               <button
-                onClick={() => {
-                  setDeleteConfirmation(false);
-                }}
+                onClick={() => setDeleteConfirmation(false)}
                 className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Cancel
@@ -487,6 +523,7 @@ export default function DoctorProfileManagement() {
           </div>
         </div>
       )}
+
       {openModal && <DoctorUploads closeModle={setOpenModal} />}
     </>
   );

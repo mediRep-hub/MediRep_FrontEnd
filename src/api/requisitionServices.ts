@@ -5,8 +5,10 @@ export const addRequisition = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.REQUISITIONS_ADD_REQUISITIONS, values);
 };
 
-export const getAllRequisition = () => {
-  return HTTP_CLIENT.get(ENDPOINTS.REQUISITIONS_GET_ALL);
+export const getAllRequisition = (page = 1, limit = 10) => {
+  return HTTP_CLIENT.get(
+    `${ENDPOINTS.REQUISITIONS_GET_ALL}?page=${page}&limit=${limit}`
+  );
 };
 export const updateRequisition = (id: string, values: any) => {
   return HTTP_CLIENT.put(`${ENDPOINTS.REQUISITIONS_UPDATE}/${id}`, values);

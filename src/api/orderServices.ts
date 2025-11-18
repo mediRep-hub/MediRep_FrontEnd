@@ -5,10 +5,11 @@ export const addOrder = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.ORDER_ADD, values);
 };
 
-export const getAllOrders = () => {
-  return HTTP_CLIENT.get(ENDPOINTS.ORDER_GET_ALL);
+export const getAllOrders = (page = 1, limit = 10) => {
+  return HTTP_CLIENT.get(
+    `${ENDPOINTS.ORDER_GET_ALL}?page=${page}&limit=${limit}`
+  );
 };
-
 export const getOrderById = (id: string) => {
   return HTTP_CLIENT.get(`${ENDPOINTS.ORDER_GET_SINGLE}/${id}`);
 };

@@ -20,6 +20,7 @@ import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { IoClose } from "react-icons/io5";
 import { RiAlertFill } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
+import Pagination from "../../Components/Pagination";
 
 const titles = [
   "Product SKU",
@@ -75,7 +76,7 @@ export default function Products() {
   const [viewImage, setViewImage] = useState<any>(null);
   const [openImage, setOpenImage] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);
@@ -217,7 +218,17 @@ export default function Products() {
           </button>
         </div>
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-162px)] h-auto ">
-          <p className="text-[#7D7D7D] font-medium text-sm">Products List</p>
+          <div className="flex justify-between items-center">
+            <p className="text-[#7D7D7D] font-medium text-sm">
+              Targets as List
+            </p>
+            <Pagination
+              currentPage={data?.data?.pagination?.currentPage || 1}
+              totalItems={data?.data?.pagination?.totalItems || 0}
+              itemsPerPage={data?.data?.pagination?.itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          </div>
           <div
             style={{
               scrollbarWidth: "none",

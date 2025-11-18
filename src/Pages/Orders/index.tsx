@@ -12,6 +12,7 @@ import html2canvas from "html2canvas";
 import logo from "../../assets/medirep-logo.png";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { notifyError } from "../../Components/Toast";
+import Pagination from "../../Components/Pagination";
 
 const titles = [
   "Order ID",
@@ -29,9 +30,13 @@ export default function Orders() {
     {}
   );
   const [loading, setLoading] = useState(false);
-  const { data: orders } = useQuery({
-    queryKey: ["GetOrder"],
-    queryFn: () => getAllOrders(),
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // ✅ Fixed: Properly declared variable
+
+  // Updated query with pagination parameters
+  const { data, isLoading } = useQuery({
+    queryKey: ["GetOrder", currentPage],
+    queryFn: () => getAllOrders(currentPage, itemsPerPage),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -41,12 +46,23 @@ export default function Orders() {
     navigate("orderDetails", { state: { order: item } });
   };
 
-  const allOrders = orders?.data;
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Reset checked orders when changing pages
+    setCheckedOrders({});
+  };
+
+  console.log("🚀 ~ Orders ~ orders data:", data?.data);
+
+  const allOrders: any[] = Array.isArray(data?.data.data) ? data.data.data : [];
+  const paginationInfo = data?.data.pagination || {};
+
   let tableData: any = [];
 
   allOrders?.forEach((v: any) => {
     tableData.push([
-      <div className="flex gap-2 items-center">
+      <div key={v.orderId} className="flex gap-2 items-center">
         <Checkbox
           checked={!!checkedOrders[v.orderId]}
           onChange={(e) =>
@@ -64,10 +80,11 @@ export default function Orders() {
       v?.customerName,
       v?.strategyName,
       v?.orderType,
-      <p className="text-[12px]">
+      <p key={`amount-${v.orderId}`} className="text-[12px]">
         Rs:<span className="text-sm ml-1">{v?.amount}</span>
       </p>,
       <button
+        key={`details-${v.orderId}`}
         className="flex gap-2 items-center cursor-pointer"
         onClick={() => handleGODetails(v)}
       >
@@ -97,80 +114,57 @@ export default function Orders() {
         tempDiv.style.width = "800px";
         tempDiv.style.padding = "20px";
         tempDiv.style.backgroundColor = "#fff";
-        tempDiv.style.position = "fixed"; // ✅ hide off-screen
-        tempDiv.style.top = "-9999px"; // ✅ move it out of view
+        tempDiv.style.position = "fixed";
+        tempDiv.style.top = "-9999px";
 
         tempDiv.innerHTML = `
-    <div style="font-family:Arial, sans-serif;">
-      <div style="
-    display: flex;
-    align-items: center;
-    justify-content: center; /* centers horizontally */
-    margin-bottom: 20px;
-    text-align: center;
-  "
->
-        <img src="${logo}" style="width:80px;height:auto;margin-right:30px;"/>
-        <h1 style="font-size: 34px; font-weight: bold;">MediRep Bill Invoice</h1>
-      </div>
-      <div style="margin-bottom:20px;">
-        <p><strong>Order ID:</strong> ${order.orderId}</p>
-        <p><strong>Customer Name:</strong> ${order.customerName}</p>
-        <p><strong>Address:</strong> ${order.address || "-"}</p>
-        <p><strong>Order Date:</strong> ${dayjs(order.createdAt).format(
-          "DD MMM, YYYY"
-        )}</p>
-        <p><strong>MR Name:</strong> ${order.mrName}</p>
-        <p><strong>Strategy Name:</strong> ${order.strategyName}</p>
-        <p><strong>Order Type:</strong> ${order.orderType}</p>
-      </div>
-     <table
-  border="1"
-  cellspacing="0"
-  cellpadding="5"
-  style="width: 100%; border-top: 0.5px solid #000; border-collapse: collapse;"
->
-   <tr>
-          <th style="width:40%">Item Detail</th>
-          <th style="width:20%;text-align:right;">Qty</th>
-          <th style="width:20%;text-align:right;">Rate</th>
-          <th style="width:20%;text-align:right;">Amount</th>
-        </tr>
-        ${order.medicines
-          .map(
-            (m: any) =>
-              `<tr>
-                <td style="text-transform:uppercase;">${m.name}</td>
-                <td style="text-align:right;">${m.quantity}</td>
-                <td style="text-align:right;">Rs.${m.rate}</td>
-                <td style="text-align:right;">Rs.${m.amount}</td>
-              </tr>`
-          )
-          .join("")}
-      </table>
-     <div
-  style="
-    margin-top: 20px;
-    text-align: right;
-    border-top: 0.5px solid #000;
-    border-bottom: 0.5px solid #000;
-    padding: 10px 0;
-  "
->
-  <p>Subtotal: Rs.${order.subtotal}</p>
-  <p>Tax (10%): Rs.${order.tax}</p>
-<div style="border-top: 0.5px solid #000; margin-top: 20px;">
-  <p><strong>Total: Rs.${order.total}</strong></p>
-</div>
-</div>
-
-      <p style="margin-top:20px;font-weight:bold; text-align:center">Thank you for your business.</p>
-    </div>
-  `;
+          <div style="font-family:Arial, sans-serif;">
+            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-align: center;">
+              <img src="${logo}" style="width:80px;height:auto;margin-right:30px;"/>
+              <h1 style="font-size: 34px; font-weight: bold;">MediRep Bill Invoice</h1>
+            </div>
+            <div style="margin-bottom:20px;">
+              <p><strong>Order ID:</strong> ${order.orderId}</p>
+              <p><strong>Customer Name:</strong> ${order.customerName}</p>
+              <p><strong>Address:</strong> ${order.address || "-"}</p>
+              <p><strong>Order Date:</strong> ${dayjs(order.createdAt).format(
+                "DD MMM, YYYY"
+              )}</p>
+              <p><strong>MR Name:</strong> ${order.mrName}</p>
+              <p><strong>Strategy Name:</strong> ${order.strategyName}</p>
+              <p><strong>Order Type:</strong> ${order.orderType}</p>
+            </div>
+            <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-top: 0.5px solid #000; border-collapse: collapse;">
+              <tr>
+                <th style="width:40%">Item Detail</th>
+                <th style="width:20%;text-align:right;">Qty</th>
+                <th style="width:20%;text-align:right;">Rate</th>
+                <th style="width:20%;text-align:right;">Amount</th>
+              </tr>
+              ${order.medicines
+                .map(
+                  (m: any) =>
+                    `<tr>
+                      <td style="text-transform:uppercase;">${m.name}</td>
+                      <td style="text-align:right;">${m.quantity}</td>
+                      <td style="text-align:right;">Rs.${m.rate}</td>
+                      <td style="text-align:right;">Rs.${m.amount}</td>
+                    </tr>`
+                )
+                .join("")}
+            </table>
+            <div style="margin-top: 20px; text-align: right; border-top: 0.5px solid #000; border-bottom: 0.5px solid #000; padding: 10px 0;">
+              <p>Subtotal: Rs.${order.subtotal}</p>
+              <p>Tax (10%): Rs.${order.tax}</p>
+              <div style="border-top: 0.5px solid #000; margin-top: 20px;">
+                <p><strong>Total: Rs.${order.total}</strong></p>
+              </div>
+            </div>
+            <p style="margin-top:20px;font-weight:bold; text-align:center">Thank you for your business.</p>
+          </div>
+        `;
 
         document.body.appendChild(tempDiv);
-
-        // ✅ Now it's hidden off-screen while still renderable by html2canvas
         const canvas = await html2canvas(tempDiv, { scale: 2 });
         const imgData = canvas.toDataURL("image/png");
         const pageWidth = 210;
@@ -179,7 +173,6 @@ export default function Orders() {
 
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pdfHeight);
-
         document.body.removeChild(tempDiv);
       }
 
@@ -190,9 +183,11 @@ export default function Orders() {
       setLoading(false);
     }
   };
+
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "#0755E9" }} spin />
   );
+
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -203,15 +198,13 @@ export default function Orders() {
           <button
             onClick={handleDownloadSelectedPDF}
             disabled={loading}
-            className="h-[55px] w-full md:w-[180px] rounded-[6px] gap-3 flex justify-center items-center bg-[#E5EBF7]
-            "
+            className="h-[55px] w-full md:w-[180px] rounded-[6px] gap-3 flex justify-center items-center bg-[#E5EBF7]"
           >
             {loading ? (
               <Spin indicator={antIcon} />
             ) : (
               <>
-                {" "}
-                <LuDownload size={20} className="text-primary" />{" "}
+                <LuDownload size={20} className="text-primary" />
                 <p className="text-primary text-base font-medium ml-2">
                   Download
                 </p>
@@ -221,12 +214,26 @@ export default function Orders() {
         </div>
 
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] xl:h-[calc(90vh-162px)] h-auto">
-          <p className="text-[#7D7D7D] font-medium text-sm">Orders List</p>
+          <div className="flex justify-between items-center">
+            <p className="text-[#7D7D7D] font-medium text-sm">Orders List</p>
+            <Pagination
+              currentPage={paginationInfo.currentPage || 1}
+              itemsPerPage={paginationInfo.itemsPerPage || 1}
+              totalItems={paginationInfo.totalItems || 0}
+              onPageChange={handlePageChange}
+            />
+          </div>
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={tableData} />
+            {isLoading ? (
+              <div className="flex justify-center items-center h-32">
+                <Spin indicator={antIcon} />
+              </div>
+            ) : (
+              <CustomTable titles={titles} data={tableData} />
+            )}
           </div>
         </div>
       </div>

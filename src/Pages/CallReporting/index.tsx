@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import { StrategySchema } from "../../utils/validation";
 import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
-import { getAllDoctors } from "../../api/doctorServices";
+import { getAllDoctorsLIst } from "../../api/doctorServices";
 import { RiAlertFill } from "react-icons/ri";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Avatar, Spin } from "antd";
@@ -23,6 +23,7 @@ import {
 import { FiClock } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../Components/Pagination";
 
 const titles = [
   "Call ID",
@@ -55,46 +56,55 @@ export default function CallReporting() {
   const [addStrategyModel, setAddStrategyModel] = useState(false);
   const [viewDetails, SetViewdetails] = useState(false);
   const [isloadinOrder, setLoadingOrder] = useState(false);
-
+  const [page, setPage] = useState(1);
+  const [doctorPage, setDoctorPage] = useState(1);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloading, setLoading] = useState(false);
   const [selectedStrategy, setSelectedStrategy] = useState<any>(null);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-  const [doctorList, setDoctorList] = useState(
-    selectedStrategy?.doctorList || []
-  );
+  const [doctorList, setDoctorList] = useState<any[]>([]);
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
 
-  useEffect(() => {
-    document.title = "MediRep | Call Reporting";
-  }, []);
+  const limit = 10;
+  const doctorLimit = 10;
+
+  const navigate = useNavigate();
+
+  // Fetch doctors
   const { data: doctorss } = useQuery({
     queryKey: ["AllDoctors"],
-    queryFn: () => getAllDoctors(),
-    staleTime: 5 * 60 * 1000,
+    queryFn: () => getAllDoctorsLIst(),
   });
+
+  // Fetch MR accounts
   const { data: allMr } = useQuery({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
   let AllMR = allMr?.data?.admins;
+
   const {
-    data: allStraties,
+    data: result,
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["AllReporting"],
-    queryFn: () => getAllReports(),
-    staleTime: 5 * 60 * 1000,
+    queryKey: ["reports", page, doctorPage],
+    queryFn: () => getAllReports(page, limit, doctorPage, doctorLimit),
+    placeholderData: (previous) => previous,
   });
-  let AllStrategy = allStraties?.data?.data;
-  console.log("🚀 ~ CallReporting ~ AllStrategy:", AllStrategy);
 
-  const AllDOctors = doctorss?.data;
+  let AllStrategy = result?.data;
+
+  // Formik setup
+  const AllDOctors = Array.isArray(doctorss?.data?.data)
+    ? doctorss.data?.data
+    : [];
+  console.log("🚀 ~ CallReporting ~ octorss?.data:", doctorss?.data);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -109,9 +119,7 @@ export default function CallReporting() {
     validationSchema: StrategySchema,
     onSubmit: async (values) => {
       setLoading(true);
-
       try {
-        // MR ID is already in values.mrName (from CustomSelectMR)
         const selectedMR = AllMR?.find((mr: any) => mr._id === values.mrName);
         if (!selectedMR) {
           notifyError("MR not found");
@@ -119,14 +127,13 @@ export default function CallReporting() {
           return;
         }
 
-        // Map doctor names to doctor IDs
-        const doctorIds = AllDOctors?.data
-          ?.filter((doc: any) => values.doctorList.includes(doc.name))
-          .map((doc: any) => doc._id);
+        const doctorIds = AllDOctors?.filter((doc: any) =>
+          values.doctorList.includes(doc.name)
+        )?.map((doc: any) => doc._id);
 
         const payload = {
           ...values,
-          mrName: values.mrName, // already MR ID
+          mrName: values.mrName,
           doctorList: doctorIds,
         };
 
@@ -151,6 +158,7 @@ export default function CallReporting() {
     },
   });
 
+  // Handle delete
   const handleDelete = async () => {
     setLoadingDelete(true);
     try {
@@ -158,34 +166,30 @@ export default function CallReporting() {
       notifySuccess("Product deleted successfully");
       refetch();
     } catch (error) {
-      console.error("Failed to delete product:", error);
+      console.error(error);
       notifyError("Failed to delete product. Please try again.");
     } finally {
       setLoadingDelete(false);
       setDeleteConfirmation(false);
     }
   };
+
+  // Set selected strategy
   useEffect(() => {
-    if (AllStrategy && AllStrategy.length > 0) {
+    if (AllStrategy && AllStrategy.length > 0)
       setSelectedStrategy(AllStrategy[0]);
-    }
   }, [AllStrategy]);
 
+  // Sync doctorList with selectedStrategy
   useEffect(() => {
-    if (selectedStrategy && AllDOctors) {
-      const fullDoctors = selectedStrategy.doctorList.map((doc: any) => {
-        if (doc._id) return doc;
-        const found = AllDOctors?.data?.find((d: any) => d.name === doc);
-        return found ? found : { name: doc };
-      });
-      setDoctorList(fullDoctors);
-    }
-  }, [selectedStrategy, AllDOctors]);
+    if (!selectedStrategy) return;
+    const doctors = selectedStrategy.doctorList || [];
+    const start = (doctorPage - 1) * doctorLimit;
+    const paginatedDoctors = doctors.slice(start, start + doctorLimit);
+    setDoctorList(paginatedDoctors);
+  }, [selectedStrategy, doctorPage]);
 
-  useEffect(() => {
-    setDoctorList(selectedStrategy?.doctorList || []);
-  }, [selectedStrategy]);
-
+  // Move doctor up/down
   const moveUp = (index: number) => {
     if (index === 0) return;
     const updated = [...doctorList];
@@ -200,10 +204,9 @@ export default function CallReporting() {
     setDoctorList(updated);
   };
 
-  const navigate = useNavigate();
+  // Navigate to doctor details
   const handleGoTODetails = (doctor: any) => {
     if (!selectedStrategy) return;
-
     const plainDoctor = {
       _id: doctor._id,
       callId: doctor.callId,
@@ -228,14 +231,13 @@ export default function CallReporting() {
       checkInLocation: doctor?.checkInLocation,
       nextVisitDate: doctor?.nextVisitDate,
     };
-
     navigate("/callReporting/details", { state: { doctor: plainDoctor } });
   };
 
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap  gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Strategies
           </p>
@@ -252,11 +254,21 @@ export default function CallReporting() {
             </p>
           </button>
         </div>
+
         <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
+          {/* Left: Strategies List */}
           <div className="lg:w-[calc(20%-8px)] w-full">
-            <p className="text-[#7D7D7D] font-medium text-sm">
-              Strategies List
-            </p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#7D7D7D] font-medium text-sm">
+                Strategies List
+              </p>
+              <Pagination
+                currentPage={page}
+                totalItems={result?.totalItems}
+                itemsPerPage={limit}
+                onPageChange={(newPage) => setPage(newPage)}
+              />
+            </div>
             <div
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               className="scroll-smooth 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
@@ -269,20 +281,14 @@ export default function CallReporting() {
                       ? "border-2 border-primary"
                       : ""
                   }`}
-                  onClick={() => setSelectedStrategy(mr)}
+                  onClick={() => {
+                    setSelectedStrategy(mr);
+                    setDoctorPage(1); // reset doctor page when strategy changes
+                  }}
                 >
                   <div className="flex items-start justify-between">
                     <Avatar size={42} src={mr?.mrName?.image} />
                     <div className="flex items-center gap-2">
-                      {/* <TbEdit
-                        size={18}
-                        className="text-primary cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation(); // prevent selecting when clicking edit
-                          setAddStrategyModel(true);
-                          setEditingProduct(mr);
-                        }}
-                      /> */}
                       <MdDeleteOutline
                         size={18}
                         className="text-red-600 cursor-pointer"
@@ -300,7 +306,7 @@ export default function CallReporting() {
                       : mr.mrName?.name || "--"}
                   </p>
                   <p className="text-primary text-sm ">
-                    MR ID:{mr?.mrName?.adminId}{" "}
+                    MR ID:{mr?.mrName?.adminId}
                   </p>
                   <p className="text-[#131313] text-sm ">
                     Strategy Name: {mr.strategyName}
@@ -315,9 +321,20 @@ export default function CallReporting() {
                 </div>
               ))}
             </div>
-          </div>{" "}
+          </div>
+
+          {/* Right: Call List Table */}
           <div className="lg:w-[calc(80%-8px)] w-full">
-            <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
+              <Pagination
+                currentPage={doctorPage}
+                totalItems={selectedStrategy?.doctorList?.length || 0}
+                itemsPerPage={doctorLimit}
+                onPageChange={(newPage) => setDoctorPage(newPage)}
+              />
+            </div>
+
             <div
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
@@ -339,82 +356,79 @@ export default function CallReporting() {
                   {isFetching ? (
                     <tr>
                       <td
-                        colSpan={titles?.length || 7}
+                        colSpan={titles.length}
                         className="py-5 text-center text-gray-500"
                       >
                         <Spin indicator={antIcon} />
                       </td>
                     </tr>
-                  ) : selectedStrategy?.doctorList &&
-                    selectedStrategy.doctorList.length > 0 ? (
-                    selectedStrategy.doctorList.map(
-                      (doc: any, rowIndex: number) => (
-                        <tr
-                          key={rowIndex}
-                          className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
-                          onClick={() => handleGoTODetails(doc)}
-                        >
-                          <td className="px-5 py-2 min-w-[200px] border-b-[0.5px] text-[13px] border-primary">
-                            {doc.callId}
-                          </td>
-                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                            {doc.doctor?.name || "--"}
-                          </td>
-                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                            <p
-                              className={`inline-block px-2 py-1 capitalize  rounded-md font-medium text-sm border ${
-                                doc.status === "pending"
-                                  ? "text-[#E90761] border-[#E90761]"
-                                  : doc.status === "close"
-                                  ? "text-[#0BA69C] border-[#0BA69C]"
-                                  : doc.status === "rejected"
-                                  ? "text-[#FF9500] border-[#FF9500]"
-                                  : "text-gray-600 border-gray-300"
-                              }`}
-                            >
-                              {doc.status}
-                            </p>
-                          </td>
-                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                            <div className="flex gap-3">
-                              <FiClock
-                                size={16}
-                                className="inline text-[#7d7d7d]"
-                              />
-                              {doc.checkIn || "--"}
-                            </div>
-                          </td>
-                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                            <div className="flex gap-3">
-                              <FiClock
-                                size={16}
-                                className="inline text-[#7d7d7d]"
-                              />{" "}
-                              {doc.checkOut || "--"}
-                            </div>
-                          </td>
-                          <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                            <div
-                              className="flex gap-3"
-                              onClick={(e) => {
-                                SetViewdetails(true);
-                                e.stopPropagation();
-                              }}
-                            >
-                              <BiMessageDetail
-                                size={16}
-                                className="inline text-[#7d7d7d]"
-                              />{" "}
-                              Details
-                            </div>
-                          </td>
-                        </tr>
-                      )
-                    )
+                  ) : doctorList.length > 0 ? (
+                    doctorList.map((doc: any, rowIndex: number) => (
+                      <tr
+                        key={rowIndex}
+                        className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
+                        onClick={() => handleGoTODetails(doc)}
+                      >
+                        <td className="px-5 py-2 min-w-[200px] border-b-[0.5px] text-[13px] border-primary">
+                          {doc.callId}
+                        </td>
+                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                          {doc.doctor?.name || "--"}
+                        </td>
+                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                          <p
+                            className={`inline-block px-2 py-1 capitalize  rounded-md font-medium text-sm border ${
+                              doc.status === "pending"
+                                ? "text-[#E90761] border-[#E90761]"
+                                : doc.status === "close"
+                                ? "text-[#0BA69C] border-[#0BA69C]"
+                                : doc.status === "rejected"
+                                ? "text-[#FF9500] border-[#FF9500]"
+                                : "text-gray-600 border-gray-300"
+                            }`}
+                          >
+                            {doc.status}
+                          </p>
+                        </td>
+                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                          <div className="flex gap-3">
+                            <FiClock
+                              size={16}
+                              className="inline text-[#7d7d7d]"
+                            />{" "}
+                            {doc.checkIn || "--"}
+                          </div>
+                        </td>
+                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                          <div className="flex gap-3">
+                            <FiClock
+                              size={16}
+                              className="inline text-[#7d7d7d]"
+                            />{" "}
+                            {doc.checkOut || "--"}
+                          </div>
+                        </td>
+                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                          <div
+                            className="flex gap-3"
+                            onClick={(e) => {
+                              SetViewdetails(true);
+                              e.stopPropagation();
+                            }}
+                          >
+                            <BiMessageDetail
+                              size={16}
+                              className="inline text-[#7d7d7d]"
+                            />{" "}
+                            Details
+                          </div>
+                        </td>
+                      </tr>
+                    ))
                   ) : (
                     <tr>
                       <td
-                        colSpan={titles?.length || 7}
+                        colSpan={titles.length}
                         className="px-3 py-6 text-center text-heading"
                       >
                         No data found
@@ -426,7 +440,7 @@ export default function CallReporting() {
             </div>
           </div>
         </div>
-      </div>
+      </div>{" "}
       {addStrategyModel && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
@@ -554,9 +568,7 @@ export default function CallReporting() {
                   </div>
                   <div className="mt-3">
                     <MultiSelect
-                      options={
-                        AllDOctors?.data?.map((doc: any) => doc.name) || []
-                      }
+                      options={AllDOctors.map((doc: any) => doc.name)}
                       value={formik.values.doctorList}
                       onChange={(val) =>
                         formik.setFieldValue("doctorList", val)
@@ -729,7 +741,6 @@ export default function CallReporting() {
     </>
   );
 }
-
 const CustomSelectMR = ({
   options = [],
   value,

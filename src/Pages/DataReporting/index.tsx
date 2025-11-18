@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import { reportSchema } from "../../utils/validation";
 import { LuDownload } from "react-icons/lu";
 import CustomTimePicker from "../../Components/TimeRangePicker";
+import Pagination from "../../Components/Pagination";
 const titles = [
   "MR Name",
   "Strategy",
@@ -157,9 +158,13 @@ export default function DataReporting() {
           </div>
         </div>
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] lg:h-[calc(90vh-162px)] h-auto ">
-          <p className="text-[#7D7D7D] font-medium text-sm">
-            MR Performance Table
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-[#7D7D7D] font-medium text-sm">
+              {" "}
+              MR Performance Table
+            </p>
+            <Pagination />
+          </div>
           <div
             style={{
               scrollbarWidth: "none",

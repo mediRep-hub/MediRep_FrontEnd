@@ -53,7 +53,7 @@ export default function MultiSelect({
         </span>
 
         <IoIosArrowDown
-          className={`transition-transform duration-200 text-primary ${
+          className={` min-w-[16px] transition-transform duration-200 text-primary ${
             isOpen ? "rotate-180" : "rotate-0"
           }`}
         />

@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CustomTable from "../../Components/CustomTable";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRequisition } from "../../api/requisitionServices";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../Components/Pagination";
 
 const titles = [
   "Requisition ID",
@@ -16,14 +17,19 @@ const titles = [
 ];
 
 export default function Requisition() {
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const limit = 10;
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllRequisition"],
-    queryFn: () => getAllRequisition(),
+    queryKey: ["AllRequisition", page],
+    queryFn: () => getAllRequisition(page, limit),
+    placeholderData: (previous) => previous,
     staleTime: 5 * 60 * 1000,
   });
-  let Requisitions = data?.data?.requisitions;
-  console.log("🚀 ~ Requisition ~ Requisitions:", Requisitions);
-  let tableData: any = [];
+
+  const result = data?.data;
+  const Requisitions = data?.data?.requisitions || [];
+  const tableData: any = [];
   Requisitions?.map((v: any) => {
     tableData.push([
       v?.reqId,
@@ -51,16 +57,16 @@ export default function Requisition() {
     ]);
   });
 
-  useEffect(() => {
-    document.title = "MediRep | Requisitions";
-    refetch();
-  }, []);
-  const navigate = useNavigate();
   const handleGoDetails = (requisition: any) => {
     navigate("/requisition/requisitionDetail", {
       state: { requisition },
     });
   };
+
+  useEffect(() => {
+    document.title = "MediRep | Requisitions";
+  }, []);
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -69,14 +75,27 @@ export default function Requisition() {
             Requisitions
           </p>
         </div>
+
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(92vh-130px)] xl:h-[calc(90vh-142px)] h-auto ">
-          <p className="text-[#7D7D7D] font-medium text-sm">Requisition List</p>
+          <div className="flex justify-between items-center">
+            <p className="text-[#7D7D7D] font-medium text-sm">
+              Requisition List
+            </p>
+
+            <Pagination
+              currentPage={page}
+              totalItems={result?.totalItems}
+              itemsPerPage={limit}
+              onPageChange={(newPage) => setPage(newPage)}
+            />
+          </div>
+
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(87vh-145px)] xl:h-[calc(65vh-35px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(87vh-145px)] xl:h-[calc(65vh-35px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={titles}

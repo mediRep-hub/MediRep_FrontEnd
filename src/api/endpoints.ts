@@ -12,6 +12,7 @@ export const ENDPOINTS = {
 
   //   -----------Doctor-------------
   DOCTOR_GET_ALL: "/doctor/getAllDoctor",
+  DOCTOR_GET_ALL_LIST: "/doctor/getAllDoctorslist",
   DOCTOR_ADD_DOCTOR: "/doctor/addDoctor",
   DOCTOR_UPDATE: "/doctor/updateDoctor",
   DOCTOR_DELETE: "/doctor/deleteDoctor",

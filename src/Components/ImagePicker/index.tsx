@@ -88,7 +88,7 @@ export default function ImagePicker({
   return (
     <div className="relative w-full">
       {label && (
-        <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-gray-500">
+        <label className="absolute -top-2 left-5 z-9 bg-white px-1 text-xs text-gray-500">
           {label}
         </label>
       )}

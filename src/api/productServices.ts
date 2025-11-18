@@ -5,16 +5,19 @@ export const addProduct = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.PRODUCT_ADD_PRODUCT, values);
 };
 
-export const getAllProducts = (sku?: string, productName?: string) => {
-  let query = "";
+export const getAllProducts = (
+  sku?: string,
+  productName?: string,
+  page: number = 1,
+  limit: number = 10
+) => {
+  const params = new URLSearchParams();
+  if (sku) params.append("sku", sku);
+  if (productName) params.append("productName", productName);
+  params.append("page", page.toString());
+  params.append("limit", limit.toString());
 
-  if (sku || productName) {
-    const params = new URLSearchParams();
-    if (sku) params.append("sku", sku);
-    if (productName) params.append("productName", productName);
-    query = `?${params.toString()}`;
-  }
-
+  const query = `?${params.toString()}`;
   return HTTP_CLIENT.get(`${ENDPOINTS.PRODUCT_GET_ALL}${query}`);
 };
 

@@ -8,7 +8,9 @@ export const addDoctors = (values: any) => {
 export const getAllDoctors = () => {
   return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL);
 };
-
+export const getAllDoctorsLIst = () => {
+  return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL_LIST);
+};
 // export const getDoctorById = (id: string) => {
 //   return HTTP_CLIENT.get(`${ENDPOINTS.DOCTOR_GET_SINGLE}/${id}`);
 // };

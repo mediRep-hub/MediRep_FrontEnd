@@ -1,64 +1,59 @@
-import React, { useState, useRef } from "react";
-import { Autocomplete } from "@react-google-maps/api";
-import CustomInput from "../CustomInput";
+import React, { useRef } from "react";
+import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
-interface GoogleLocationInputProps {
-  value?: string;
-  onChange?: (address: string, lat?: number, lng?: number) => void;
+const libraries = ["places"] as const;
+
+interface LocationPickerProps {
   label?: string;
   placeholder?: string;
-  required?: boolean;
+  onChange?: (address: string, lat: number, lng: number) => void;
 }
 
-const LocationPicker: React.FC<GoogleLocationInputProps> = ({
-  value = "",
+export default function LocationPicker({
+  label,
+  placeholder = "Enter your address",
   onChange,
-  label = "Enter address",
-  placeholder = "",
-  required = false,
-}) => {
-  const [address, setAddress] = useState(value);
-  const [error, setError] = useState("");
+}: LocationPickerProps) {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A", // replace with your actual API key
+    libraries: libraries as any,
+  });
 
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-      const formattedAddress = place.formatted_address || "";
-      const lat = place.geometry?.location?.lat();
-      const lng = place.geometry?.location?.lng();
-      setAddress(formattedAddress);
-      setError(""); // clear error
-      if (onChange) onChange(formattedAddress, lat, lng);
+      if (!place.geometry || !place.geometry.location) return;
+
+      const address = place.formatted_address || "";
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+
+      if (onChange) {
+        onChange(address, lat, lng);
+      }
     }
   };
 
-  const handleBlur = () => {
-    if (required && !address) setError("Address is required");
-    else setError("");
-  };
+  if (loadError) return <div>Error loading maps</div>;
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="relative w-full">
+      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+        {label}
+      </label>
       <Autocomplete
         onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
         onPlaceChanged={handlePlaceChanged}
       >
-        <CustomInput
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          onBlur={handleBlur}
-          label={label}
+        <input
+          type="text"
           placeholder={placeholder}
+          className="border-2 border-primary h-14 p-3 rounded-md  w-full focus:outline-none focus:none focus:none"
         />
       </Autocomplete>
-      {error && (
-        <p style={{ color: "red", fontSize: "12px", marginTop: "2px" }}>
-          {error}
-        </p>
-      )}
     </div>
   );
-};
-
-export default LocationPicker;
+}
