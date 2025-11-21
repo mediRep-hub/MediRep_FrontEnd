@@ -72,7 +72,13 @@ export default function Orders() {
   });
 
   const allOrders: any[] = Array.isArray(data?.data.data) ? data.data.data : [];
-  const paginationInfo = data?.data.pagination || {};
+  const paginationInfo = {
+    currentPage: data?.data.page || 1,
+    itemsPerPage: itemsPerPage,
+    totalItems: data?.data.totalItems || 0,
+    totalPages: data?.data.totalPages || 1,
+  };
+
   const handleGoDetails = (order: any) =>
     navigate("orderDetails", { state: { order } });
   const handleCheckboxChange = (
@@ -270,9 +276,9 @@ export default function Orders() {
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Orders List</p>
           <Pagination
-            currentPage={paginationInfo.currentPage || 1}
-            itemsPerPage={paginationInfo.itemsPerPage || 1}
-            totalItems={paginationInfo.totalItems || 0}
+            currentPage={paginationInfo.currentPage}
+            itemsPerPage={paginationInfo.itemsPerPage}
+            totalItems={paginationInfo.totalItems}
             onPageChange={handlePageChange}
           />
         </div>

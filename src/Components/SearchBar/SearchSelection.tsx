@@ -33,11 +33,11 @@ export function SearchSelection({
         {placeholder}
       </label>
       <div
-        className="flex items-center h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d] rounded-md cursor-pointer"
+        className="flex items-center capitalize h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`text-sm ${selected ? "text-gray-700" : "text-gray-400"}`}
+          className={`text-sm ${selected ? "text-heading" : "text-gray-400"}`}
         >
           {selected || "Select the option"}
         </span>

@@ -18,6 +18,8 @@ export default function SearchDateRange({ onChange }: any) {
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     const updated = { ...range, [name]: value };
+
+    // Validation: End date cannot be earlier than start date
     if (
       updated.start &&
       updated.end &&
@@ -31,6 +33,8 @@ export default function SearchDateRange({ onChange }: any) {
     onChange?.(updated);
   };
 
+  const selected = range.start && range.end;
+
   return (
     <div className="relative w-full" ref={divRef}>
       <label className="absolute -top-3 left-5 bg-secondary px-1 text-sm text-gray-500">
@@ -40,10 +44,10 @@ export default function SearchDateRange({ onChange }: any) {
         className="flex items-center h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-gray-700 text-sm">
-          {range.start && range.end
-            ? `${range.start} → ${range.end}`
-            : "Select Range"}
+        <span
+          className={`text-sm ${selected ? "text-heading" : "text-gray-400"}`}
+        >
+          {selected ? `${range.start}   →  ${range.end}` : "Select Range"}
         </span>
       </div>
       {isOpen && (
@@ -59,6 +63,7 @@ export default function SearchDateRange({ onChange }: any) {
                 className="border border-gray-300 rounded p-2"
               />
             </div>
+
             <div className="flex flex-col">
               <label className="text-xs text-gray-500">End Date</label>
               <input
