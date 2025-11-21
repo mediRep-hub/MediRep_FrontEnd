@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { RiAlertFill } from "react-icons/ri";
 import CustomTable from "../../Components/CustomTable";
@@ -9,7 +9,6 @@ import ImagePicker from "../../Components/ImagePicker";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { TbEdit } from "react-icons/tb";
-
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { useFormik } from "formik";
@@ -21,6 +20,7 @@ import {
   getAllAccounts,
   updateAccount,
 } from "../../api/adminServices";
+import Pagination from "../../Components/Pagination";
 
 const titles = [
   "ID",
@@ -31,7 +31,7 @@ const titles = [
   "Region",
   "Action",
 ];
-const Divisionlist = ["Sales", "Marketing"];
+const Divisionlist = ["Sales", "Marketing"] as const;
 const Positionlist = [
   "Director Sales",
   "National Sales Manger (NSM)",
@@ -43,111 +43,101 @@ const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 const StrategyList = ["Canal Road", "Riwind Road", "Multan Road", "Gt Road"];
 const RegionList = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
 
+interface Account {
+  _id?: string;
+  adminId?: string | number;
+  name?: string;
+  email?: string;
+  phoneNumber?: string;
+  division?: string;
+  position?: string;
+  area?: string;
+  region?: string;
+  strategy?: string;
+  image?: string;
+}
+
 export default function ManageAccount() {
-  const [isEdit, setEdit] = useState<any>(null);
+  const [isEdit, setEdit] = useState<boolean>(false);
   const [isLoading, setLoading] = useState(false);
-  const [selectTab, setSelectTab] = useState("sales");
+  const [selectTab, setSelectTab] = useState<"sales" | "marketing">("sales");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
-  const [editingAccount, setEditingAccount] = useState<any>(null);
+  const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordConfirmVisible, setPasswordonfirmVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
-  const AllAccounts = data?.data?.admins || [];
-  let tableData: any = [];
-  if (Array.isArray(AllAccounts)) {
-    AllAccounts.forEach((v: any) => {
-      if (v?.division === "Sales") {
-        tableData.push([
-          v?.adminId,
-          v?.name,
-          v?.email,
-          v?.division,
-          v?.position,
-          v?.region,
-          <div className="flex items-center gap-2" key={v._id}>
-            <TbEdit
-              onClick={() => {
-                setEdit(true);
-                setEditingAccount(v);
-                setCreateAccount(true);
-              }}
-              size={18}
-              className="text-primary cursor-pointer"
-            />
-            <MdDeleteOutline
-              onClick={() => {
-                setDeleteConfirmation(true);
-                setEditingAccount(v);
-              }}
-              size={18}
-              className="text-red-600 cursor-pointer"
-            />
-          </div>,
-        ]);
-      }
-    });
-  }
-  let tableDatamark: any = [];
-  if (Array.isArray(AllAccounts)) {
-    AllAccounts.forEach((v: any) => {
-      if (v?.division === "Marketing") {
-        tableDatamark.push([
-          v?.adminId,
-          v?.name,
-          v?.email,
-          v?.division,
-          v?.position,
-          v?.region,
-          <div className="flex items-center gap-2" key={v._id}>
-            <TbEdit
-              onClick={() => {
-                setEdit(true);
-                setEditingAccount(v);
-                setCreateAccount(true);
-              }}
-              size={18}
-              className="text-primary cursor-pointer"
-            />
-            <MdDeleteOutline
-              onClick={() => {
-                setDeleteConfirmation(true);
-                setEditingAccount(v);
-              }}
-              size={18}
-              className="text-red-600 cursor-pointer"
-            />
-          </div>,
-        ]);
-      }
-    });
-  }
+
+  const AllAccounts: Account[] = data?.data?.admins ?? [];
+  const rowsByDivision = useMemo(() => {
+    const buildRow = (v: Account) => [
+      v?.adminId,
+      v?.name,
+      v?.email,
+      v?.division,
+      v?.position,
+      v?.region,
+      <div className="flex items-center gap-2" key={v._id}>
+        <TbEdit
+          onClick={() => {
+            setEdit(true);
+            setEditingAccount(v);
+            setCreateAccount(true);
+          }}
+          size={18}
+          className="text-primary cursor-pointer"
+        />
+        <MdDeleteOutline
+          size={18}
+          className={`cursor-pointer text-red-600 ${
+            !v._id && "opacity-50 pointer-events-none"
+          }`}
+          onClick={() => {
+            setDeleteConfirmation(true);
+            setEditingAccount(v);
+          }}
+        />
+      </div>,
+    ];
+
+    const sales = AllAccounts.filter((a) => a?.division === "Sales").map(
+      buildRow
+    );
+    const marketing = AllAccounts.filter(
+      (a) => a?.division === "Marketing"
+    ).map(buildRow);
+
+    return { sales, marketing };
+  }, [AllAccounts]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: editingAccount?.name || "",
-      phoneNumber: editingAccount?.phoneNumber || "",
-      email: editingAccount?.email || "",
+      name: editingAccount?.name ?? "",
+      phoneNumber: editingAccount?.phoneNumber ?? "",
+      email: editingAccount?.email ?? "",
       password: "",
       confirmPassword: "",
-      image: editingAccount?.image || "",
-      division: editingAccount?.division || "",
-      area: editingAccount?.area || "",
-      region: editingAccount?.region || "",
-      strategy: editingAccount?.strategy || "",
-      position: editingAccount?.position || "",
+      image: editingAccount?.image ?? "",
+      division: editingAccount?.division ?? "",
+      area: editingAccount?.area ?? "",
+      region: editingAccount?.region ?? "",
+      strategy: editingAccount?.strategy ?? "",
+      position: editingAccount?.position ?? "",
     },
     validationSchema: AccountSchema(isEdit),
     onSubmit: (values) => {
       setLoading(true);
       if (editingAccount) {
-        updateAccount(editingAccount._id, values)
+        updateAccount(editingAccount._id as string, values)
           .then(() => {
             notifySuccess("Account updated successfully");
             setCreateAccount(false);
@@ -177,31 +167,43 @@ export default function ManageAccount() {
       }
     },
   });
+  const paginatedRows = useMemo(() => {
+    const rows =
+      selectTab === "sales" ? rowsByDivision.sales : rowsByDivision.marketing;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return rows.slice(startIndex, startIndex + itemsPerPage);
+  }, [rowsByDivision, selectTab, currentPage, itemsPerPage]);
+
   const handleDelete = () => {
+    const id = editingAccount?._id;
+
+    if (!id) {
+      notifyError("Invalid account ID");
+      return;
+    }
+
     setLoadingDelete(true);
-    deleteAccount(editingAccount?._id)
+
+    deleteAccount(id)
       .then(() => {
         notifySuccess("Account deleted successfully");
         setDeleteConfirmation(false);
         refetch();
       })
-      .catch((error) => {
-        console.error("Failed to delete Account:", error);
-        notifyError("Failed to delete Account. Please try again.");
-      })
-      .finally(() => {
-        setLoadingDelete(false);
-      });
+      .catch(() => notifyError("Failed to delete account"))
+      .finally(() => setLoadingDelete(false));
   };
+
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
+
   useEffect(() => {
     document.title = "MediRep | Manage Accounts";
   }, []);
+
   return (
     <div>
-      {" "}
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
@@ -215,10 +217,11 @@ export default function ManageAccount() {
             }}
             className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
           >
-            <MdAdd size={20} color="#fff" />{" "}
+            <MdAdd size={20} color="#fff" />
             <p className="text-white text-base font-medium">Create Account</p>
           </button>
         </div>
+
         <div className="mt-4 flex gap-2">
           <button
             className={`w-[120px] h-12 rounded-t-lg ${
@@ -226,6 +229,7 @@ export default function ManageAccount() {
             }`}
             onClick={() => {
               setSelectTab("sales");
+              setCurrentPage(1);
             }}
           >
             Sales
@@ -236,34 +240,46 @@ export default function ManageAccount() {
             }`}
             onClick={() => {
               setSelectTab("marketing");
+              setCurrentPage(1);
             }}
           >
             Marketing
           </button>
         </div>
+
         <div
           className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(85vh-120px)] xl:h-[calc(90vh-208px)] h-auto ${
             selectTab === "marketing" ? "rounded-tl-[12px]" : "rounded-tl-none"
           }`}
         >
-          <p className="text-[#7D7D7D] font-medium text-sm">Accounts</p>
+          <div className="flex justify-between items-center">
+            <p className="text-[#7D7D7D] font-medium text-sm">Accounts</p>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={
+                selectTab === "sales"
+                  ? rowsByDivision.sales.length
+                  : rowsByDivision.marketing.length
+              }
+              itemsPerPage={itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          </div>
+
           <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(80vh-135px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "sales" ? (
               <CustomTable
                 titles={titles}
-                data={tableData}
+                data={rowsByDivision.sales}
                 isFetching={isFetching}
               />
             ) : (
               <CustomTable
                 titles={titles}
-                data={tableDatamark}
+                data={rowsByDivision.marketing}
                 isFetching={isFetching}
               />
             )}
@@ -289,6 +305,7 @@ export default function ManageAccount() {
             <p className="text-base mt-1 font-normal text-[#979797]">
               {isEdit === false ? "Add Account" : "Update Account"}
             </p>
+
             <form className="mt-5" onSubmit={formik.handleSubmit}>
               <div className="flex flex-wrap  gap-8">
                 <div className="md:w-[calc(50%-16px)] w-full">
@@ -309,6 +326,7 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
+
                   <div className="mt-3">
                     <CustomInput
                       name="phoneNumber"
@@ -327,6 +345,7 @@ export default function ManageAccount() {
                         </div>
                       )}
                   </div>
+
                   <div className="mt-3">
                     <CustomInput
                       name="email"
@@ -344,6 +363,7 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
+
                   {isEdit === false && (
                     <>
                       <div className="mt-3">
@@ -383,6 +403,7 @@ export default function ManageAccount() {
                           </div>
                         )}
                       </div>
+
                       <div className="mt-3">
                         <div className="relative w-full">
                           <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
@@ -391,11 +412,7 @@ export default function ManageAccount() {
                           <input
                             id="confirmPassword"
                             name="confirmPassword"
-                            type={
-                              passwordConfirmVisible
-                                ? "text"
-                                : "Confirm Password"
-                            }
+                            type={passwordConfirmVisible ? "text" : "password"}
                             placeholder="Confirm Password"
                             onChange={formik.handleChange}
                             value={formik.values.confirmPassword}
@@ -404,7 +421,7 @@ export default function ManageAccount() {
                           <span
                             className="absolute right-4 top-5 cursor-pointer text-[#7D7D7D]"
                             onClick={() =>
-                              setPasswordonfirmVisible(!passwordConfirmVisible)
+                              setPasswordConfirmVisible(!passwordConfirmVisible)
                             }
                           >
                             {passwordConfirmVisible ? (
@@ -416,7 +433,7 @@ export default function ManageAccount() {
                               <FiEyeOff style={{ fontSize: "20px" }} />
                             )}
                           </span>
-                        </div>{" "}
+                        </div>
                         {formik.touched.confirmPassword &&
                           formik.errors.confirmPassword && (
                             <div className="text-red-500 text-xs">
@@ -429,6 +446,7 @@ export default function ManageAccount() {
                       </div>
                     </>
                   )}
+
                   <div className="mt-3">
                     <ImagePicker
                       label="Upload Image"
@@ -436,8 +454,10 @@ export default function ManageAccount() {
                       fileType="Manage MR"
                       type="image"
                       value={formik.values.image}
-                      onChange={(val) => formik.setFieldValue("image", val)}
-                    />{" "}
+                      onChange={(val: any) =>
+                        formik.setFieldValue("image", val)
+                      }
+                    />
                     {formik.touched.image && formik.errors.image && (
                       <div className="text-red-500 text-xs">
                         *
@@ -448,12 +468,15 @@ export default function ManageAccount() {
                     )}
                   </div>
                 </div>
+
                 <div className="md:w-[calc(50%-16px)] w-full">
                   <div className="mt-3">
                     <CustomSelect
-                      options={Divisionlist}
+                      options={Divisionlist as unknown as string[]}
                       placeholder="Division"
-                      onChange={(val) => formik.setFieldValue("division", val)}
+                      onChange={(val: any) =>
+                        formik.setFieldValue("division", val)
+                      }
                       value={formik.values.division}
                     />
                     {formik.touched.division && formik.errors.division && (
@@ -464,12 +487,13 @@ export default function ManageAccount() {
                           : ""}
                       </div>
                     )}
-                  </div>{" "}
+                  </div>
+
                   <div className="mt-3">
                     <CustomSelect
                       value={formik.values.area}
                       options={Arealist}
-                      onChange={(val) => formik.setFieldValue("area", val)}
+                      onChange={(val: any) => formik.setFieldValue("area", val)}
                       placeholder="Area"
                     />
                     {formik.touched.area && formik.errors.area && (
@@ -479,14 +503,17 @@ export default function ManageAccount() {
                           ? formik.errors.area
                           : ""}
                       </div>
-                    )}{" "}
-                  </div>{" "}
+                    )}
+                  </div>
+
                   <div className="mt-3">
                     <CustomSelect
                       value={formik.values.region}
                       options={RegionList}
                       placeholder="Region"
-                      onChange={(val) => formik.setFieldValue("region", val)}
+                      onChange={(val: any) =>
+                        formik.setFieldValue("region", val)
+                      }
                     />
                     {formik.touched.region && formik.errors.region && (
                       <div className="text-red-500 text-xs">
@@ -496,14 +523,17 @@ export default function ManageAccount() {
                           : ""}
                       </div>
                     )}
-                  </div>{" "}
+                  </div>
+
                   <div className="mt-3">
                     <CustomSelect
                       value={formik.values.strategy}
                       options={StrategyList}
-                      onChange={(val) => formik.setFieldValue("strategy", val)}
+                      onChange={(val: any) =>
+                        formik.setFieldValue("strategy", val)
+                      }
                       placeholder="Select Strategy"
-                    />{" "}
+                    />
                     {formik.touched.strategy && formik.errors.strategy && (
                       <div className="text-red-500 text-xs">
                         *
@@ -513,13 +543,16 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
+
                   <div className="mt-3">
                     <CustomSelect
                       value={formik.values.position}
                       options={Positionlist}
                       placeholder="Position"
-                      onChange={(val) => formik.setFieldValue("position", val)}
-                    />{" "}
+                      onChange={(val: any) =>
+                        formik.setFieldValue("position", val)
+                      }
+                    />
                     {formik.touched.position && formik.errors.position && (
                       <div className="text-red-500 text-xs">
                         *
@@ -528,9 +561,10 @@ export default function ManageAccount() {
                           : ""}
                       </div>
                     )}
-                  </div>{" "}
+                  </div>
                 </div>
               </div>
+
               <div className="flex justify-end mt-5">
                 <button
                   type="submit"
@@ -563,9 +597,7 @@ export default function ManageAccount() {
             </div>
             <div className="flex mt-5 justify-between gap-4">
               <button
-                onClick={() => {
-                  setDeleteConfirmation(false);
-                }}
+                onClick={() => setDeleteConfirmation(false)}
                 className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Cancel

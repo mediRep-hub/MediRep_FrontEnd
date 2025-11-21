@@ -24,6 +24,24 @@ import { FiClock } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
+import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
+import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
+
+const areaOptions: string[] = [
+  "All",
+  "Lahore",
+  "Islamabad",
+  "BahawalPur",
+  "Karachi",
+];
+
+const dateOptions: string[] = [
+  "Today",
+  "Last 7 Days",
+  "Last 30 Days",
+  "This Month",
+  "Custom Range",
+];
 
 const titles = [
   "Call ID",
@@ -55,6 +73,16 @@ const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function CallReporting() {
   const [addStrategyModel, setAddStrategyModel] = useState(false);
   const [viewDetails, SetViewdetails] = useState(false);
+  const [selectedMR, setSelectedMR] = useState<string>("");
+  const [selectedArea, setSelectedArea] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<{
+    start: string;
+    end: string;
+  }>({
+    start: "",
+    end: "",
+  });
+
   const [isloadinOrder, setLoadingOrder] = useState(false);
   const [page, setPage] = useState(1);
   const [doctorPage, setDoctorPage] = useState(1);
@@ -64,46 +92,69 @@ export default function CallReporting() {
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [doctorList, setDoctorList] = useState<any[]>([]);
+
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
+  const capitalize = (str: string) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   const limit = 10;
   const doctorLimit = 10;
 
   const navigate = useNavigate();
-
-  // Fetch doctors
   const { data: doctorss } = useQuery({
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctorsLIst(),
   });
-
-  // Fetch MR accounts
   const { data: allMr } = useQuery({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
-  let AllMR = allMr?.data?.admins;
-
+  const AllMR = allMr?.data?.admins ?? [];
   const {
     data: result,
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["reports", page, doctorPage],
-    queryFn: () => getAllReports(page, limit, doctorPage, doctorLimit),
+    queryKey: [
+      "reports",
+      page,
+      doctorPage,
+      selectedMR,
+      selectedArea,
+      selectedDate.start,
+      selectedDate.end,
+    ],
+    queryFn: () =>
+      getAllReports(
+        page,
+        limit,
+        doctorPage,
+        doctorLimit,
+        selectedMR,
+        selectedDate.start || undefined, // send undefined if not selected
+        selectedDate.end || undefined,
+        capitalize(selectedArea?.toLowerCase())
+      ),
     placeholderData: (previous) => previous,
   });
 
-  let AllStrategy = result?.data;
+  const handleFilter = () => {
+    if (selectedMR === "All") setSelectedMR("");
+    if (selectedArea === "All") setSelectedArea("");
 
-  // Formik setup
+    setSelectedArea((prev) => prev?.toLowerCase());
+  };
+
+  let AllStrategy = result?.data;
+  console.log("🚀 ~ CallReporting ~ AllStrategy:", AllStrategy);
   const AllDOctors = Array.isArray(doctorss?.data?.data)
     ? doctorss.data?.data
     : [];
-  console.log("🚀 ~ CallReporting ~ octorss?.data:", doctorss?.data);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -157,8 +208,6 @@ export default function CallReporting() {
       }
     },
   });
-
-  // Handle delete
   const handleDelete = async () => {
     setLoadingDelete(true);
     try {
@@ -173,14 +222,10 @@ export default function CallReporting() {
       setDeleteConfirmation(false);
     }
   };
-
-  // Set selected strategy
   useEffect(() => {
     if (AllStrategy && AllStrategy.length > 0)
       setSelectedStrategy(AllStrategy[0]);
   }, [AllStrategy]);
-
-  // Sync doctorList with selectedStrategy
   useEffect(() => {
     if (!selectedStrategy) return;
     const doctors = selectedStrategy.doctorList || [];
@@ -189,7 +234,6 @@ export default function CallReporting() {
     setDoctorList(paginatedDoctors);
   }, [selectedStrategy, doctorPage]);
 
-  // Move doctor up/down
   const moveUp = (index: number) => {
     if (index === 0) return;
     const updated = [...doctorList];
@@ -204,7 +248,6 @@ export default function CallReporting() {
     setDoctorList(updated);
   };
 
-  // Navigate to doctor details
   const handleGoTODetails = (doctor: any) => {
     if (!selectedStrategy) return;
     const plainDoctor = {
@@ -238,9 +281,45 @@ export default function CallReporting() {
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between">
-          <p className="text-heading font-medium text-[22px] sm:text-[24px]">
+          <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
             Strategies
           </p>
+          <div className="flex flex-wrap w-auto md:w-full lg:w-auto items-center gap-3">
+            <div className="lg:w-[300px] md:w-[calc(33%-8px)] w-full">
+              <SearchSelection
+                placeholder="Select MR"
+                options={[
+                  "All",
+                  ...AllMR.filter(
+                    (mr: any) => mr?.position === "MedicalRep(MR)"
+                  ).map((mr: any) => mr?.name),
+                ]}
+                value={selectedMR}
+                onChange={(val) => {
+                  setSelectedMR(val);
+                  handleFilter();
+                }}
+              />
+            </div>{" "}
+            <div className="lg:w-[300px] md:w-[calc(33%-8px)] w-full">
+              <SearchSelection
+                placeholder="Select Area"
+                options={areaOptions}
+                value={selectedArea}
+                onChange={(val) => {
+                  setSelectedArea(val);
+                  handleFilter();
+                }}
+              />
+            </div>{" "}
+            <div className="lg:w-[300px] md:w-[calc(33%-8px)] w-full">
+              <SearchDateRange
+                onChange={(range: { start: string; end: string }) => {
+                  setSelectedDate(range);
+                }}
+              />
+            </div>
+          </div>
           <button
             onClick={() => {
               setAddStrategyModel(true);
@@ -256,7 +335,6 @@ export default function CallReporting() {
         </div>
 
         <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
-          {/* Left: Strategies List */}
           <div className="lg:w-[calc(20%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">
@@ -279,11 +357,11 @@ export default function CallReporting() {
                   className={`bg-white p-5 first:mt-0 mt-4 rounded-xl cursor-pointer ${
                     selectedStrategy?._id === mr._id
                       ? "border-2 border-primary"
-                      : ""
+                      : "border-2 border-white"
                   }`}
                   onClick={() => {
                     setSelectedStrategy(mr);
-                    setDoctorPage(1); // reset doctor page when strategy changes
+                    setDoctorPage(1);
                   }}
                 >
                   <div className="flex items-start justify-between">
@@ -306,7 +384,7 @@ export default function CallReporting() {
                       : mr.mrName?.name || "--"}
                   </p>
                   <p className="text-primary text-sm ">
-                    MR ID:{mr?.mrName?.adminId}
+                    MR ID: {mr?.mrName?.adminId}
                   </p>
                   <p className="text-[#131313] text-sm ">
                     Strategy Name: {mr.strategyName}
@@ -322,8 +400,6 @@ export default function CallReporting() {
               ))}
             </div>
           </div>
-
-          {/* Right: Call List Table */}
           <div className="lg:w-[calc(80%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
@@ -547,14 +623,12 @@ export default function CallReporting() {
                   </div>
                   <div className="mt-3">
                     <CustomSelectMR
-                      options={
-                        AllMR?.filter(
-                          (mr: any) => mr.position === "MedicalRep(MR)"
-                        )?.map((mr: any) => ({
-                          label: mr.name,
-                          value: mr._id,
-                        })) || []
-                      }
+                      options={[
+                        "All",
+                        ...AllMR.filter(
+                          (mr: any) => mr?.position === "MedicalRep(MR)"
+                        ).map((mr: any) => mr?.name),
+                      ]}
                       value={formik.values.mrName}
                       onChange={(val) => formik.setFieldValue("mrName", val)}
                       placeholder="Select MR"
@@ -652,8 +726,6 @@ export default function CallReporting() {
                 className="cursor-pointer text-primary"
               />
             </div>
-
-            {/* 👇 Use doctorList here, not selectedStrategy.doctorList */}
             <div className="space-y-3">
               {doctorList.length > 0 ? (
                 doctorList.map((docItem: any, index: number) => (

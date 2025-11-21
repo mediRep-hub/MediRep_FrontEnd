@@ -29,7 +29,6 @@ export default function Targets() {
   const [editData, setEditData] = useState<EditData>({});
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("🚀 ~ Targets ~ currentPage:", currentPage);
 
   useEffect(() => {
     document.title = "MediRep | Targets & Achievements";
@@ -81,7 +80,6 @@ export default function Targets() {
         }
       );
 
-      // Show modal only on success
       setNotifiedModel(true);
       setTimeout(() => setNotifiedModel(false), 5000);
     } catch (error) {

@@ -2,18 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo/logo.png";
 import {
-  FaBriefcaseMedical,
   FaUserMd,
-  FaUserFriends,
   FaTimes,
   FaBars,
   FaClipboardList,
   FaBoxOpen,
+  FaBullseye,
+  FaPhoneAlt,
+  FaChartBar,
+  FaShoppingCart,
+  FaTachometerAlt,
+  FaUsersCog,
 } from "react-icons/fa";
-import { BiLogOut, BiSolidReport } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
 import { notifyError, notifySuccess } from "../Toast";
-import { MdManageAccounts } from "react-icons/md";
-import { GiAchievement } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../redux/userSlice";
 import { store } from "../../redux/store";
@@ -25,7 +27,7 @@ export default function SideBar() {
     {
       name: "Dashboard",
       path: "/dashboard",
-      icon: <FaBriefcaseMedical size={16} />,
+      icon: <FaTachometerAlt size={16} />,
     },
     {
       name: "Doctor Profile Management",
@@ -35,7 +37,7 @@ export default function SideBar() {
     {
       name: "Targets/Achievement",
       path: "/targets-achievement",
-      icon: <GiAchievement size={16} />,
+      icon: <FaBullseye size={16} />,
     },
     {
       name: "Products",
@@ -47,28 +49,28 @@ export default function SideBar() {
       path: "/requisition",
       icon: <FaClipboardList size={16} />,
     },
-
     {
       name: "Call Reporting",
       path: "/callReporting",
-      icon: <FaUserFriends size={16} />,
+      icon: <FaPhoneAlt size={16} />,
     },
     {
       name: "Data Reporting",
       path: "/dataReporting",
-      icon: <BiSolidReport size={16} />,
+      icon: <FaChartBar size={16} />,
     },
     {
       name: "Orders",
       path: "/orders",
-      icon: <BiSolidReport size={16} />,
+      icon: <FaShoppingCart size={16} />,
     },
   ];
+
   if (user?.position === "Admin") {
     links.splice(2, 0, {
       name: "Manage Accounts",
       path: "/manageAccount",
-      icon: <MdManageAccounts size={16} />,
+      icon: <FaUsersCog size={16} />,
     });
   }
 

@@ -45,7 +45,7 @@ export default function DashBoard() {
     >
       <div className="flex gap-2 items-stretch flex-wrap">
         <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-primary p-4 bg-white">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">Target</p>
             <div className="h-9 w-9 rounded-full bg-primary/10 flex justify-center items-center">
               <FiTarget size={18} className="text-primary" />
@@ -57,13 +57,13 @@ export default function DashBoard() {
         </div>
 
         <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#28A745] p-4 bg-white">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">Achievement</p>
             <div className="h-9 w-9 rounded-full bg-[#28A745]/10 flex justify-center items-center">
               <GiAchievement size={18} color="#28A745" />
             </div>
           </div>
-          <div className="flex items-baseline gap-2 mt-3">
+          <div className="flex items-end gap-2 mt-3">
             <p className="xl:text-xl lg:text-lg  font-semibold ">PKR 375,000</p>
             <p className="text-sm font-normal">-0.03%</p>
             <MdOutlineTrendingUp color="#28A745" size={18} />
@@ -71,13 +71,13 @@ export default function DashBoard() {
         </div>
 
         <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#C47301] p-4 bg-white">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">Percentage</p>
             <div className="h-9 w-9 rounded-full bg-[#C47301]/10 flex justify-center items-center">
               <FaPercentage size={18} color="#C47301" />
             </div>
           </div>{" "}
-          <div className="flex items-baseline gap-2 mt-3">
+          <div className="flex items-end gap-2 mt-3">
             <p className="xl:text-xl lg:text-lg  font-semibold ">75%</p>
             <p className="text-sm font-normal">-0.03%</p>
             <MdOutlineTrendingDown color="#C47301" size={18} />
@@ -85,7 +85,7 @@ export default function DashBoard() {
         </div>
 
         <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full   rounded-xl text-[#9C27B0] p-4 bg-white">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">
               Engagement with KOL
             </p>

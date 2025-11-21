@@ -10,7 +10,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function CallReportingDetail() {
   const location = useLocation();
   const doctor = location.state?.doctor;
-  console.log("🚀 ~ CallReportingDetail ~ doctor:", doctor);
   const [isLoaction, setLoaction] = useState(false);
 
   useEffect(() => {

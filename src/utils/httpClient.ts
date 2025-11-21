@@ -11,7 +11,6 @@ export const HTTP_CLIENT = axios.create({
 let isSessionExpiredHandled = false;
 
 export const interceptorConfig = (navigate: any) => {
-  // Attach token to every request
   HTTP_CLIENT.interceptors.request.use(
     (config: any) => {
       const token = store.getState().user?.token;
@@ -23,7 +22,6 @@ export const interceptorConfig = (navigate: any) => {
     (error: any) => Promise.reject(error)
   );
 
-  // Handle responses
   HTTP_CLIENT.interceptors.response.use(
     (response: any) => response,
     (error: any) => {
@@ -32,17 +30,13 @@ export const interceptorConfig = (navigate: any) => {
       if (status === 401 && !isSessionExpiredHandled) {
         isSessionExpiredHandled = true;
 
-        // Clear user state & local storage
         store.dispatch(setIsLoggedIn(false));
         localStorage.clear();
 
-        // Notify user
         notifyError("Your session has expired. Please log in again.");
 
-        // Redirect to login page
         navigate("/");
 
-        // Reset flag after navigation
         setTimeout(() => {
           isSessionExpiredHandled = false;
         }, 2000);

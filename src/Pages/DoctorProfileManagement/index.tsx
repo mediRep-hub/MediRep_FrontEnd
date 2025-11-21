@@ -57,8 +57,6 @@ export default function DoctorProfileManagement() {
   const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -184,7 +182,6 @@ export default function DoctorProfileManagement() {
         setDeleteConfirmation(false);
         setAddDoctor(false);
         setEditingDoctor(null);
-        // Adjust page if last item on last page is deleted
         const newTotalItems = totalItems - 1;
         const newTotalPages = Math.ceil(newTotalItems / itemsPerPage);
         if (currentPage > newTotalPages) setCurrentPage(newTotalPages);
@@ -367,14 +364,6 @@ export default function DoctorProfileManagement() {
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Doctors</p>
                   <div className="mt-4">
-                    {/* <CustomInput
-                      id="address"
-                      name="address"
-                      label="Address"
-                      placeholder="Write address here.."
-                      value={formik.values.address}
-                      onChange={formik.handleChange}
-                    /> */}
                     <LocationPicker
                       label="Pick Location"
                       placeholder="Enter your address"

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 interface CustomTimePickerProps {
   placeholder?: string;
-  value?: string; // expect "HH:mm" string
+  value?: string;
   onChange?: (value: string | null) => void;
 }
 
@@ -14,7 +14,6 @@ export default function CustomTimePicker({
   value,
   onChange,
 }: CustomTimePickerProps) {
-  // convert string value to Dayjs
   const timeValue = value ? dayjs(value, "HH:mm") : null;
 
   const handleChange = (val: Dayjs | null) => {

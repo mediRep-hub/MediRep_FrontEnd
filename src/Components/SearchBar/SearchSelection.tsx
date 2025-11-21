@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 interface SearchSelectionProps {
@@ -6,24 +6,20 @@ interface SearchSelectionProps {
   value?: string | null;
   onChange?: (value: string) => void;
   placeholder?: string;
-  firstSelected?: boolean;
 }
 
-export default function SearchSelection({
+export function SearchSelection({
   options = [],
   value,
   onChange,
   placeholder = "Select an option",
-  firstSelected = false,
 }: SearchSelectionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(value || null);
+
   useEffect(() => {
-    if (firstSelected && options.length > 0 && !value) {
-      setSelected(options[0]);
-      onChange?.(options[0]);
-    }
-  }, [options, value, onChange, firstSelected]);
+    if (value) setSelected(value);
+  }, [value]);
 
   const handleSelect = (option: string) => {
     setSelected(option);
@@ -32,30 +28,30 @@ export default function SearchSelection({
   };
 
   return (
-    <div className="relative  w-full">
-      <label className="absolute -top-3 left-5 bg-secondary  px-1 text-sm text-gray-500">
+    <div className="relative w-full">
+      <label className="absolute -top-3 left-5 bg-secondary px-1 text-sm text-gray-500">
         {placeholder}
       </label>
       <div
-        className="flex items-center h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d]  rounded-md  cursor-pointer"
+        className="flex items-center h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
           className={`text-sm ${selected ? "text-gray-700" : "text-gray-400"}`}
         >
-          {selected || "Select the Options"}
+          {selected || "Select the option"}
         </span>
         <IoIosArrowDown
-          className={`transition-transform duration-200 text-[#7d7d7d] ${
+          className={`transition-transform duration-200 ${
             isOpen ? "rotate-180" : "rotate-0"
-          }`}
+          } text-[#7d7d7d]`}
         />
       </div>
       {isOpen && options.length > 0 && (
         <ul className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-50 max-h-60 overflow-y-auto">
-          {options.map((option, index) => (
+          {options.map((option, idx) => (
             <li
-              key={index}
+              key={idx}
               className={`px-4 py-2 text-sm cursor-pointer ${
                 option === selected
                   ? "bg-primary text-white"

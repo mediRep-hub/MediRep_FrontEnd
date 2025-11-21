@@ -1,17 +1,10 @@
 import { Avatar } from "antd";
 import Notification from "../Notifications";
-import { useState } from "react";
-import SearchSelection from "./SearchSelection";
-import { useSelector } from "react-redux";
-
-const mrOptions: string[] = [
-  "MR Ali",
-  "MR Bilal",
-  "MR Hassan",
-  "MR Ahmad",
-  "MR Zubair",
-];
-
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import { getAllAccounts } from "../../api/adminServices";
+import { setIsFilter } from "../../redux/userSlice";
 const areaOptions: string[] = [
   "All Area",
   "Lahore",
@@ -20,6 +13,7 @@ const areaOptions: string[] = [
   "Faisalabad",
   "Multan",
 ];
+
 const dateOptions: string[] = [
   "Today",
   "Last 7 Days",
@@ -27,79 +21,56 @@ const dateOptions: string[] = [
   "This Month",
   "Custom Range",
 ];
+
 export default function SearchBar() {
-  const [selectedMR, setSelectedMR] = useState("");
+  const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state.user);
 
-  return (
-    <>
-      <div className="bg-secondary p-4 rounded-[8px] w-full xl:h-20 md:justify-start xl:justify-between h-auto flex flex-wrap lg:items-center items-start xl-flex-row flex-col-reverse lg:flex-row">
-        <div className="flex flex-wrap lg:mt-0 mt-4  w-full lg:w-[60%] items-center gap-4">
-          <div className="xl:w-[calc(33%-10px)] lg:w-[calc(32%-10px)] lg:mt-0 mt-3  w-full">
-            <SearchSelection
-              placeholder="Select MR"
-              options={mrOptions}
-              firstSelected={true}
-              value={selectedMR}
-              onChange={setSelectedMR}
-            />{" "}
-          </div>{" "}
-          <div className="xl:w-[calc(33%-10px)] lg:w-[calc(32%-10px)] w-full">
-            <SearchSelection
-              placeholder="Area Selection"
-              options={areaOptions}
-              firstSelected={true}
-              value={selectedMR}
-              onChange={setSelectedMR}
-            />{" "}
-          </div>{" "}
-          <div className="xl:w-[calc(33%-10px)] lg:w-[calc(32%-10px)] w-full">
-            <SearchSelection
-              placeholder="Date Range"
-              firstSelected={true}
-              options={dateOptions}
-              value={selectedMR}
-              onChange={setSelectedMR}
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center w-full lg:w-auto">
-          <div className="cursor-pointer">
-            <Notification />
-          </div>
+  const [selectedMR, setSelectedMR] = useState<string>("");
+  const [selectedArea, setSelectedArea] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const { data: allMr } = useQuery({
+    queryKey: ["AllAccount"],
+    queryFn: () => getAllAccounts(),
+    staleTime: 5 * 60 * 1000,
+  });
+  const AllMR = allMr?.data?.admins || [];
+  useEffect(() => {
+    if (AllMR.length > 0 && !selectedMR) {
+      const firstMR =
+        AllMR.find((mr: any) => mr.position === "MedicalRep(MR)")?.name || "";
+      setSelectedMR(firstMR);
+      dispatch(setIsFilter({ key: "mr", value: firstMR }));
+    }
+    if (!selectedArea) {
+      setSelectedArea(areaOptions[0]);
+      dispatch(setIsFilter({ key: "area", value: areaOptions[0] }));
+    }
+    if (!selectedDate) {
+      setSelectedDate(dateOptions[0]);
+      dispatch(setIsFilter({ key: "date", value: dateOptions[0] }));
+    }
+  }, [AllMR, dispatch]);
 
-          <div className="w-full md:w-[250px] mt-4  lg:mt-0 xl:mt-0 md:ml-4 md:mt-0 ml-0  md:h-12 h-14 bg-white rounded-[12px] px-2 flex gap-3 items-center">
-            <Avatar src={user?.image} size={40} />
-            <div>
-              <p className="text-primary text-sm leading-[14px] w-[150px] truncate overflow-hidden whitespace-nowrap">
-                {user?.position}
-              </p>
-              <p className="text-heading text-sm leading-[14px]">
-                {" "}
-                {user?.name}
-              </p>{" "}
-              <p className="text-[12px] text-[#979797] leading-[12px]">
-                {user?.email}
-              </p>
-            </div>
+  return (
+    <div className="bg-secondary p-4 rounded-[8px] w-full xl:h-20 flex xl:justify-end lg:justify-start justify-end">
+      <div className="flex flex-wrap items-center w-full lg:w-auto ">
+        <div className="cursor-pointer mr-4">
+          <Notification />
+        </div>
+        <div className="w-full md:w-[250px] mt-4 md:mt-0 h-14 bg-white rounded-[12px] px-2 flex gap-3 items-center">
+          <Avatar src={user?.image} size={40} />
+          <div>
+            <p className="text-primary text-sm leading-[14px] w-[150px] truncate">
+              {user?.position}
+            </p>
+            <p className="text-heading text-sm leading-[14px]">{user?.name}</p>
+            <p className="text-[12px] text-[#979797] leading-[12px]">
+              {user?.email}
+            </p>
           </div>
         </div>
-      </div>{" "}
-      {/* <div className="relative">
-        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-          <LuSearch size={16} />
-        </span>
-        <input
-          type="text"
-          placeholder="Search"
-          className="h-12  xl:min-w-[254px] w-[93%] md:w-full pl-10 pr-4 rounded-full bg-white text-gray-800 
-               border-none outline-none focus:ring-0 focus:border-none"
-        />
       </div>
-      <div className="h-12 xl:ml-4 md:ml-4 cursor-pointer mt-4 md:mt-0 xl:mt-0 rounded-full min-w-[94px] flex items-center justify-center gap-3 bg-white">
-        <RiListCheck size={16} />
-        <p className="text-heading text-sm font-medium">Today</p>
-      </div> */}
-    </>
+    </div>
   );
 }

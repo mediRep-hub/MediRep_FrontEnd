@@ -6,7 +6,7 @@ import { persistStore, persistReducer } from "redux-persist";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"], // only persist user slice
+  whitelist: ["user"],
 };
 
 const rootReducer = combineReducers({

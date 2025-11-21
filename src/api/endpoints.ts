@@ -54,4 +54,6 @@ export const ENDPOINTS = {
   ORDER_DELETE: "/orders/deleteOrder",
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
+  //   -----------filter-------------
+  FILTER: "/filter/fetch",
 };

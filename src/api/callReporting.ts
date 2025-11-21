@@ -9,11 +9,20 @@ export const getAllReports = (
   page: number,
   limit: number,
   doctorPage?: number,
-  doctorLimit?: number
+  doctorLimit?: number,
+  mrName?: string,
+  startDate?: string,
+  endDate?: string,
+  area?: string
 ) => {
-  return HTTP_CLIENT.get(ENDPOINTS.REPORTING_GET_ALL, {
-    params: { page, limit, doctorPage, doctorLimit },
-  }).then((res) => res.data);
+  const params: any = { page, limit, doctorPage, doctorLimit };
+  if (mrName && mrName !== "All") params.mrName = mrName;
+  if (startDate) params.startDate = startDate;
+  if (endDate) params.endDate = endDate;
+  if (area) params.area = area;
+  return HTTP_CLIENT.get(ENDPOINTS.REPORTING_GET_ALL, { params }).then(
+    (res) => res.data
+  );
 };
 
 export const updateReports = (id: string, values: any) => {

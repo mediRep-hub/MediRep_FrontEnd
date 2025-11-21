@@ -5,11 +5,22 @@ export const addOrder = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.ORDER_ADD, values);
 };
 
-export const getAllOrders = (page = 1, limit = 10) => {
-  return HTTP_CLIENT.get(
-    `${ENDPOINTS.ORDER_GET_ALL}?page=${page}&limit=${limit}`
-  );
+export const getAllOrders = (
+  page = 1,
+  limit = 10,
+  mrName?: string,
+  startDate?: string,
+  endDate?: string
+) => {
+  let query = `?page=${page}&limit=${limit}`;
+
+  if (mrName) query += `&mrName=${encodeURIComponent(mrName)}`;
+  if (startDate) query += `&startDate=${startDate}`;
+  if (endDate) query += `&endDate=${endDate}`;
+
+  return HTTP_CLIENT.get(`${ENDPOINTS.ORDER_GET_ALL}${query}`);
 };
+
 export const getOrderById = (id: string) => {
   return HTTP_CLIENT.get(`${ENDPOINTS.ORDER_GET_SINGLE}/${id}`);
 };

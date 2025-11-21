@@ -4,6 +4,7 @@ const initialState = {
   user: "chala",
   token: null,
   isLoggedIn: false,
+  isfilter: null,
 };
 
 const userSlice = createSlice({
@@ -20,8 +21,12 @@ const userSlice = createSlice({
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
+    setIsFilter: (state, action) => {
+      state.isfilter = action.payload;
+    },
   },
 });
 
-export const { setUser, setToken, setIsLoggedIn } = userSlice.actions;
+export const { setUser, setToken, setIsLoggedIn, setIsFilter } =
+  userSlice.actions;
 export default userSlice.reducer;

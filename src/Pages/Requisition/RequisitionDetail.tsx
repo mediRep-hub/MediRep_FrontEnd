@@ -158,7 +158,6 @@ export default function RequisitionDetail() {
     try {
       setLoadingUpdate(true);
 
-      // Update products array
       const updatedProducts = dataRequisitions.product.map((p) =>
         p._id === selectedProduct._id
           ? {
@@ -169,7 +168,6 @@ export default function RequisitionDetail() {
           : { ...p, amount: requisitionType === "cash" ? p.amount : 0 }
       );
 
-      // Update main requisition
       const updatedRequisition: Requisition = {
         ...dataRequisitions,
         product: updatedProducts,
@@ -206,7 +204,6 @@ export default function RequisitionDetail() {
   return (
     <>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        {/* Header */}
         <div className="flex flex-wrap items-center gap-4 ">
           <div
             onClick={handleBack}
@@ -218,8 +215,6 @@ export default function RequisitionDetail() {
             Requisition Details
           </p>
         </div>
-
-        {/* Requisition info */}
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto">
           <p className="text-[#7d7d7d]">Requisition Details</p>
           <div

@@ -4,6 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllRequisition } from "../../api/requisitionServices";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
+import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
+import { getAllAccounts } from "../../api/adminServices";
+import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 
 const titles = [
   "Requisition ID",
@@ -18,15 +21,41 @@ const titles = [
 
 export default function Requisition() {
   const navigate = useNavigate();
+  const [selectedMR, setSelectedMR] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<{
+    start: string;
+    end: string;
+  }>({
+    start: "",
+    end: "",
+  });
   const [page, setPage] = useState(1);
   const limit = 10;
   const { data, isFetching } = useQuery({
-    queryKey: ["AllRequisition", page],
-    queryFn: () => getAllRequisition(page, limit),
+    queryKey: [
+      "AllRequisition",
+      page,
+      selectedMR,
+      selectedDate.start,
+      selectedDate.end,
+    ],
+    queryFn: () =>
+      getAllRequisition(
+        page,
+        limit,
+        selectedMR,
+        selectedDate.start || undefined,
+        selectedDate.end || undefined
+      ),
     placeholderData: (previous) => previous,
     staleTime: 5 * 60 * 1000,
   });
-
+  const { data: allMr } = useQuery({
+    queryKey: ["AllAccount"],
+    queryFn: () => getAllAccounts(),
+    staleTime: 5 * 60 * 1000,
+  });
+  const AllMR = allMr?.data?.admins ?? [];
   const result = data?.data;
   const Requisitions = data?.data?.requisitions || [];
   const tableData: any = [];
@@ -66,14 +95,41 @@ export default function Requisition() {
   useEffect(() => {
     document.title = "MediRep | Requisitions";
   }, []);
-
+  const handleFilter = () => {
+    if (selectedMR === "All") setSelectedMR("");
+  };
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap items-center gap-4 justify-between">
-          <p className="text-heading font-medium text-[22px] sm:text-[24px]">
+          <p className="text-heading w-full md:w-auto font-medium text-[22px] sm:text-[24px]">
             Requisitions
           </p>
+          <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
+            <div className="w-full md:w-[300px]">
+              <SearchSelection
+                placeholder="Select MR"
+                options={[
+                  "All",
+                  ...AllMR.filter(
+                    (mr: any) => mr?.position === "MedicalRep(MR)"
+                  ).map((mr: any) => mr?.name),
+                ]}
+                value={selectedMR}
+                onChange={(val) => {
+                  setSelectedMR(val);
+                  handleFilter();
+                }}
+              />
+            </div>{" "}
+            <div className="w-full md:w-[300px]">
+              <SearchDateRange
+                onChange={(range: { start: string; end: string }) => {
+                  setSelectedDate(range);
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(92vh-130px)] xl:h-[calc(90vh-142px)] h-auto ">
