@@ -35,14 +35,6 @@ const areaOptions: string[] = [
   "Karachi",
 ];
 
-const dateOptions: string[] = [
-  "Today",
-  "Last 7 Days",
-  "Last 30 Days",
-  "This Month",
-  "Custom Range",
-];
-
 const titles = [
   "Call ID",
   "Doctor Name",

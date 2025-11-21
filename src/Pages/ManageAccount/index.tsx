@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { RiAlertFill } from "react-icons/ri";
 import CustomTable from "../../Components/CustomTable";
@@ -167,12 +167,6 @@ export default function ManageAccount() {
       }
     },
   });
-  const paginatedRows = useMemo(() => {
-    const rows =
-      selectTab === "sales" ? rowsByDivision.sales : rowsByDivision.marketing;
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return rows.slice(startIndex, startIndex + itemsPerPage);
-  }, [rowsByDivision, selectTab, currentPage, itemsPerPage]);
 
   const handleDelete = () => {
     const id = editingAccount?._id;

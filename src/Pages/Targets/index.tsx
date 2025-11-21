@@ -28,7 +28,6 @@ export default function Targets() {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editData, setEditData] = useState<EditData>({});
   const queryClient = useQueryClient();
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.title = "MediRep | Targets & Achievements";
@@ -121,7 +120,6 @@ export default function Targets() {
               currentPage={data?.data?.pagination?.currentPage}
               totalItems={data?.data?.pagination?.totalItems}
               itemsPerPage={data?.data?.pagination?.itemsPerPage}
-              onPageChange={(page) => setCurrentPage(page)}
             />
           </div>
           <div className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none">

@@ -76,7 +76,6 @@ export default function Products() {
   const [viewImage, setViewImage] = useState<any>(null);
   const [openImage, setOpenImage] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);
@@ -226,7 +225,6 @@ export default function Products() {
               currentPage={data?.data?.pagination?.currentPage || 1}
               totalItems={data?.data?.pagination?.totalItems || 0}
               itemsPerPage={data?.data?.pagination?.itemsPerPage}
-              onPageChange={(page) => setCurrentPage(page)}
             />
           </div>
           <div
