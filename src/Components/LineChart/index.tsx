@@ -68,16 +68,16 @@ export default function LineChart() {
     queryFn: () => productGraph(),
     staleTime: 5 * 60 * 1000,
   });
+  console.log("🚀 ~ LineChart ~ Graph:", Graph?.data?.data);
 
   useEffect(() => {
     refetch;
   }, []);
   const graphData =
     Graph?.data?.data?.map((item: any) => {
-      const [m] = item.month.split("-");
-
+      const monthIndex = new Date(item.month).getMonth();
       return {
-        month: monthNames[Number(m) - 1],
+        month: monthNames[monthIndex],
         Target: item.totalTarget || 0,
         Achievement: item.totalAchievement || 0,
       };

@@ -329,7 +329,7 @@ export default function CallReporting() {
         </div>
 
         <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
-          <div className="lg:w-[calc(20%-8px)] w-full">
+          <div className="lg:w-[calc(22%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">
                 Strategies List
@@ -401,7 +401,7 @@ export default function CallReporting() {
               </div>
             )}
           </div>
-          <div className="lg:w-[calc(80%-8px)] w-full">
+          <div className="lg:w-[calc(78%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
               <Pagination
@@ -416,7 +416,7 @@ export default function CallReporting() {
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
             >
-              <table className="w-full border-collapse min-w-[800px]">
+              <table className="w-full border-collapse min-w-[700px]">
                 <thead className="sticky top-0 z-[1] h-[56px] bg-white">
                   <tr>
                     {titles?.map((title, index) => (
@@ -446,15 +446,15 @@ export default function CallReporting() {
                         className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
                         onClick={() => handleGoTODetails(doc)}
                       >
-                        <td className="px-5 py-2 min-w-[200px] border-b-[0.5px] text-[13px] border-primary">
+                        <td className="px-5 py-2 min-w-[120px]   border-b-[0.5px] text-[13px] border-primary">
                           {doc.callId}
                         </td>
-                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
                           {doc.doctor?.name || "--"}
                         </td>
-                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
                           <p
-                            className={`inline-block px-2 py-1 capitalize  rounded-md font-medium text-sm border ${
+                            className={`inline-block px-2 py-0.5 capitalize  rounded-sm font-medium text-sm border ${
                               doc.status === "pending"
                                 ? "text-[#E90761] border-[#E90761]"
                                 : doc.status === "close"
@@ -467,7 +467,7 @@ export default function CallReporting() {
                             {doc.status}
                           </p>
                         </td>
-                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
+                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
                           <div className="flex gap-3">
                             <FiClock
                               size={16}

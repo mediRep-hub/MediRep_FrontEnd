@@ -94,7 +94,7 @@ export default function Products() {
       v?.category,
       v?.isfrom,
       <div
-        className={`border-[1px] px-2 font-medium rounded-[2px] w-max capitalize
+        className={`border-[1px] px-2 py-0.5 text-sm font-medium rounded-sm w-max capitalize
     ${
       v?.isStatus?.toLowerCase() === "active"
         ? "border-[#0755E9] text-[#0755E9]"

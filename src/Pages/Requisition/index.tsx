@@ -69,7 +69,7 @@ export default function Requisition() {
       v?.duration,
       <p className="capitalize">{v?.requisitionType}</p>,
       <p
-        className={`inline-block rounded-[3px] px-2 font-normal text-sm border ${
+        className={`inline-block rounded-sm px-2 py-0.5 font-normal text-sm border ${
           v?.status === "Pending"
             ? "text-[#E90761] border-[#E90761]"
             : v?.status === "Approved"
