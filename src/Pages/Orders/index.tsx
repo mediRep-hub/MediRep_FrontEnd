@@ -52,7 +52,7 @@ export default function Orders() {
     staleTime: 5 * 60 * 1000,
   });
   const AllMR = allMr?.data?.admins ?? [];
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: [
       "GetOrder",
       currentPage,

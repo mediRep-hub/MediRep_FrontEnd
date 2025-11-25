@@ -72,7 +72,7 @@ export default function LineChart() {
   // 🔥 Convert API into chart format
   const graphData =
     Graph?.data?.data?.map((item: any) => {
-      const [year, m] = item.month.split("-");
+      const [m] = item.month.split("-");
 
       return {
         month: monthNames[Number(m) - 1],

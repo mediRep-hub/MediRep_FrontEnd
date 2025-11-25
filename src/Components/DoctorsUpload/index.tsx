@@ -11,10 +11,13 @@ export default function DoctorUploads({ closeModle }: any) {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const currentPage = 0;
+  const itemsPerPage = 10;
   const { refetch } = useQuery({
-    queryKey: ["AllDoctors"],
-    queryFn: () => getAllDoctors(),
-    staleTime: 5 * 60 * 1000,
+    queryKey: ["AllDoctors", currentPage],
+    queryFn: () => getAllDoctors({ page: currentPage, limit: itemsPerPage }),
+    placeholderData: (previous) => previous,
+    enabled: false,
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
