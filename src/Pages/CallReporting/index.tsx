@@ -206,11 +206,11 @@ export default function CallReporting() {
     setLoadingDelete(true);
     try {
       await deleteReports(editingProduct._id);
-      notifySuccess("Product deleted successfully");
+      notifySuccess("Strategy deleted successfully");
       refetch();
     } catch (error) {
       console.error(error);
-      notifyError("Failed to delete product. Please try again.");
+      notifyError("Failed to delete Strategy. Please try again.");
     } finally {
       setLoadingDelete(false);
       setDeleteConfirmation(false);
@@ -687,7 +687,7 @@ export default function CallReporting() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Product</strong>
+                Are you sure you want to delete this <strong>Strategy</strong>
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">

@@ -75,11 +75,6 @@ export default function DoctorProfileManagement() {
 
   const paginatedDoctors = doctorsList;
 
-  console.log(
-    "🚀 ~ DoctorProfileManagement ~ paginatedDoctors:",
-    paginatedDoctors
-  );
-
   useEffect(() => {
     document.title = "MediRep | Doctor Profile Management";
   }, []);
@@ -519,7 +514,9 @@ export default function DoctorProfileManagement() {
         </div>
       )}
 
-      {openModal && <DoctorUploads closeModle={setOpenModal} />}
+      {openModal && (
+        <DoctorUploads closeModle={setOpenModal} refetch={refetch} />
+      )}
     </>
   );
 }

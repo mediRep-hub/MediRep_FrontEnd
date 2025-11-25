@@ -3,22 +3,12 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { MdFileUpload } from "react-icons/md";
 import { FaFileAlt, FaTrash } from "react-icons/fa";
 import { notifyError, notifySuccess } from "../Toast";
-import { useQuery } from "@tanstack/react-query";
-import { getAllDoctors, uploadCSVDoctor } from "../../api/doctorServices";
+import { uploadCSVDoctor } from "../../api/doctorServices";
 
-export default function DoctorUploads({ closeModle }: any) {
+export default function DoctorUploads({ closeModle, refetch }: any) {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const currentPage = 0;
-  const itemsPerPage = 10;
-  const { refetch } = useQuery({
-    queryKey: ["AllDoctors", currentPage],
-    queryFn: () => getAllDoctors({ page: currentPage, limit: itemsPerPage }),
-    placeholderData: (previous) => previous,
-    enabled: false,
-  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];

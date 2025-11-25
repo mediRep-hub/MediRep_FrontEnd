@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LineChart as ReLineChart,
   Line,
@@ -63,13 +63,15 @@ export default function LineChart() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   console.log("🚀 ~ LineChart ~ activeIndex:", activeIndex);
 
-  const { data: Graph } = useQuery({
+  const { data: Graph, refetch } = useQuery({
     queryKey: ["productGraph"],
     queryFn: () => productGraph(),
     staleTime: 5 * 60 * 1000,
   });
 
-  // 🔥 Convert API into chart format
+  useEffect(() => {
+    refetch;
+  }, []);
   const graphData =
     Graph?.data?.data?.map((item: any) => {
       const [m] = item.month.split("-");
@@ -80,8 +82,6 @@ export default function LineChart() {
         Achievement: item.totalAchievement || 0,
       };
     }) || [];
-
-  console.log("Line Graph Data =>", graphData);
 
   return (
     <>
@@ -116,24 +116,18 @@ export default function LineChart() {
           />
 
           <Tooltip content={<CustomTooltip />} cursor={false} />
-
-          {/* Green background area → Target */}
           <Area
             type="monotone"
             dataKey="Target"
             stroke="none"
             fill="rgba(34, 197, 94, 0.2)"
           />
-
-          {/* Blue background area → Achievement */}
           <Area
             type="monotone"
             dataKey="Achievement"
             stroke="none"
             fill="rgba(59, 130, 246, 0.2)"
           />
-
-          {/* Blue Target Line */}
           <Line
             type="monotone"
             dataKey="Target"
@@ -141,8 +135,6 @@ export default function LineChart() {
             strokeWidth={2}
             dot={false}
           />
-
-          {/* Green Achievement Line */}
           <Line
             type="monotone"
             dataKey="Achievement"

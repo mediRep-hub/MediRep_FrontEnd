@@ -40,10 +40,6 @@ export default function Targets() {
   });
 
   const ProductData = data?.data?.data || [];
-  console.log(
-    "🚀 ~ Targets ~ ProductData:",
-    data?.data?.pagination?.currentPage
-  );
 
   useEffect(() => {
     const timer = setTimeout(() => {

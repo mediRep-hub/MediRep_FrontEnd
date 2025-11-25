@@ -19,7 +19,6 @@ export default function SearchDateRange({ onChange }: any) {
     const { name, value } = e.target;
     const updated = { ...range, [name]: value };
 
-    // Validation: End date cannot be earlier than start date
     if (
       updated.start &&
       updated.end &&
