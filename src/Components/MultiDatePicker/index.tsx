@@ -36,7 +36,7 @@ export default function MultiDatePicker({
 
   return (
     <div className="relative w-full">
-      <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-[#7d7d7d]">
         {label}
       </label>
       <div
@@ -54,7 +54,7 @@ export default function MultiDatePicker({
               </span>
             </>
           ) : (
-            <span className="text-gray-400">{placeholder}</span>
+            <span className="text-[#7d7d7d]">{placeholder}</span>
           )}
         </span>
 

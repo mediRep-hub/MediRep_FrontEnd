@@ -37,7 +37,7 @@ export default function CustomSelect({
 
   return (
     <div className="relative w-full">
-      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7D7D7D]">
         {placeholder}
       </label>
       <div
@@ -45,7 +45,7 @@ export default function CustomSelect({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`text-sm ${selected ? "text-gray-700" : "text-gray-400"}`}
+          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
         >
           {selected || "Select the Options"}
         </span>
@@ -69,7 +69,7 @@ export default function CustomSelect({
               className={`px-4 flex items-center h-[56px] text-sm cursor-pointer ${
                 option === selected
                   ? "bg-primary text-white"
-                  : "text-gray-700 hover:bg-gray-100"
+                  : "text-heading hover:bg-gray-100"
               }`}
               onClick={() => handleSelect(option)}
             >

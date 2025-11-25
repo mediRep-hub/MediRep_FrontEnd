@@ -199,7 +199,7 @@ export default function ManageAccount() {
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between items-start">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Manage Accounts
           </p>
@@ -362,7 +362,7 @@ export default function ManageAccount() {
                     <>
                       <div className="mt-3">
                         <div className="relative w-full">
-                          <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+                          <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7d7d7d]">
                             Password
                           </label>
                           <input
@@ -400,7 +400,7 @@ export default function ManageAccount() {
 
                       <div className="mt-3">
                         <div className="relative w-full">
-                          <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+                          <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7d7d7d]">
                             Confirm Password
                           </label>
                           <input

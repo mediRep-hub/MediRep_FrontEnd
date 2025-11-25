@@ -65,7 +65,7 @@ export default function SearchDateRange({ onChange }: any) {
             </div>
 
             <div className="flex flex-col">
-              <label className="text-xs text-gray-500">End Date</label>
+              <label className="text-xs text-[#7d7d7d]">End Date</label>
               <input
                 type="date"
                 name="end"

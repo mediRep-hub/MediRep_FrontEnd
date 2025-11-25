@@ -89,7 +89,7 @@ export default function Notification() {
                     <p className="text-[14px] text-heading font-medium">
                       {note.title}
                     </p>
-                    <p className="text-[11px] text-gray-600">{note.message}</p>
+                    <p className="text-[11px] text-[#7d7d7d]">{note.message}</p>
                   </div>
                 </div>
 
@@ -102,7 +102,7 @@ export default function Notification() {
               </div>
             ))
           ) : (
-            <p className="p-3 text-sm text-gray-500 text-center">
+            <p className="p-3 text-sm text-[#7d7d7d] text-center">
               No notifications
             </p>
           )}

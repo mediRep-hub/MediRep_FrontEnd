@@ -8,10 +8,20 @@ import { GoDotFill } from "react-icons/go";
 // import ProgressBar from "../../Components/ProgressBar";
 import { FiTarget } from "react-icons/fi";
 import { HiUsers } from "react-icons/hi";
+import { getAllProducts } from "../../api/productServices";
+import { useQuery } from "@tanstack/react-query";
 // import { useNavigate } from "react-router-dom";
 
 export default function DashBoard() {
+  const { data, refetch } = useQuery({
+    queryKey: ["AllProducts"],
+    queryFn: () => getAllProducts(),
+    staleTime: 5 * 60 * 1000,
+  });
+  let ProductData = data?.data?.totalSummary;
+
   useEffect(() => {
+    refetch;
     document.title = "MediRep | Dashboard";
   }, []);
   // const navigate = useNavigate();
@@ -35,6 +45,7 @@ export default function DashBoard() {
   //   : [];
 
   // const recent = requisitions.slice(0, 5);
+
   return (
     <div
       style={{
@@ -52,7 +63,7 @@ export default function DashBoard() {
             </div>
           </div>
           <p className="xl:text-xl lg:text-lg  font-semibold mt-3">
-            <span className="text-base">Rs.</span>500,000
+            {ProductData?.totalTarget}
           </p>
         </div>
 
@@ -64,7 +75,10 @@ export default function DashBoard() {
             </div>
           </div>
           <div className="flex items-end gap-2 mt-3">
-            <p className="xl:text-xl lg:text-lg  font-semibold ">PKR 375,000</p>
+            <p className="xl:text-xl lg:text-lg  font-semibold ">
+              {" "}
+              {ProductData?.totalAchievement}
+            </p>
             <p className="text-sm font-normal">-0.03%</p>
             <MdOutlineTrendingUp color="#28A745" size={18} />
           </div>
@@ -78,7 +92,9 @@ export default function DashBoard() {
             </div>
           </div>{" "}
           <div className="flex items-end gap-2 mt-3">
-            <p className="xl:text-xl lg:text-lg  font-semibold ">75%</p>
+            <p className="xl:text-xl lg:text-lg  font-semibold ">
+              {ProductData?.percentage?.toFixed(4)}%
+            </p>
             <p className="text-sm font-normal">-0.03%</p>
             <MdOutlineTrendingDown color="#C47301" size={18} />
           </div>
@@ -227,7 +243,7 @@ export default function DashBoard() {
                           ? "text-[#FF9500] border-[#FF9500]"
                           : v?.status === "Paid"
                           ? "text-[#0BA69C] border-[#0BA69C]"
-                          : "text-gray-500 border-gray-500"
+                          : "text-[#7d7d7d] border-[#7d7d7d]"
                       }`}
                     >
                       {v?.status}

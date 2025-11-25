@@ -17,7 +17,7 @@ export default function DatePicker({
 }: CustomDatePickerProps) {
   return (
     <div className="relative w-full">
-      <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-[#7D7D7D]">
         {label}
       </label>
 

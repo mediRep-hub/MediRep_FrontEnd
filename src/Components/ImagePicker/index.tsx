@@ -88,7 +88,7 @@ export default function ImagePicker({
   return (
     <div className="relative w-full">
       {label && (
-        <label className="absolute -top-2 left-5 z-9 bg-white px-1 text-xs text-gray-500">
+        <label className="absolute -top-2 left-5 z-9 bg-white px-1 text-xs text-[#7D7D7D]">
           {label}
         </label>
       )}
@@ -103,7 +103,7 @@ export default function ImagePicker({
           {uploading ? (
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-sm text-gray-500">Uploading...</span>
+              <span className="text-sm text-[#7D7D7D]">Uploading...</span>
             </div>
           ) : preview && type !== "file" ? (
             <div className="flex items-center gap-3">
@@ -113,17 +113,17 @@ export default function ImagePicker({
                 className="h-10 w-10 object-cover rounded-md"
               />
               {fileName && (
-                <span className="text-sm text-gray-700 truncate lg:max-w-[300px] max-w-[180px]">
+                <span className="text-sm text-heading truncate lg:max-w-[300px] max-w-[180px]">
                   {fileName}
                 </span>
               )}
             </div>
           ) : fileName ? (
-            <span className="text-sm text-gray-700 truncate lg:max-w-[300px] max-w-[180px]">
+            <span className="text-sm text-heading truncate lg:max-w-[300px] max-w-[180px]">
               {fileName}
             </span>
           ) : (
-            <span className="text-gray-400 text-sm">{placeholder}</span>
+            <span className="text-[#7d7d7d] text-sm">{placeholder}</span>
           )}
         </div>
 

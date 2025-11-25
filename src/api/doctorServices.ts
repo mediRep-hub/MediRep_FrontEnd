@@ -5,9 +5,12 @@ export const addDoctors = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.DOCTOR_ADD_DOCTOR, values);
 };
 
-export const getAllDoctors = () => {
-  return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL);
+export const getAllDoctors = ({ page = 1, limit = 6 }) => {
+  return HTTP_CLIENT.get(
+    `${ENDPOINTS.DOCTOR_GET_ALL}?page=${page}&limit=${limit}`
+  );
 };
+
 export const getAllDoctorsLIst = () => {
   return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL_LIST);
 };

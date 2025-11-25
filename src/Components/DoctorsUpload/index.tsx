@@ -127,7 +127,7 @@ export default function DoctorUploads({ closeModle }: any) {
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            <p className="text-sm mt-1 text-gray-600">{progress}%</p>
+            <p className="text-sm mt-1 text-[#7D7D7D]">{progress}%</p>
           </div>
         )}
         <div className="flex justify-end mt-6 xl:p-6 p-4">

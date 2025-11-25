@@ -269,7 +269,7 @@ export default function RequisitionDetail() {
                           ? "text-[#FF9500] border-[#FF9500]"
                           : dataRequisitions?.status === "Paid"
                           ? "text-[#0BA69C] border-[#0BA69C]"
-                          : "text-gray-500 border-gray-500"
+                          : "text-[#7d7d7d] border-[#7d7d7d]"
                       }`}
                     >
                       {dataRequisitions?.status}

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 const libraries = ["places"] as const;
@@ -6,15 +6,23 @@ const libraries = ["places"] as const;
 interface LocationPickerProps {
   label?: string;
   placeholder?: string;
+  value?: string;
   onChange?: (address: string, lat: number, lng: number) => void;
 }
 
 export default function LocationPicker({
   label,
   placeholder = "Enter your address",
+  value = "",
   onChange,
 }: LocationPickerProps) {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  const [inputValue, setInputValue] = useState(value);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A",
@@ -30,9 +38,9 @@ export default function LocationPicker({
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
 
-      if (onChange) {
-        onChange(address, lat, lng);
-      }
+      setInputValue(address);
+
+      if (onChange) onChange(address, lat, lng);
     }
   };
 
@@ -41,9 +49,10 @@ export default function LocationPicker({
 
   return (
     <div className="relative w-full">
-      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7D7D7D]">
         {label}
       </label>
+
       <Autocomplete
         onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
         onPlaceChanged={handlePlaceChanged}
@@ -51,7 +60,9 @@ export default function LocationPicker({
         <input
           type="text"
           placeholder={placeholder}
-          className="border-2 border-primary h-14 p-3 rounded-md  w-full focus:outline-none focus:none focus:none"
+          value={inputValue}
+          onInput={(e) => setInputValue(e.currentTarget.value)}
+          className="border-2 border-primary h-14 p-3 rounded-md w-full focus:outline-none"
         />
       </Autocomplete>
     </div>

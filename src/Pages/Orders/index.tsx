@@ -52,7 +52,7 @@ export default function Orders() {
     staleTime: 5 * 60 * 1000,
   });
   const AllMR = allMr?.data?.admins ?? [];
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: [
       "GetOrder",
       currentPage,
@@ -225,7 +225,7 @@ export default function Orders() {
   };
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-      <div className="flex flex-wrap gap-4 justify-between items-center">
+      <div className="flex flex-wrap gap-4 justify-between items-start">
         <p className="text-heading font-medium text-[22px] sm:text-[24px]">
           Orders
         </p>
@@ -283,13 +283,11 @@ export default function Orders() {
           />
         </div>
         <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)]">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-32">
-              <Spin indicator={antIcon} />
-            </div>
-          ) : (
-            <CustomTable titles={titles} data={tableData} />
-          )}
+          <CustomTable
+            titles={titles}
+            data={tableData}
+            isFetching={isFetching}
+          />
         </div>
       </div>
     </div>

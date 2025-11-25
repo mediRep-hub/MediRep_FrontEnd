@@ -28,7 +28,7 @@ export default function MultiSelect({
 
   return (
     <div className="relative w-full">
-      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7d7d7d]">
         {placeholder}
       </label>
       <div
@@ -48,7 +48,7 @@ export default function MultiSelect({
               ))}
             </>
           ) : (
-            <span className="text-gray-400 text-sm">Select options</span>
+            <span className="text-[#7d7d7d] text-sm">Select options</span>
           )}
         </span>
 
@@ -65,7 +65,7 @@ export default function MultiSelect({
             return (
               <li
                 key={index}
-                className="px-4 py-2 text-sm cursor-pointer flex items-center gap-2  text-gray-700 hover:bg-gray-100 "
+                className="px-4 py-2 text-sm cursor-pointer flex items-center gap-2  text-heading hover:bg-gray-100 "
                 onClick={() => handleSelect(option)}
               >
                 <input

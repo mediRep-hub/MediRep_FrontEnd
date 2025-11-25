@@ -88,6 +88,9 @@ export default function CallReporting() {
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
+  const antIcon22 = (
+    <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
+  );
   const capitalize = (str: string) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -143,7 +146,6 @@ export default function CallReporting() {
   };
 
   let AllStrategy = result?.data;
-  console.log("🚀 ~ CallReporting ~ AllStrategy:", AllStrategy);
   const AllDOctors = Array.isArray(doctorss?.data?.data)
     ? doctorss.data?.data
     : [];
@@ -272,12 +274,12 @@ export default function CallReporting() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between items-start">
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
             Strategies
           </p>
           <div className="flex flex-wrap w-auto md:w-full lg:w-auto items-center gap-3">
-            <div className="lg:w-[300px] md:w-[calc(33%-8px)] w-full">
+            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
               <SearchSelection
                 placeholder="Select MR"
                 options={[
@@ -293,7 +295,7 @@ export default function CallReporting() {
                 }}
               />
             </div>{" "}
-            <div className="lg:w-[300px] md:w-[calc(33%-8px)] w-full">
+            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
               <SearchSelection
                 placeholder="Select Area"
                 options={areaOptions}
@@ -304,7 +306,7 @@ export default function CallReporting() {
                 }}
               />
             </div>{" "}
-            <div className="lg:w-[300px] md:w-[calc(33%-8px)] w-full">
+            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
               <SearchDateRange
                 onChange={(range: { start: string; end: string }) => {
                   setSelectedDate(range);
@@ -339,58 +341,65 @@ export default function CallReporting() {
                 onPageChange={(newPage) => setPage(newPage)}
               />
             </div>
-            <div
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              className="scroll-smooth 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
-            >
-              {AllStrategy?.map((mr: any, index: number) => (
-                <div
-                  key={mr._id || index}
-                  className={`bg-white p-5 first:mt-0 mt-4 rounded-xl cursor-pointer ${
-                    selectedStrategy?._id === mr._id
-                      ? "border-2 border-primary"
-                      : "border-2 border-white"
-                  }`}
-                  onClick={() => {
-                    setSelectedStrategy(mr);
-                    setDoctorPage(1);
-                  }}
-                >
-                  <div className="flex items-start justify-between">
-                    <Avatar size={42} src={mr?.mrName?.image} />
-                    <div className="flex items-center gap-2">
-                      <MdDeleteOutline
-                        size={18}
-                        className="text-red-600 cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeleteConfirmation(true);
-                          setEditingProduct(mr);
-                        }}
-                      />
+            {isFetching ? (
+              <div className="mt-5 flex justify-center">
+                {" "}
+                <Spin indicator={antIcon22} />
+              </div>
+            ) : (
+              <div
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                className="scroll-smooth 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
+              >
+                {AllStrategy?.map((mr: any, index: number) => (
+                  <div
+                    key={mr._id || index}
+                    className={`bg-white p-5 first:mt-0 mt-4 rounded-xl cursor-pointer ${
+                      selectedStrategy?._id === mr._id
+                        ? "border-2 border-primary"
+                        : "border-2 border-white"
+                    }`}
+                    onClick={() => {
+                      setSelectedStrategy(mr);
+                      setDoctorPage(1);
+                    }}
+                  >
+                    <div className="flex items-start justify-between">
+                      <Avatar size={42} src={mr?.mrName?.image} />
+                      <div className="flex items-center gap-2">
+                        <MdDeleteOutline
+                          size={18}
+                          className="text-red-600 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteConfirmation(true);
+                            setEditingProduct(mr);
+                          }}
+                        />
+                      </div>
                     </div>
+                    <p className="text-[#131313] capitalize text-sm mt-3">
+                      {typeof mr.mrName === "string"
+                        ? mr.mrName
+                        : mr.mrName?.name || "--"}
+                    </p>
+                    <p className="text-primary text-sm ">
+                      MR ID: {mr?.mrName?.adminId}
+                    </p>
+                    <p className="text-[#131313] text-sm ">
+                      Strategy Name: {mr.strategyName}
+                    </p>
+                    <p className="text-[#131313] text-sm ">
+                      MR Status:{" "}
+                      <span className="text-primary">
+                        {mr?.mrStatus?.completedCalls}
+                      </span>
+                      /{mr?.mrStatus?.totalCalls}
+                    </p>
                   </div>
-                  <p className="text-[#131313] capitalize text-sm mt-3">
-                    {typeof mr.mrName === "string"
-                      ? mr.mrName
-                      : mr.mrName?.name || "--"}
-                  </p>
-                  <p className="text-primary text-sm ">
-                    MR ID: {mr?.mrName?.adminId}
-                  </p>
-                  <p className="text-[#131313] text-sm ">
-                    Strategy Name: {mr.strategyName}
-                  </p>
-                  <p className="text-[#131313] text-sm ">
-                    MR Status:{" "}
-                    <span className="text-primary">
-                      {mr?.mrStatus?.completedCalls}
-                    </span>
-                    /{mr?.mrStatus?.totalCalls}
-                  </p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="lg:w-[calc(80%-8px)] w-full">
             <div className="flex justify-between items-center">
@@ -425,7 +434,7 @@ export default function CallReporting() {
                     <tr>
                       <td
                         colSpan={titles.length}
-                        className="py-5 text-center text-gray-500"
+                        className="py-5 text-center text-[#7d7d7d]"
                       >
                         <Spin indicator={antIcon} />
                       </td>
@@ -452,7 +461,7 @@ export default function CallReporting() {
                                 ? "text-[#0BA69C] border-[#0BA69C]"
                                 : doc.status === "rejected"
                                 ? "text-[#FF9500] border-[#FF9500]"
-                                : "text-gray-600 border-gray-300"
+                                : "text-heading border-heading"
                             }`}
                           >
                             {doc.status}
@@ -616,10 +625,12 @@ export default function CallReporting() {
                   <div className="mt-3">
                     <CustomSelectMR
                       options={[
-                        "All",
                         ...AllMR.filter(
                           (mr: any) => mr?.position === "MedicalRep(MR)"
-                        ).map((mr: any) => mr?.name),
+                        ).map((mr: any) => ({
+                          label: mr.name,
+                          value: mr._id,
+                        })),
                       ]}
                       value={formik.values.mrName}
                       onChange={(val) => formik.setFieldValue("mrName", val)}
@@ -725,7 +736,7 @@ export default function CallReporting() {
                     key={index}
                     className="p-3 flex justify-between border mt-5 rounded-lg hover:bg-gray-50 transition"
                   >
-                    <p className="text-sm font-medium text-gray-800">
+                    <p className="text-sm font-medium text-heading">
                       {docItem?.doctor?.name ||
                         docItem?.name ||
                         "Unnamed Doctor"}
@@ -758,7 +769,7 @@ export default function CallReporting() {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 text-sm text-center">
+                <p className="text-[#7d7d7d] text-sm text-center">
                   No doctors found for this strategy.
                 </p>
               )}
@@ -840,7 +851,7 @@ const CustomSelectMR = ({
 
   return (
     <div className="relative w-full">
-      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7d7d7d]">
         {placeholder}
       </label>
       <div
@@ -848,7 +859,7 @@ const CustomSelectMR = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`text-sm ${selected ? "text-gray-700" : "text-gray-400"}`}
+          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
         >
           {selected
             ? options.find((opt) => opt.value === selected)?.label
@@ -871,7 +882,7 @@ const CustomSelectMR = ({
               className={`px-4 flex items-center h-[56px] text-sm cursor-pointer ${
                 selected === option.value
                   ? "bg-primary text-white"
-                  : "text-gray-700 hover:bg-gray-100"
+                  : "text-heading hover:bg-gray-100"
               }`}
               onClick={() => handleSelect(option)}
             >

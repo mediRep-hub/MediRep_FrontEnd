@@ -29,7 +29,6 @@ interface Doctor {
   specialty: string;
   email: string;
   phone: string;
-  address: string;
   value?: [string, string] | null;
   affiliation: string;
   image?: string | null;
@@ -37,6 +36,11 @@ interface Doctor {
   endTime?: string | null;
   region?: string;
   area?: string;
+  location: {
+    address: string;
+    lat: number;
+    lng: number;
+  };
 }
 
 const specialtyOptions = [
@@ -61,17 +65,19 @@ export default function DoctorProfileManagement() {
   const itemsPerPage = 6;
 
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllDoctors"],
-    queryFn: () => getAllDoctors(),
-    staleTime: 5 * 60 * 1000,
+    queryKey: ["AllDoctors", currentPage],
+    queryFn: () => getAllDoctors({ page: currentPage, limit: itemsPerPage }),
+    placeholderData: (previous) => previous,
   });
 
   const doctorsList: Doctor[] = data?.data?.data || [];
-  const totalItems = doctorsList.length;
+  const totalItems = data?.data.total;
 
-  const paginatedDoctors = doctorsList.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const paginatedDoctors = doctorsList;
+
+  console.log(
+    "🚀 ~ DoctorProfileManagement ~ paginatedDoctors:",
+    paginatedDoctors
   );
 
   useEffect(() => {
@@ -89,13 +95,13 @@ export default function DoctorProfileManagement() {
       specialty: doctor.specialty || "",
       email: doctor.email || "",
       phone: doctor.phone || "",
-      address: doctor.address || "",
       startTime: doctor.startTime || "",
       endTime: doctor.endTime || "",
       region: doctor.region || "",
       area: doctor.area || "",
       affiliation: doctor.affiliation || "",
       image: doctor.image || null,
+      location: doctor.location || ["", null, null],
     });
   };
 
@@ -106,13 +112,13 @@ export default function DoctorProfileManagement() {
       specialty: editingDoctor?.specialty || "",
       email: editingDoctor?.email || "",
       phone: editingDoctor?.phone || "",
-      address: editingDoctor?.address || "",
       startTime: editingDoctor?.startTime || "",
       endTime: editingDoctor?.endTime || "",
       affiliation: editingDoctor?.affiliation || "",
       region: editingDoctor?.region || "",
       area: editingDoctor?.area || "",
       image: editingDoctor?.image || null,
+      location: editingDoctor?.location || { address: "", lat: 0, lng: 0 },
     },
     validationSchema: DoctorSchema,
     onSubmit: (values) => {
@@ -166,12 +172,11 @@ export default function DoctorProfileManagement() {
       }
     },
   });
-
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
   const antIcon22 = (
-    <Loading3QuartersOutlined style={{ fontSize: 40, color: "#0755E9" }} spin />
+    <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
   );
 
   const handleDelete = async () => {
@@ -199,7 +204,7 @@ export default function DoctorProfileManagement() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap md:flex-nowrap justify-between gap-4">
+        <div className="flex flex-wrap md:flex-nowrap justify-between items-start gap-4">
           <p className="text-heading font-medium text-[22px] lg:text-[24px]">
             Doctor Profile Management
           </p>
@@ -238,7 +243,7 @@ export default function DoctorProfileManagement() {
           </div>
 
           {isFetching ? (
-            <div className="py-5 text-center text-gray-500">
+            <div className="py-5 text-center text-[#7d7d7d]">
               <Spin indicator={antIcon22} />
             </div>
           ) : (
@@ -366,17 +371,18 @@ export default function DoctorProfileManagement() {
                   <div className="mt-4">
                     <LocationPicker
                       label="Pick Location"
+                      value={formik.values.location.address}
                       placeholder="Enter your address"
-                      onChange={(address) => {
-                        formik.setFieldValue("address", address);
+                      onChange={(address, lat, lng) => {
+                        formik.setFieldValue("location", { address, lat, lng });
                       }}
                     />
-
-                    {formik.touched.address && formik.errors.address && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.address}
-                      </div>
-                    )}
+                    {formik.touched.location?.address &&
+                      formik.errors.location?.address && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.location.address}
+                        </div>
+                      )}
                   </div>
                   <div className="mt-4 flex gap-3">
                     <div className="w-full">

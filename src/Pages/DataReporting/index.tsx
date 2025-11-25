@@ -135,7 +135,7 @@ export default function DataReporting() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 justify-between items-start">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Reports
           </p>

@@ -9,23 +9,19 @@ export const LoginSchema = Yup.object({
 export const DoctorSchema = Yup.object().shape({
   name: Yup.string().required("Doctor name is required"),
   specialty: Yup.string().required("Specialty is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  phone: Yup.string().required("Phone number is required"),
-  startTime: Yup.string().required("Start Time is required"),
-  endTime: Yup.string().required("End Time is required"),
+  email: Yup.string().email().required("Email is required"),
+  phone: Yup.string().required("Phone is required"),
+  startTime: Yup.string().required("Start time is required"),
+  endTime: Yup.string().required("End time is required"),
   region: Yup.string().required("Region is required"),
   area: Yup.string().required("Area is required"),
   affiliation: Yup.string().required("Affiliation is required"),
-  image: Yup.string().required("Doctor Image is required"),
-  location: Yup.array()
-    .of(
-      Yup.object().shape({
-        address: Yup.string().required("Address is required"),
-        lat: Yup.string().required("Latitude is required"),
-        lng: Yup.string().required("Longitude is required"),
-      })
-    )
-    .min(1, "Location is required"),
+  image: Yup.string().nullable(),
+  location: Yup.object().shape({
+    address: Yup.string().required("Address is required"),
+    lat: Yup.number().required("Latitude is required"),
+    lng: Yup.number().required("Longitude is required"),
+  }),
 });
 
 export const MRSchema = Yup.object().shape({

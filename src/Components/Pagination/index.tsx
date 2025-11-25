@@ -34,7 +34,7 @@ const Pagination: React.FC<PaginationProps> = ({
         disabled={currentPage === 1 || totalItems === 0}
         className={`p-1 border rounded ${
           currentPage === 1 || totalItems === 0
-            ? "text-gray-400 border-gray-300 cursor-not-allowed"
+            ? "text-[#7d7d7d]0 border-gray-300 cursor-not-allowed"
             : "text-primary border-primary"
         }`}
       >
@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = ({
         disabled={currentPage === totalPages || totalItems === 0}
         className={`p-1 border rounded ${
           currentPage === totalPages || totalItems === 0
-            ? "text-gray-400 border-gray-300 cursor-not-allowed"
+            ? "text-[#7d7d7d] border-gray-300 cursor-not-allowed"
             : "text-primary border-primary"
         }`}
       >

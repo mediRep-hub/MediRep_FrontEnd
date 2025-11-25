@@ -1,5 +1,5 @@
-export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-// export const BASE_URL = "http://localhost:5001";
+// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -21,6 +21,7 @@ export const ENDPOINTS = {
   //   -----------Products-------------
   PRODUCT_ADD_PRODUCT: "/product/addProduct",
   PRODUCT_GET_ALL: "/product/getAllProducts",
+  PRODUCT_TRAGET_ACHIVEMENTS: "/product/getMonthlyAchievement",
   PRODUCT_UPDATE: "/product/updateproduct",
   PRODUCT_DELETE: "/product/deleteProduct",
   PRODUCT_uploadCSVTarget: "/product/uploadCSVUpdateTarget",

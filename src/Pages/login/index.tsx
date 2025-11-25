@@ -86,7 +86,7 @@ const Login = () => {
                 placeholder="Email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-                className="w-full h-[55px] px-4 rounded-[6px] bg-[#29AAE10F] text-gray-900 
+                className="w-full h-[55px] px-4 rounded-[6px] bg-[#29AAE10F] text-heading
                   border-none outline-none focus:ring-0 focus:border-none"
               />
               {formik.touched.email && formik.errors.email ? (
@@ -109,7 +109,7 @@ const Login = () => {
                 placeholder="Password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                className="w-full h-[55px] px-4 rounded-[6px] bg-[#29AAE10F] text-gray-900 
+                className="w-full h-[55px] px-4 rounded-[6px] bg-[#29AAE10F] text-heading 
                   border-none outline-none focus:ring-0 focus:border-none pr-12"
               />
               <span

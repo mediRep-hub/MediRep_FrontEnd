@@ -199,50 +199,45 @@ export default function Products() {
       });
   };
   return (
-    <>
-      <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 justify-between">
-          <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Products
-          </p>
-          <button
-            onClick={() => {
-              setEditingProduct(null);
-              setOpenModel(true);
-            }}
-            className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
-          >
-            <MdAdd size={20} color="#fff" />{" "}
-            <p className="text-white text-base font-medium">Add Products</p>
-          </button>
+    <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
+      <div className="flex flex-wrap gap-4 items-start justify-between">
+        <p className="text-heading font-medium text-[22px] sm:text-[24px]">
+          Products
+        </p>
+        <button
+          onClick={() => {
+            setEditingProduct(null);
+            setOpenModel(true);
+          }}
+          className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+        >
+          <MdAdd size={20} color="#fff" />{" "}
+          <p className="text-white text-base font-medium">Add Products</p>
+        </button>
+      </div>
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-162px)] h-auto ">
+        <div className="flex justify-between items-center">
+          <p className="text-[#7D7D7D] font-medium text-sm">Targets as List</p>
+          <Pagination
+            currentPage={data?.data?.pagination?.currentPage || 1}
+            totalItems={data?.data?.pagination?.totalItems || 0}
+            itemsPerPage={data?.data?.pagination?.itemsPerPage}
+          />
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-162px)] h-auto ">
-          <div className="flex justify-between items-center">
-            <p className="text-[#7D7D7D] font-medium text-sm">
-              Targets as List
-            </p>
-            <Pagination
-              currentPage={data?.data?.pagination?.currentPage || 1}
-              totalItems={data?.data?.pagination?.totalItems || 0}
-              itemsPerPage={data?.data?.pagination?.itemsPerPage}
-            />
-          </div>
-          <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
-          >
-            <CustomTable
-              isFetching={isFetching}
-              titles={titles}
-              data={tableData}
-            />
-          </div>
+        <div
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
+        >
+          <CustomTable
+            isFetching={isFetching}
+            titles={titles}
+            data={tableData}
+          />
         </div>
       </div>
-
       {openModel && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
@@ -470,6 +465,6 @@ export default function Products() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

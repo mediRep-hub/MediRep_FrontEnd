@@ -43,7 +43,7 @@ export default function CustomTimePicker({
   }, []);
   return (
     <div className="w-full relative">
-      <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-gray-500">
+      <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-[#7D7D7D]">
         {placeholder}
       </label>
       <TimePicker
@@ -52,7 +52,8 @@ export default function CustomTimePicker({
         format="HH:mm"
         suffixIcon={<IoTime size={20} className="text-primary" />}
         placeholder={placeholder}
-        className="rounded-md w-full h-14 px-3 py-2 text-sm outline-none border-primary border-[0.5px]"
+        style={{ color: "#131313" }}
+        className="rounded-md w-full h-14 px-3 py-2 text-sm text-heading outline-none border-primary border-[0.5px]"
       />
     </div>
   );

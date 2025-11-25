@@ -69,7 +69,7 @@ export default function Requisition() {
       v?.duration,
       <p className="capitalize">{v?.requisitionType}</p>,
       <p
-        className={`inline-block rounded-[3px] px-2 mt-3 font-normal text-sm border ${
+        className={`inline-block rounded-[3px] px-2 font-normal text-sm border ${
           v?.status === "Pending"
             ? "text-[#E90761] border-[#E90761]"
             : v?.status === "Approved"
@@ -78,7 +78,7 @@ export default function Requisition() {
             ? "text-[#FF9500] border-[#FF9500]"
             : v?.status === "Paid"
             ? "text-[#0BA69C] border-[#0BA69C]"
-            : "text-gray-500 border-gray-500"
+            : "text-[#7d7d7d] border-[#7d7d7d]"
         }`}
       >
         {v?.status}
@@ -99,69 +99,67 @@ export default function Requisition() {
     if (selectedMR === "All") setSelectedMR("");
   };
   return (
-    <>
-      <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 justify-between">
-          <p className="text-heading w-full md:w-auto font-medium text-[22px] sm:text-[24px]">
-            Requisitions
-          </p>
-          <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
-            <div className="w-full md:w-[300px]">
-              <SearchSelection
-                placeholder="Select MR"
-                options={[
-                  "All",
-                  ...AllMR.filter(
-                    (mr: any) => mr?.position === "MedicalRep(MR)"
-                  ).map((mr: any) => mr?.name),
-                ]}
-                value={selectedMR}
-                onChange={(val) => {
-                  setSelectedMR(val);
-                  handleFilter();
-                }}
-              />
-            </div>{" "}
-            <div className="w-full md:w-[300px]">
-              <SearchDateRange
-                onChange={(range: { start: string; end: string }) => {
-                  setSelectedDate(range);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(92vh-130px)] xl:h-[calc(90vh-142px)] h-auto ">
-          <div className="flex justify-between items-center">
-            <p className="text-[#7D7D7D] font-medium text-sm">
-              Requisition List
-            </p>
-
-            <Pagination
-              currentPage={page}
-              totalItems={result?.totalItems}
-              itemsPerPage={limit}
-              onPageChange={(newPage) => setPage(newPage)}
+    <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
+      <div className="flex flex-wrap items-start gap-4 justify-between">
+        <p className="text-heading w-full md:w-auto font-medium text-[22px] sm:text-[24px]">
+          Requisitions
+        </p>
+        <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
+          <div className="w-full md:w-[300px]">
+            <SearchSelection
+              placeholder="Select MR"
+              options={[
+                "All",
+                ...AllMR.filter(
+                  (mr: any) => mr?.position === "MedicalRep(MR)"
+                ).map((mr: any) => mr?.name),
+              ]}
+              value={selectedMR}
+              onChange={(val) => {
+                setSelectedMR(val);
+                handleFilter();
+              }}
             />
-          </div>
-
-          <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(87vh-145px)] xl:h-[calc(65vh-35px)] mt-4 overflow-y-auto scrollbar-none"
-          >
-            <CustomTable
-              titles={titles}
-              isFetching={isFetching}
-              data={tableData}
-              handleGoToDetail={(index) => handleGoDetails(Requisitions[index])}
+          </div>{" "}
+          <div className="w-full md:w-[300px]">
+            <SearchDateRange
+              onChange={(range: { start: string; end: string }) => {
+                setSelectedDate(range);
+              }}
             />
           </div>
         </div>
       </div>
-    </>
+
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(91vh-130px)] xl:h-[calc(80vh-83px)] h-auto ">
+        <div className="flex justify-between items-center">
+          <p className="text-[#7D7D7D] font-medium text-sm">Requisition List</p>
+
+          <Pagination
+            currentPage={page}
+            totalItems={result?.totalItems}
+            itemsPerPage={limit}
+            onPageChange={(newPage) => setPage(newPage)}
+          />
+        </div>
+
+        <div
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(86vh-150px)] xl:h-[calc(65vh-48px)] mt-4 overflow-y-auto scrollbar-none"
+        >
+          <CustomTable
+            titles={titles}
+            itemWidth="12.5%"
+            headerWidth="12.5%"
+            isFetching={isFetching}
+            data={tableData}
+            handleGoToDetail={(index) => handleGoDetails(Requisitions[index])}
+          />
+        </div>
+      </div>
+    </div>
   );
 }

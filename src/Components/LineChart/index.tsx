@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import {
   LineChart as ReLineChart,
@@ -9,15 +10,21 @@ import {
   ResponsiveContainer,
   Area,
 } from "recharts";
+import { productGraph } from "../../api/productServices";
 
-const data = [
-  { month: "Jan", Target: 10000, Achievement: 12000 },
-  { month: "Feb", Target: 20000, Achievement: 18000 },
-  { month: "Mar", Target: 15000, Achievement: 22000 },
-  { month: "Apr", Target: 3000, Achievement: 2500 },
-  { month: "May", Target: 25000, Achievement: 28000 },
-  { month: "Jun", Target: 28000, Achievement: 30000 },
-  { month: "Jul", Target: 2800, Achievement: 300 },
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -26,6 +33,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       (item: any, index: number, self: any) =>
         index === self.findIndex((t: any) => t.dataKey === item.dataKey)
     );
+
     const dotColors: Record<string, string> = {
       Target: "#0755E9",
       Achievement: "#14CCC2",
@@ -34,8 +42,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-white p-3 rounded-xl shadow-xl border border-gray-200">
         <p className="text-sm font-semibold mb-1">{label}</p>
+
         {uniquePayload.map((item: any, index: number) => (
-          <p key={index} className="text-xs text-gray-700">
+          <p key={index} className="text-xs text-[#7d7d7d]">
             <span
               className="inline-block w-2 h-2 mr-1 rounded-full"
               style={{ backgroundColor: dotColors[item.dataKey] }}
@@ -52,16 +61,33 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function LineChart() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  console.log("🚀 ~ LineChart ~ activeIndex:", activeIndex);
+
+  const { data: Graph } = useQuery({
+    queryKey: ["productGraph"],
+    queryFn: () => productGraph(),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // 🔥 Convert API into chart format
+  const graphData =
+    Graph?.data?.data?.map((item: any) => {
+      const [year, m] = item.month.split("-");
+
+      return {
+        month: monthNames[Number(m) - 1],
+        Target: item.totalTarget || 0,
+        Achievement: item.totalAchievement || 0,
+      };
+    }) || [];
+
+  console.log("Line Graph Data =>", graphData);
 
   return (
     <>
-      <ResponsiveContainer
-        width="100%"
-        height="90%"
-        style={{ outline: "none", fontFamily: "inherit" }}
-      >
+      <ResponsiveContainer width="100%" height="90%">
         <ReLineChart
-          data={data}
+          data={graphData}
           margin={{ top: 7, right: 0, left: 0, bottom: -3 }}
           onClick={(e: any) => {
             if (e && e.activeTooltipIndex !== undefined) {
@@ -72,38 +98,42 @@ export default function LineChart() {
           }}
         >
           <CartesianGrid vertical={false} horizontal={false} />
+
           <XAxis
             style={{ fontSize: "14px" }}
             dataKey="month"
             axisLine={false}
-            domain={[0, "auto"]}
             tickLine={false}
           />
+
           <YAxis
             style={{ fontSize: "14px" }}
-            tickFormatter={(val: any) => (val === 0 ? "0" : `${val / 1000}k`)}
-            domain={[0, "auto"]}
+            tickFormatter={(val: number) =>
+              val === 0 ? "0" : `${Math.round(val / 1000)}k`
+            }
             axisLine={false}
             tickLine={false}
           />
 
           <Tooltip content={<CustomTooltip />} cursor={false} />
 
+          {/* Green background area → Target */}
           <Area
             type="monotone"
             dataKey="Target"
             stroke="none"
             fill="rgba(34, 197, 94, 0.2)"
-            activeDot={false}
           />
+
+          {/* Blue background area → Achievement */}
           <Area
             type="monotone"
             dataKey="Achievement"
             stroke="none"
             fill="rgba(59, 130, 246, 0.2)"
-            activeDot={false}
           />
 
+          {/* Blue Target Line */}
           <Line
             type="monotone"
             dataKey="Target"
@@ -111,6 +141,8 @@ export default function LineChart() {
             strokeWidth={2}
             dot={false}
           />
+
+          {/* Green Achievement Line */}
           <Line
             type="monotone"
             dataKey="Achievement"
@@ -119,23 +151,15 @@ export default function LineChart() {
             dot={false}
             strokeDasharray="5 5"
           />
-          {activeIndex !== null && (
-            <Line
-              type="monotone"
-              dataKey="Target"
-              stroke="#0755E9"
-              strokeWidth={2}
-              dot={false}
-            />
-          )}
         </ReLineChart>
       </ResponsiveContainer>
+
       <style>
         {`
-      svg:focus {
-        outline: none;
-      }
-    `}
+          svg:focus {
+            outline: none;
+          }
+        `}
       </style>
     </>
   );

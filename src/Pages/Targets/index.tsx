@@ -92,13 +92,13 @@ export default function Targets() {
   };
 
   const antIcon = (
-    <Loading3QuartersOutlined style={{ fontSize: 40, color: "#0755E9" }} spin />
+    <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
   );
 
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 justify-between">
+        <div className="flex flex-wrap gap-4 items-start justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Target
           </p>
@@ -122,7 +122,13 @@ export default function Targets() {
               itemsPerPage={data?.data?.pagination?.itemsPerPage}
             />
           </div>
-          <div className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none">
+          <div
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none"
+          >
             <div className="w-full flex-1 overflow-x-auto">
               <table className="w-full border-collapse min-w-[900px]">
                 <thead className="sticky top-0 z-[1] bg-white">
@@ -130,7 +136,7 @@ export default function Targets() {
                     <th className="px-4 py-3 w-[16%]">
                       <div className="relative flex items-center">
                         <LuSearch
-                          className="absolute left-2 text-gray-500"
+                          className="absolute left-2 text-[#7d7d7d]"
                           size={14}
                         />
                         <div className="absolute left-7 flex items-center h-full pr-2 border-r border-gray-400 text-xs font-medium text-heading">
@@ -140,14 +146,14 @@ export default function Targets() {
                           value={SkuNo}
                           onChange={(e) => setSkuNo(e.target.value)}
                           type="text"
-                          className="h-8 pl-[66px] pr-3 w-full border font-medium border-gray-400 rounded-md text-xs text-gray-800 focus:outline-none"
+                          className="h-8 pl-[66px] pr-3 w-full border font-medium border-gray-400 rounded-md text-xs text-heading focus:outline-none"
                         />
                       </div>
                     </th>
                     <th className="px-4 py-3 2xl:w-[18%] w-[25%]">
                       <div className="relative flex items-center">
                         <LuSearch
-                          className="absolute left-2 text-gray-500"
+                          className="absolute left-2 text-[#7d7d7d]"
                           size={14}
                         />
                         <div className="absolute left-7 top-0 h-full flex items-center border-r border-gray-400 pr-2">
@@ -186,7 +192,7 @@ export default function Targets() {
                     <tr>
                       <td
                         colSpan={7}
-                        className="py-5 text-center text-gray-500"
+                        className="py-5 text-center text-[#7d7d7d]"
                       >
                         <Spin indicator={antIcon} />
                       </td>
@@ -221,7 +227,7 @@ export default function Targets() {
                                   target: Number(e.target.value),
                                 })
                               }
-                              className="border border-gray-400 rounded-md px-2 py-1 w-20 text-sm text-gray-700 focus:outline-none"
+                              className="border border-gray-400 rounded-md px-2 py-1 w-20 text-sm text-heading focus:outline-none"
                             />
                           ) : (
                             <span>{row.target}</span>

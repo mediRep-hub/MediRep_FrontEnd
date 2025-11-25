@@ -29,7 +29,7 @@ export function SearchSelection({
 
   return (
     <div className="relative w-full">
-      <label className="absolute -top-3 left-5 bg-secondary px-1 text-sm text-gray-500">
+      <label className="absolute -top-3 left-5 bg-secondary rounded-md px-1 text-sm text-[#7d7d7d]">
         {placeholder}
       </label>
       <div
@@ -37,7 +37,7 @@ export function SearchSelection({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`text-sm ${selected ? "text-heading" : "text-gray-400"}`}
+          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
         >
           {selected || "Select the option"}
         </span>
@@ -55,7 +55,7 @@ export function SearchSelection({
               className={`px-4 py-2 text-sm cursor-pointer ${
                 option === selected
                   ? "bg-primary text-white"
-                  : "text-gray-700 hover:bg-gray-100"
+                  : "text-heading hover:bg-gray-100"
               }`}
               onClick={() => handleSelect(option)}
             >

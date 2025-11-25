@@ -33,3 +33,6 @@ export const uploadCSVTarget = (data: any[]) => {
     headers: { "Content-Type": "application/json" },
   });
 };
+export const productGraph = () => {
+  return HTTP_CLIENT.get(ENDPOINTS.PRODUCT_TRAGET_ACHIVEMENTS);
+};

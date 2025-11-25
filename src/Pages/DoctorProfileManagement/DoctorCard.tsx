@@ -75,7 +75,9 @@ export default function DoctorCard({
         </div>
         <div className="flex gap-3 items-center">
           <FaLocationDot color="#7d7d7d" />
-          <p className="text-heading text-xs font-normal">{doctor?.address}</p>
+          <p className="text-heading text-xs font-normal">
+            {doctor?.location?.address}
+          </p>
         </div>
         <div className="flex gap-3 items-center">
           <FaClock color="#7d7d7d" />
