@@ -10,8 +10,6 @@ interface CustomTableProps {
   titles?: string[];
   data?: any[][];
   handleGoToDetail?: (id: any) => void;
-  headerWidth?: string;
-  itemWidth?: string;
   height?: string | number;
   show?: string;
   isFetching?: boolean;
@@ -21,8 +19,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
   titles,
   data,
   handleGoToDetail,
-  headerWidth,
-  itemWidth,
   height,
   show,
   isFetching,

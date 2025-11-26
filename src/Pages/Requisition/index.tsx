@@ -152,8 +152,6 @@ export default function Requisition() {
         >
           <CustomTable
             titles={titles}
-            itemWidth="12.5%"
-            headerWidth="12.5%"
             isFetching={isFetching}
             data={tableData}
             handleGoToDetail={(index) => handleGoDetails(Requisitions[index])}
