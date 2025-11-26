@@ -121,7 +121,7 @@ export default function Requisition() {
               }}
             />
           </div>{" "}
-          <div className="w-full md:w-[300px]">
+          <div className="w-full md:w-[300px] md:mt-0 mt-2">
             <SearchDateRange
               onChange={(range: { start: string; end: string }) => {
                 setSelectedDate(range);

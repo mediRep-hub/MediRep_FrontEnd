@@ -295,7 +295,7 @@ export default function CallReporting() {
                 }}
               />
             </div>{" "}
-            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
+            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
               <SearchSelection
                 placeholder="Select Area"
                 options={areaOptions}
@@ -306,7 +306,7 @@ export default function CallReporting() {
                 }}
               />
             </div>{" "}
-            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
+            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
               <SearchDateRange
                 onChange={(range: { start: string; end: string }) => {
                   setSelectedDate(range);
