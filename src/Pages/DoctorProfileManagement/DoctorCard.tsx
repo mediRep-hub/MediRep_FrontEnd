@@ -94,8 +94,8 @@ export default function DoctorCard({
       <div className="flex flex-wrap items-end justify-between mt-5">
         <div>
           <p className="text-primary text-xs font-medium">Affiliation</p>
-          <ul className="list-none space-y-1 mt-2">
-            <li className="flex items-start gap-2 text-xs font-normal text-heading">
+          <ul className="list-none space-y-1 mt-2 ">
+            <li className="flex items-start gap-2 text-xs font-normal  text-heading">
               <FaDotCircle size={8} className="text-[#7d7d7d] mt-1" />
               {doctor?.affiliation}
             </li>
