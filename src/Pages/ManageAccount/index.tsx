@@ -262,7 +262,7 @@ export default function ManageAccount() {
 
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(80vh-135px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(80vh-138px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "sales" ? (
               <CustomTable

@@ -19,6 +19,7 @@ export default function DashBoard() {
     staleTime: 5 * 60 * 1000,
   });
   let ProductData = data?.data?.totalSummary;
+  console.log("🚀 ~ DashBoard ~ ProductData:", data?.data);
 
   useEffect(() => {
     refetch;
@@ -79,7 +80,7 @@ export default function DashBoard() {
               {" "}
               {ProductData?.totalAchievement}
             </p>
-            <p className="text-sm font-normal">-0.03%</p>
+            <p className="text-sm font-normal">+0.03%</p>
             <MdOutlineTrendingUp color="#28A745" size={18} />
           </div>
         </div>

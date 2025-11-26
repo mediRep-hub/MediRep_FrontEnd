@@ -131,7 +131,7 @@ export default function CallReporting() {
         doctorPage,
         doctorLimit,
         selectedMR,
-        selectedDate.start || undefined, // send undefined if not selected
+        selectedDate.start || undefined,
         selectedDate.end || undefined,
         capitalize(selectedArea?.toLowerCase())
       ),
@@ -328,7 +328,7 @@ export default function CallReporting() {
           </button>
         </div>
 
-        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
+        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] xl:h-[calc(90vh-163px)] h-auto ">
           <div className="lg:w-[calc(22%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">

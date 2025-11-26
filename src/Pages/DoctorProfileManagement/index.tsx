@@ -223,7 +223,7 @@ export default function DoctorProfileManagement() {
 
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-130px)] h-[calc(90vh-160px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-126px)] h-[calc(90vh-160px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">

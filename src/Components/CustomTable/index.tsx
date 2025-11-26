@@ -35,8 +35,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
             {titles?.map((title, index) => (
               <th
                 key={index}
-                className="border-b min-w-[12.5%] max-w-[16%] border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white"
-                style={{ width: headerWidth }}
+                className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white whitespace-nowrap"
               >
                 {title}
               </th>
@@ -65,8 +64,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   cell !== null ? (
                     <td
                       key={colIndex}
-                      className="px-5 py-2  min-w-[12.5%] max-w-[16%] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
-                      style={{ width: itemWidth }}
+                      className="px-5 py-2  border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words"
                     >
                       {cell}
                     </td>

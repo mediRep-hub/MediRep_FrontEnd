@@ -68,7 +68,6 @@ export default function LineChart() {
     queryFn: () => productGraph(),
     staleTime: 5 * 60 * 1000,
   });
-  console.log("🚀 ~ LineChart ~ Graph:", Graph?.data?.data);
 
   useEffect(() => {
     refetch;

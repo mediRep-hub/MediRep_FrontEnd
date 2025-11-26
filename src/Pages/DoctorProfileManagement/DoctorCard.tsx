@@ -47,7 +47,7 @@ export default function DoctorCard({
         </div>
 
         <div
-          className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 xl:mt-0 rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
+          className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
           onClick={() => {
             if (doctor._id) {
               onEdit(doctor._id);
