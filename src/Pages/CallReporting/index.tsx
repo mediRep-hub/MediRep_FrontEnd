@@ -26,7 +26,6 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
-import SearchBar from "../../Components/SearchBar";
 
 const areaOptions: string[] = [
   "All",

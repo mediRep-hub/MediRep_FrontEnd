@@ -1,4 +1,3 @@
-import SearchBar from "../../Components/SearchBar";
 import SideBar from "../../Components/SideBar";
 import DistributorRoutes from "../../Routes/distributorRoutes";
 import { DistributorLinks } from "../../utils/validation";
