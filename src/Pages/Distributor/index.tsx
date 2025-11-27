@@ -8,10 +8,7 @@ export default function Distributor() {
     <div className="flex min-h-screen gap-4 p-4 w-full">
       <SideBar link={DistributorLinks} />
       <div className="w-full">
-        <SearchBar />
-        <div className="mt-4">
-          <DistributorRoutes />
-        </div>
+        <DistributorRoutes />
       </div>
     </div>
   );

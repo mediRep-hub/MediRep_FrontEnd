@@ -1,6 +1,7 @@
 import circle1 from "../../../assets/circle1.png";
 import circle2 from "../../../assets/circle2.png";
 import CustomTable from "../../../Components/CustomTable";
+import SearchBar from "../../../Components/SearchBar";
 const titles = [
   "Product SKU",
   "Product Name",
@@ -104,73 +105,80 @@ const data = [
 ];
 export default function Warehouse() {
   return (
-    <div>
-      {" "}
-      <div
-        style={{
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
-        className="bg-secondary md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-2"
-      >
-        <div className="flex flex-wrap gap-4">
-          <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
-            <div className="w-[40%] py-4 flex flex-col justify-between">
-              <p className="text-[#7D7D7D] text-base">Total Stock</p>
-              <div className="flex gap-5 items-center">
-                <div>
-                  <p className="text-heading font-bold text-lg">
-                    <span className="text-sm">Rs.</span>1,032,000
-                  </p>
-                  <p className="text-heading text-base">Today Value</p>
-                </div>
-                <div className="border-heading border-l-[1px] h-12"></div>
-                <div>
-                  <p className="text-heading font-bold text-lg">185.36</p>
-                  <p className="text-heading text-base">Total Carton’s</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-[40%]">
-              <img src={circle2} />
-            </div>
-          </div>
-          <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
-            <div className="w-[40%] py-4 flex flex-col justify-between">
-              <p className="text-[#7D7D7D] text-base">Damage/Expiry</p>{" "}
-              <div className="flex gap-5 items-center">
-                <div>
-                  <p className="text-heading font-bold text-lg">
-                    <span className="text-sm">Rs.</span>32,000
-                  </p>
-                  <p className="text-heading text-base">Today Value</p>
-                </div>
-                <div className="border-heading border-l-[1px] h-12"></div>
-                <div>
-                  <p className="text-heading font-bold text-lg">1,118 </p>
-                  <p className="text-heading text-base">Total Carton’s</p>
+    <>
+      <div className="sticky top-0">
+        {" "}
+        <SearchBar />
+      </div>
+
+      <div className="mt-4">
+        {" "}
+        <div
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="bg-secondary md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-2"
+        >
+          <div className="flex flex-wrap gap-4">
+            <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
+              <div className="w-[40%] py-4 flex flex-col justify-between">
+                <p className="text-[#7D7D7D] text-base">Total Stock</p>
+                <div className="flex gap-5 items-center">
+                  <div>
+                    <p className="text-heading font-bold text-lg">
+                      <span className="text-sm">Rs.</span>1,032,000
+                    </p>
+                    <p className="text-heading text-base">Today Value</p>
+                  </div>
+                  <div className="border-heading border-l-[1px] h-12"></div>
+                  <div>
+                    <p className="text-heading font-bold text-lg">185.36</p>
+                    <p className="text-heading text-base">Total Carton’s</p>
+                  </div>
                 </div>
               </div>
+              <div className="w-[40%]">
+                <img src={circle2} />
+              </div>
             </div>
-            <div className="w-[40%]">
-              <img src={circle1} />
+            <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
+              <div className="w-[40%] py-4 flex flex-col justify-between">
+                <p className="text-[#7D7D7D] text-base">Damage/Expiry</p>{" "}
+                <div className="flex gap-5 items-center">
+                  <div>
+                    <p className="text-heading font-bold text-lg">
+                      <span className="text-sm">Rs.</span>32,000
+                    </p>
+                    <p className="text-heading text-base">Today Value</p>
+                  </div>
+                  <div className="border-heading border-l-[1px] h-12"></div>
+                  <div>
+                    <p className="text-heading font-bold text-lg">1,118 </p>
+                    <p className="text-heading text-base">Total Carton’s</p>
+                  </div>
+                </div>
+              </div>
+              <div className="w-[40%]">
+                <img src={circle1} />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="bg-[#E5EBF7] mt-3 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] lg:h-[calc(90vh-162px)] h-auto ">
-          <p className="text-[#7D7D7D] text-sm leading-[100%]">Stock List</p>
-          <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-147px)] xl:h-[calc(53vh-55px)] mt-4 overflow-y-auto scrollbar-none"
-          >
-            {" "}
-            <CustomTable titles={titles} data={data} />
+          <div className="bg-[#E5EBF7] mt-3 rounded-[12px] p-4 2xl:h-[calc(90vh-122px)] lg:h-[calc(90vh-162px)] h-auto ">
+            <p className="text-[#7D7D7D] text-sm leading-[100%]">Stock List</p>
+            <div
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-150px)] xl:h-[calc(53vh-60px)] mt-4 overflow-y-auto scrollbar-none"
+            >
+              {" "}
+              <CustomTable titles={titles} data={data} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

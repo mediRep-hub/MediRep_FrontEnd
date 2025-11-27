@@ -5,17 +5,21 @@ import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
 import { FaPercentage } from "react-icons/fa";
 import { GiAchievement } from "react-icons/gi";
 import { FiTarget } from "react-icons/fi";
+import SearchBar from "../../../Components/SearchBar";
 
 export default function DistributorDashboard() {
   return (
     <div>
-      {" "}
+      <div className="sticky top-0">
+        {" "}
+        <SearchBar />
+      </div>
       <div
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
         }}
-        className="bg-secondary md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-2"
+        className="bg-secondary mt-4 md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-2"
       >
         <div className="flex gap-2 items-stretch flex-wrap">
           <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[150px] w-full  flex flex-col justify-between rounded-xl text-primary p-4 bg-white">
