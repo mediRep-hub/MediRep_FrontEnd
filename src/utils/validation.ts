@@ -1,4 +1,18 @@
 import * as Yup from "yup";
+import {
+  FaUserMd,
+  FaClipboardList,
+  FaBoxOpen,
+  FaBullseye,
+  FaPhoneAlt,
+  FaChartBar,
+  FaShoppingCart,
+  FaTachometerAlt,
+  FaMoneyBill,
+} from "react-icons/fa";
+import type { IconType } from "react-icons/lib";
+import { FaUserLarge } from "react-icons/fa6";
+
 export const LoginSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
@@ -62,6 +76,7 @@ export const ProductSchema = Yup.object().shape({
     .required("Amount is required"),
   isStatus: Yup.string().required("Status is required"),
   productImage: Yup.string().required("Product Image is required"),
+  strength: Yup.string().required("Strength is required"),
   packSize: Yup.string().required("Pack Size is required"),
 });
 
@@ -129,3 +144,61 @@ export const AccountSchema = (isEdit: boolean) =>
     strategy: Yup.string().required("Strategy is required"),
     position: Yup.string().required("Position is required"),
   });
+
+export interface SidebarLink {
+  name: string;
+  path: string;
+  icon: IconType;
+}
+export const defaultLinks: SidebarLink[] = [
+  { name: "Dashboard", path: "/dashboard", icon: FaTachometerAlt },
+  {
+    name: "Doctor Profile Management",
+    path: "/doctorProfileManagement",
+    icon: FaUserMd,
+  },
+
+  {
+    name: "Targets/Achievement",
+    path: "/targets-achievement",
+    icon: FaBullseye,
+  },
+  { name: "Products", path: "/products", icon: FaBoxOpen },
+  { name: "Requisitions", path: "/requisition", icon: FaClipboardList },
+  { name: "Call Reporting", path: "/callReporting", icon: FaPhoneAlt },
+  { name: "Data Reporting", path: "/dataReporting", icon: FaChartBar },
+  { name: "Orders", path: "/orders", icon: FaShoppingCart },
+];
+export const DistributorLinks: SidebarLink[] = [
+  { name: "Dashboard", path: "/distributor/dashboard", icon: FaTachometerAlt },
+  {
+    name: "The Warehouse",
+    path: "/distributor/warehouse",
+    icon: FaBoxOpen,
+  },
+  {
+    name: "Primary Sale",
+    path: "/distributor/primarySale",
+    icon: FaBullseye,
+  },
+  {
+    name: "Secondary Sale",
+    path: "/distributor/secondarySale",
+    icon: FaBoxOpen,
+  },
+  {
+    name: "MR & Route",
+    path: "/distributor/mrRoute",
+    icon: FaUserLarge,
+  },
+  {
+    name: "Billing",
+    path: "/distributor/billing",
+    icon: FaMoneyBill,
+  },
+  {
+    name: "Reports",
+    path: "/distributor/reports",
+    icon: FaChartBar,
+  },
+];

@@ -90,7 +90,9 @@ export default function Products() {
   ProductData?.map((v: any) => {
     tableData.push([
       v?.sku,
-      v?.productName,
+      <div>
+        {v?.productName} ({v?.strength})
+      </div>,
       v?.category,
       v?.isfrom,
       <div
@@ -144,6 +146,7 @@ export default function Products() {
       amount: editingProduct?.amount || "",
       productImage: editingProduct?.productImage || null,
       isStatus: editingProduct?.isStatus || "",
+      strength: editingProduct?.strength || "",
       packSize: editingProduct?.packSize || "",
     },
     validationSchema: ProductSchema,
@@ -283,6 +286,24 @@ export default function Products() {
                             : ""}
                         </div>
                       )}
+                  </div>
+                  <div className="mt-3">
+                    <CustomInput
+                      label="Strength"
+                      placeholder="Enter Strength"
+                      name="strength"
+                      value={formik.values.strength}
+                      onChange={formik.handleChange}
+                    />
+
+                    {formik.touched.strength && formik.errors.strength && (
+                      <div className="text-red-500 text-xs">
+                        *
+                        {typeof formik.errors.strength === "string"
+                          ? formik.errors.strength
+                          : ""}
+                      </div>
+                    )}
                   </div>
                   <div className="mt-3">
                     <CustomSelect

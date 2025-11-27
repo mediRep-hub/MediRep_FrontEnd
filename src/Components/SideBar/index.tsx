@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo/logo.png";
 import {
@@ -21,58 +21,8 @@ import { setIsLoggedIn } from "../../redux/userSlice";
 import { store } from "../../redux/store";
 import { HTTP_CLIENT } from "../../utils/httpClient";
 
-export default function SideBar() {
+export default function SideBar({ link }: any) {
   const { user } = useSelector((state: any) => state.user);
-  let links = [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <FaTachometerAlt size={16} />,
-    },
-    {
-      name: "Doctor Profile Management",
-      path: "/doctorProfileManagement",
-      icon: <FaUserMd size={16} />,
-    },
-    {
-      name: "Targets/Achievement",
-      path: "/targets-achievement",
-      icon: <FaBullseye size={16} />,
-    },
-    {
-      name: "Products",
-      path: "/products",
-      icon: <FaBoxOpen size={16} />,
-    },
-    {
-      name: "Requisitions",
-      path: "/requisition",
-      icon: <FaClipboardList size={16} />,
-    },
-    {
-      name: "Call Reporting",
-      path: "/callReporting",
-      icon: <FaPhoneAlt size={16} />,
-    },
-    {
-      name: "Data Reporting",
-      path: "/dataReporting",
-      icon: <FaChartBar size={16} />,
-    },
-    {
-      name: "Orders",
-      path: "/orders",
-      icon: <FaShoppingCart size={16} />,
-    },
-  ];
-
-  if (user?.position === "Admin") {
-    links.splice(2, 0, {
-      name: "Manage Accounts",
-      path: "/manageAccount",
-      icon: <FaUsersCog size={16} />,
-    });
-  }
 
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -80,6 +30,19 @@ export default function SideBar() {
     navigate(path);
     setIsOpen(false);
   };
+  const sidebarLinks = useMemo(() => {
+    let links = [...link];
+
+    if (user?.position === "Admin") {
+      links.splice(2, 0, {
+        name: "Manage Accounts",
+        path: "/manageAccount",
+        icon: FaUsersCog,
+      });
+    }
+
+    return links;
+  }, [user?.position]);
 
   const handleLogout = () => {
     const { token } = store.getState().user;
@@ -138,7 +101,7 @@ export default function SideBar() {
         <p className="text-[#979797] text-sm font-normal mt-[30px]">MENU</p>
 
         <nav className="flex flex-col gap-0 mt-4">
-          {links.map((i, index) => {
+          {sidebarLinks.map((i: any, index: number) => {
             const isActive = location.pathname.startsWith(i.path);
 
             return (
@@ -157,7 +120,7 @@ export default function SideBar() {
                     isActive ? "text-primary" : "text-[#7d7d7d]"
                   }`}
                 >
-                  {i.icon}
+                  {i.icon && <i.icon size={16} />}
                 </span>
                 <span className="text-sm">{i.name}</span>
               </p>

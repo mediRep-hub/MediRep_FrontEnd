@@ -21,7 +21,10 @@ export default function DoctorCard({
     <div className="bg-white py-4 px-5 rounded-xl h-auto">
       <div className="flex justify-between flex-wrap items-start">
         <div className="flex items-center gap-3 md:w-auto w-full">
-          <Avatar src={doctor?.image} className="w-10 h-10" />
+          <Avatar
+            src={doctor?.image}
+            className="w-10 h-10 border-[0.5px] border-[#7d7d7d]"
+          />
           <div>
             <p className="leading-1 text-heading font-medium text-sm">
               {doctor?.name}

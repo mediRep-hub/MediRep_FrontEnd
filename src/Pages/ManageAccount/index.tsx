@@ -38,6 +38,7 @@ const Positionlist = [
   "Regional Sales Manager (RSM)",
   "Area Sales Manager (ASM)",
   "MedicalRep(MR)",
+  "Distributor",
 ];
 const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 const StrategyList = ["Canal Road", "Riwind Road", "Multan Road", "Gt Road"];

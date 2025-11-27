@@ -135,9 +135,11 @@ export default function CallReporting() {
         selectedDate.end || undefined,
         capitalize(selectedArea?.toLowerCase())
       ),
-    placeholderData: (previous) => previous,
   });
-
+  useEffect(() => {
+    const list = result?.data?.data ?? [];
+    setDoctorList(list);
+  }, [result]);
   const handleFilter = () => {
     if (selectedMR === "All") setSelectedMR("");
     if (selectedArea === "All") setSelectedArea("");
@@ -327,7 +329,6 @@ export default function CallReporting() {
             </p>
           </button>
         </div>
-
         <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] xl:h-[calc(90vh-163px)] h-auto ">
           <div className="lg:w-[calc(22%-8px)] w-full">
             <div className="flex justify-between items-center">
@@ -459,7 +460,7 @@ export default function CallReporting() {
                                 ? "text-[#E90761] border-[#E90761]"
                                 : doc.status === "close"
                                 ? "text-[#0BA69C] border-[#0BA69C]"
-                                : doc.status === "rejected"
+                                : doc.status === "check In"
                                 ? "text-[#FF9500] border-[#FF9500]"
                                 : "text-heading border-heading"
                             }`}

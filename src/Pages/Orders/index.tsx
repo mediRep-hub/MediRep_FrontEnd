@@ -72,6 +72,7 @@ export default function Orders() {
   });
 
   const allOrders: any[] = Array.isArray(data?.data.data) ? data.data.data : [];
+  console.log("🚀 ~ Orders ~ allOrders:", allOrders);
   const paginationInfo = {
     currentPage: data?.data.page || 1,
     itemsPerPage: itemsPerPage,
@@ -209,7 +210,8 @@ export default function Orders() {
     order.strategyName,
     order.orderType,
     <p key={`amount-${order.orderId}`} className="text-[12px]">
-      Rs:<span className="text-sm ml-1">{order.amount}</span>
+      Rs:
+      {order.total}
     </p>,
     <button
       key={`details-${order.orderId}`}

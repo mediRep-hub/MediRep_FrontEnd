@@ -12,6 +12,7 @@ export default function OrderDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const { order } = location.state || {};
+  console.log("🚀 ~ OrderDetails ~ order:", order);
   const invoiceRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(false);
@@ -212,8 +213,8 @@ export default function OrderDetails() {
                   <p className="text-heading text-xs">Rs.{order?.subtotal}</p>
                 </div>{" "}
                 <div className="flex mt-4 items-center justify-between pb-2 border-b-[1px] border-[#7d7d7d] ">
-                  <p className="text-heading text-xs">Tax (10%)</p>
-                  <p className="text-heading text-xs">Rs. {order?.tax}</p>
+                  <p className="text-heading text-xs">Distcount</p>
+                  <p className="text-heading text-xs">Rs. {order?.discount}</p>
                 </div>{" "}
                 <div className="flex mt-4 items-center justify-between ">
                   <p className="text-heading text-xs font-bold">Total</p>

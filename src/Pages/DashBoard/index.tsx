@@ -19,7 +19,6 @@ export default function DashBoard() {
     staleTime: 5 * 60 * 1000,
   });
   let ProductData = data?.data?.totalSummary;
-  console.log("🚀 ~ DashBoard ~ ProductData:", data?.data);
 
   useEffect(() => {
     refetch;

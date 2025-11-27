@@ -53,24 +53,28 @@ export default function SearchBar() {
   }, [AllMR, dispatch]);
 
   return (
-    <div className="bg-secondary p-4 rounded-[8px] w-full xl:h-20 flex xl:justify-end lg:justify-start justify-end">
-      <div className="flex flex-wrap items-center w-full lg:w-auto ">
-        <div className="cursor-pointer mr-4">
-          <Notification />
-        </div>
-        <div className="w-full md:w-[250px] mt-4 md:mt-0 h-14 bg-white rounded-[12px] px-2 flex gap-3 items-center">
-          <Avatar src={user?.image} size={40} />
-          <div>
-            <p className="text-primary text-sm leading-[14px] w-[150px] truncate">
-              {user?.position}
-            </p>
-            <p className="text-heading text-sm leading-[14px]">{user?.name}</p>
-            <p className="text-[12px] text-[#979797] leading-[12px]">
-              {user?.email}
-            </p>
+    <>
+      <div className="bg-secondary px-4  rounded-[8px] w-full xl:h-20 flex xl:justify-end lg:justify-start justify-end">
+        <div className="flex flex-wrap items-center w-full lg:w-auto ">
+          <div className="cursor-pointer mr-4">
+            <Notification />
+          </div>
+          <div className="w-full md:w-[250px] mt-4 md:mt-0 h-14 bg-white rounded-[12px] px-2 flex gap-3 items-center">
+            <Avatar src={user?.image} size={40} />
+            <div>
+              <p className="text-primary text-sm leading-[14px] w-[150px] truncate">
+                {user?.position}
+              </p>
+              <p className="text-heading text-sm leading-[14px]">
+                {user?.name}
+              </p>
+              <p className="text-[12px] text-[#979797] leading-[12px]">
+                {user?.email}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
