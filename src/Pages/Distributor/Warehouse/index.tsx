@@ -171,7 +171,7 @@ export default function Warehouse() {
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-150px)] xl:h-[calc(53vh-60px)] mt-4 overflow-y-auto scrollbar-none"
+              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-174px)] xl:h-[calc(53vh-60px)] mt-4 overflow-y-auto scrollbar-none"
             >
               {" "}
               <CustomTable titles={titles} data={data} />
