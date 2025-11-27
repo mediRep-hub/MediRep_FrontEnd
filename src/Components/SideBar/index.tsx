@@ -1,19 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo/logo.png";
-import {
-  FaUserMd,
-  FaTimes,
-  FaBars,
-  FaClipboardList,
-  FaBoxOpen,
-  FaBullseye,
-  FaPhoneAlt,
-  FaChartBar,
-  FaShoppingCart,
-  FaTachometerAlt,
-  FaUsersCog,
-} from "react-icons/fa";
+import { FaTimes, FaBars, FaUsersCog } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { notifyError, notifySuccess } from "../Toast";
 import { useSelector } from "react-redux";
