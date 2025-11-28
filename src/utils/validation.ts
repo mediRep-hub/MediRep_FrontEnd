@@ -1,18 +1,4 @@
 import * as Yup from "yup";
-import { Icon } from "@iconify/react";
-import {
-  FaUserMd,
-  FaClipboardList,
-  FaBoxOpen,
-  FaBullseye,
-  FaPhoneAlt,
-  FaChartBar,
-  FaShoppingCart,
-  FaTachometerAlt,
-  FaMoneyBill,
-} from "react-icons/fa";
-import type { IconType } from "react-icons/lib";
-import { FaUserLarge } from "react-icons/fa6";
 
 export const LoginSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
