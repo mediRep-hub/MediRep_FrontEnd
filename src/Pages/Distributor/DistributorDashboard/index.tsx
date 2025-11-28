@@ -6,8 +6,12 @@ import { FaPercentage } from "react-icons/fa";
 import { GiAchievement } from "react-icons/gi";
 import { FiTarget } from "react-icons/fi";
 import SearchBar from "../../../Components/SearchBar";
+import { useEffect } from "react";
 
 export default function DistributorDashboard() {
+  useEffect(() => {
+    document.title = "MediRep | DashBoard";
+  }, []);
   return (
     <div>
       <div className="sticky top-0">

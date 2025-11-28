@@ -35,6 +35,7 @@ interface Doctor {
   startTime?: string | null;
   endTime?: string | null;
   region?: string;
+  profileType?: string;
   area?: string;
   location: {
     address: string;
@@ -42,8 +43,9 @@ interface Doctor {
     lng: number;
   };
 }
-
+const profileTypeOptions = ["Doctor", "Pharmacy"];
 const specialtyOptions = [
+  "All",
   "Cardiologist",
   "Dermatologist",
   "Endocrinologist",
@@ -53,7 +55,7 @@ const specialtyOptions = [
 const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
-export default function DoctorProfileManagement() {
+export default function HealthcareProfessionals() {
   const [addDoctor, setAddDoctor] = useState<boolean>(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
   const [openModal, setOpenModal] = useState(false);
@@ -76,7 +78,7 @@ export default function DoctorProfileManagement() {
   const paginatedDoctors = doctorsList;
 
   useEffect(() => {
-    document.title = "MediRep | Doctor Profile Management";
+    document.title = "MediRep | Healthcare Professionals";
   }, []);
 
   const handleEditDoctor = (doctor: Doctor) => {
@@ -96,7 +98,8 @@ export default function DoctorProfileManagement() {
       area: doctor.area || "",
       affiliation: doctor.affiliation || "",
       image: doctor.image || null,
-      location: doctor.location || ["", null, null],
+      profileType: doctor.profileType || "",
+      location: doctor.location || { address: "", lat: 0, lng: 0 },
     });
   };
 
@@ -112,6 +115,7 @@ export default function DoctorProfileManagement() {
       affiliation: editingDoctor?.affiliation || "",
       region: editingDoctor?.region || "",
       area: editingDoctor?.area || "",
+      profileType: editingDoctor?.profileType || "",
       image: editingDoctor?.image || null,
       location: editingDoctor?.location || { address: "", lat: 0, lng: 0 },
     },
@@ -126,7 +130,7 @@ export default function DoctorProfileManagement() {
       if (editingDoctor && editingDoctor._id) {
         updateDoctor(editingDoctor._id, cleanedValues)
           .then(() => {
-            notifySuccess("Doctor updated successfully");
+            notifySuccess("Profile updated successfully");
             setAddDoctor(false);
             setEditingDoctor(null);
             formik.resetForm();
@@ -134,7 +138,7 @@ export default function DoctorProfileManagement() {
           })
           .catch((error) => {
             console.error(
-              "Error updating doctor:",
+              "Error updating Profile:",
               error.response?.data || error
             );
             const errorMessage =
@@ -144,24 +148,24 @@ export default function DoctorProfileManagement() {
               "An unexpected error occurred.";
 
             notifyError(
-              `Failed to update doctor. Please try again. ${errorMessage}`
+              `Failed to update Profile. Please try again. ${errorMessage}`
             );
           })
           .finally(() => setLoading(false));
       } else {
         addDoctors(cleanedValues)
           .then(() => {
-            notifySuccess("Doctor added successfully");
+            notifySuccess("Profile added successfully");
             setAddDoctor(false);
             formik.resetForm();
             refetch();
           })
           .catch((error) => {
             console.error(
-              "Error adding doctor:",
+              "Error adding Profile:",
               error.response?.data || error
             );
-            notifyError("Failed to add doctor. Please try again.");
+            notifyError("Failed to add Profile. Please try again.");
           })
           .finally(() => setLoading(false));
       }
@@ -201,7 +205,7 @@ export default function DoctorProfileManagement() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap md:flex-nowrap justify-between items-start gap-4">
           <p className="text-heading font-medium text-[22px] lg:text-[24px]">
-            Doctor Profile Management
+            Healthcare Professionals
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <button
@@ -216,7 +220,9 @@ export default function DoctorProfileManagement() {
               className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <MdAdd size={20} color="#fff" />
-              <p className="text-white text-base font-medium">Upload Doctors</p>
+              <p className="text-white text-base font-medium">
+                Upload Profiles
+              </p>
             </button>
           </div>
         </div>
@@ -268,7 +274,7 @@ export default function DoctorProfileManagement() {
           >
             <div className="flex items-center justify-between">
               <p className="text-[24px] text-heading capitalize font-semibold">
-                {editingDoctor ? "Edit Doctor" : "Upload Doctor"}
+                {editingDoctor ? "Edit Profile" : "Upload Profile"}
               </p>
 
               <IoMdCloseCircle
@@ -285,7 +291,7 @@ export default function DoctorProfileManagement() {
             <form onSubmit={formik.handleSubmit} className="mt-5">
               <div className="flex flex-wrap items-start gap-4">
                 <div className="xl:w-[calc(50%-8px)] w-full">
-                  <p className="text-heading text-base">Doctor Details</p>
+                  <p className="text-heading text-base">Profile Details</p>
 
                   <div className="mt-4">
                     <CustomInput
@@ -360,9 +366,25 @@ export default function DoctorProfileManagement() {
                       </div>
                     )}
                   </div>
+                  <div className="mt-4">
+                    <CustomSelect
+                      options={profileTypeOptions}
+                      value={formik.values.profileType}
+                      onChange={(val) =>
+                        formik.setFieldValue("profileType", val)
+                      }
+                      placeholder="ProfileType"
+                    />
+                    {formik.touched.profileType &&
+                      formik.errors.profileType && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.profileType}
+                        </div>
+                      )}
+                  </div>
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
-                  <p className="text-heading text-base">Set Doctors</p>
+                  <p className="text-heading text-base">Set Profile</p>
                   <div className="mt-4">
                     <LocationPicker
                       label="Pick Location"
@@ -372,6 +394,7 @@ export default function DoctorProfileManagement() {
                         formik.setFieldValue("location", { address, lat, lng });
                       }}
                     />
+
                     {formik.touched.location?.address &&
                       formik.errors.location?.address && (
                         <div className="text-red-500 text-xs">
@@ -474,9 +497,9 @@ export default function DoctorProfileManagement() {
                   {isloading ? (
                     <Spin indicator={antIcon} />
                   ) : editingDoctor ? (
-                    "Update Doctor"
+                    "Update"
                   ) : (
-                    "Add Doctor"
+                    "Add"
                   )}
                 </button>
               </div>
@@ -493,7 +516,7 @@ export default function DoctorProfileManagement() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Doctor</strong>
+                Are you sure you want to delete this <strong>Profiles</strong>
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">

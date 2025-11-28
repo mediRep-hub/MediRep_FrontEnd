@@ -45,7 +45,9 @@ export default function DoctorUploads({ closeModle, refetch }: any) {
       console.log("Upload response:", response.data);
       setProgress(70);
 
-      notifySuccess(response.data?.message || "Doctors uploaded successfully!");
+      notifySuccess(
+        response.data?.message || "Profiles uploaded successfully!"
+      );
       refetch();
 
       setTimeout(() => {
@@ -70,7 +72,7 @@ export default function DoctorUploads({ closeModle, refetch }: any) {
       <div className="bg-white rounded-xl xl:mx-0 mx-5 xl:w-[600px] w-full xl:h-auto shadow-xl relative overflow-hidden">
         <div className="flex xl:p-6 p-4 bg-[#E5EBF7] items-center justify-between">
           <p className="text-[20px] text-heading font-medium">
-            Bulk Upload Doctors
+            Bulk Upload Profiles
           </p>
           <IoMdCloseCircle
             size={22}

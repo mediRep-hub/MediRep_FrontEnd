@@ -72,7 +72,6 @@ export default function Orders() {
   });
 
   const allOrders: any[] = Array.isArray(data?.data.data) ? data.data.data : [];
-  console.log("🚀 ~ Orders ~ allOrders:", allOrders);
   const paginationInfo = {
     currentPage: data?.data.page || 1,
     itemsPerPage: itemsPerPage,

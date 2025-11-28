@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../redux/userSlice";
 import { store } from "../../redux/store";
 import { HTTP_CLIENT } from "../../utils/httpClient";
+import { Icon } from "@iconify/react";
 
 export default function SideBar({ link }: any) {
   const { user } = useSelector((state: any) => state.user);
@@ -25,7 +26,7 @@ export default function SideBar({ link }: any) {
       links.splice(2, 0, {
         name: "Manage Accounts",
         path: "/manageAccount",
-        icon: FaUsersCog,
+        icon: "mdi:account-cog",
       });
     }
 
@@ -108,8 +109,9 @@ export default function SideBar({ link }: any) {
                     isActive ? "text-primary" : "text-[#7d7d7d]"
                   }`}
                 >
-                  {i.icon && <i.icon size={16} />}
+                  <Icon icon={i.icon} width="20" height="20" />
                 </span>
+
                 <span className="text-sm">{i.name}</span>
               </p>
             );

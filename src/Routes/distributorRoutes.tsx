@@ -1,6 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logo.png";
+import Report from "../Pages/Distributor/Reports";
+import Billing from "../Pages/Distributor/Billing";
+import MrRoutes from "../Pages/Distributor/MrRoutes";
+import SecondarySale from "../Pages/Distributor/SecondarySale";
+import PrimarySale from "../Pages/Distributor/PrimaerySale";
 const Warehouse = lazy(() => import("../Pages/Distributor/Warehouse"));
 const DistributorDashboard = lazy(
   () => import("../Pages/Distributor/DistributorDashboard")
@@ -28,6 +33,18 @@ export default function DistributorRoutes() {
           />
 
           <Route path="/distributor/warehouse" element={<Warehouse />} />
+          <Route path="/distributor/primarySale" element={<PrimarySale />} />
+
+          <Route
+            path="/distributor/secondarySale"
+            element={<SecondarySale />}
+          />
+
+          <Route path="/distributor/mr-Routes" element={<MrRoutes />} />
+
+          <Route path="/distributor/billing" element={<Billing />} />
+
+          <Route path="/distributor/reports" element={<Report />} />
         </Routes>
       </Suspense>
     </div>

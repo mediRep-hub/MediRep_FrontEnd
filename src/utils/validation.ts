@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { Icon } from "@iconify/react";
 import {
   FaUserMd,
   FaClipboardList,
@@ -29,12 +30,13 @@ export const DoctorSchema = Yup.object().shape({
   endTime: Yup.string().required("End time is required"),
   region: Yup.string().required("Region is required"),
   area: Yup.string().required("Area is required"),
+  profileType: Yup.string().required("Profile Type is required"),
   affiliation: Yup.string().required("Affiliation is required"),
   image: Yup.string().nullable(),
-  location: Yup.object().shape({
+  location: Yup.object({
     address: Yup.string().required("Address is required"),
-    lat: Yup.number().required("Latitude is required"),
-    lng: Yup.number().required("Longitude is required"),
+    lat: Yup.number().required(),
+    lng: Yup.number().required(),
   }),
 });
 
@@ -148,57 +150,85 @@ export const AccountSchema = (isEdit: boolean) =>
 export interface SidebarLink {
   name: string;
   path: string;
-  icon: IconType;
+  icon: string;
 }
 export const defaultLinks: SidebarLink[] = [
-  { name: "Dashboard", path: "/dashboard", icon: FaTachometerAlt },
   {
-    name: "Doctor Profile Management",
-    path: "/doctorProfileManagement",
-    icon: FaUserMd,
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: "material-symbols-light:space-dashboard-rounded",
   },
-
+  {
+    name: "HealthcareProfessionals",
+    path: "/healthcareProfessionals",
+    icon: "material-symbols-light:person-pin-rounded",
+  },
   {
     name: "Targets/Achievement",
     path: "/targets-achievement",
-    icon: FaBullseye,
+    icon: "material-symbols-light:target",
   },
-  { name: "Products", path: "/products", icon: FaBoxOpen },
-  { name: "Requisitions", path: "/requisition", icon: FaClipboardList },
-  { name: "Call Reporting", path: "/callReporting", icon: FaPhoneAlt },
-  { name: "Data Reporting", path: "/dataReporting", icon: FaChartBar },
-  { name: "Orders", path: "/orders", icon: FaShoppingCart },
+  {
+    name: "Products",
+    path: "/products",
+    icon: "material-symbols-light:inventory-2",
+  },
+  {
+    name: "Requisitions",
+    path: "/requisition",
+    icon: "material-symbols-light:list-alt-rounded",
+  },
+  {
+    name: "Call Reporting",
+    path: "/callReporting",
+    icon: "material-symbols-light:call",
+  },
+  {
+    name: "Data Reporting",
+    path: "/dataReporting",
+    icon: "material-symbols-light:monitoring",
+  },
+  {
+    name: "Orders",
+    path: "/orders",
+    icon: "material-symbols-light:shopping-cart-rounded",
+  },
 ];
+
 export const DistributorLinks: SidebarLink[] = [
-  { name: "Dashboard", path: "/distributor/dashboard", icon: FaTachometerAlt },
+  {
+    name: "Dashboard",
+    path: "/distributor/dashboard",
+    icon: "material-symbols-light:space-dashboard-rounded",
+  },
   {
     name: "The Warehouse",
     path: "/distributor/warehouse",
-    icon: FaBoxOpen,
+    icon: "material-symbols-light:warehouse-rounded",
   },
   {
     name: "Primary Sale",
     path: "/distributor/primarySale",
-    icon: FaBullseye,
+    icon: "material-symbols-light:stacked-line-chart",
   },
   {
     name: "Secondary Sale",
     path: "/distributor/secondarySale",
-    icon: FaBoxOpen,
+    icon: "material-symbols-light:inventory-2",
   },
   {
     name: "MR & Route",
-    path: "/distributor/mrRoute",
-    icon: FaUserLarge,
+    path: "/distributor/mr-Routes",
+    icon: "material-symbols-light:directions",
   },
   {
     name: "Billing",
     path: "/distributor/billing",
-    icon: FaMoneyBill,
+    icon: "material-symbols-light:receipt-long",
   },
   {
     name: "Reports",
     path: "/distributor/reports",
-    icon: FaChartBar,
+    icon: "material-symbols-light:monitoring",
   },
 ];

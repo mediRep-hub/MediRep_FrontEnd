@@ -12,8 +12,8 @@ const RequisitionDetail = lazy(
 );
 const ManageAccount = lazy(() => import("../Pages/ManageAccount"));
 const DashBoard = lazy(() => import("../Pages/DashBoard"));
-const DoctorProfileManagement = lazy(
-  () => import("../Pages/DoctorProfileManagement")
+const HealthcareProfessionals = lazy(
+  () => import("../Pages/HealthcareProfessionals")
 );
 const StrategyPlanning = lazy(() => import("../Pages/CallReporting"));
 const DataReporting = lazy(() => import("../Pages/DataReporting"));
@@ -37,8 +37,8 @@ export default function MainRoutes() {
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<DashBoard />} />
         <Route
-          path="/doctorProfileManagement"
-          element={<DoctorProfileManagement />}
+          path="/healthcareProfessionals"
+          element={<HealthcareProfessionals />}
         />
         <Route path="/strategyPlanning" element={<StrategyPlanning />} />
         <Route path="/dataReporting" element={<DataReporting />} />

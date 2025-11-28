@@ -30,23 +30,18 @@ export default function DoctorCard({
               {doctor?.name}
             </p>
             <p className="leading-1 text-primary font-medium text-xs">
-              {doctor?.docId || "DOC b123123"}
+              {doctor?.docId}
             </p>
           </div>
         </div>
-
-        <div className="flex sm:mt-0 mt-5 items-center gap-3 flex-wrap">
-          {(doctor.status || []).map((s: any, i: number) => (
-            <div
-              key={i}
-              className="p-1 rounded-sm"
-              style={{ backgroundColor: s.color }}
-            >
-              <p className="leading-[10px] text-white font-normal text-xs">
-                {s?.label}
-              </p>
-            </div>
-          ))}
+        <div
+          className={`px-2 py-1 rounded-sm flex justify-center items-center 
+    ${doctor?.profileType === "Doctor" ? "bg-primary" : "bg-[#0BA69C]"}`}
+        >
+          <p className="text-sm text-white leading-[100%]">
+            {" "}
+            {doctor?.profileType}
+          </p>
         </div>
 
         <div

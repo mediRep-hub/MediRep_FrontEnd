@@ -1,7 +1,10 @@
+import { IoMdEye } from "react-icons/io";
 import circle1 from "../../../assets/circle1.png";
 import circle2 from "../../../assets/circle2.png";
 import CustomTable from "../../../Components/CustomTable";
 import SearchBar from "../../../Components/SearchBar";
+import Pagination from "../../../Components/Pagination";
+import { useEffect } from "react";
 const titles = [
   "Product SKU",
   "Product Name",
@@ -19,7 +22,10 @@ const data = [
     "Oral",
     "Available",
     " Rs.500",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10002",
@@ -28,7 +34,10 @@ const data = [
     "Liquid",
     "Out of Stock",
     "Rs.1000",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10003",
@@ -37,7 +46,10 @@ const data = [
     "Oral",
     "Available",
     "Rs.750",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10004",
@@ -46,7 +58,10 @@ const data = [
     "Oral",
     "Available",
     "Rs.600",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10005",
@@ -55,7 +70,10 @@ const data = [
     "Oral",
     "Out of Stock",
     "Rs.450",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10006",
@@ -64,7 +82,10 @@ const data = [
     "Liquid",
     "Available",
     "Rs.1200",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10007",
@@ -73,7 +94,10 @@ const data = [
     "Oral",
     "Available",
     " Rs.800",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10008",
@@ -82,7 +106,10 @@ const data = [
     "Oral",
     "Out of Stock",
     "Rs.550",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10009",
@@ -91,7 +118,10 @@ const data = [
     "Oral",
     "Available",
     "Rs.700",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
   [
     "SKU10010",
@@ -100,10 +130,16 @@ const data = [
     "Liquid",
     "Available",
     "Rs.1100",
-    "https://via.placeholder.com/50",
+    <div className="flex items-center gap-1">
+      <IoMdEye size={16} color="#7d7d7d" />
+      <p>View</p>
+    </div>,
   ],
 ];
 export default function Warehouse() {
+  useEffect(() => {
+    document.title = "MediRep | Warehouse";
+  }, []);
   return (
     <>
       <div className="sticky top-0">
@@ -118,7 +154,7 @@ export default function Warehouse() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="bg-secondary md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-2"
+          className="bg-secondary md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-4"
         >
           <div className="flex flex-wrap gap-4">
             <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
@@ -138,7 +174,7 @@ export default function Warehouse() {
                   </div>
                 </div>
               </div>
-              <div className="w-[40%]">
+              <div className="w-auto flex items-center">
                 <img src={circle2} />
               </div>
             </div>
@@ -159,19 +195,24 @@ export default function Warehouse() {
                   </div>
                 </div>
               </div>
-              <div className="w-[40%]">
+              <div className="w-auto flex items-center">
                 <img src={circle1} />
               </div>
             </div>
           </div>
-          <div className="bg-[#E5EBF7] mt-3 rounded-[12px] p-4 2xl:h-[calc(90vh-122px)] lg:h-[calc(90vh-162px)] h-auto ">
-            <p className="text-[#7D7D7D] text-sm leading-[100%]">Stock List</p>
+          <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(90vh-122px)] lg:h-[calc(90vh-162px)] h-auto ">
+            <div className="flex justify-between items-center">
+              <p className="text-[#7D7D7D] text-sm leading-[100%]">
+                Stock List
+              </p>
+              <Pagination />
+            </div>
             <div
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-174px)] xl:h-[calc(53vh-60px)] mt-4 overflow-y-auto scrollbar-none"
+              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-146px)] xl:h-[calc(61vh-60px)] mt-4 overflow-y-auto scrollbar-none"
             >
               {" "}
               <CustomTable titles={titles} data={data} />
