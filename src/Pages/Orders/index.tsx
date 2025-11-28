@@ -24,7 +24,6 @@ const titles = [
   "Order Date",
   "MR Name",
   "Doctor/Pharmacy Name",
-  "Strategy Name",
   "Order Type",
   "Amount",
   "Details",
@@ -126,7 +125,6 @@ export default function Orders() {
               "DD MMM, YYYY"
             )}</p>
             <p><strong>MR Name:</strong> ${order.mrName}</p>
-            <p><strong>Strategy Name:</strong> ${order.strategyName}</p>
             <p><strong>Order Type:</strong> ${order.orderType}</p>
           </div>
           <table border="1" cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;">
@@ -206,7 +204,6 @@ export default function Orders() {
     order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
     order.mrName,
     order.doctor.name,
-    order.strategyName,
     order.orderType,
     <p key={`amount-${order.orderId}`} className="text-[12px]">
       Rs:

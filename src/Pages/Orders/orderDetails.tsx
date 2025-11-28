@@ -138,7 +138,6 @@ export default function OrderDetails() {
                   <p className="text-[#7d7d7d] text-xs w-[120px]">
                     Strategy Name:
                   </p>
-                  <p className="text-heading text-xs">{order?.strategyName}</p>
                 </div>
                 <div className="flex items-center mt-2">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">
