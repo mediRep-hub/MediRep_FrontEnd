@@ -62,7 +62,7 @@ export default function LocationPicker({
           placeholder={placeholder}
           value={inputValue}
           onInput={(e) => setInputValue(e.currentTarget.value)}
-          className="border-2 border-primary h-14 p-3 rounded-md w-full focus:outline-none"
+          className="border-[1px] border-primary h-14 p-3 rounded-md w-full focus:outline-none"
         />
       </Autocomplete>
     </div>

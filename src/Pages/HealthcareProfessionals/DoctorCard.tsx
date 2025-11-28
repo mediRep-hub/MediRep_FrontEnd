@@ -34,7 +34,7 @@ export default function DoctorCard({
             </p>
           </div>
         </div>
-        <div
+        {/* <div
           className={`px-2 py-1 rounded-sm flex justify-center items-center 
     ${doctor?.profileType === "Doctor" ? "bg-primary" : "bg-[#0BA69C]"}`}
         >
@@ -42,7 +42,7 @@ export default function DoctorCard({
             {" "}
             {doctor?.profileType}
           </p>
-        </div>
+        </div> */}
 
         <div
           className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
@@ -61,12 +61,14 @@ export default function DoctorCard({
         </div>
       </div>
       <div className="mt-4 space-y-2">
-        <div className="flex gap-3 items-center">
-          <IoBulb color="#7d7d7d" />
-          <p className="text-heading text-xs font-normal">
-            {doctor?.specialty}
-          </p>
-        </div>
+        {doctor?.specialty && (
+          <div className="flex gap-3 items-center">
+            <IoBulb color="#7d7d7d" />
+            <p className="text-heading text-xs font-normal">
+              {doctor?.specialty}
+            </p>
+          </div>
+        )}
         <div className="flex gap-3 items-center">
           <MdPhone color="#7d7d7d" />
           <p className="text-heading text-xs font-normal">{doctor?.phone}</p>

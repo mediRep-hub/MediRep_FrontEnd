@@ -2,40 +2,37 @@ import { MdAdd, MdFileUpload } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
-import DoctorCard from "./DoctorCard";
 import CustomSelect from "../../Components/Select";
 import { useFormik } from "formik";
 import ImagePicker from "../../Components/ImagePicker";
-import { DoctorSchema } from "../../utils/validation";
+import { PharmacySchema } from "../../utils/validation";
 import { useQuery } from "@tanstack/react-query";
-import {
-  addDoctors,
-  deleteDoctor,
-  getAllDoctors,
-  updateDoctor,
-} from "../../api/doctorServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import CustomTimePicker from "../../Components/TimeRangePicker";
-import DoctorUploads from "../../Components/DoctorsUpload";
 import Pagination from "../../Components/Pagination";
 import { Spin } from "antd";
 import LocationPicker from "../../Components/LocationPicker";
+import DoctorCard from "../HealthcareProfessionals/DoctorCard";
+import {
+  addPharmacypost,
+  deletePharmacy,
+  getAllPharmacies,
+  updatePharmacy,
+} from "../../api/pharmacyServices";
+import PharmacyUploads from "../../Components/PharmacyUploads";
 
-interface Doctor {
+interface Pharmacy {
   _id?: string;
   name: string;
-  specialty: string;
   email: string;
   phone: string;
-  value?: [string, string] | null;
   affiliation: string;
   image?: string | null;
   startTime?: string | null;
   endTime?: string | null;
   region?: string;
-  profileType?: string;
   area?: string;
   location: {
     address: string;
@@ -43,83 +40,73 @@ interface Doctor {
     lng: number;
   };
 }
-const profileTypeOptions = ["Doctor", "Pharmacy"];
-const specialtyOptions = [
-  "All",
-  "Cardiologist",
-  "Dermatologist",
-  "Endocrinologist",
-  "Gastroenterologist",
-  "Family Doctor",
-];
+
 const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
-export default function HealthcareProfessionals() {
-  const [addDoctor, setAddDoctor] = useState<boolean>(false);
-  const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
+export default function Pharmacies() {
+  const [addPharmacy, setAddPharmacy] = useState<boolean>(false);
+  const [editingPharmacy, setEditingPharmacy] = useState<Pharmacy | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deleteID, setdeleteID] = useState<any>(null);
-  const [isloading, setLoading] = useState(false);
-  const [isloadingDelete, setLoadingDelete] = useState(false);
+  const [deleteID, setDeleteID] = useState<any>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [isLoadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllDoctors", currentPage],
-    queryFn: () => getAllDoctors({ page: currentPage, limit: itemsPerPage }),
+    queryKey: ["AllPharmacies", currentPage],
+    queryFn: () =>
+      getAllPharmacies({
+        page: currentPage,
+        limit: itemsPerPage,
+      }),
     placeholderData: (previous) => previous,
   });
 
-  const doctorsList: Doctor[] = data?.data?.data || [];
+  const pharmaciesList: Pharmacy[] = data?.data?.data || [];
   const totalItems = data?.data.total;
-
-  const paginatedDoctors = doctorsList;
+  const paginatedPharmacies = pharmaciesList;
 
   useEffect(() => {
-    document.title = "MediRep | Healthcare Professionals";
+    document.title = "MediRep | Pharmacies";
   }, []);
 
-  const handleEditDoctor = (doctor: Doctor) => {
-    if (!doctor) return;
-
-    setEditingDoctor(doctor);
-    setAddDoctor(true);
+  const handleEditPharmacy = (pharmacy: Pharmacy) => {
+    if (!pharmacy) return;
+    setEditingPharmacy(pharmacy);
+    setAddPharmacy(true);
 
     formik.setValues({
-      name: doctor.name || "",
-      specialty: doctor.specialty || "",
-      email: doctor.email || "",
-      phone: doctor.phone || "",
-      startTime: doctor.startTime || "",
-      endTime: doctor.endTime || "",
-      region: doctor.region || "",
-      area: doctor.area || "",
-      affiliation: doctor.affiliation || "",
-      image: doctor.image || null,
-      profileType: doctor.profileType || "",
-      location: doctor.location || { address: "", lat: 0, lng: 0 },
+      name: pharmacy.name || "",
+      email: pharmacy.email || "",
+      phone: pharmacy.phone || "",
+      startTime: pharmacy.startTime || "",
+      endTime: pharmacy.endTime || "",
+      region: pharmacy.region || "",
+      area: pharmacy.area || "",
+      affiliation: pharmacy.affiliation || "",
+      image: pharmacy.image || null,
+      location: pharmacy.location || { address: "", lat: 0, lng: 0 },
     });
   };
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: editingDoctor?.name || "",
-      specialty: editingDoctor?.specialty || "",
-      email: editingDoctor?.email || "",
-      phone: editingDoctor?.phone || "",
-      startTime: editingDoctor?.startTime || "",
-      endTime: editingDoctor?.endTime || "",
-      affiliation: editingDoctor?.affiliation || "",
-      region: editingDoctor?.region || "",
-      area: editingDoctor?.area || "",
-      profileType: editingDoctor?.profileType || "",
-      image: editingDoctor?.image || null,
-      location: editingDoctor?.location || { address: "", lat: 0, lng: 0 },
+      name: editingPharmacy?.name || "",
+      email: editingPharmacy?.email || "",
+      phone: editingPharmacy?.phone || "",
+      startTime: editingPharmacy?.startTime || "",
+      endTime: editingPharmacy?.endTime || "",
+      affiliation: editingPharmacy?.affiliation || "",
+      region: editingPharmacy?.region || "",
+      area: editingPharmacy?.area || "",
+      image: editingPharmacy?.image || null,
+      location: editingPharmacy?.location || { address: "", lat: 0, lng: 0 },
     },
-    validationSchema: DoctorSchema,
+    validationSchema: PharmacySchema,
     onSubmit: (values) => {
       setLoading(true);
       const cleanedValues = {
@@ -127,45 +114,37 @@ export default function HealthcareProfessionals() {
         image: typeof values.image === "object" ? "" : values.image,
       };
 
-      if (editingDoctor && editingDoctor._id) {
-        updateDoctor(editingDoctor._id, cleanedValues)
+      if (editingPharmacy && editingPharmacy._id) {
+        updatePharmacy(editingPharmacy._id, cleanedValues)
           .then(() => {
-            notifySuccess("Profile updated successfully");
-            setAddDoctor(false);
-            setEditingDoctor(null);
+            notifySuccess("Pharmacy updated successfully");
+            setAddPharmacy(false);
+            setEditingPharmacy(null);
             formik.resetForm();
             refetch();
           })
           .catch((error) => {
             console.error(
-              "Error updating Profile:",
+              "Error updating Pharmacy:",
               error.response?.data || error
             );
-            const errorMessage =
-              error?.response?.data?.message ||
-              error?.response?.data ||
-              error?.message ||
-              "An unexpected error occurred.";
-
-            notifyError(
-              `Failed to update Profile. Please try again. ${errorMessage}`
-            );
+            notifyError("Failed to update Pharmacy. Please try again.");
           })
           .finally(() => setLoading(false));
       } else {
-        addDoctors(cleanedValues)
+        addPharmacypost({ ...cleanedValues, profileType: "Pharmacy" })
           .then(() => {
-            notifySuccess("Profile added successfully");
-            setAddDoctor(false);
+            notifySuccess("Pharmacy added successfully");
+            setAddPharmacy(false);
             formik.resetForm();
             refetch();
           })
           .catch((error) => {
             console.error(
-              "Error adding Profile:",
+              "Error adding Pharmacy:",
               error.response?.data || error
             );
-            notifyError("Failed to add Profile. Please try again.");
+            notifyError("Failed to add Pharmacy. Please try again.");
           })
           .finally(() => setLoading(false));
       }
@@ -180,20 +159,20 @@ export default function HealthcareProfessionals() {
 
   const handleDelete = async () => {
     setLoadingDelete(true);
-    deleteDoctor(deleteID)
+    deletePharmacy(deleteID)
       .then(() => {
-        notifySuccess("Doctor deleted successfully");
+        notifySuccess("Pharmacy deleted successfully");
         setDeleteConfirmation(false);
-        setAddDoctor(false);
-        setEditingDoctor(null);
+        setAddPharmacy(false);
+        setEditingPharmacy(null);
         const newTotalItems = totalItems - 1;
         const newTotalPages = Math.ceil(newTotalItems / itemsPerPage);
         if (currentPage > newTotalPages) setCurrentPage(newTotalPages);
         refetch();
       })
       .catch((error) => {
-        console.error("Failed to delete doctor:", error);
-        notifyError("Failed to delete doctor. Please try again.");
+        console.error("Failed to delete Pharmacy:", error);
+        notifyError("Failed to delete Pharmacy. Please try again.");
       })
       .finally(() => {
         setLoadingDelete(false);
@@ -205,7 +184,7 @@ export default function HealthcareProfessionals() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap md:flex-nowrap justify-between items-start gap-4">
           <p className="text-heading font-medium text-[22px] lg:text-[24px]">
-            Healthcare Professionals
+            Pharmacies
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <button
@@ -216,12 +195,12 @@ export default function HealthcareProfessionals() {
               <p className="text-heading text-base font-medium">Bulk Upload</p>
             </button>
             <button
-              onClick={() => setAddDoctor(true)}
+              onClick={() => setAddPharmacy(true)}
               className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <MdAdd size={20} color="#fff" />
               <p className="text-white text-base font-medium">
-                Upload Profiles
+                Upload Pharmacy
               </p>
             </button>
           </div>
@@ -233,7 +212,7 @@ export default function HealthcareProfessionals() {
         >
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
-              Doctors Profile
+              Pharmacy Profiles
             </p>
             <Pagination
               currentPage={currentPage}
@@ -249,13 +228,13 @@ export default function HealthcareProfessionals() {
             </div>
           ) : (
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mt-4">
-              {paginatedDoctors.map((doc: any, index: number) => (
+              {paginatedPharmacies.map((pharmacy: any, index: number) => (
                 <DoctorCard
                   key={index}
-                  doctor={doc}
-                  onEdit={() => handleEditDoctor(doc)}
-                  setdeleteID={setdeleteID}
-                  setAddDoctor={setAddDoctor}
+                  doctor={pharmacy}
+                  onEdit={() => handleEditPharmacy(pharmacy)}
+                  setdeleteID={setDeleteID}
+                  setAddDoctor={setAddPharmacy}
                 />
               ))}
             </div>
@@ -263,7 +242,7 @@ export default function HealthcareProfessionals() {
         </div>
       </div>
 
-      {addDoctor && (
+      {addPharmacy && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-40">
           <div
             style={{
@@ -274,14 +253,14 @@ export default function HealthcareProfessionals() {
           >
             <div className="flex items-center justify-between">
               <p className="text-[24px] text-heading capitalize font-semibold">
-                {editingDoctor ? "Edit Profile" : "Upload Profile"}
+                {editingPharmacy ? "Edit Pharmacy" : "Upload Pharmacy"}
               </p>
 
               <IoMdCloseCircle
                 size={20}
                 onClick={() => {
-                  setAddDoctor(false);
-                  setEditingDoctor(null);
+                  setAddPharmacy(false);
+                  setEditingPharmacy(null);
                   formik.resetForm();
                 }}
                 className="cursor-pointer text-primary"
@@ -291,33 +270,20 @@ export default function HealthcareProfessionals() {
             <form onSubmit={formik.handleSubmit} className="mt-5">
               <div className="flex flex-wrap items-start gap-4">
                 <div className="xl:w-[calc(50%-8px)] w-full">
-                  <p className="text-heading text-base">Profile Details</p>
+                  <p className="text-heading text-base">Pharmacy Details</p>
 
                   <div className="mt-4">
                     <CustomInput
                       id="name"
                       name="name"
-                      label="Profile Name"
-                      placeholder="Paul Walker"
+                      label="Pharmacy Name"
+                      placeholder="Pharmacy Name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
                     {formik.touched.name && formik.errors.name && (
                       <div className="text-red-500 text-xs">
                         *{formik.errors.name}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4">
-                    <CustomSelect
-                      options={specialtyOptions}
-                      value={formik.values.specialty}
-                      onChange={(val) => formik.setFieldValue("specialty", val)}
-                      placeholder="Specialty"
-                    />
-                    {formik.touched.specialty && formik.errors.specialty && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.specialty}
                       </div>
                     )}
                   </div>
@@ -355,7 +321,7 @@ export default function HealthcareProfessionals() {
                     <ImagePicker
                       label="Upload Image"
                       placeholder="Upload Your Image"
-                      fileType="Doctors"
+                      fileType="Pharmacies"
                       type="image"
                       value={formik.values.image || ""}
                       onChange={(val) => formik.setFieldValue("image", val)}
@@ -366,30 +332,14 @@ export default function HealthcareProfessionals() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
-                    <CustomSelect
-                      options={profileTypeOptions}
-                      value={formik.values.profileType}
-                      onChange={(val) =>
-                        formik.setFieldValue("profileType", val)
-                      }
-                      placeholder="ProfileType"
-                    />
-                    {formik.touched.profileType &&
-                      formik.errors.profileType && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.profileType}
-                        </div>
-                      )}
-                  </div>
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
-                  <p className="text-heading text-base">Set Profile</p>
+                  <p className="text-heading text-base">Set Pharmacy Details</p>
                   <div className="mt-4">
                     <LocationPicker
                       label="Pick Location"
                       value={formik.values.location.address}
-                      placeholder="Enter your address"
+                      placeholder="Enter address"
                       onChange={(address, lat, lng) => {
                         formik.setFieldValue("location", { address, lat, lng });
                       }}
@@ -409,12 +359,7 @@ export default function HealthcareProfessionals() {
                           formik.setFieldValue("startTime", val)
                         }
                         placeholder="Start Time"
-                      />{" "}
-                      {formik.touched.startTime && formik.errors.startTime && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.startTime}
-                        </div>
-                      )}
+                      />
                     </div>
 
                     <div className="w-full">
@@ -422,12 +367,7 @@ export default function HealthcareProfessionals() {
                         value={formik.values.endTime}
                         onChange={(val) => formik.setFieldValue("endTime", val)}
                         placeholder="End Time"
-                      />{" "}
-                      {formik.touched.endTime && formik.errors.endTime && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.endTime}
-                        </div>
-                      )}
+                      />
                     </div>
                   </div>
                   <div className="mt-4">
@@ -437,11 +377,6 @@ export default function HealthcareProfessionals() {
                       onChange={(val) => formik.setFieldValue("region", val)}
                       placeholder="Region"
                     />
-                    {formik.touched.region && formik.errors.region && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.region}
-                      </div>
-                    )}
                   </div>
                   <div className="mt-4">
                     <CustomSelect
@@ -450,11 +385,6 @@ export default function HealthcareProfessionals() {
                       onChange={(val) => formik.setFieldValue("area", val)}
                       placeholder="Area"
                     />
-                    {formik.touched.area && formik.errors.area && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.area}
-                      </div>
-                    )}
                   </div>
                   <div className="mt-4">
                     <CustomInput
@@ -466,23 +396,14 @@ export default function HealthcareProfessionals() {
                       value={formik.values.affiliation}
                       onChange={formik.handleChange}
                     />
-
-                    {formik.touched.affiliation &&
-                      formik.errors.affiliation && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.affiliation}
-                        </div>
-                      )}
                   </div>
                 </div>
               </div>
               <div className="flex gap-3 flex-wrap justify-end mt-5">
-                {editingDoctor && (
+                {editingPharmacy && (
                   <button
                     type="button"
-                    onClick={() => {
-                      setDeleteConfirmation(true);
-                    }}
+                    onClick={() => setDeleteConfirmation(true)}
                     className="h-[55px] mr-auto md:w-[200px] w-full bg-red-600 text-white rounded-[6px] flex justify-center items-center"
                   >
                     Delete
@@ -493,9 +414,9 @@ export default function HealthcareProfessionals() {
                   type="submit"
                   className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] flex justify-center items-center"
                 >
-                  {isloading ? (
+                  {isLoading ? (
                     <Spin indicator={antIcon} />
-                  ) : editingDoctor ? (
+                  ) : editingPharmacy ? (
                     "Update"
                   ) : (
                     "Add"
@@ -506,6 +427,7 @@ export default function HealthcareProfessionals() {
           </div>
         </div>
       )}
+
       {deleteConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto xl:p-6 p-4 shadow-xl relative">
@@ -515,7 +437,7 @@ export default function HealthcareProfessionals() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Profiles</strong>
+                Are you sure you want to delete this <strong>Pharmacy</strong>?
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">
@@ -529,7 +451,7 @@ export default function HealthcareProfessionals() {
                 onClick={handleDelete}
                 className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
               >
-                {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
+                {isLoadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>
             </div>
           </div>
@@ -537,7 +459,7 @@ export default function HealthcareProfessionals() {
       )}
 
       {openModal && (
-        <DoctorUploads closeModle={setOpenModal} refetch={refetch} />
+        <PharmacyUploads closeModle={setOpenModal} refetch={refetch} />
       )}
     </>
   );

@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-export const BASE_URL = "http://localhost:5001";
+export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+// export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -17,6 +17,13 @@ export const ENDPOINTS = {
   DOCTOR_UPDATE: "/doctor/updateDoctor",
   DOCTOR_DELETE: "/doctor/deleteDoctor",
   DOCTOR_uploadCSVDOCTOR: "/doctor/uploadDoctorsCSV",
+  //   -----------Pharmacy-------------
+  Pharmacy_GET_ALL: "/pharmacy/getAllPharmacies",
+  Pharmacy_GET_ALL_LIST: "/pharmacy/getAllPharmaciesList",
+  Pharmacy_ADD_Pharmacy: "/pharmacy/addPharmacy",
+  Pharmacy_UPDATE: "/pharmacy/updatePharmacy",
+  Pharmacy_DELETE: "/pharmacy/deletePharmacy",
+  Pharmacy_uploadCSVDOCTOR: "/pharmacy/uploadPharmaciesCSV",
 
   //   -----------Products-------------
   PRODUCT_ADD_PRODUCT: "/product/addProduct",

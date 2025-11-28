@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Orders from "../Pages/Orders";
 import OrderDetails from "../Pages/Orders/orderDetails";
 import CallReportingDetail from "../Pages/CallReporting/callReportingDetail";
+import Pharmacy from "../Pages/Pharmacy";
 
 const RequisitionDetail = lazy(
   () => import("../Pages/Requisition/RequisitionDetail")
@@ -54,6 +55,7 @@ export default function MainRoutes() {
         />{" "}
         <Route path="/targets-achievement" element={<Tragets />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/pharmacy" element={<Pharmacy />} />
         <Route path="/requisition" element={<Requisition />} />
         <Route
           path="/requisition/requisitionDetail"

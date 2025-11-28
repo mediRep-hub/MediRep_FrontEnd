@@ -20,7 +20,22 @@ export const LoginSchema = Yup.object({
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
-
+export const PharmacySchema = Yup.object().shape({
+  name: Yup.string().required("Doctor name is required"),
+  email: Yup.string().email().required("Email is required"),
+  phone: Yup.string().required("Phone is required"),
+  startTime: Yup.string().required("Start time is required"),
+  endTime: Yup.string().required("End time is required"),
+  region: Yup.string().required("Region is required"),
+  area: Yup.string().required("Area is required"),
+  affiliation: Yup.string().required("Affiliation is required"),
+  image: Yup.string().nullable(),
+  location: Yup.object({
+    address: Yup.string().required("Address is required"),
+    lat: Yup.number().required(),
+    lng: Yup.number().required(),
+  }),
+});
 export const DoctorSchema = Yup.object().shape({
   name: Yup.string().required("Doctor name is required"),
   specialty: Yup.string().required("Specialty is required"),
@@ -159,9 +174,14 @@ export const defaultLinks: SidebarLink[] = [
     icon: "material-symbols-light:space-dashboard-rounded",
   },
   {
-    name: "HealthcareProfessionals",
+    name: "Healthcare Professionals",
     path: "/healthcareProfessionals",
     icon: "material-symbols-light:person-pin-rounded",
+  },
+  {
+    name: "Pharmacy",
+    path: "/pharmacy",
+    icon: "material-symbols-light:local-pharmacy-rounded",
   },
   {
     name: "Targets/Achievement",
