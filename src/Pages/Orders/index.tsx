@@ -14,20 +14,12 @@ import CustomTable from "../../Components/CustomTable";
 import Pagination from "../../Components/Pagination";
 import { getAllOrders } from "../../api/orderServices";
 import { notifyError } from "../../Components/Toast";
-import logo from "../../assets/medirep-logo.png";
+import Logo from "../../assets/medirep-logo2.png";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import { getAllAccounts } from "../../api/adminServices";
 
-const titles = [
-  "Order ID",
-  "Order Date",
-  "MR Name",
-  "Doctor/Pharmacy Name",
-  "Order Type",
-  "Amount",
-  "Details",
-];
+const titles = ["Order ID", "Order Date", "MR Name", "Amount", "Details"];
 
 export default function Orders() {
   const navigate = useNavigate();
@@ -112,10 +104,14 @@ export default function Orders() {
       tempDiv.style.top = "-9999px";
 
       tempDiv.innerHTML = `
-        <div style="font-family:Arial, sans-serif;">
-          <div style="display:flex;align-items:center;justify-content:center;margin-bottom:20px;text-align:center;">
-            <img src="${logo}" style="width:80px;height:auto;margin-right:30px;"/>
-            <h1 style="font-size:34px;font-weight:bold;">MediRep Bill Invoice</h1>
+        <div style="font-family:Outfit, sans-serif;" >
+          <div style="display:flex;align-items:center;justify-content:center; gap:8px;">
+            <img src="${Logo}" style="width:80px;height:auto;"/>
+            <h1 style="font-size:34px; font-weight:bold; margin:0; display:inline-block;">
+              <span style="color:#0755E9;">Medi</span>
+               <span style="color:#FF8D28; margin-right:24px;">Rep</span>
+              Bill Invoice
+            </h1>
           </div>
           <div style="margin-bottom:20px;">
             <p><strong>Order ID:</strong> ${order.orderId}</p>
@@ -129,19 +125,23 @@ export default function Orders() {
           </div>
           <table border="1" cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;">
             <tr>
-              <th style="width:40%">Item Detail</th>
-              <th style="width:20%;text-align:right;">Qty</th>
-              <th style="width:20%;text-align:right;">Rate</th>
-              <th style="width:20%;text-align:right;">Amount</th>
+              <th style="width:40%;text-align:start">Item Detail</th>
+              <th style="width:20%;text-align:start;">Qty</th>
+              <th style="width:20%;text-align:start;">Rate</th>
+              <th style="width:20%;text-align:start;">Amount</th>
             </tr>
             ${order.medicines
               .map(
                 (m: any) => `
               <tr>
-                <td style="text-transform:uppercase;">${m.name}</td>
-                <td style="text-align:right;">${m.quantity}</td>
-                <td style="text-align:right;">Rs.${m.rate}</td>
-                <td style="text-align:right;">Rs.${m.amount}</td>
+                <td style="text-transform:uppercase;">${
+                  m.medicineId?.productName
+                }</td>
+                <td style="text-align:start;">${m.quantity}</td>
+                <td style="text-align:start;">Rs.${m.medicineId?.amount}</td>
+                <td style="text-align:start;">Rs.${
+                  m?.medicineId?.amount * m?.quantity
+                }</td>
               </tr>
             `
               )
@@ -149,7 +149,12 @@ export default function Orders() {
           </table>
           <div style="margin-top:20px;text-align:right;border-top:0.5px solid #000;border-bottom:0.5px solid #000;padding:10px 0;">
             <p>Subtotal: Rs.${order.subtotal}</p>
-            <p>Tax (10%): Rs.${order.tax}</p>
+           <p>
+  Discount: Rs. ${(
+    order.subtotal *
+    (order.discount / 100)
+  ).toLocaleString()} (${order.discount}%)
+</p>
             <div style="border-top:0.5px solid #000;margin-top:20px;">
               <p><strong>Total: Rs.${order.total}</strong></p>
             </div>
@@ -203,8 +208,6 @@ export default function Orders() {
     </div>,
     order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
     order.mrName,
-    order.doctor.name,
-    order.orderType,
     <p key={`amount-${order.orderId}`} className="text-[12px]">
       Rs:
       {order.total}

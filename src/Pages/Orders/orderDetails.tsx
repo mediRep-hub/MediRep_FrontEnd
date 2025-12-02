@@ -5,17 +5,20 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import logo from "../../assets/medirep-logo.png";
 import { LuDownload } from "react-icons/lu";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 export default function OrderDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const { order } = location.state || {};
-  console.log("🚀 ~ OrderDetails ~ order:", order);
   const invoiceRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "MediRep | Order Details";
+  }, []);
 
   const handleBack = () => {
     navigate("/orders");
@@ -50,6 +53,7 @@ export default function OrderDetails() {
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
+
   return (
     <div>
       {" "}
@@ -95,55 +99,33 @@ export default function OrderDetails() {
             className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-52px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex items-center ">
-              <div className="w-[40%]">
-                <img src={logo} className="w-[52px] h-auto" />
+              <div className="w-[40%] flex items-center gap-3">
+                <img src={logo} className="w-[52px] h-auto " />
+                <p className="text-2xl font-medium text-primary">
+                  Medi<span className="text-[#FF7631]">Rep</span>
+                </p>
               </div>
               <p className="text-heading md:text-[24px] text-[16px] font-medium">
-                MediRep Bill Invoice
+                Bill Invoice
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 items-center mt-5 border-b border-primary pb-5">
+            <div className="flex flex-wrap gap-2 items-start mt-5 border-b border-primary pb-5">
               <div className="lg:w-[calc(50%-4px)] w-full">
                 <div className="flex items-center ">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
                   <p className="text-primary text-xs">{order?.orderId}</p>
                 </div>
                 <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">
-                    Customer Name:
-                  </p>
-                  <p className="text-heading text-xs">{order?.customerName}</p>
-                </div>
-                <div className="flex items-center mt-2">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">Address:</p>
                   <p className="text-heading text-xs">{order?.address}</p>
                 </div>{" "}
                 <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">
-                    Doctor Name:
-                  </p>
-                  <p className="text-heading text-xs">{order?.doctor?.name}</p>
-                </div>{" "}
-                <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
-                  <p className="text-heading text-xs">{order?.orderId}</p>
-                </div>
-              </div>
-              <div className="lg:w-[calc(50%-4px)] w-full">
-                <div className="flex items-center">
                   <p className="text-[#7d7d7d] text-xs w-[120px]">MR Name:</p>
                   <p className="text-heading text-xs">{order?.mrName}</p>
                 </div>
                 <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">
-                    Strategy Name:
-                  </p>
-                </div>
-                <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">
-                    Order Type:
-                  </p>
-                  <p className="text-heading text-xs">{order?.orderType}</p>
+                  <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
+                  <p className="text-heading text-xs">{order?.orderId}</p>
                 </div>
               </div>
             </div>
@@ -158,6 +140,9 @@ export default function OrderDetails() {
                 <div className="mt-6 border-y-[1px] border-[#7d7d7d] py-3 flex items-center">
                   <p className="text-heading text-xs min-w-[200px] w-[40%] uppercase">
                     Item Detail
+                  </p>{" "}
+                  <p className="text-heading text-xs min-w-[200px] w-[40%]">
+                    Strength
                   </p>
                   <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
                     Qty
@@ -165,9 +150,9 @@ export default function OrderDetails() {
                   <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
                     Medicine Type
                   </p>{" "}
-                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
+                  {/* <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
                     Strength
-                  </p>
+                  </p> */}
                   <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
                     Rate
                   </p>
@@ -182,22 +167,25 @@ export default function OrderDetails() {
                       className="flex items-center py-1 border-b border-gray-200"
                     >
                       <p className="text-heading font-bold min-w-[200px] text-xs w-[40%] uppercase">
-                        {med.name}
+                        {med.medicineId?.productName || "-"}
+                      </p>
+                      <p className="text-heading font-bold min-w-[150px] text-xs w-[40%] uppercase">
+                        {med.medicineId?.strength || "-"}
                       </p>
                       <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        {med.quantity}
-                      </p>{" "}
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        {med.medicineType}
-                      </p>{" "}
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        {med.strength}
-                      </p>{" "}
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        Rs.{med.rate.toLocaleString()}
+                        {med.quantity ?? 0}
                       </p>
                       <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        Rs.{med.amount.toLocaleString()}
+                        {med.medicineId?.category || "-"}
+                      </p>
+                      {/* <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                        {med.strength || "-"}
+                      </p> */}
+                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                        Rs.{med.medicineId?.amount?.toLocaleString() || 0}
+                      </p>
+                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                        Rs. {med?.medicineId?.amount * med?.quantity}
                       </p>
                     </div>
                   ))}
@@ -213,7 +201,11 @@ export default function OrderDetails() {
                 </div>{" "}
                 <div className="flex mt-4 items-center justify-between pb-2 border-b-[1px] border-[#7d7d7d] ">
                   <p className="text-heading text-xs">Distcount</p>
-                  <p className="text-heading text-xs">Rs. {order?.discount}</p>
+                  <p className="text-heading text-xs">
+                    Rs.{" "}
+                    {(order.subtotal * (order.discount / 100)).toLocaleString()}{" "}
+                    ({order?.discount}%){" "}
+                  </p>
                 </div>{" "}
                 <div className="flex mt-4 items-center justify-between ">
                   <p className="text-heading text-xs font-bold">Total</p>

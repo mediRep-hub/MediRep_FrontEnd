@@ -44,7 +44,7 @@ export default function MainRoutes() {
         <Route path="/strategyPlanning" element={<StrategyPlanning />} />
         <Route path="/dataReporting" element={<DataReporting />} />
         <Route
-          path="/manageAccount"
+          path="/manageAccounts"
           element={
             user?.position === "Admin" ? (
               <ManageAccount />
@@ -53,12 +53,12 @@ export default function MainRoutes() {
             )
           }
         />{" "}
-        <Route path="/targets-achievement" element={<Tragets />} />
+        <Route path="/targets-achievements" element={<Tragets />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/pharmacy" element={<Pharmacy />} />
-        <Route path="/requisition" element={<Requisition />} />
+        <Route path="/pharmacies" element={<Pharmacy />} />
+        <Route path="/requisitions" element={<Requisition />} />
         <Route
-          path="/requisition/requisitionDetail"
+          path="/requisitions/requisitionDetail"
           element={<RequisitionDetail />}
         />
         <Route path="/callReporting" element={<CallReporting />} />

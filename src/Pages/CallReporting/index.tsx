@@ -85,6 +85,9 @@ export default function CallReporting() {
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [doctorList, setDoctorList] = useState<any[]>([]);
 
+  useEffect(() => {
+    document.title = "MediRep | Call Reporting";
+  }, []);
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );

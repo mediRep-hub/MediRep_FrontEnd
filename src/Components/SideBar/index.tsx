@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/Logo/logo.png";
+import { useLocation, useNavigate } from "react-router-dom";
+import Logo from "../../assets/medirep-logo.png";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { notifyError, notifySuccess } from "../Toast";
@@ -9,23 +9,26 @@ import { setIsLoggedIn } from "../../redux/userSlice";
 import { store } from "../../redux/store";
 import { HTTP_CLIENT } from "../../utils/httpClient";
 import { Icon } from "@iconify/react";
+import { logo_medi } from "../../utils/validation";
 
 export default function SideBar({ link }: any) {
   const { user } = useSelector((state: any) => state.user);
-
+  const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
   const onClick = (path: string) => {
     navigate(path);
     setIsOpen(false);
   };
+
   const sidebarLinks = useMemo(() => {
     let links = [...link];
 
     if (user?.position === "Admin") {
       links.splice(2, 0, {
         name: "Manage Accounts",
-        path: "/manageAccount",
+        path: "/manageAccounts",
         icon: "mdi:account-cog",
       });
     }
@@ -73,6 +76,7 @@ export default function SideBar({ link }: any) {
           <FaBars />
         </button>
       )}
+
       <aside
         style={{
           scrollbarWidth: "none",
@@ -82,16 +86,20 @@ export default function SideBar({ link }: any) {
           ${isOpen ? "translate-x-0" : "-translate-x-full"} xl:translate-x-0`}
       >
         <div className="flex items-center gap-2">
-          <img src={Logo} className="h-[46px] w-auto" />
-
-          <p className="text-primary font-medium text-[18px]">MediRep</p>
+          <div dangerouslySetInnerHTML={{ __html: logo_medi }} />
+          <p className="text-primary font-medium text-[18px]">
+            Medi<span className="text-[#FF7631]">Rep</span>
+          </p>
         </div>
 
         <p className="text-[#979797] text-sm font-normal mt-[30px]">MENU</p>
 
         <nav className="flex flex-col gap-0 mt-4">
           {sidebarLinks.map((i: any, index: number) => {
-            const isActive = location.pathname.startsWith(i.path);
+            // Active link for main and nested routes
+            const isActive =
+              location.pathname === i.path ||
+              location.pathname.startsWith(i.path + "/");
 
             return (
               <p

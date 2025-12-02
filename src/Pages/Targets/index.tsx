@@ -96,7 +96,7 @@ export default function Targets() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 items-start justify-between">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Target
+            Targets
           </p>
           <button
             onClick={() => setOpenModal(true)}
