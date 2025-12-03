@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import Logo from "../assets/medirep-logo.png";
+import Logo from "../assets/medirep-logoBIg.png";
 const Login = lazy(() => import("../Pages/login"));
 
 export default function AuthRoutes() {

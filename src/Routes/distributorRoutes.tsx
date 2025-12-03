@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import Logo from "../assets/medirep-logo.png";
+import Logo from "../assets/medirep-logoBIg.png";
 import Report from "../Pages/Distributor/Reports";
 import Billing from "../Pages/Distributor/Billing";
 import MrRoutes from "../Pages/Distributor/MrRoutes";
