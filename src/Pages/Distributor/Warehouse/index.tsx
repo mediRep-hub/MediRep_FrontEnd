@@ -158,7 +158,7 @@ export default function Warehouse() {
         >
           <div className="flex flex-wrap gap-4">
             <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
-              <div className="w-[40%] py-4 flex flex-col justify-between">
+              <div className="md:w-[40%] w-full py-4 flex flex-col justify-between">
                 <p className="text-[#7D7D7D] text-base">Total Stock</p>
                 <div className="flex gap-5 items-center">
                   <div>
@@ -174,12 +174,12 @@ export default function Warehouse() {
                   </div>
                 </div>
               </div>
-              <div className="w-auto flex items-center">
+              <div className="w-auto md:flex hidden items-center">
                 <img src={circle2} />
               </div>
             </div>
             <div className="px-4 bg-white h-[150px] w-full lg:w-[calc(50%-8px)] rounded-[12px] flex justify-between">
-              <div className="w-[40%] py-4 flex flex-col justify-between">
+              <div className="md:w-[40%] w-full  py-4 flex flex-col justify-between">
                 <p className="text-[#7D7D7D] text-base">Damage/Expiry</p>{" "}
                 <div className="flex gap-5 items-center">
                   <div>
@@ -195,12 +195,12 @@ export default function Warehouse() {
                   </div>
                 </div>
               </div>
-              <div className="w-auto flex items-center">
+              <div className="w-auto md:flex hidden items-center">
                 <img src={circle1} />
               </div>
             </div>
           </div>
-          <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(90vh-122px)] lg:h-[calc(90vh-162px)] h-auto ">
+          <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(79vh-122px)] lg:h-[calc(90vh-162px)] h-auto ">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] text-sm leading-[100%]">
                 Stock List
@@ -212,7 +212,7 @@ export default function Warehouse() {
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(77vh-146px)] xl:h-[calc(61vh-60px)] mt-4 overflow-y-auto scrollbar-none"
+              className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(73vh-140px)] xl:h-[calc(50vh-80px)] mt-4 overflow-y-auto scrollbar-none"
             >
               {" "}
               <CustomTable titles={titles} data={data} />

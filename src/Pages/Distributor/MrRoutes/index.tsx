@@ -24,7 +24,7 @@ export default function MrRoutes() {
               <p className="text-heading font-medium text-[22px] sm:text-[24px]">
                 Mr & Routes
               </p>
-              <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(90vh-122px)] lg:h-[calc(90vh-162px)] h-auto "></div>
+              <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(89vh-90px)] lg:h-[calc(94vh-162px)] h-auto "></div>
             </div>
           </div>
         </>

@@ -44,7 +44,7 @@ export default function PrimarySale() {
               <p className="text-heading font-medium text-[22px] sm:text-[24px]">
                 Primary Sale
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 md:w-auto w-full">
                 <button className="h-[55px] w-full md:w-[70px] bg-[#E90761]/10 rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
                   <Icon
                     icon="material-symbols-light:assignment-return"
@@ -67,7 +67,7 @@ export default function PrimarySale() {
                 </button>{" "}
               </div>
             </div>
-            <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(90vh-122px)] lg:h-[calc(90vh-162px)] h-auto ">
+            <div className="bg-[#E5EBF7] rounded-[12px] p-4 2xl:h-[calc(89vh-125px)] lg:h-[calc(90vh-162px)] h-auto ">
               <div className="flex justify-between items-center">
                 <p className="text-[#7D7D7D] text-sm leading-[100%]">
                   Invoice List
@@ -79,7 +79,7 @@ export default function PrimarySale() {
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
                 }}
-                className="bg-white border-2 mt-3 border-primary w-full md:h-[calc(73vh-10px)] overflow-y-auto h-auto rounded-xl"
+                className="bg-white border-2 mt-3 border-primary w-full 2xl:h-[calc(70vh-10px)] xl:h-[calc(55vh-13px)]  overflow-y-auto h-auto rounded-xl"
               >
                 {" "}
                 <CustomTable titles={titles} data={data} />

@@ -29,7 +29,15 @@ export default function OrderDetails() {
     setLoading(true);
 
     try {
-      const canvas = await html2canvas(invoiceRef.current, { scale: 2 });
+      // Clone the invoice
+      const clone = invoiceRef.current.cloneNode(true) as HTMLDivElement;
+      clone.style.width = "800px"; // fixed width for PDF
+      clone.style.height = "auto"; // let height expand
+      clone.style.position = "absolute";
+      clone.style.left = "-9999px";
+      document.body.appendChild(clone);
+
+      const canvas = await html2canvas(clone, { scale: 2 });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
         orientation: "portrait",
@@ -39,17 +47,20 @@ export default function OrderDetails() {
 
       const pageWidth = 210;
       const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pageWidth;
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pdfHeight = (imgProps.height * pageWidth) / imgProps.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pdfHeight);
       pdf.save(`Invoice-${order?.orderId}.pdf`);
+
+      // Remove the clone
+      document.body.removeChild(clone);
     } catch (err) {
       console.error("Error generating PDF:", err);
     } finally {
       setLoading(false);
     }
   };
+
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
@@ -98,14 +109,14 @@ export default function OrderDetails() {
             }}
             className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-52px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
           >
-            <div className="flex items-center ">
-              <div className="w-[40%] flex items-center gap-3">
+            <div className="flex flex-wrap items-center ">
+              <div className="md:w-[40%] w-full flex items-center gap-3">
                 <img src={logo} className="w-[52px] h-auto " />
                 <p className="text-2xl font-medium text-primary">
                   Medi<span className="text-[#FF7631]">Rep</span>
                 </p>
               </div>
-              <p className="text-heading md:text-[24px] text-[16px] font-medium">
+              <p className="text-heading md:text-[24px] md:w-auto w-full text-center text-[16px] font-medium">
                 Bill Invoice
               </p>
             </div>
