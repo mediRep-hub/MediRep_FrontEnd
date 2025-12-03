@@ -100,7 +100,7 @@ export default function RequisitionDetail() {
     staleTime: 5 * 60 * 1000,
   });
 
-  const handleBack = () => navigate("/requisition");
+  const handleBack = () => navigate("/requisitions");
 
   const handleAccept = async (id: string) => {
     try {
@@ -132,7 +132,7 @@ export default function RequisitionDetail() {
       setLoading(false);
       refetch();
       setDeleteConfirmation(false);
-      navigate("/requisition");
+      navigate("/requisitions");
     }
   };
 
