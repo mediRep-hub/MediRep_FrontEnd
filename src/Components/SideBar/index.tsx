@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Logo from "../../assets/medirep-logo.png";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { notifyError, notifySuccess } from "../Toast";
