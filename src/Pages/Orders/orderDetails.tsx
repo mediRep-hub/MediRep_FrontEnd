@@ -123,80 +123,73 @@ export default function OrderDetails() {
             <div className="flex flex-wrap gap-2 items-start mt-5 border-b border-primary pb-5">
               <div className="lg:w-[calc(50%-4px)] w-full">
                 <div className="flex items-center ">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
-                  <p className="text-primary text-xs">{order?.orderId}</p>
+                  <p className="text-[#7d7d7d] text-xs md:w-[120px] w-[45%]">
+                    Order ID:
+                  </p>
+                  <p className="text-heading text-xs md:w-auto w-[55%]">
+                    {order?.orderId}
+                  </p>
                 </div>
                 <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">Address:</p>
-                  <p className="text-heading text-xs">{order?.address}</p>
+                  <p className="text-[#7d7d7d] text-xs md:w-[120px] w-[45%]">
+                    Address:
+                  </p>
+                  <p className="text-heading text-xs md:w-auto w-[55%]">
+                    {order?.address}
+                  </p>
                 </div>{" "}
                 <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">MR Name:</p>
-                  <p className="text-heading text-xs">{order?.mrName}</p>
+                  <p className="text-[#7d7d7d] text-xs md:w-[120px] w-[45%]">
+                    MR Name:
+                  </p>
+                  <p className="text-heading text-xs md:w-auto w-[55%]">
+                    {order?.mrName}
+                  </p>
                 </div>
                 <div className="flex items-center mt-2">
-                  <p className="text-[#7d7d7d] text-xs w-[120px]">Order ID:</p>
-                  <p className="text-heading text-xs">{order?.orderId}</p>
+                  <p className="text-[#7d7d7d] text-xs md:w-[120px] w-[45%]">
+                    Order ID:
+                  </p>
+                  <p className="text-heading text-xs md:w-auto w-[55%]">
+                    {order?.orderId}
+                  </p>
                 </div>
               </div>
             </div>
-            <div
-              style={{
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-              }}
-              className="overflow-x-auto overflow-y-hidden w-full touch-pan-x"
-            >
-              <div className="min-w-[700px]">
-                <div className="mt-6 border-y-[1px] border-[#7d7d7d] py-3 flex items-center">
-                  <p className="text-heading text-xs min-w-[200px] w-[40%] uppercase">
-                    Item Detail
-                  </p>{" "}
-                  <p className="text-heading text-xs min-w-[200px] w-[40%]">
-                    Strength
-                  </p>
-                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
-                    Qty
-                  </p>{" "}
-                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
-                    Medicine Type
-                  </p>{" "}
-                  {/* <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
-                    Strength
-                  </p> */}
-                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
-                    Rate
-                  </p>
-                  <p className="text-heading text-xs min-w-[150px] w-[20%] text-end">
-                    Amount
-                  </p>
+            <div className="overflow-x-auto w-full">
+              <div className="min-w-[700px] md:min-w-full">
+                {/* Table Header */}
+                <div className="mt-6 border-y-[1px] border-[#7d7d7d] py-3 grid grid-cols-6 text-xs">
+                  <p className="uppercase font-normal">Item Detail</p>
+                  <p className="font-normal">Strength</p>
+                  <p className="text-end font-normal">Qty</p>
+                  <p className="text-end font-normal">Medicine Type</p>
+                  <p className="text-end font-normal">Rate</p>
+                  <p className="text-end font-normal">Amount</p>
                 </div>
-                <div className="border-b-[1px] border-[#7d7d7d] w-full py-5">
+
+                {/* Table Rows */}
+                <div className="border-b-[1px] border-[#7d7d7d] w-full">
                   {order?.medicines?.map((med: any, index: number) => (
                     <div
                       key={index}
-                      className="flex items-center py-1 border-b border-gray-200"
+                      className="grid grid-cols-6 items-center border-b border-gray-200 py-2 text-xs"
                     >
-                      <p className="text-heading font-bold min-w-[200px] text-xs w-[40%] uppercase">
+                      <p className="uppercase font-bold">
                         {med.medicineId?.productName || "-"}
                       </p>
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[40%] uppercase">
+                      <p className="font-bold">
                         {med.medicineId?.strength || "-"}
                       </p>
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        {med.quantity ?? 0}
-                      </p>
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                      <p className="text-end font-bold">{med.quantity ?? 0}</p>
+                      <p className="text-end font-bold">
                         {med.medicineId?.category || "-"}
                       </p>
-                      {/* <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        {med.strength || "-"}
-                      </p> */}
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
+                      <p className="text-end font-bold">
                         Rs.{med.medicineId?.amount?.toLocaleString() || 0}
                       </p>
-                      <p className="text-heading font-bold min-w-[150px] text-xs w-[20%] text-end">
-                        Rs. {med?.medicineId?.amount * med?.quantity}
+                      <p className="text-end font-bold">
+                        Rs.{(med.medicineId?.amount || 0) * (med.quantity || 0)}
                       </p>
                     </div>
                   ))}
