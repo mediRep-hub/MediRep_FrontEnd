@@ -68,7 +68,7 @@ export default function OrderDetails() {
   return (
     <div>
       {" "}
-      <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-6">
+      <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
         <div className="flex flex-wrap gap-5 justify-between items-start">
           <div className="flex flex-wrap items-center gap-4 ">
             <div
@@ -100,14 +100,14 @@ export default function OrderDetails() {
         </div>
         <div
           ref={invoiceRef}
-          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] lg:h-[calc(90vh-149px)] h-auto "
+          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-135px)] lg:h-[calc(90vh-149px)] h-auto "
         >
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-52px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-70px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex flex-wrap items-center ">
               <div className="md:w-[40%] w-full flex items-center gap-3">
@@ -158,7 +158,6 @@ export default function OrderDetails() {
             </div>
             <div className="overflow-x-auto w-full">
               <div className="min-w-[700px] md:min-w-full">
-                {/* Table Header */}
                 <div className="mt-6 border-y-[1px] border-[#7d7d7d] py-3 grid grid-cols-6 text-xs">
                   <p className="uppercase font-normal">Item Detail</p>
                   <p className="font-normal">Strength</p>
@@ -167,8 +166,6 @@ export default function OrderDetails() {
                   <p className="text-end font-normal">Rate</p>
                   <p className="text-end font-normal">Amount</p>
                 </div>
-
-                {/* Table Rows */}
                 <div className="border-b-[1px] border-[#7d7d7d] w-full">
                   {order?.medicines?.map((med: any, index: number) => (
                     <div

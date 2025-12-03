@@ -243,7 +243,7 @@ export default function ManageAccount() {
         </div>
 
         <div
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(85vh-120px)] xl:h-[calc(90vh-208px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(90vh-208px)] h-auto ${
             selectTab === "marketing" ? "rounded-tl-[12px]" : "rounded-tl-none"
           }`}
         >
@@ -263,7 +263,7 @@ export default function ManageAccount() {
 
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(80vh-138px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "sales" ? (
               <CustomTable

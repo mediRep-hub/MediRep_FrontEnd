@@ -332,7 +332,7 @@ export default function CallReporting() {
             </p>
           </button>
         </div>
-        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] xl:h-[calc(90vh-163px)] h-auto ">
+        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(89vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
           <div className="lg:w-[calc(22%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">
@@ -418,7 +418,7 @@ export default function CallReporting() {
 
             <div
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
+              className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(83vh-140px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
             >
               <table className="w-full border-collapse min-w-[700px]">
                 <thead className="sticky top-0 z-[1] h-[56px] bg-white">

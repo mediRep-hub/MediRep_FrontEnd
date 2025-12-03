@@ -157,7 +157,7 @@ export default function DataReporting() {
             </button>
           </div>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-127px)] lg:h-[calc(90vh-162px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-137px)] lg:h-[calc(90vh-162px)] h-auto ">
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
               {" "}
@@ -170,7 +170,7 @@ export default function DataReporting() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(85vh-147px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-lg 2xl:h-[calc(83vh-140px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={data} />
           </div>

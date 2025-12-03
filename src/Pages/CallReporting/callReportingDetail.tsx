@@ -41,13 +41,13 @@ export default function CallReportingDetail() {
             Call Reporting Details
           </p>
         </div>
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto ">
+        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(79vh-20px)] lg:h-[calc(90vh-149px)] h-auto ">
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-5 p-6 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(83vh-95px)] xl:h-[calc(68vh-35px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5 p-6 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(83vh-110px)] xl:h-[calc(68vh-35px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex justify-between flex-wrap gap-5">
               <div className="flex gap-3 items-center">

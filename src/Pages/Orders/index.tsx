@@ -273,7 +273,7 @@ export default function Orders() {
         </button>
       </div>
 
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-125px)] xl:h-[calc(90vh-162px)] h-auto">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-135px)] xl:h-[calc(90vh-162px)] h-auto">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Orders List</p>
           <Pagination
@@ -283,7 +283,7 @@ export default function Orders() {
             onPageChange={handlePageChange}
           />
         </div>
-        <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)]">
+        <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(84vh-148px)] xl:h-[calc(65vh-55px)]">
           <CustomTable
             titles={titles}
             data={tableData}

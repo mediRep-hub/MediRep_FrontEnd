@@ -215,11 +215,11 @@ export default function RequisitionDetail() {
             Requisition Details
           </p>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-115px)] lg:h-[calc(90vh-149px)] h-auto">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(89vh-110px)] lg:h-[calc(90vh-149px)] h-auto">
           <p className="text-[#7d7d7d]">Requisition Details</p>
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth mt-5 flex flex-wrap md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-90px)] xl:h-[calc(63vh-37px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5 flex flex-wrap md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(79vh-90px)] xl:h-[calc(63vh-37px)] overflow-y-auto scrollbar-none"
           >
             <div className="xl:w-[calc(70%-1px)] w-full">
               <div className="flex flex-wrap gap-5  p-5 border-b-[1px] border-primary">
