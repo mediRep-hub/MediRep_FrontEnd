@@ -47,7 +47,7 @@ export default function Notification() {
       >
         <FaBell className="text-white text-[24px]" />
         {notifications.length > 0 && (
-          <span className="absolute top-2.5 right-3.5 bg-red-500 text-white text-[10px] font-bold px-[4px] py-[4px] rounded-full"></span>
+          <span className="absolute top-2.5 right-3.5 bg-[#FF7631] text-white text-[10px] font-bold px-[4px] py-[4px] rounded-full"></span>
         )}
       </div>
 

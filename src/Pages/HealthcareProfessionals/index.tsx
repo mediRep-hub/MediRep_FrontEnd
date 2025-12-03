@@ -35,7 +35,6 @@ interface Doctor {
   startTime?: string | null;
   endTime?: string | null;
   region?: string;
-  profileType?: string;
   area?: string;
   location: {
     address: string;
@@ -43,7 +42,6 @@ interface Doctor {
     lng: number;
   };
 }
-const profileTypeOptions = ["Doctor", "Pharmacy"];
 const specialtyOptions = [
   "All",
   "Cardiologist",
@@ -98,7 +96,6 @@ export default function HealthcareProfessionals() {
       area: doctor.area || "",
       affiliation: doctor.affiliation || "",
       image: doctor.image || null,
-      profileType: doctor.profileType || "",
       location: doctor.location || { address: "", lat: 0, lng: 0 },
     });
   };
@@ -115,7 +112,6 @@ export default function HealthcareProfessionals() {
       affiliation: editingDoctor?.affiliation || "",
       region: editingDoctor?.region || "",
       area: editingDoctor?.area || "",
-      profileType: editingDoctor?.profileType || "",
       image: editingDoctor?.image || null,
       location: editingDoctor?.location || { address: "", lat: 0, lng: 0 },
     },
@@ -365,22 +361,6 @@ export default function HealthcareProfessionals() {
                         *{formik.errors.image}
                       </div>
                     )}
-                  </div>
-                  <div className="mt-4">
-                    <CustomSelect
-                      options={profileTypeOptions}
-                      value={formik.values.profileType}
-                      onChange={(val) =>
-                        formik.setFieldValue("profileType", val)
-                      }
-                      placeholder="ProfileType"
-                    />
-                    {formik.touched.profileType &&
-                      formik.errors.profileType && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.profileType}
-                        </div>
-                      )}
                   </div>
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">

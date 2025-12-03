@@ -132,7 +132,7 @@ export default function Pharmacies() {
           })
           .finally(() => setLoading(false));
       } else {
-        addPharmacypost({ ...cleanedValues, profileType: "Pharmacy" })
+        addPharmacypost({ ...cleanedValues })
           .then(() => {
             notifySuccess("Pharmacy added successfully");
             setAddPharmacy(false);

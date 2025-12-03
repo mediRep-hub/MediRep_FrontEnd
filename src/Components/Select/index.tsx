@@ -45,7 +45,9 @@ export default function CustomSelect({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
+          className={`text-sm capitalize ${
+            selected ? "text-heading" : "text-[#7d7d7d]"
+          }`}
         >
           {selected || "Select the Options"}
         </span>
@@ -66,7 +68,7 @@ export default function CustomSelect({
           {options.map((option, index) => (
             <li
               key={index}
-              className={`px-4 flex items-center h-[56px] text-sm cursor-pointer ${
+              className={`px-4 flex items-center capitalize h-[56px] text-sm cursor-pointer ${
                 option === selected
                   ? "bg-primary text-white"
                   : "text-heading hover:bg-gray-100"

@@ -31,7 +31,6 @@ export const DoctorSchema = Yup.object().shape({
   endTime: Yup.string().required("End time is required"),
   region: Yup.string().required("Region is required"),
   area: Yup.string().required("Area is required"),
-  profileType: Yup.string().required("Profile Type is required"),
   affiliation: Yup.string().required("Affiliation is required"),
   image: Yup.string().nullable(),
   location: Yup.object({
