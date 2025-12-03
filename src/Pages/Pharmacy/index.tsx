@@ -145,11 +145,13 @@ export default function Pharmacies() {
               error.response?.data || error
             );
             notifyError("Failed to add Pharmacy. Please try again.");
+            notifyError(error || error);
           })
           .finally(() => setLoading(false));
       }
     },
   });
+
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );

@@ -62,6 +62,7 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
       console.error("Upload Error:", error.response?.data || error.message);
       notifyError(error.response?.data?.message || "Failed to upload file");
       setProgress(0);
+      refetch();
     } finally {
       setLoading(false);
     }

@@ -154,14 +154,15 @@ export default function HealthcareProfessionals() {
             notifySuccess("Profile added successfully");
             setAddDoctor(false);
             formik.resetForm();
-            refetch();
           })
           .catch((error) => {
             console.error(
               "Error adding Profile:",
               error.response?.data || error
             );
+            refetch();
             notifyError("Failed to add Profile. Please try again.");
+            notifyError(error || error);
           })
           .finally(() => setLoading(false));
       }
