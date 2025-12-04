@@ -154,7 +154,6 @@ export default function ManageAccount() {
       } else {
         addAccount(values)
           .then((res) => {
-            console.log("✅ Account added successfully:", res.data);
             notifySuccess("Account added successfully!");
             setCreateAccount(false);
             formik.resetForm();

@@ -64,6 +64,7 @@ const medicineForms = [
   "Inhaler",
   "Spray",
   "Powder",
+  "Others",
 ];
 
 const statusOptions = ["Active", "Discontinued"];
@@ -477,12 +478,15 @@ export default function Products() {
             <div className="flex justify-end cursor-pointer mb-2">
               <IoClose onClick={() => setOpenImage(false)} />
             </div>
-
-            <img
-              src={viewImage}
-              alt="Product"
-              className="max-h-[80vh] w-auto mx-auto object-contain"
-            />
+            {viewImage ? (
+              <img
+                src={viewImage}
+                alt="Product"
+                className="max-h-[80vh] w-auto mx-auto object-contain"
+              />
+            ) : (
+              <Spin indicator={antIcon} />
+            )}
           </div>
         </div>
       )}

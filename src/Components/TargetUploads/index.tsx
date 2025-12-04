@@ -31,9 +31,6 @@ export default function UploadFile({ closeModle, addToList }: any) {
         SKU: item.SKU,
         target: Number(item.target),
       }));
-
-      console.log("Sending to API:", formattedData);
-
       await uploadCSVTarget(formattedData);
       notifySuccess("Targets uploaded successfully!");
       if (addToList) addToList(formattedData);

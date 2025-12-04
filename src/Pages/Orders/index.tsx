@@ -124,7 +124,7 @@ export default function Orders() {
             <p><strong>Order Type:</strong> ${order.orderType}</p>
           </div>
           <table border="1" cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;">
-            <tr>
+            <tr >
               <th style="width:40%;text-align:start">Item Detail</th>
               <th style="width:20%;text-align:start;">Qty</th>
               <th style="width:20%;text-align:start;">Rate</th>
@@ -148,15 +148,25 @@ export default function Orders() {
               .join("")}
           </table>
           <div style="margin-top:20px;text-align:right;border-top:0.5px solid #000;border-bottom:0.5px solid #000;padding:10px 0;">
-            <p>Subtotal: Rs.${order.subtotal}</p>
-           <p>
-  Discount: Rs. ${(
-    order.subtotal *
-    (order.discount / 100)
-  ).toLocaleString()} (${order.discount}%)
-</p>
+           <div style="display: flex; gap: 20px; justify-content: end;">
+           <p class="font-medium">Subtotal:</p>
+           <p style="width: 150px; text-align: start;"">Rs.${order.subtotal}</p>
+          </div>
+  <div style="display: flex; gap: 20px; justify-content: end;">
+  <p class="font-medium">Discount:</p>
+  <p style="width: 150px; text-align: start;"">
+    Rs. ${(order.subtotal * (order.discount / 100)).toLocaleString()} (${
+        order.discount
+      }%)
+  </p>
+</div>
             <div style="border-top:0.5px solid #000;margin-top:20px;">
-              <p><strong>Total: Rs.${order.total}</strong></p>
+                <div style="display: flex; gap: 20px; justify-content: end; ">
+                <p style="width: 100px;"><strong>Total:</strong></p>
+                <p style="width: 150px; text-align: start;""><strong> Rs.${
+                  order.total
+                }</strong></p>
+              </div>
             </div>
           </div>
           <p style="margin-top:20px;font-weight:bold;text-align:center">Thank you for your business.</p>

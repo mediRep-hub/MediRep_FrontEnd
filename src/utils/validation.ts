@@ -149,8 +149,13 @@ export const AccountSchema = (isEdit: boolean) =>
 
 export interface SidebarLink {
   name: string;
-  path: string;
+  path?: string;
   icon: string;
+  children?: {
+    name: string;
+    path: string;
+    icon: string;
+  }[];
 }
 export const defaultLinks: SidebarLink[] = [
   {
@@ -198,6 +203,22 @@ export const defaultLinks: SidebarLink[] = [
     path: "/orders",
     icon: "material-symbols:orders-rounded",
   },
+  // {
+  //   name: "test",
+  //   icon: "material-symbols:orders-rounded",
+  //   children: [
+  //     {
+  //       name: "All Strategy",
+  //       path: "/strategy",
+  //       icon: "material-symbols:orders-rounded",
+  //     },
+  //     {
+  //       name: "Create Strategy",
+  //       path: "/strategy/create",
+  //       icon: "material-symbols:orders-rounded",
+  //     },
+  //   ],
+  // },
 ];
 
 export const DistributorLinks: SidebarLink[] = [

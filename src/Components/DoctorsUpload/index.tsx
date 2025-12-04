@@ -42,7 +42,6 @@ export default function DoctorUploads({ closeModle, refetch }: any) {
       formData.append("file", file);
 
       const response = await uploadCSVDoctor(formData);
-      console.log("Upload response:", response.data);
       setProgress(70);
 
       notifySuccess(

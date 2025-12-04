@@ -142,7 +142,7 @@ export default function Targets() {
                           value={SkuNo}
                           onChange={(e) => setSkuNo(e.target.value)}
                           type="text"
-                          className="h-8 pl-[66px] pr-3 w-full border font-medium border-gray-400 rounded-md text-xs text-heading focus:outline-none"
+                          className="h-8 pl-[66px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
                         />
                       </div>
                     </th>
@@ -161,17 +161,17 @@ export default function Targets() {
                           value={productName}
                           onChange={(e) => setProductName(e.target.value)}
                           type="text"
-                          className="h-8 pl-[120px] pr-3 w-full border border-gray-400 rounded-md text-sm text-heading font-medium focus:outline-none"
+                          className="h-8 pl-[120px] pr-3 w-full border border-gray-400 rounded-md text-sm text-heading font-normal focus:outline-none"
                         />
                       </div>
                     </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                    <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
                       Form
                     </th>
                     <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
                       Status
                     </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                    <th className="px-4 font-medium py-3 text-[12px] w-[18%]">
                       Target
                     </th>
                     <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
@@ -211,7 +211,7 @@ export default function Targets() {
                         <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
                           {row.isStatus}
                         </td>
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                        <td className="px-5 py-2 w-[90px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
                           {editIndex === rowIndex ? (
                             <input
                               type="number"
@@ -223,7 +223,7 @@ export default function Targets() {
                                   target: Number(e.target.value),
                                 })
                               }
-                              className="border border-gray-400 rounded-md px-2 py-1 w-20 text-sm text-heading focus:outline-none"
+                              className="border border-gray-400 rounded-md px-2 py-1 w-[90px] text-sm text-heading focus:outline-none"
                             />
                           ) : (
                             <span>{row.target}</span>

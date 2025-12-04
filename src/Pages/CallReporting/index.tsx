@@ -347,15 +347,14 @@ export default function CallReporting() {
             </div>
             {isFetching ? (
               <div className="mt-5 flex justify-center">
-                {" "}
                 <Spin indicator={antIcon22} />
               </div>
-            ) : (
+            ) : AllStrategy && AllStrategy.length > 0 ? (
               <div
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 className="scroll-smooth 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
               >
-                {AllStrategy?.map((mr: any, index: number) => (
+                {AllStrategy.map((mr: any, index: number) => (
                   <div
                     key={mr._id || index}
                     className={`bg-white p-5 first:mt-0 mt-4 rounded-xl cursor-pointer ${
@@ -402,6 +401,10 @@ export default function CallReporting() {
                     </p>
                   </div>
                 ))}
+              </div>
+            ) : (
+              <div className="mt-5 text-center text-gray-500 text-base">
+                No data found
               </div>
             )}
           </div>
@@ -793,9 +796,6 @@ export default function CallReporting() {
                       notifyError("No doctor IDs to save.");
                       return;
                     }
-
-                    console.log("Sending doctor IDs:", doctorIds);
-
                     await reorderDoctorList(selectedStrategy._id, {
                       orderedDoctorIds: doctorIds,
                     });

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { notifyError } from "../Toast";
 
 export default function SearchDateRange({ onChange }: any) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function SearchDateRange({ onChange }: any) {
       updated.end &&
       new Date(updated.end) < new Date(updated.start)
     ) {
-      alert("End date cannot be earlier than start date");
+      notifyError("End date cannot be earlier than start date");
       return;
     }
 

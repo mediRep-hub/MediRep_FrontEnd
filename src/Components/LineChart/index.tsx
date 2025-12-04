@@ -61,7 +61,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function LineChart() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  console.log("🚀 ~ LineChart ~ activeIndex:", activeIndex);
 
   const { data: Graph, refetch } = useQuery({
     queryKey: ["productGraph"],

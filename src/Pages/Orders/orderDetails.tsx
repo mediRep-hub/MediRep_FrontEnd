@@ -29,10 +29,9 @@ export default function OrderDetails() {
     setLoading(true);
 
     try {
-      // Clone the invoice
       const clone = invoiceRef.current.cloneNode(true) as HTMLDivElement;
-      clone.style.width = "800px"; // fixed width for PDF
-      clone.style.height = "auto"; // let height expand
+      clone.style.width = "800px";
+      clone.style.height = "auto";
       clone.style.position = "absolute";
       clone.style.left = "-9999px";
       document.body.appendChild(clone);
@@ -51,8 +50,6 @@ export default function OrderDetails() {
 
       pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pdfHeight);
       pdf.save(`Invoice-${order?.orderId}.pdf`);
-
-      // Remove the clone
       document.body.removeChild(clone);
     } catch (err) {
       console.error("Error generating PDF:", err);

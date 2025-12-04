@@ -42,7 +42,6 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
       formData.append("file", file);
 
       const response = await uploadCSVPharmacy(formData);
-      console.log("Upload response:", response.data);
       setProgress(70);
 
       notifySuccess(
