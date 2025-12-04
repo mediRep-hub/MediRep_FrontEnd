@@ -153,7 +153,7 @@ export default function ManageAccount() {
           .finally(() => setLoading(false));
       } else {
         addAccount(values)
-          .then((res) => {
+          .then(() => {
             notifySuccess("Account added successfully!");
             setCreateAccount(false);
             formik.resetForm();

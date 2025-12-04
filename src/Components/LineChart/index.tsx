@@ -60,8 +60,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function LineChart() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
   const { data: Graph, refetch } = useQuery({
     queryKey: ["productGraph"],
     queryFn: () => productGraph(),
@@ -87,13 +85,6 @@ export default function LineChart() {
         <ReLineChart
           data={graphData}
           margin={{ top: 7, right: 0, left: 0, bottom: -3 }}
-          onClick={(e: any) => {
-            if (e && e.activeTooltipIndex !== undefined) {
-              setActiveIndex(e.activeTooltipIndex);
-            } else {
-              setActiveIndex(null);
-            }
-          }}
         >
           <CartesianGrid vertical={false} horizontal={false} />
 
