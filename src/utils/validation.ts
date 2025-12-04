@@ -199,26 +199,26 @@ export const defaultLinks: SidebarLink[] = [
     icon: "material-symbols-light:monitoring",
   },
   {
+    name: "test",
+    icon: "material-symbols:orders-rounded",
+    children: [
+      {
+        name: "All Strategy",
+        path: "/strategy",
+        icon: "material-symbols:orders-rounded",
+      },
+      {
+        name: "Create Strategy",
+        path: "/strategy/create",
+        icon: "material-symbols:orders-rounded",
+      },
+    ],
+  },
+  {
     name: "Orders",
     path: "/orders",
     icon: "material-symbols:orders-rounded",
   },
-  // {
-  //   name: "test",
-  //   icon: "material-symbols:orders-rounded",
-  //   children: [
-  //     {
-  //       name: "All Strategy",
-  //       path: "/strategy",
-  //       icon: "material-symbols:orders-rounded",
-  //     },
-  //     {
-  //       name: "Create Strategy",
-  //       path: "/strategy/create",
-  //       icon: "material-symbols:orders-rounded",
-  //     },
-  //   ],
-  // },
 ];
 
 export const DistributorLinks: SidebarLink[] = [

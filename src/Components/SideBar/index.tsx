@@ -152,7 +152,7 @@ export default function SideBar({ link }: any) {
 
                         return (
                           <div className="flex gap-2 items-center">
-                            {/* <span
+                            <span
                               className={`${
                                 isChildActive
                                   ? "text-primary"
@@ -160,7 +160,7 @@ export default function SideBar({ link }: any) {
                               }`}
                             >
                               <Icon icon={child.icon} width="20" height="20" />
-                            </span> */}
+                            </span>
 
                             <p
                               key={idx}
