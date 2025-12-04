@@ -17,7 +17,6 @@ import {
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { IoClose } from "react-icons/io5";
 import { RiAlertFill } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
 import Pagination from "../../Components/Pagination";
@@ -476,7 +475,11 @@ export default function Products() {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[300px] xl:h-auto max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
             <div className="flex justify-end cursor-pointer mb-2">
-              <IoClose onClick={() => setOpenImage(false)} />
+              <IoMdCloseCircle
+                size={20}
+                onClick={() => setOpenImage(false)}
+                className="cursor-pointer text-primary"
+              />
             </div>
             {viewImage ? (
               <img
