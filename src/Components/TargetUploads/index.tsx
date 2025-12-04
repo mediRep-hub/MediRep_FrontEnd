@@ -5,18 +5,11 @@ import { FaFileAlt, FaTrash } from "react-icons/fa";
 import { notifyError, notifySuccess } from "../Toast";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { getAllProducts, uploadCSVTarget } from "../../api/productServices";
-import { useQuery } from "@tanstack/react-query";
-
-export default function UploadFile({ closeModle, addToList }: any) {
+import { uploadCSVTarget } from "../../api/productServices";
+export default function UploadFile({ closeModle, addToList, refetch }: any) {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { refetch } = useQuery({
-    queryKey: ["AllProducts"],
-    queryFn: () => getAllProducts(),
-    staleTime: 5 * 60 * 1000,
-  });
 
   const handleUpload = async () => {
     if (!file) return notifyError("Please select a file first!");
@@ -31,16 +24,18 @@ export default function UploadFile({ closeModle, addToList }: any) {
         SKU: item.SKU,
         target: Number(item.target),
       }));
+
       await uploadCSVTarget(formattedData);
       notifySuccess("Targets uploaded successfully!");
+
       if (addToList) addToList(formattedData);
+      refetch();
       closeModle(false);
     } catch (error: any) {
       console.error("Upload Error:", error);
       notifyError(error.message || "Failed to upload file");
     } finally {
       setLoading(false);
-      refetch();
     }
   };
 

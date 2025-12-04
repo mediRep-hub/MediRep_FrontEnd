@@ -303,7 +303,9 @@ export default function Targets() {
         </div>
       )}
 
-      {openModal && <TargetsUploadFile closeModle={setOpenModal} />}
+      {openModal && (
+        <TargetsUploadFile closeModle={setOpenModal} refetch={refetch} />
+      )}
     </div>
   );
 }
