@@ -29,10 +29,15 @@ export const deleteProducts = (id: string) => {
 };
 
 export const uploadCSVTarget = (data: any[]) => {
-  return HTTP_CLIENT.post(ENDPOINTS.PRODUCT_uploadCSVTarget, data, {
-    headers: { "Content-Type": "application/json" },
-  });
+  return HTTP_CLIENT.post(
+    ENDPOINTS.PRODUCT_uploadCSVTarget,
+    { data },
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 };
+
 export const productGraph = () => {
   return HTTP_CLIENT.get(ENDPOINTS.PRODUCT_TRAGET_ACHIVEMENTS);
 };
