@@ -6,7 +6,6 @@ interface CustomSelectProps {
   value?: string | null;
   onChange?: (value: string) => void;
   placeholder?: string;
-  firstSelected?: boolean;
 }
 
 export default function CustomSelect({
@@ -14,7 +13,6 @@ export default function CustomSelect({
   value,
   onChange,
   placeholder = "Select an option",
-  firstSelected = false,
 }: CustomSelectProps) {
   // generate unique ID for each dropdown instance
   const id = Math.random().toString(36).substring(2);
@@ -26,7 +24,6 @@ export default function CustomSelect({
     setSelected(value || null);
   }, [value]);
 
-  // 🔥 GLOBAL LISTENER: Close this dropdown if another opened
   useEffect(() => {
     const handler = (e: any) => {
       if (e.detail !== id) setIsOpen(false);
@@ -36,7 +33,6 @@ export default function CustomSelect({
     return () => window.removeEventListener("close-all-selects", handler);
   }, [id]);
 
-  // 🔥 Toggle dropdown + notify other dropdowns
   const toggleOpen = () => {
     const next = !isOpen;
     setIsOpen(next);
