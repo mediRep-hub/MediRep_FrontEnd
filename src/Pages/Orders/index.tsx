@@ -19,7 +19,14 @@ import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import { getAllAccounts } from "../../api/adminServices";
 
-const titles = ["Order ID", "Order Date", "MR Name", "Amount", "Details"];
+const titles = [
+  "Order ID",
+  "Order Date",
+  "Pharmacy Name",
+  "MR Name",
+  "Amount",
+  "Details",
+];
 
 export default function Orders() {
   const navigate = useNavigate();
@@ -96,6 +103,7 @@ export default function Orders() {
     });
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i];
+      console.log("🚀 ~ generatePDF ~ order:", order);
       const tempDiv = document.createElement("div");
       tempDiv.style.width = "800px";
       tempDiv.style.padding = "20px";
@@ -116,6 +124,9 @@ export default function Orders() {
           <div style="margin-bottom:20px;">
             <p><strong>Order ID:</strong> ${order.orderId}</p>
             <p><strong>Customer Name:</strong> ${order.customerName}</p>
+            <p><strong>Pharmacy Name:</strong> ${
+              order.pharmacyId.name || "-"
+            }</p>
             <p><strong>Address:</strong> ${order.address || "-"}</p>
             <p><strong>Order Date:</strong> ${dayjs(order.createdAt).format(
               "DD MMM, YYYY"
@@ -217,6 +228,7 @@ export default function Orders() {
       <p>{order.orderId}</p>
     </div>,
     order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
+    order.pharmacyId.name,
     order.mrName,
     <p key={`amount-${order.orderId}`} className="text-[12px]">
       Rs:

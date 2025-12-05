@@ -14,7 +14,6 @@ export default function CustomSelect({
   onChange,
   placeholder = "Select an option",
 }: CustomSelectProps) {
-  // generate unique ID for each dropdown instance
   const id = Math.random().toString(36).substring(2);
 
   const [isOpen, setIsOpen] = useState(false);
