@@ -107,7 +107,7 @@ export default function Targets() {
           </button>
         </div>
 
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(90vh-160px)] h-auto">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] h-auto">
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
               Targets as List
@@ -123,7 +123,7 @@ export default function Targets() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(65vh-53px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <div className="w-full flex-1 overflow-x-auto">
               <table className="w-full border-collapse min-w-[900px]">

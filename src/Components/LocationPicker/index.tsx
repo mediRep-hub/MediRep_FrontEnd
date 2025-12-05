@@ -44,8 +44,28 @@ export default function LocationPicker({
     }
   };
 
-  if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading...</div>;
+  if (loadError)
+    return (
+      <div className="relative w-full">
+        <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7D7D7D]">
+          {label}
+        </label>
+        <div className="border-[1px] border-primary h-14 p-3 rounded-md w-full focus:outline-none">
+          Error loading maps
+        </div>
+      </div>
+    );
+  if (!isLoaded)
+    return (
+      <div className="relative w-full">
+        <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7D7D7D]">
+          {label}
+        </label>
+        <div className="border-[1px] border-primary h-14 p-3 rounded-md w-full focus:outline-none">
+          Loading...
+        </div>
+      </div>
+    );
 
   return (
     <div className="relative w-full">

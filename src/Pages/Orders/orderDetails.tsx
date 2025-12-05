@@ -97,14 +97,14 @@ export default function OrderDetails() {
         </div>
         <div
           ref={invoiceRef}
-          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(90vh-135px)] lg:h-[calc(90vh-149px)] h-auto "
+          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] lg:h-[calc(64vh-0px)] h-auto "
         >
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(80vh-70px)] xl:h-[calc(65vh-07px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(72.2vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex flex-wrap items-center ">
               <div className="md:w-[40%] w-full flex items-center gap-3">

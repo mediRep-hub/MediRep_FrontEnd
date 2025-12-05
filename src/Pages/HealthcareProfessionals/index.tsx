@@ -146,6 +146,7 @@ export default function HealthcareProfessionals() {
             notifyError(
               `Failed to update Profile. Please try again. ${errorMessage}`
             );
+            notifyError(error.response?.data.message);
           })
           .finally(() => setLoading(false));
       } else {
@@ -154,6 +155,7 @@ export default function HealthcareProfessionals() {
             notifySuccess("Profile added successfully");
             setAddDoctor(false);
             formik.resetForm();
+            refetch();
           })
           .catch((error) => {
             console.error(
@@ -162,7 +164,7 @@ export default function HealthcareProfessionals() {
             );
             refetch();
             notifyError("Failed to add Profile. Please try again.");
-            notifyError(error || error);
+            notifyError(error.response?.data.message);
           })
           .finally(() => setLoading(false));
       }
@@ -226,7 +228,7 @@ export default function HealthcareProfessionals() {
 
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] h-[calc(90vh-160px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
@@ -244,6 +246,8 @@ export default function HealthcareProfessionals() {
             <div className="py-5 text-center text-[#7d7d7d]">
               <Spin indicator={antIcon22} />
             </div>
+          ) : paginatedDoctors.length === 0 ? (
+            <p className="text-center text-heading py-5">No data found</p>
           ) : (
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mt-4">
               {paginatedDoctors.map((doc: any, index: number) => (

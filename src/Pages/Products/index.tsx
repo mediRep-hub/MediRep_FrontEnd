@@ -218,7 +218,7 @@ export default function Products() {
           <p className="text-white text-base font-medium">Add Products</p>
         </button>
       </div>
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(90vh-162px)] h-auto ">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Targets as List</p>
           <Pagination
@@ -232,7 +232,7 @@ export default function Products() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(65vh-55px)]  mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(53vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
         >
           <CustomTable
             isFetching={isFetching}

@@ -131,7 +131,7 @@ export default function Requisition() {
         </div>
       </div>
 
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(89vh-118px)] xl:h-[calc(80vh-83px)] h-auto ">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.4vh-0px)] xl:h-[calc(65vh-0px)] h-auto ">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Requisition List</p>
 
@@ -148,7 +148,7 @@ export default function Requisition() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(84vh-142px)] xl:h-[calc(65vh-48px)] mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)] mt-4 overflow-y-auto scrollbar-none"
         >
           <CustomTable
             titles={titles}

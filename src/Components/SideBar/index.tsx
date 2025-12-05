@@ -98,25 +98,33 @@ export default function SideBar({ link }: any) {
 
         <p className="text-[#979797] text-sm font-normal mt-[30px]">MENU</p>
 
-        <nav className="flex flex-col gap-0 mt-4">
+        <nav
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="flex xl:h-[70%] 2xl:h-[80%] overflow-y-auto flex-col gap-0 mt-4"
+        >
           {sidebarLinks.map((item: any, index: number) => {
             const hasChildren = item.children && item.children.length > 0;
             const isDropdownOpen = openDropdown === item.name;
-            const isActive =
-              (!item.children &&
-                item.path &&
-                location.pathname === item.path) ||
-              (hasChildren &&
-                isDropdownOpen &&
-                item.children.some(
-                  (child: any) => child.path === location.pathname
-                ));
+            const isActive = hasChildren
+              ? item.children.some((child: any) =>
+                  location.pathname.startsWith(child.path)
+                )
+              : location.pathname.startsWith(item.path);
+
             return (
               <div key={index} className="w-full relative">
                 <p
-                  onClick={() =>
-                    hasChildren ? toggleDropdown(item.name) : onClick(item.path)
-                  }
+                  onClick={() => {
+                    if (hasChildren) {
+                      toggleDropdown(item.name);
+                    } else {
+                      setOpenDropdown(null);
+                      onClick(item.path);
+                    }
+                  }}
                   className={`cursor-pointer text-heading py-2 h-12 text-sm flex items-center gap-2 rounded-xl transition relative ${
                     isActive ? "font-medium" : "font-normal"
                   }`}
@@ -151,21 +159,20 @@ export default function SideBar({ link }: any) {
                           isDropdownOpen && location.pathname === child.path;
 
                         return (
-                          <div className="flex gap-2 items-center">
-                            <span
-                              className={`${
+                          <div className="flex gap-2 items-center  cursor-pointer">
+                            <div
+                              className={`h-5
+                              ${
                                 isChildActive
-                                  ? "text-primary"
-                                  : "text-[#7d7d7d]"
-                              }`}
-                            >
-                              <Icon icon={child.icon} width="20" height="20" />
-                            </span>
-
+                                  ? " border-primary border-l-[2px]"
+                                  : " border-[#E5EBF7] border-l-[2px]"
+                              }
+                            `}
+                            ></div>
                             <p
                               key={idx}
                               onClick={() => onClick(child.path)}
-                              className={`cursor-pointer text-sm py-1 rounded hover:text-primary
+                              className={`cursor-pointer text-sm py-1 pl-3 hover:bg-[#F7F7F7] rounded-md w-full
                               ${
                                 isChildActive
                                   ? "text-heading font-medium"

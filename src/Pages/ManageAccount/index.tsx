@@ -149,6 +149,7 @@ export default function ManageAccount() {
           .catch((error) => {
             console.error(error);
             notifyError("Failed to update Account.");
+            notifyError(error.response.data.message);
           })
           .finally(() => setLoading(false));
       } else {
@@ -160,8 +161,9 @@ export default function ManageAccount() {
             refetch();
           })
           .catch((error) => {
-            console.error("❌ Error creating Account:", error);
+            console.error("❌ Error creating Account:", error.response.data);
             notifyError("Failed to add Account. Please try again.");
+            notifyError(error.response.data.message);
           })
           .finally(() => setLoading(false));
       }
@@ -242,7 +244,7 @@ export default function ManageAccount() {
         </div>
 
         <div
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(90vh-208px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
             selectTab === "marketing" ? "rounded-tl-[12px]" : "rounded-tl-none"
           }`}
         >
@@ -262,7 +264,7 @@ export default function ManageAccount() {
 
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(70vh-134px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "sales" ? (
               <CustomTable

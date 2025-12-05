@@ -79,7 +79,7 @@ export default function PrimarySale() {
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
                 }}
-                className="bg-white border-2 mt-3 border-primary w-full 2xl:h-[calc(70vh-10px)] xl:h-[calc(55vh-13px)]  overflow-y-auto h-auto rounded-xl"
+                className="bg-white border-2 mt-3 border-primary w-full 2xl:h-[calc(70vh-14px)] xl:h-[calc(55vh-13px)]  overflow-y-auto h-auto rounded-xl"
               >
                 {" "}
                 <CustomTable titles={titles} data={data} />

@@ -55,7 +55,7 @@ export default function DashBoard() {
       className="bg-secondary md:h-[calc(100vh-129px)] overflow-y-auto h-auto rounded-xl p-4 flex flex-col gap-2"
     >
       <div className="flex gap-2 items-stretch flex-wrap">
-        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-primary p-4 bg-white">
+        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-primary p-4 bg-white">
           <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">Target</p>
             <div className="h-9 w-9 rounded-full bg-primary/10 flex justify-center items-center">
@@ -67,7 +67,7 @@ export default function DashBoard() {
           </p>
         </div>
 
-        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#28A745] p-4 bg-white">
+        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#28A745] p-4 bg-white">
           <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">Achievement</p>
             <div className="h-9 w-9 rounded-full bg-[#28A745]/10 flex justify-center items-center">
@@ -84,7 +84,7 @@ export default function DashBoard() {
           </div>
         </div>
 
-        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#C47301] p-4 bg-white">
+        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#C47301] p-4 bg-white">
           <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">Percentage</p>
             <div className="h-9 w-9 rounded-full bg-[#C47301]/10 flex justify-center items-center">
@@ -100,7 +100,7 @@ export default function DashBoard() {
           </div>
         </div>
 
-        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-16px)] h-[130px] w-full   rounded-xl text-[#9C27B0] p-4 bg-white">
+        <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full   rounded-xl text-[#9C27B0] p-4 bg-white">
           <div className="flex justify-between items-start">
             <p className="text-sm font-normal text-[#7D7D7D]">
               Engagement with KOL

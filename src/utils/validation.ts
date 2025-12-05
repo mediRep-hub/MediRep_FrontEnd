@@ -154,7 +154,6 @@ export interface SidebarLink {
   children?: {
     name: string;
     path: string;
-    icon: string;
   }[];
 }
 export const defaultLinks: SidebarLink[] = [
@@ -198,22 +197,38 @@ export const defaultLinks: SidebarLink[] = [
     path: "/dataReporting",
     icon: "material-symbols-light:monitoring",
   },
-  {
-    name: "test",
-    icon: "material-symbols:orders-rounded",
-    children: [
-      {
-        name: "All Strategy",
-        path: "/strategy",
-        icon: "material-symbols:orders-rounded",
-      },
-      {
-        name: "Create Strategy",
-        path: "/strategy/create",
-        icon: "material-symbols:orders-rounded",
-      },
-    ],
-  },
+  // {
+  //   name: "test",
+  //   icon: "material-symbols:orders-rounded",
+  //   children: [
+  //     {
+  //       name: "All Strategy",
+  //       path: "/strategy",
+  //     },
+  //     {
+  //       name: "Create Strategy",
+  //       path: "/strategy/create",
+  //     },
+  //     {
+  //       name: "Create Strategy2",
+  //       path: "/strategy/create22",
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: "test2",
+  //   icon: "material-symbols:orders-rounded",
+  //   children: [
+  //     {
+  //       name: "test2.1",
+  //       path: "/test2",
+  //     },
+  //     {
+  //       name: "test2.2",
+  //       path: "/test2/create2",
+  //     },
+  //   ],
+  // },
   {
     name: "Orders",
     path: "/orders",

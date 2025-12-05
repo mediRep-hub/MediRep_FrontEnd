@@ -332,8 +332,8 @@ export default function CallReporting() {
             </p>
           </button>
         </div>
-        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(89vh-127px)] xl:h-[calc(90vh-163px)] h-auto ">
-          <div className="lg:w-[calc(22%-8px)] w-full">
+        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+          <div className="lg:w-[calc(25%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">
                 Strategies List
@@ -352,7 +352,7 @@ export default function CallReporting() {
             ) : AllStrategy && AllStrategy.length > 0 ? (
               <div
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                className="scroll-smooth 2xl:h-[calc(85vh-142px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
+                className="scroll-smooth 2xl:h-[calc(68vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
               >
                 {AllStrategy.map((mr: any, index: number) => (
                   <div
@@ -403,12 +403,12 @@ export default function CallReporting() {
                 ))}
               </div>
             ) : (
-              <div className="mt-5 text-center text-gray-500 text-base">
+              <div className="mt-5 text-center text-heading text-base">
                 No data found
               </div>
             )}
           </div>
-          <div className="lg:w-[calc(78%-8px)] w-full">
+          <div className="lg:w-[calc(75%-8px)] w-full">
             <div className="flex justify-between items-center">
               <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
               <Pagination
@@ -421,7 +421,7 @@ export default function CallReporting() {
 
             <div
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(83vh-140px)] xl:h-[calc(65vh-55px)] mt-4 overflow-y-auto scrollbar-none"
+              className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
             >
               <table className="w-full border-collapse min-w-[700px]">
                 <thead className="sticky top-0 z-[1] h-[56px] bg-white">
