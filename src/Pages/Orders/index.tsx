@@ -7,7 +7,6 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 import { LuDownload } from "react-icons/lu";
-import { BiMessageDetail } from "react-icons/bi";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 
 import CustomTable from "../../Components/CustomTable";
