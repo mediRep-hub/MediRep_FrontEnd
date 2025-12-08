@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { RiAlertFill } from "react-icons/ri";
 import CustomTable from "../../Components/CustomTable";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -21,6 +20,7 @@ import {
   updateAccount,
 } from "../../api/adminServices";
 import Pagination from "../../Components/Pagination";
+import { Icon } from "@iconify/react";
 
 const titles = [
   "ID",
@@ -96,11 +96,12 @@ export default function ManageAccount() {
           size={18}
           className="text-primary cursor-pointer"
         />
-        <MdDeleteOutline
-          size={18}
-          className={`cursor-pointer text-red-600 ${
-            !v._id && "opacity-50 pointer-events-none"
-          }`}
+
+        <Icon
+          color="#E90761"
+          height="18"
+          width="20"
+          icon="mingcute:delete-fill"
           onClick={() => {
             setDeleteConfirmation(true);
             setEditingAccount(v);
@@ -213,7 +214,12 @@ export default function ManageAccount() {
             }}
             className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
           >
-            <MdAdd size={20} color="#fff" />
+            <Icon
+              icon="mingcute:add-fill"
+              height="20"
+              width="20"
+              color="#fff"
+            />
             <p className="text-white text-base font-medium">Create Account</p>
           </button>
         </div>
@@ -600,7 +606,7 @@ export default function ManageAccount() {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-7 py-2 bg-[#E90761] text-white rounded"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

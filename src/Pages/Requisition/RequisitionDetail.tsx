@@ -471,7 +471,7 @@ export default function RequisitionDetail() {
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  className="px-7 py-2 bg-[#E90761] text-white rounded"
                 >
                   Delete
                 </button>

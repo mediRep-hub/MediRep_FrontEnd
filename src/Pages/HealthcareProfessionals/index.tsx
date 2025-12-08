@@ -1,4 +1,3 @@
-import { MdAdd, MdFileUpload } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
@@ -22,6 +21,7 @@ import DoctorUploads from "../../Components/DoctorsUpload";
 import Pagination from "../../Components/Pagination";
 import { Spin } from "antd";
 import LocationPicker from "../../Components/LocationPicker";
+import { Icon } from "@iconify/react";
 
 interface Doctor {
   _id?: string;
@@ -211,14 +211,24 @@ export default function HealthcareProfessionals() {
               onClick={() => setOpenModal(true)}
               className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdFileUpload size={20} color="#7D7D7D" />
+              <Icon
+                icon="ic:round-upload"
+                height="20"
+                width="20"
+                color="#7D7D7D"
+              />
               <p className="text-heading text-base font-medium">Bulk Upload</p>
             </button>
             <button
               onClick={() => setAddDoctor(true)}
               className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdAdd size={20} color="#fff" />
+              <Icon
+                icon="mingcute:add-fill"
+                height="20"
+                width="20"
+                color="#fff"
+              />
               <p className="text-white text-base font-medium">
                 Upload Profiles
               </p>
@@ -468,7 +478,7 @@ export default function HealthcareProfessionals() {
                     onClick={() => {
                       setDeleteConfirmation(true);
                     }}
-                    className="h-[55px] mr-auto md:w-[200px] w-full bg-red-600 text-white rounded-[6px] flex justify-center items-center"
+                    className="h-[55px] mr-auto md:w-[200px] w-full bg-[#E90761] text-white rounded-[6px] flex justify-center items-center"
                   >
                     Delete
                   </button>
@@ -512,7 +522,7 @@ export default function HealthcareProfessionals() {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-7 py-2 bg-[#E90761] text-white rounded"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

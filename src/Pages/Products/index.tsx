@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import CustomTable from "../../Components/CustomTable";
 import { IoMdCloseCircle, IoMdEye } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
@@ -20,6 +19,7 @@ import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { RiAlertFill } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
 import Pagination from "../../Components/Pagination";
+import { Icon } from "@iconify/react";
 
 const titles = [
   "Product SKU",
@@ -125,13 +125,16 @@ export default function Products() {
             setOpenModel(true);
           }}
         />
-        <MdDeleteOutline
+
+        <Icon
+          color="#E90761"
+          height="18"
+          width="20"
+          icon="mingcute:delete-fill"
           onClick={() => {
             setDeleteConfirmation(true);
             setdeleteID(v?._id);
           }}
-          size={18}
-          className="text-red-600 cursor-pointer"
         />
       </div>,
     ]);
@@ -214,7 +217,7 @@ export default function Products() {
           }}
           className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
         >
-          <MdAdd size={20} color="#fff" />{" "}
+          <Icon icon="mingcute:add-fill" height="20" width="20" color="#fff" />
           <p className="text-white text-base font-medium">Add Products</p>
         </button>
       </div>
@@ -463,7 +466,7 @@ export default function Products() {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-7 py-2 bg-[#E90761] text-white rounded"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : " Delete"}
               </button>

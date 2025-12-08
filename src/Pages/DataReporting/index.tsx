@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
 import CustomTable from "../../Components/CustomTable";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
@@ -10,6 +9,7 @@ import { reportSchema } from "../../utils/validation";
 import { LuDownload } from "react-icons/lu";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 import Pagination from "../../Components/Pagination";
+import { Icon } from "@iconify/react";
 const titles = [
   "MR Name",
   "Strategy",
@@ -150,7 +150,12 @@ export default function DataReporting() {
               }}
               className="h-[55px] w-full md:w-[200px]  bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdAdd size={20} color="#fff" />{" "}
+              <Icon
+                icon="mingcute:add-fill"
+                height="20"
+                width="20"
+                color="#fff"
+              />
               <p className="text-white text-base font-medium">
                 Generate Reports
               </p>

@@ -165,37 +165,37 @@ export const defaultLinks: SidebarLink[] = [
   {
     name: "Healthcare Professionals",
     path: "/healthcareProfessionals",
-    icon: "material-symbols-light:person-pin-rounded",
+    icon: "fontisto:doctor",
   },
   {
     name: "Pharmacies",
     path: "/pharmacies",
-    icon: "material-symbols-light:local-pharmacy-rounded",
+    icon: "ic:round-local-pharmacy",
   },
   {
     name: "Targets/Achievement",
     path: "/targets-achievements",
-    icon: "material-symbols-light:target",
+    icon: "fluent:rectangle-portrait-location-target-20-filled",
   },
   {
     name: "Products",
     path: "/products",
-    icon: "material-symbols-light:inventory-2",
+    icon: "ant-design:product-filled",
   },
   {
     name: "Requisitions",
     path: "/requisitions",
-    icon: "material-symbols-light:list-alt-rounded",
+    icon: "mdi:application-edit",
   },
   {
     name: "Call Reporting",
     path: "/callReporting",
-    icon: "material-symbols-light:call",
+    icon: "solar:pen-2-bold",
   },
   {
     name: "Data Reporting",
     path: "/dataReporting",
-    icon: "material-symbols-light:monitoring",
+    icon: "academicons:open-data",
   },
   // {
   //   name: "test",
@@ -250,27 +250,27 @@ export const DistributorLinks: SidebarLink[] = [
   {
     name: "Primary Sale",
     path: "/distributor/primarySale",
-    icon: "material-symbols-light:stacked-line-chart",
+    icon: "material-symbols-light:quick-reorder",
   },
   {
     name: "Secondary Sale",
     path: "/distributor/secondarySale",
-    icon: "material-symbols-light:inventory-2",
+    icon: "material-symbols-light:quick-reorder",
   },
   {
     name: "MR & Route",
     path: "/distributor/mr-Routes",
-    icon: "material-symbols-light:directions",
+    icon: "fa6-solid:user-tie",
   },
-  {
-    name: "Billing",
-    path: "/distributor/billing",
-    icon: "material-symbols-light:receipt-long",
-  },
+  // {
+  //   name: "Billing",
+  //   path: "/distributor/billing",
+  //   icon: "material-symbols-light:receipt-long",
+  // },
   {
     name: "Reports",
     path: "/distributor/reports",
-    icon: "material-symbols-light:monitoring",
+    icon: "academicons:open-data",
   },
 ];
 

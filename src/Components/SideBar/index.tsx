@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTimes, FaBars } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
 import { notifyError, notifySuccess } from "../Toast";
 import { useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../redux/userSlice";
@@ -33,7 +32,7 @@ export default function SideBar({ link }: any) {
       links.splice(2, 0, {
         name: "Manage Accounts",
         path: "/manageAccounts",
-        icon: "mdi:account-cog",
+        icon: "material-symbols:manage-accounts",
       });
     }
 
@@ -132,14 +131,29 @@ export default function SideBar({ link }: any) {
                   {isActive && (
                     <span className="absolute left-0 h-12 w-[8px] bg-primary rounded-r-[8px]"></span>
                   )}
+                  {item.name == "Secondary Sale" ? (
+                    <span
+                      className={`pl-5 ${
+                        isActive ? "text-primary" : "text-[#7d7d7d]"
+                      }`}
+                    >
+                      <Icon
+                        style={{ transform: "scaleX(-1)" }}
+                        icon={item.icon}
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                  ) : (
+                    <span
+                      className={`pl-5 ${
+                        isActive ? "text-primary" : "text-[#7d7d7d]"
+                      }`}
+                    >
+                      <Icon icon={item.icon} width="20" height="20" />
+                    </span>
+                  )}
 
-                  <span
-                    className={`pl-5 ${
-                      isActive ? "text-primary" : "text-[#7d7d7d]"
-                    }`}
-                  >
-                    <Icon icon={item.icon} width="20" height="20" />
-                  </span>
                   <span className="text-sm">{item.name}</span>
                   {hasChildren && (
                     <span className="ml-auto pr-4 ">
@@ -197,7 +211,12 @@ export default function SideBar({ link }: any) {
           onClick={handleLogout}
           className="pl-5 flex gap-3 items-center cursor-pointer mb-2 text-heading text-base font-normal mt-auto"
         >
-          <BiLogOut />
+          <Icon
+            icon="clarity:logout-solid"
+            width="20"
+            height="20"
+            color="#7d7d7d"
+          />
           <p>Logout</p>
         </div>
       </aside>

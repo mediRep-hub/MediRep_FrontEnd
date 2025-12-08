@@ -1,8 +1,9 @@
 import { Avatar } from "antd";
-import { MdEdit, MdPhone, MdEmail } from "react-icons/md";
+import { MdPhone, MdEmail } from "react-icons/md";
 import { FaClock, FaDotCircle } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoBulb } from "react-icons/io5";
+import { Icon } from "@iconify/react";
 
 interface DoctorCardProps {
   doctor: any;
@@ -46,8 +47,10 @@ export default function DoctorCard({
               }
             }}
           >
-            <MdEdit
-              size={24}
+            <Icon
+              icon="line-md:edit-filled"
+              height="24"
+              width="24"
               className="text-primary group-hover:text-white transition-all duration-300"
             />
           </div>

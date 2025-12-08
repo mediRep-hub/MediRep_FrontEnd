@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp, IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
@@ -21,11 +20,11 @@ import {
   updateReports,
 } from "../../api/callReporting";
 import { FiClock } from "react-icons/fi";
-import { BiMessageDetail } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
+import { Icon } from "@iconify/react";
 
 const areaOptions: string[] = [
   "All",
@@ -326,7 +325,12 @@ export default function CallReporting() {
             }}
             className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
           >
-            <MdAdd size={20} color="#fff" />{" "}
+            <Icon
+              icon="mingcute:add-fill"
+              height="20"
+              width="20"
+              color="#fff"
+            />
             <p className="text-white text-base font-medium">
               Create Strategies
             </p>
@@ -370,9 +374,11 @@ export default function CallReporting() {
                     <div className="flex items-start justify-between">
                       <Avatar size={42} src={mr?.mrName?.image} />
                       <div className="flex items-center gap-2">
-                        <MdDeleteOutline
-                          size={18}
-                          className="text-red-600 cursor-pointer"
+                        <Icon
+                          color="#E90761"
+                          height="18"
+                          width="20"
+                          icon="mingcute:delete-fill"
                           onClick={(e) => {
                             e.stopPropagation();
                             setDeleteConfirmation(true);
@@ -494,16 +500,18 @@ export default function CallReporting() {
                         </td>
                         <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                           <div
-                            className="flex gap-3"
+                            className="flex gap-3 items-center"
                             onClick={(e) => {
                               SetViewdetails(true);
                               e.stopPropagation();
                             }}
                           >
-                            <BiMessageDetail
-                              size={16}
-                              className="inline text-[#7d7d7d]"
-                            />{" "}
+                            <Icon
+                              icon="iconoir:notes"
+                              height="16"
+                              width="16"
+                              color="#7d7d7d"
+                            />
                             Details
                           </div>
                         </td>
@@ -709,7 +717,7 @@ export default function CallReporting() {
               <button
                 onClick={handleDelete}
                 disabled={isloadingDelete}
-                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex justify-center items-center"
+                className="px-7 py-2 bg-[#E90761] text-white rounded flex justify-center items-center"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

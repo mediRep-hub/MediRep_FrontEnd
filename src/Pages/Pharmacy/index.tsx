@@ -1,4 +1,3 @@
-import { MdAdd, MdFileUpload } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
@@ -22,6 +21,7 @@ import {
   updatePharmacy,
 } from "../../api/pharmacyServices";
 import PharmacyUploads from "../../Components/PharmacyUploads";
+import { Icon } from "@iconify/react";
 
 interface Pharmacy {
   _id?: string;
@@ -194,14 +194,24 @@ export default function Pharmacies() {
               onClick={() => setOpenModal(true)}
               className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdFileUpload size={20} color="#7D7D7D" />
+              <Icon
+                icon="ic:round-upload"
+                height="20"
+                width="20"
+                color="#7D7D7D"
+              />
               <p className="text-heading text-base font-medium">Bulk Upload</p>
             </button>
             <button
               onClick={() => setAddPharmacy(true)}
               className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <MdAdd size={20} color="#fff" />
+              <Icon
+                icon="mingcute:add-fill"
+                height="20"
+                width="20"
+                color="#fff"
+              />
               <p className="text-white text-base font-medium">
                 Upload Pharmacy
               </p>
@@ -409,7 +419,7 @@ export default function Pharmacies() {
                   <button
                     type="button"
                     onClick={() => setDeleteConfirmation(true)}
-                    className="h-[55px] mr-auto md:w-[200px] w-full bg-red-600 text-white rounded-[6px] flex justify-center items-center"
+                    className="h-[55px] mr-auto md:w-[200px] w-full bg-[#E90761] text-white rounded-[6px] flex justify-center items-center"
                   >
                     Delete
                   </button>
@@ -454,7 +464,7 @@ export default function Pharmacies() {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-7 py-2 bg-[#E90761] text-white rounded"
               >
                 {isLoadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

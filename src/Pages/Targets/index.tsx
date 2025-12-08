@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { MdAdd } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 import { FaCircleCheck } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
@@ -11,6 +10,7 @@ import TargetsUploadFile from "../../Components/TargetUploads";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { FaCheckCircle } from "react-icons/fa";
 import Pagination from "../../Components/Pagination";
+import { Icon } from "@iconify/react";
 
 interface EditData {
   _id?: string;
@@ -102,7 +102,12 @@ export default function Targets() {
             onClick={() => setOpenModal(true)}
             className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
           >
-            <MdAdd size={20} color="#fff" />
+            <Icon
+              icon="mingcute:add-fill"
+              height="20"
+              width="20"
+              color="#fff"
+            />
             <p className="text-white text-base font-medium">Upload Target</p>
           </button>
         </div>

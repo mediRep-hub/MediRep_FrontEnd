@@ -18,6 +18,7 @@ import Logo from "../../assets/medirep-logo2.png";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import { getAllAccounts } from "../../api/adminServices";
+import { Icon } from "@iconify/react";
 
 const titles = [
   "Order ID",
@@ -239,7 +240,7 @@ export default function Orders() {
       className="flex gap-2 items-center"
       onClick={() => handleGoDetails(order)}
     >
-      <BiMessageDetail size={16} className="text-[#7d7d7d]" />
+      <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
       Details
     </button>,
   ]);

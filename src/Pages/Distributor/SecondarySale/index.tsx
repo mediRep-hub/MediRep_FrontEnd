@@ -4,6 +4,7 @@ import SearchBar from "../../../Components/SearchBar";
 import { Icon } from "@iconify/react";
 import Pagination from "../../../Components/Pagination";
 import { useEffect } from "react";
+import { Checkbox } from "antd";
 const titles = [
   "Order ID",
   "Order Date",
@@ -16,7 +17,10 @@ const titles = [
 ];
 const data = [
   [
-    "ORD001",
+    <div className="flex items-center gap-2">
+      <Checkbox style={{ transform: "scale(1.2)" }} />
+      <p>ORD001</p>
+    </div>,
     "2025-11-26",
     "Ali Khan",
     "Dr. Ahmed",
@@ -29,7 +33,10 @@ const data = [
     </div>,
   ],
   [
-    "ORD002",
+    <div className="flex items-center gap-2">
+      <Checkbox style={{ transform: "scale(1.2)" }} />
+      <p>ORD002</p>
+    </div>,
     "2025-11-25",
     "Sara Malik",
     "Pharmacy Plus",
@@ -42,39 +49,16 @@ const data = [
     </div>,
   ],
   [
-    "ORD003",
+    <div className="flex items-center gap-2">
+      <Checkbox style={{ transform: "scale(1.2)" }} />
+      <p>ORD003</p>
+    </div>,
     "2025-11-24",
     "Bilal Hassan",
     "Dr. Rehman",
     "Promotion C",
     "Online",
     1800,
-    <div className="flex gap-2">
-      <BiMessageDetail color="#7d7d7d" size={20} />
-      <p>Details</p>
-    </div>,
-  ],
-  [
-    "ORD004",
-    "2025-11-23",
-    "Ayesha Tariq",
-    "PharmaCare",
-    "Strategy D",
-    "Offline",
-    3200,
-    <div className="flex gap-2">
-      <BiMessageDetail color="#7d7d7d" size={20} />
-      <p>Details</p>
-    </div>,
-  ],
-  [
-    "ORD005",
-    "2025-11-22",
-    "Omar Farooq",
-    "Dr. Kamal",
-    "Promotion E",
-    "Online",
-    1500,
     <div className="flex gap-2">
       <BiMessageDetail color="#7d7d7d" size={20} />
       <p>Details</p>
