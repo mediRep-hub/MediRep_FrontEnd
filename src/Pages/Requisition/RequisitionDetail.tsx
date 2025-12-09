@@ -18,7 +18,6 @@ import { Spin } from "antd";
 import CustomInput from "../../Components/CustomInput";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
-import { Icon } from "@iconify/react";
 
 interface Product {
   _id: string;
