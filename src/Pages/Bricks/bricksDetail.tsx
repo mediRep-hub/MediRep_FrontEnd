@@ -7,20 +7,20 @@ import { FaArrowLeft, FaCalendar } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function CallReportingDetail() {
+export default function BricksDetail() {
   const location = useLocation();
   const doctor = location.state?.doctor;
   const [isLoaction, setLoaction] = useState(false);
 
   useEffect(() => {
-    document.title = "MediRep | Call Reporting Details";
+    document.title = "MediRep | Brick Details";
   }, []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A",
   });
   const navigate = useNavigate();
   const handleGOBack = () => {
-    navigate("/callReporting");
+    navigate("/bricks");
   };
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
@@ -38,7 +38,7 @@ export default function CallReportingDetail() {
           </div>
 
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Call Reporting Details
+            Brick Details
           </p>
         </div>
         <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(76.8vh-0px)] lg:h-[calc(66vh-0px)] h-auto ">
@@ -102,11 +102,9 @@ export default function CallReportingDetail() {
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
-                  Strategy Name:
-                </p>
+                <p className="w-[150px] text-[#7D7D7D] text-sm">Brick Name:</p>
                 <p className="w-[150px] sm:w-full text-heading text-sm">
-                  {doctor?.strategyName}
+                  {doctor?.brickName}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">

@@ -3,7 +3,7 @@ import { IoIosArrowDown, IoIosArrowUp, IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import { useFormik } from "formik";
-import { StrategySchema } from "../../utils/validation";
+import { BrickSchema } from "../../utils/validation";
 import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
@@ -61,8 +61,8 @@ const selectDaysOptions = [
 const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 
-export default function CallReporting() {
-  const [addStrategyModel, setAddStrategyModel] = useState(false);
+export default function Bricks() {
+  const [addBrickModel, setAddBrickModel] = useState(false);
   const [viewDetails, SetViewdetails] = useState(false);
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string>("");
@@ -79,13 +79,13 @@ export default function CallReporting() {
   const [doctorPage, setDoctorPage] = useState(1);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloading, setLoading] = useState(false);
-  const [selectedStrategy, setSelectedStrategy] = useState<any>(null);
+  const [selectedBrick, setSelectedBrick] = useState<any>(null);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [doctorList, setDoctorList] = useState<any[]>([]);
 
   useEffect(() => {
-    document.title = "MediRep | Call Reporting";
+    document.title = "MediRep | Bricks";
   }, []);
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
@@ -139,9 +139,11 @@ export default function CallReporting() {
       ),
   });
   useEffect(() => {
-    const list = result?.data?.data ?? [];
-    setDoctorList(list);
+    const bricks = result?.data?.data ?? [];
+    const firstBrickDoctors = bricks[0]?.doctorList ?? [];
+    setDoctorList(firstBrickDoctors);
   }, [result]);
+
   const handleFilter = () => {
     if (selectedMR === "All") setSelectedMR("");
     if (selectedArea === "All") setSelectedArea("");
@@ -149,7 +151,7 @@ export default function CallReporting() {
     setSelectedArea((prev) => prev?.toLowerCase());
   };
 
-  let AllStrategy = result?.data;
+  let AllBricks = result?.data;
   const AllDOctors = Array.isArray(doctorss?.data?.data)
     ? doctorss.data?.data
     : [];
@@ -159,13 +161,13 @@ export default function CallReporting() {
     initialValues: {
       region: editingProduct?.region || "",
       area: editingProduct?.area || "",
-      strategyName: editingProduct?.strategyName || "",
+      brickName: editingProduct?.brickName || "",
       route: editingProduct?.route || "",
       day: editingProduct?.day || "",
       mrName: editingProduct?.mrName?.name || "",
       doctorList: editingProduct?.doctorList?.map((doc: any) => doc.name) || [],
     },
-    validationSchema: StrategySchema,
+    validationSchema: BrickSchema,
     onSubmit: async (values) => {
       setLoading(true);
       try {
@@ -188,14 +190,14 @@ export default function CallReporting() {
 
         if (editingProduct) {
           await updateReports(editingProduct._id, payload);
-          notifySuccess("Strategy updated successfully");
+          notifySuccess("Brick updated successfully");
           setEditingProduct(null);
         } else {
           await addReport(payload);
-          notifySuccess("Strategy added successfully");
+          notifySuccess("Brick added successfully");
         }
 
-        setAddStrategyModel(false);
+        setAddBrickModel(false);
         formik.resetForm();
         refetch();
       } catch (error: any) {
@@ -210,27 +212,26 @@ export default function CallReporting() {
     setLoadingDelete(true);
     try {
       await deleteReports(editingProduct._id);
-      notifySuccess("Strategy deleted successfully");
+      notifySuccess("Brick deleted successfully");
       refetch();
     } catch (error) {
       console.error(error);
-      notifyError("Failed to delete Strategy. Please try again.");
+      notifyError("Failed to delete Brick. Please try again.");
     } finally {
       setLoadingDelete(false);
       setDeleteConfirmation(false);
     }
   };
   useEffect(() => {
-    if (AllStrategy && AllStrategy.length > 0)
-      setSelectedStrategy(AllStrategy[0]);
-  }, [AllStrategy]);
+    if (AllBricks && AllBricks.length > 0) setSelectedBrick(AllBricks[0]);
+  }, [AllBricks]);
   useEffect(() => {
-    if (!selectedStrategy) return;
-    const doctors = selectedStrategy.doctorList || [];
+    if (!selectedBrick) return;
+    const doctors = selectedBrick.doctorList || [];
     const start = (doctorPage - 1) * doctorLimit;
     const paginatedDoctors = doctors.slice(start, start + doctorLimit);
     setDoctorList(paginatedDoctors);
-  }, [selectedStrategy, doctorPage]);
+  }, [selectedBrick, doctorPage]);
 
   const moveUp = (index: number) => {
     if (index === 0) return;
@@ -247,7 +248,7 @@ export default function CallReporting() {
   };
 
   const handleGoTODetails = (doctor: any) => {
-    if (!selectedStrategy) return;
+    if (!selectedBrick) return;
     const plainDoctor = {
       _id: doctor._id,
       callId: doctor.callId,
@@ -264,15 +265,15 @@ export default function CallReporting() {
       checkIn: doctor.checkIn || "--",
       checkOut: doctor.checkOut || "--",
       status: doctor.status || "--",
-      strategyName: selectedStrategy.strategyName,
-      mrName: selectedStrategy.mrName?.name,
-      mrId: selectedStrategy.mrName?.adminId,
-      mrImage: selectedStrategy.mrName?.image,
-      date: selectedStrategy?.createdAt,
+      brickName: selectedBrick.brickName,
+      mrName: selectedBrick.mrName?.name,
+      mrId: selectedBrick.mrName?.adminId,
+      mrImage: selectedBrick.mrName?.image,
+      date: selectedBrick?.createdAt,
       checkInLocation: doctor?.checkInLocation,
       nextVisitDate: doctor?.nextVisitDate,
     };
-    navigate("/callReporting/details", { state: { doctor: plainDoctor } });
+    navigate("/bricks/details", { state: { doctor: plainDoctor } });
   };
 
   return (
@@ -280,7 +281,7 @@ export default function CallReporting() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between items-start">
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
-            Strategies
+            Bricks
           </p>
           <div className="flex flex-wrap w-auto md:w-full lg:w-auto items-center gap-3">
             <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
@@ -320,7 +321,7 @@ export default function CallReporting() {
           </div>
           <button
             onClick={() => {
-              setAddStrategyModel(true);
+              setAddBrickModel(true);
               setEditingProduct(null);
             }}
             className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
@@ -331,17 +332,13 @@ export default function CallReporting() {
               width="20"
               color="#fff"
             />
-            <p className="text-white text-base font-medium">
-              Create Strategies
-            </p>
+            <p className="text-white text-base font-medium">Create Brick</p>
           </button>
         </div>
         <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
           <div className="lg:w-[calc(25%-8px)] w-full">
             <div className="flex justify-between items-center">
-              <p className="text-[#7D7D7D] font-medium text-sm">
-                Strategies List
-              </p>
+              <p className="text-[#7D7D7D] font-medium text-sm">Bricks List</p>
               <Pagination
                 currentPage={page}
                 totalItems={result?.totalItems}
@@ -353,21 +350,21 @@ export default function CallReporting() {
               <div className="mt-5 flex justify-center">
                 <Spin indicator={antIcon22} />
               </div>
-            ) : AllStrategy && AllStrategy.length > 0 ? (
+            ) : AllBricks && AllBricks.length > 0 ? (
               <div
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 className="scroll-smooth 2xl:h-[calc(68vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
               >
-                {AllStrategy.map((mr: any, index: number) => (
+                {AllBricks.map((mr: any, index: number) => (
                   <div
                     key={mr._id || index}
                     className={`bg-white p-5 first:mt-0 mt-4 rounded-xl cursor-pointer ${
-                      selectedStrategy?._id === mr._id
+                      selectedBrick?._id === mr._id
                         ? "border-2 border-primary"
                         : "border-2 border-white"
                     }`}
                     onClick={() => {
-                      setSelectedStrategy(mr);
+                      setSelectedBrick(mr);
                       setDoctorPage(1);
                     }}
                   >
@@ -396,7 +393,7 @@ export default function CallReporting() {
                       MR ID: {mr?.mrName?.adminId}
                     </p>
                     <p className="text-[#131313] text-sm ">
-                      Strategy Name: {mr.strategyName}
+                      Brick Name: {mr.brickName}
                     </p>
                     <p className="text-[#131313] text-sm ">
                       MR Status:{" "}
@@ -419,7 +416,7 @@ export default function CallReporting() {
               <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
               <Pagination
                 currentPage={doctorPage}
-                totalItems={selectedStrategy?.doctorList?.length || 0}
+                totalItems={selectedBrick?.doctorList?.length || 0}
                 itemsPerPage={doctorLimit}
                 onPageChange={(newPage) => setDoctorPage(newPage)}
               />
@@ -533,7 +530,7 @@ export default function CallReporting() {
           </div>
         </div>
       </div>{" "}
-      {addStrategyModel && (
+      {addBrickModel && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             style={{
@@ -544,14 +541,12 @@ export default function CallReporting() {
           >
             <div className="flex items-center justify-between ">
               <p className="text-[24px] text-heading capitalize font-medium">
-                {editingProduct === null
-                  ? "Create Strategy"
-                  : "Update  Strategy"}
+                {editingProduct === null ? "Create Bricks" : "Update  Bricks"}
               </p>
               <IoMdCloseCircle
                 size={20}
                 onClick={() => {
-                  setAddStrategyModel(false);
+                  setAddBrickModel(false);
                 }}
                 className="cursor-pointer text-primary"
               />
@@ -563,7 +558,7 @@ export default function CallReporting() {
               <div className="flex flex-wrap mt-5 gap-8">
                 <div className="md:w-[calc(50%-16px)] w-full">
                   <p className="text-base font-normal text-heading">
-                    Strategy Details
+                    Brick Details
                   </p>
                   <div className="mt-3">
                     <CustomSelect
@@ -593,18 +588,17 @@ export default function CallReporting() {
                   </div>
                   <div className="mt-3">
                     <CustomInput
-                      label="Strategy Name"
-                      name="strategyName"
-                      placeholder="e.g, Cardiology Focus"
-                      value={formik.values.strategyName}
+                      label="Brick Name"
+                      name="brickName"
+                      placeholder="Write the Brick Name"
+                      value={formik.values.brickName}
                       onChange={formik.handleChange}
                     />
-                    {formik.touched.strategyName &&
-                      formik.errors.strategyName && (
-                        <div className="text-red-500 text-xs">
-                          *{String(formik.errors.strategyName)}
-                        </div>
-                      )}
+                    {formik.touched.brickName && formik.errors.brickName && (
+                      <div className="text-red-500 text-xs">
+                        *{String(formik.errors.brickName)}
+                      </div>
+                    )}
                   </div>
                   <div className="mt-3">
                     <CustomSelect
@@ -683,9 +677,9 @@ export default function CallReporting() {
                   {isloading ? (
                     <Spin indicator={antIcon} />
                   ) : editingProduct === null ? (
-                    "Create Strategy"
+                    "Create Bricks"
                   ) : (
-                    "Update Strategy"
+                    "Update Bricks"
                   )}
                 </button>
               </div>
@@ -702,7 +696,7 @@ export default function CallReporting() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Strategy</strong>
+                Are you sure you want to delete this <strong>Brick</strong>
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">
@@ -785,7 +779,7 @@ export default function CallReporting() {
                 ))
               ) : (
                 <p className="text-[#7d7d7d] text-sm text-center">
-                  No doctors found for this strategy.
+                  No doctors found for this Bricks.
                 </p>
               )}
             </div>
@@ -804,7 +798,7 @@ export default function CallReporting() {
                       notifyError("No doctor IDs to save.");
                       return;
                     }
-                    await reorderDoctorList(selectedStrategy._id, {
+                    await reorderDoctorList(selectedBrick._id, {
                       orderedDoctorIds: doctorIds,
                     });
 

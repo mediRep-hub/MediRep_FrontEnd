@@ -169,8 +169,9 @@ export default function SideBar({ link }: any) {
                   <div>
                     <div className="pl-5 pr-4 py-2 flex flex-col gap-1 mt-2 bg-[#E5EBF7] rounded-[12px]">
                       {item.children.map((child: any, idx: number) => {
-                        const isChildActive =
-                          isDropdownOpen && location.pathname === child.path;
+                        const isChildActive = location.pathname.startsWith(
+                          child.path
+                        );
 
                         return (
                           <div className="flex gap-2 items-center  cursor-pointer">

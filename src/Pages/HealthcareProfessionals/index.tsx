@@ -213,8 +213,8 @@ export default function HealthcareProfessionals() {
             >
               <Icon
                 icon="ic:round-upload"
-                height="20"
-                width="20"
+                height="24"
+                width="24"
                 color="#7D7D7D"
               />
               <p className="text-heading text-base font-medium">Bulk Upload</p>
@@ -491,9 +491,9 @@ export default function HealthcareProfessionals() {
                   {isloading ? (
                     <Spin indicator={antIcon} />
                   ) : editingDoctor ? (
-                    "Update"
+                    "Update Profile"
                   ) : (
-                    "Add"
+                    "Add Profile"
                   )}
                 </button>
               </div>

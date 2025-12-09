@@ -20,7 +20,7 @@ export default function CustomInput({
       <input
         {...props}
         placeholder={placeholder}
-        className={`rounded-md w-full h-14 px-3 py-2 text-sm outline-none border-primary border-[0.5px] ${className}`}
+        className={`rounded-md w-full h-14 px-3 placeholder:text-[#7d7d7d] py-2 text-sm outline-none border-primary border-[0.5px] ${className}`}
       />
     </div>
   );

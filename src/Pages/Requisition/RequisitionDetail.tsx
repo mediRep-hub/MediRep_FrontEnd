@@ -18,6 +18,7 @@ import { Spin } from "antd";
 import CustomInput from "../../Components/CustomInput";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
+import { Icon } from "@iconify/react";
 
 interface Product {
   _id: string;
@@ -82,7 +83,9 @@ export default function RequisitionDetail() {
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
-
+  const antIcon2 = (
+    <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
+  );
   const handleGetSingle = async (id?: string) => {
     try {
       const res = await getSingleRequisition(id || requisition._id);
@@ -217,236 +220,255 @@ export default function RequisitionDetail() {
         </div>
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(77.2vh-0px)] xl:h-[calc(66vh-0px)] h-auto">
           <p className="text-[#7d7d7d]">Requisition Details</p>
+
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth mt-5 flex flex-wrap md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(69.3vh-0px)] xl:h-[calc(54vh-0px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5  bg-white border border-primary rounded-lg 2xl:h-[calc(69.3vh-0px)] xl:h-[calc(54vh-0px)] overflow-y-auto scrollbar-none"
           >
-            <div className="xl:w-[calc(70%-1px)] w-full">
-              <div className="flex flex-wrap gap-5  p-5 border-b-[1px] border-primary">
-                <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
-                  {" "}
-                  <div className="xl:w-[calc(50%-10px)] w-full">
-                    <p className="text-[#131313] font-medium text-sm">
-                      Requisition ID
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      MR Name
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Doctor Name
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Status
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Attachments
-                    </p>
-
-                    {(dataRequisitions?.amount ?? 0) > 0 && (
-                      <p className="text-[#131313] mt-3 font-medium text-sm">
-                        Amount
-                      </p>
-                    )}
-                  </div>
-                  <div className="xl:w-[calc(50%-10px)] w-full">
-                    {" "}
-                    <p className="text-[#131313] font-normal text-sm">
-                      {dataRequisitions?.reqId}
-                    </p>
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.mrName}
-                    </p>
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.doctorName}
-                    </p>
-                    <p
-                      className={`inline-block rounded-[3px] px-2 mt-3 font-normal text-sm border ${
-                        dataRequisitions?.status === "Pending"
-                          ? "text-[#E90761] border-[#E90761]"
-                          : dataRequisitions?.status === "Approved"
-                          ? "text-primary border-primary"
-                          : dataRequisitions?.status === "Rejected"
-                          ? "text-[#FF9500] border-[#FF9500]"
-                          : dataRequisitions?.status === "Paid"
-                          ? "text-[#0BA69C] border-[#0BA69C]"
-                          : "text-[#7d7d7d] border-[#7d7d7d]"
-                      }`}
-                    >
-                      {dataRequisitions?.status}
-                    </p>
-                    <p className="text-primary mt-3 font-normal text-sm">
-                      {dataRequisitions?.attachedDoc}
-                    </p>
-                  </div>
-                </div>{" "}
-                <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
-                  {" "}
-                  <div className="xl:w-[calc(50%-10px)] w-full">
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Details
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Starting Date
-                    </p>
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Requisition Type
-                    </p>{" "}
-                    <p className="text-[#131313] mt-3 font-medium text-sm">
-                      Total Quantity
-                    </p>{" "}
-                    {(dataRequisitions?.amount ?? 0) > 0 && (
-                      <p className="text-[#131313] mt-3 font-medium text-sm">
-                        Amount
-                      </p>
-                    )}
-                  </div>
-                  <div className="xl:w-[calc(50%-10px)] w-full">
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.details}
-                    </p>
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.startingDate
-                        ? dayjs(dataRequisitions.startingDate).format(
-                            "DD-MM-YYYY"
-                          )
-                        : "-"}
-                    </p>
-                    <p className="text-[#131313] capitalize mt-3 font-normal text-sm">
-                      {dataRequisitions?.requisitionType}
-                    </p>
-                    <p className="text-[#131313] mt-3 font-normal text-sm">
-                      {dataRequisitions?.totalQuantity}
-                    </p>
-                    {(dataRequisitions?.amount ?? 0) > 0 && (
-                      <p className="text-[#131313] mt-3 font-normal text-sm">
-                        {dataRequisitions?.amount}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="py-5 border-b-[1px] border-primary  p-5">
-                <p className="text-[#131313] mt-3 font-medium text-sm">
-                  Manager Remarks
-                </p>
-                {dataRequisitions?.remarks ? (
-                  <div>
-                    <div className="flex items-center gap-3 mt-4">
-                      <FaCheckCircle size={16} color="#27C840" />
-                      <p className="text-[#131313] font-medium text-xs">
-                        Manager approved requisition
-                      </p>
+            {dataRequisitions ? (
+              <div className="flex flex-wrap md:gap-0 gap-5">
+                <div className="xl:w-[calc(70%-1px)] w-full">
+                  <div className="flex flex-wrap gap-5  p-5 border-b-[1px] border-primary">
+                    <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
+                      {" "}
+                      <div className="xl:w-[calc(50%-10px)] w-full">
+                        <p className="text-[#131313] font-medium text-sm">
+                          Requisition ID
+                        </p>
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          MR Name
+                        </p>
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Doctor Name
+                        </p>
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Status
+                        </p>
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Attachments
+                        </p>
+                      </div>
+                      <div className="xl:w-[calc(50%-10px)] w-full">
+                        {" "}
+                        <p className="text-[#131313] font-normal text-sm">
+                          {dataRequisitions?.reqId}
+                        </p>
+                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                          {dataRequisitions?.mrName}
+                        </p>
+                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                          {dataRequisitions?.doctorName}
+                        </p>
+                        <p
+                          className={`inline-block rounded-[3px] px-2 mt-3 font-normal text-sm border ${
+                            dataRequisitions?.status === "Pending"
+                              ? "text-[#E90761] border-[#E90761]"
+                              : dataRequisitions?.status === "Approved"
+                              ? "text-primary border-primary"
+                              : dataRequisitions?.status === "Rejected"
+                              ? "text-[#FF9500] border-[#FF9500]"
+                              : dataRequisitions?.status === "Paid"
+                              ? "text-[#0BA69C] border-[#0BA69C]"
+                              : "text-[#7d7d7d] border-[#7d7d7d]"
+                          }`}
+                        >
+                          {dataRequisitions?.status}
+                        </p>
+                        <p
+                          className="text-primary cursor-pointer text-sm mt-3 underline"
+                          onClick={() => {
+                            if (dataRequisitions?.attachedDoc) {
+                              window.open(
+                                dataRequisitions.attachedDoc,
+                                "_blank"
+                              );
+                            }
+                          }}
+                        >
+                          View File
+                        </p>
+                      </div>
+                    </div>{" "}
+                    <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
+                      {" "}
+                      <div className="xl:w-[calc(50%-10px)] w-full">
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Details
+                        </p>
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Starting Date
+                        </p>
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Requisition Type
+                        </p>{" "}
+                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                          Total Quantity
+                        </p>{" "}
+                        {(dataRequisitions?.amount ?? 0) > 0 && (
+                          <p className="text-[#131313] mt-3 font-medium text-sm">
+                            Amount
+                          </p>
+                        )}
+                      </div>
+                      <div className="xl:w-[calc(50%-10px)] w-full">
+                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                          {dataRequisitions?.details}
+                        </p>
+                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                          {dataRequisitions?.startingDate
+                            ? dayjs(dataRequisitions.startingDate).format(
+                                "DD-MM-YYYY"
+                              )
+                            : "-"}
+                        </p>
+                        <p className="text-[#131313] capitalize mt-3 font-normal text-sm">
+                          {dataRequisitions?.requisitionType}
+                        </p>
+                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                          {dataRequisitions?.totalQuantity}
+                        </p>
+                        {(dataRequisitions?.amount ?? 0) > 0 && (
+                          <p className="text-[#131313] mt-3 font-normal text-sm">
+                            {dataRequisitions?.amount}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                ) : (
-                  <p className="text-xs text-[#7D7D7D] mt-2">
-                    No remarks added by Manager
-                  </p>
-                )}
-                {["Admin", "Area Sales Manager (ASM)"].includes(
-                  user?.position || ""
-                ) && (
-                  <>
-                    <textarea
-                      className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
-                      placeholder="Enter your remarks..."
-                      value={dataRequisitions?.remarks || remarks}
-                      onChange={(e) => setRemarks(e.target.value)}
-                      disabled={!!dataRequisitions?.remarks}
-                    />
+                  <div className="py-5 border-b-[1px] border-primary  p-5">
+                    <p className="text-[#131313] mt-3 font-medium text-sm">
+                      Manager Remarks
+                    </p>
                     {dataRequisitions?.remarks ? (
-                      ""
-                    ) : (
-                      <div className="flex justify-end">
-                        <button
-                          className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
-                          onClick={handleSaveRemarks}
-                          disabled={!!dataRequisitions?.remarks}
-                        >
-                          {loadingSave ? <Spin indicator={antIcon} /> : "Save"}
-                        </button>
+                      <div>
+                        <div className="flex items-center gap-3 mt-4">
+                          <FaCheckCircle size={16} color="#27C840" />
+                          <p className="text-[#131313] font-medium text-xs">
+                            Manager approved requisition
+                          </p>
+                        </div>
                       </div>
+                    ) : (
+                      <p className="text-xs text-[#7D7D7D] mt-2">
+                        No remarks added by Manager
+                      </p>
                     )}
-                  </>
-                )}
-              </div>
-              {["Admin", "Area Sales Manager (ASM)"].includes(
-                user?.position || ""
-              ) && (
-                <div className=" p-5">
-                  <p className="text-[#131313] mt-3 font-medium text-sm">
-                    Accept Requisition
-                  </p>
-                  <div className="flex justify-between items-center pb-5 mt-5">
-                    <button
-                      onClick={() => {
-                        setDeleteConfirmation(true);
-                      }}
-                      className="bg-[#F2FAFD] h-[56px] w-[100px] cursor-pointer rounded-md text-black"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() =>
-                        dataRequisitions?._id &&
-                        handleAccept(dataRequisitions._id)
-                      }
-                      disabled={dataRequisitions?.accepted}
-                      className={`h-[56px] w-[100px] rounded-md text-white  
+                    {["Admin", "Area Sales Manager (ASM)"].includes(
+                      user?.position || ""
+                    ) && (
+                      <>
+                        <textarea
+                          className="rounded-lg bg-[#F7F7F7] p-3 mt-5 w-full focus:outline-none"
+                          placeholder="Enter your remarks..."
+                          value={dataRequisitions?.remarks || remarks}
+                          onChange={(e) => setRemarks(e.target.value)}
+                          disabled={!!dataRequisitions?.remarks}
+                        />
+                        {dataRequisitions?.remarks ? (
+                          ""
+                        ) : (
+                          <div className="flex justify-end">
+                            <button
+                              className="bg-primary mt-5 h-[56px] w-[100px] cursor-pointer rounded-md text-white"
+                              onClick={handleSaveRemarks}
+                              disabled={!!dataRequisitions?.remarks}
+                            >
+                              {loadingSave ? (
+                                <Spin indicator={antIcon} />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  {["Admin", "Area Sales Manager (ASM)"].includes(
+                    user?.position || ""
+                  ) && (
+                    <div className=" p-5">
+                      <p className="text-[#131313] mt-3 font-medium text-sm">
+                        Accept Requisition
+                      </p>
+                      <div className="flex justify-between items-center pb-5 mt-5">
+                        <button
+                          onClick={() => {
+                            setDeleteConfirmation(true);
+                          }}
+                          className="bg-[#F2FAFD] h-[56px] w-[100px] cursor-pointer rounded-md text-black"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          onClick={() =>
+                            dataRequisitions?._id &&
+                            handleAccept(dataRequisitions._id)
+                          }
+                          disabled={dataRequisitions?.accepted}
+                          className={`h-[56px] w-[100px] rounded-md text-white  
     ${
       dataRequisitions?.accepted
         ? "bg-gray-400 cursor-not-allowed"
         : "bg-primary hover:bg-primary cursor-pointer"
     }`}
+                        >
+                          {loading ? (
+                            <Spin indicator={antIcon} />
+                          ) : (
+                            <span>
+                              {dataRequisitions?.accepted
+                                ? "Accepted"
+                                : "Accept"}
+                            </span>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>{" "}
+                <div className="border-primary border-l-[1px] h-auto"></div>
+                <div className="xl:w-[calc(30%-1px)] w-full p-5">
+                  {dataRequisitions?.product?.map((p) => (
+                    <div
+                      key={p._id}
+                      className="bg-[#E5EBF7] rounded-[8px] w-full first:mt-0 mt-3 p-4"
                     >
-                      {loading ? (
-                        <Spin indicator={antIcon} />
-                      ) : (
-                        <span>
-                          {dataRequisitions?.accepted ? "Accepted" : "Accept"}
-                        </span>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>{" "}
-            <div className="border-primary border-l-[1px] h-auto"></div>
-            <div className="xl:w-[calc(30%-1px)] w-full p-5">
-              {dataRequisitions?.product?.map((p) => (
-                <div
-                  key={p._id}
-                  className="bg-[#E5EBF7] rounded-[8px] w-full first:mt-0 mt-3 p-4"
-                >
-                  <div className="flex items-center gap-4 ">
-                    <p className="text-heading w-[90px] text-xs font-medium">
-                      Product
-                    </p>
-                    <p className="text-heading text-xs font-normal">
-                      {p?.name}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4 mt-2">
-                    <p className="text-heading w-[90px] text-xs font-medium">
-                      Quantity
-                    </p>
-                    <p className="text-heading text-xs font-normal">
-                      {p?.quantity}
-                    </p>
-                  </div>
+                      <div className="flex items-center gap-4 ">
+                        <p className="text-heading w-[90px] text-xs font-medium">
+                          Product
+                        </p>
+                        <p className="text-heading text-xs font-normal">
+                          {p?.name}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-4 mt-2">
+                        <p className="text-heading w-[90px] text-xs font-medium">
+                          Quantity
+                        </p>
+                        <p className="text-heading text-xs font-normal">
+                          {p?.quantity}
+                        </p>
+                      </div>
 
-                  <button
-                    onClick={() => {
-                      setSelectedProduct(p);
-                      setChangeRequisition(true);
-                    }}
-                    className="mt-5 bg-primary text-white w-full h-9 rounded-md cursor-pointer"
-                  >
-                    Change Requisition
-                  </button>
+                      <button
+                        onClick={() => {
+                          setSelectedProduct(p);
+                          setChangeRequisition(true);
+                        }}
+                        className="mt-5 bg-primary text-white w-full h-9 rounded-md cursor-pointer"
+                      >
+                        Change Requisition
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex justify-center h-full">
+                <Spin indicator={antIcon2} className="my-6 h-[64vh]" />
+              </div>
+            )}
           </div>
         </div>
         {deleteConfirmation && (

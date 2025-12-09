@@ -3,11 +3,12 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
-import Orders from "../Pages/Orders";
-import OrderDetails from "../Pages/Orders/orderDetails";
-import CallReportingDetail from "../Pages/CallReporting/callReportingDetail";
-import Pharmacy from "../Pages/Pharmacy";
 
+const Orders = lazy(() => import("../Pages/Orders"));
+const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
+const BricksDetail = lazy(() => import("../Pages/Bricks/bricksDetail"));
+const Pharmacy = lazy(() => import("../Pages/Pharmacy"));
+const Teams = lazy(() => import("../Pages/Teams"));
 const RequisitionDetail = lazy(
   () => import("../Pages/Requisition/RequisitionDetail")
 );
@@ -16,11 +17,11 @@ const DashBoard = lazy(() => import("../Pages/DashBoard"));
 const HealthcareProfessionals = lazy(
   () => import("../Pages/HealthcareProfessionals")
 );
-const StrategyPlanning = lazy(() => import("../Pages/CallReporting"));
+const StrategyPlanning = lazy(() => import("../Pages/Bricks"));
 const DataReporting = lazy(() => import("../Pages/DataReporting"));
 const Products = lazy(() => import("../Pages/Products"));
 const Requisition = lazy(() => import("../Pages/Requisition"));
-const CallReporting = lazy(() => import("../Pages/CallReporting"));
+const Bricks = lazy(() => import("../Pages/Bricks"));
 
 export default function MainRoutes() {
   const { user } = useSelector((state: any) => state.user);
@@ -61,11 +62,9 @@ export default function MainRoutes() {
           path="/requisitions/requisitionDetail"
           element={<RequisitionDetail />}
         />
-        <Route path="/callReporting" element={<CallReporting />} />
-        <Route
-          path="/callReporting/details"
-          element={<CallReportingDetail />}
-        />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/bricks" element={<Bricks />} />
+        <Route path="/bricks/details" element={<BricksDetail />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
       </Routes>

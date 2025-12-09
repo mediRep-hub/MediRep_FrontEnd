@@ -33,13 +33,12 @@ export const ENDPOINTS = {
   PRODUCT_DELETE: "/product/deleteProduct",
   PRODUCT_uploadCSVTarget: "/product/uploadCSVUpdateTarget",
 
-  //   -----------call Reporting-------------
-  REPORTING_GET_ALL: "/callreport/getAllReports",
-  REPORTING_ADD_REPORT: "/callreport/addReport",
-  REPORTING_GET_SINGLE: "/callreport/getSingleReport",
-  REPORTING_UPDATE_REPORT: "/callreport/updateReport",
-  REPORTING_DELETE_REPORT: "/callreport/deleteReport",
-  REPORTING_REORDER_REPORT: "/callreport/reorderDoctorList",
+  //   -----------Bricks-------------
+  REPORTING_GET_ALL: "/brick/getAllBricks",
+  REPORTING_ADD_REPORT: "/brick/addBrick",
+  REPORTING_UPDATE_REPORT: "/brick/updateBrick",
+  REPORTING_DELETE_REPORT: "/brick/deleteBrick",
+  REPORTING_REORDER_REPORT: "/brick/reorderDoctorList",
 
   //   -----------Manage MR-------------
   MR_ADD_MR: "/manageMr/addMR",

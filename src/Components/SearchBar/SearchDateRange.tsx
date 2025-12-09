@@ -37,7 +37,7 @@ export default function SearchDateRange({ onChange }: any) {
 
   return (
     <div className="relative w-full" ref={divRef}>
-      <label className="absolute -top-3 left-5 bg-secondary px-1 text-sm text-gray-500">
+      <label className="absolute -top-3 left-5 bg-secondary px-1 text-sm text-[#7d7d7d]">
         Select Date
       </label>
       <div

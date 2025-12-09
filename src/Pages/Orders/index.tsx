@@ -22,7 +22,8 @@ import { Icon } from "@iconify/react";
 const titles = [
   "Order ID",
   "Order Date",
-  "Pharmacy Name",
+  "Doctor/Pharmacy Name",
+  "Distributor Name",
   "MR Name",
   "Amount",
   "Details",
@@ -229,6 +230,7 @@ export default function Orders() {
     </div>,
     order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
     order.pharmacyId.name,
+    order.distributorName,
     order.mrName,
     <p key={`amount-${order.orderId}`} className="text-[12px]">
       Rs:

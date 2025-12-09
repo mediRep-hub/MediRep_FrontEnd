@@ -33,6 +33,7 @@ interface Pharmacy {
   startTime?: string | null;
   endTime?: string | null;
   region?: string;
+  channel?: string;
   area?: string;
   location: {
     address: string;
@@ -42,6 +43,7 @@ interface Pharmacy {
 }
 
 const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
+const channelOptions = ["RT", "Local Modern Trade", "Wholesale"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
 export default function Pharmacies() {
@@ -88,6 +90,7 @@ export default function Pharmacies() {
       area: pharmacy.area || "",
       affiliation: pharmacy.affiliation || "",
       image: pharmacy.image || null,
+      channel: pharmacy.channel || "",
       location: pharmacy.location || { address: "", lat: 0, lng: 0 },
     });
   };
@@ -104,6 +107,7 @@ export default function Pharmacies() {
       region: editingPharmacy?.region || "",
       area: editingPharmacy?.area || "",
       image: editingPharmacy?.image || null,
+      channel: editingPharmacy?.channel || "",
       location: editingPharmacy?.location || { address: "", lat: 0, lng: 0 },
     },
     validationSchema: PharmacySchema,
@@ -196,8 +200,8 @@ export default function Pharmacies() {
             >
               <Icon
                 icon="ic:round-upload"
-                height="20"
-                width="20"
+                height="24"
+                width="24"
                 color="#7D7D7D"
               />
               <p className="text-heading text-base font-medium">Bulk Upload</p>
@@ -286,7 +290,6 @@ export default function Pharmacies() {
               <div className="flex flex-wrap items-start gap-4">
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Pharmacy Details</p>
-
                   <div className="mt-4">
                     <CustomInput
                       id="name"
@@ -299,6 +302,19 @@ export default function Pharmacies() {
                     {formik.touched.name && formik.errors.name && (
                       <div className="text-red-500 text-xs">
                         *{formik.errors.name}
+                      </div>
+                    )}
+                  </div>{" "}
+                  <div className="mt-4">
+                    <CustomSelect
+                      options={channelOptions}
+                      value={formik.values.channel}
+                      onChange={(val) => formik.setFieldValue("channel", val)}
+                      placeholder="Select Channel"
+                    />
+                    {formik.touched.channel && formik.errors.channel && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.channel}
                       </div>
                     )}
                   </div>
@@ -346,7 +362,7 @@ export default function Pharmacies() {
                         *{formik.errors.image}
                       </div>
                     )}
-                  </div>
+                  </div>{" "}
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Pharmacy Details</p>
@@ -374,7 +390,12 @@ export default function Pharmacies() {
                           formik.setFieldValue("startTime", val)
                         }
                         placeholder="Start Time"
-                      />
+                      />{" "}
+                      {formik.touched.startTime && formik.errors.startTime && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.startTime}
+                        </div>
+                      )}
                     </div>
 
                     <div className="w-full">
@@ -382,7 +403,12 @@ export default function Pharmacies() {
                         value={formik.values.endTime}
                         onChange={(val) => formik.setFieldValue("endTime", val)}
                         placeholder="End Time"
-                      />
+                      />{" "}
+                      {formik.touched.endTime && formik.errors.endTime && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.endTime}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="mt-4">
@@ -391,7 +417,12 @@ export default function Pharmacies() {
                       value={formik.values.region}
                       onChange={(val) => formik.setFieldValue("region", val)}
                       placeholder="Region"
-                    />
+                    />{" "}
+                    {formik.touched.region && formik.errors.region && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.region}
+                      </div>
+                    )}
                   </div>
                   <div className="mt-4">
                     <CustomSelect
@@ -399,7 +430,12 @@ export default function Pharmacies() {
                       value={formik.values.area}
                       onChange={(val) => formik.setFieldValue("area", val)}
                       placeholder="Area"
-                    />
+                    />{" "}
+                    {formik.touched.area && formik.errors.area && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.area}
+                      </div>
+                    )}
                   </div>
                   <div className="mt-4">
                     <CustomInput
@@ -410,7 +446,13 @@ export default function Pharmacies() {
                       height="128px"
                       value={formik.values.affiliation}
                       onChange={formik.handleChange}
-                    />
+                    />{" "}
+                    {formik.touched.affiliation &&
+                      formik.errors.affiliation && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.affiliation}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
@@ -432,9 +474,9 @@ export default function Pharmacies() {
                   {isLoading ? (
                     <Spin indicator={antIcon} />
                   ) : editingPharmacy ? (
-                    "Update"
+                    "Update Pharmacy"
                   ) : (
-                    "Add"
+                    "Add Pharmacy"
                   )}
                 </button>
               </div>

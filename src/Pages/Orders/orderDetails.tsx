@@ -153,6 +153,14 @@ export default function OrderDetails() {
                 </div>
                 <div className="flex items-center mt-2">
                   <p className="text-[#7d7d7d] text-xs md:w-[120px] w-[45%]">
+                    Distributor Name:
+                  </p>
+                  <p className="text-heading text-xs md:w-auto w-[55%]">
+                    {order?.distributorName}
+                  </p>
+                </div>
+                <div className="flex items-center mt-2">
+                  <p className="text-[#7d7d7d] text-xs md:w-[120px] w-[45%]">
                     Order ID:
                   </p>
                   <p className="text-heading text-xs md:w-auto w-[55%]">

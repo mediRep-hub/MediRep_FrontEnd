@@ -15,6 +15,7 @@ export const PharmacySchema = Yup.object().shape({
   region: Yup.string().required("Region is required"),
   area: Yup.string().required("Area is required"),
   affiliation: Yup.string().required("Affiliation is required"),
+  channel: Yup.string().required("Channel is required"),
   image: Yup.string().nullable(),
   location: Yup.object({
     address: Yup.string().required("Address is required"),
@@ -82,10 +83,10 @@ export const ProductSchema = Yup.object().shape({
   packSize: Yup.string().required("Pack Size is required"),
 });
 
-export const StrategySchema = Yup.object().shape({
+export const BrickSchema = Yup.object().shape({
   region: Yup.string().required("Please select a region."),
   area: Yup.string().required("Please select an area or city."),
-  strategyName: Yup.string().required("Strategy name is required."),
+  brickName: Yup.string().required("Brick Name is required."),
   route: Yup.string().required("Please enter the route name."),
   day: Yup.string().required("Please select a day."),
   mrName: Yup.string().required("Please select the MR."),
@@ -188,47 +189,26 @@ export const defaultLinks: SidebarLink[] = [
     icon: "mdi:application-edit",
   },
   {
-    name: "Call Reporting",
-    path: "/callReporting",
-    icon: "solar:pen-2-bold",
+    name: "Field Execution",
+    icon: "game-icons:field",
+    children: [
+      {
+        name: "Bricks",
+        path: "/bricks",
+      },
+      {
+        name: "Teams",
+        path: "/teams",
+      },
+    ],
   },
+
   {
     name: "Data Reporting",
     path: "/dataReporting",
     icon: "academicons:open-data",
   },
-  // {
-  //   name: "test",
-  //   icon: "material-symbols:orders-rounded",
-  //   children: [
-  //     {
-  //       name: "All Strategy",
-  //       path: "/strategy",
-  //     },
-  //     {
-  //       name: "Create Strategy",
-  //       path: "/strategy/create",
-  //     },
-  //     {
-  //       name: "Create Strategy2",
-  //       path: "/strategy/create22",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "test2",
-  //   icon: "material-symbols:orders-rounded",
-  //   children: [
-  //     {
-  //       name: "test2.1",
-  //       path: "/test2",
-  //     },
-  //     {
-  //       name: "test2.2",
-  //       path: "/test2/create2",
-  //     },
-  //   ],
-  // },
+
   {
     name: "Orders",
     path: "/orders",

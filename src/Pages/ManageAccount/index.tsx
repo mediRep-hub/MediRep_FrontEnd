@@ -22,23 +22,18 @@ import {
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
 
-const titles = [
-  "ID",
-  "Name",
-  "Email",
-  "Division",
-  "Position",
-  "Region",
-  "Action",
-];
-const Divisionlist = ["Sales", "Marketing"] as const;
+interface RowsByDivision {
+  sales: any[];
+  marketing: any[];
+  distributor: any[];
+}
+
 const Positionlist = [
   "Director Sales",
   "National Sales Manger (NSM)",
   "Regional Sales Manager (RSM)",
   "Area Sales Manager (ASM)",
   "MedicalRep(MR)",
-  "Distributor",
 ];
 const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 const StrategyList = ["Canal Road", "Riwind Road", "Multan Road", "Gt Road"];
@@ -53,6 +48,7 @@ interface Account {
   division?: string;
   position?: string;
   area?: string;
+  ownerName?: string;
   region?: string;
   strategy?: string;
   image?: string;
@@ -61,7 +57,9 @@ interface Account {
 export default function ManageAccount() {
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isLoading, setLoading] = useState(false);
-  const [selectTab, setSelectTab] = useState<"sales" | "marketing">("sales");
+  const [selectTab, setSelectTab] = useState<
+    "sales" | "marketing" | "distributor"
+  >("sales");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const [editingAccount, setEditingAccount] = useState<Account | null>(null);
@@ -70,6 +68,7 @@ export default function ManageAccount() {
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const Divisionlist = ["Sales", "Marketing", "Distributor"] as const;
 
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllAccount"],
@@ -78,37 +77,45 @@ export default function ManageAccount() {
   });
 
   const AllAccounts: Account[] = data?.data?.admins ?? [];
-  const rowsByDivision = useMemo(() => {
-    const buildRow = (v: Account) => [
-      v?.adminId,
-      v?.name,
-      v?.email,
-      v?.division,
-      v?.position,
-      v?.region,
-      <div className="flex items-center gap-2" key={v._id}>
-        <TbEdit
-          onClick={() => {
-            setEdit(true);
-            setEditingAccount(v);
-            setCreateAccount(true);
-          }}
-          size={18}
-          className="text-primary cursor-pointer"
-        />
+  const rowsByDivision: RowsByDivision = useMemo(() => {
+    const buildRow = (v: Account) => {
+      const baseRow = [
+        v?.adminId,
+        v?.name,
+        v?.email,
+        v?.division === "Distributor" ? v?.ownerName : null,
+        v?.area,
+        v?.division,
+        v?.region,
+        <div className="flex items-center gap-2" key={v._id}>
+          <TbEdit
+            onClick={() => {
+              setEdit(true);
+              setEditingAccount(v);
+              setCreateAccount(true);
+            }}
+            size={18}
+            className="text-primary cursor-pointer"
+          />
+          <Icon
+            color="#E90761"
+            height="18"
+            width="20"
+            icon="mingcute:delete-fill"
+            onClick={() => {
+              setDeleteConfirmation(true);
+              setEditingAccount(v);
+            }}
+          />
+        </div>,
+      ];
 
-        <Icon
-          color="#E90761"
-          height="18"
-          width="20"
-          icon="mingcute:delete-fill"
-          onClick={() => {
-            setDeleteConfirmation(true);
-            setEditingAccount(v);
-          }}
-        />
-      </div>,
-    ];
+      if (v?.division !== "Distributor") {
+        baseRow.splice(4, 0, v?.position);
+      }
+
+      return baseRow;
+    };
 
     const sales = AllAccounts.filter((a) => a?.division === "Sales").map(
       buildRow
@@ -116,8 +123,11 @@ export default function ManageAccount() {
     const marketing = AllAccounts.filter(
       (a) => a?.division === "Marketing"
     ).map(buildRow);
+    const distributor = AllAccounts.filter(
+      (a) => a?.division === "Distributor"
+    ).map(buildRow);
 
-    return { sales, marketing };
+    return { sales, marketing, distributor };
   }, [AllAccounts]);
 
   const formik = useFormik({
@@ -134,6 +144,7 @@ export default function ManageAccount() {
       region: editingAccount?.region ?? "",
       strategy: editingAccount?.strategy ?? "",
       position: editingAccount?.position ?? "",
+      ownerName: editingAccount?.ownerName ?? "",
     },
     validationSchema: AccountSchema(isEdit),
     onSubmit: (values) => {
@@ -170,6 +181,16 @@ export default function ManageAccount() {
       }
     },
   });
+  useEffect(() => {
+    if (formik.values.division === "Distributor") {
+      formik.setFieldValue("position", "Distributor");
+    } else if (
+      formik.values.division !== "Distributor" &&
+      formik.values.position === "Distributor"
+    ) {
+      formik.setFieldValue("position", "");
+    }
+  }, [formik.values.division]);
 
   const handleDelete = () => {
     const id = editingAccount?._id;
@@ -225,28 +246,20 @@ export default function ManageAccount() {
         </div>
 
         <div className="mt-4 flex gap-2">
-          <button
-            className={`w-[120px] h-12 rounded-t-lg ${
-              selectTab === "sales" ? "bg-[#E5EBF7]" : "bg-white"
-            }`}
-            onClick={() => {
-              setSelectTab("sales");
-              setCurrentPage(1);
-            }}
-          >
-            Sales
-          </button>
-          <button
-            className={`w-[120px] h-12 rounded-t-lg ${
-              selectTab === "marketing" ? "bg-[#E5EBF7]" : "bg-white"
-            }`}
-            onClick={() => {
-              setSelectTab("marketing");
-              setCurrentPage(1);
-            }}
-          >
-            Marketing
-          </button>
+          {["sales", "marketing", "distributor"].map((tab) => (
+            <button
+              key={tab}
+              className={`w-[120px] h-12 rounded-t-lg ${
+                selectTab === tab ? "bg-[#E5EBF7]" : "bg-white"
+              }`}
+              onClick={() => {
+                setSelectTab(tab as typeof selectTab);
+                setCurrentPage(1);
+              }}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
         </div>
 
         <div
@@ -261,7 +274,9 @@ export default function ManageAccount() {
               totalItems={
                 selectTab === "sales"
                   ? rowsByDivision.sales.length
-                  : rowsByDivision.marketing.length
+                  : selectTab === "marketing"
+                  ? rowsByDivision.marketing.length
+                  : rowsByDivision.distributor.length
               }
               itemsPerPage={itemsPerPage}
               onPageChange={(page) => setCurrentPage(page)}
@@ -269,22 +284,45 @@ export default function ManageAccount() {
           </div>
 
           <div
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
-            {selectTab === "sales" ? (
-              <CustomTable
-                titles={titles}
-                data={rowsByDivision.sales}
-                isFetching={isFetching}
-              />
-            ) : (
-              <CustomTable
-                titles={titles}
-                data={rowsByDivision.marketing}
-                isFetching={isFetching}
-              />
-            )}
+            <CustomTable
+              titles={
+                selectTab === "distributor"
+                  ? [
+                      "ID",
+                      "Name",
+                      "Email",
+                      "Owner Name",
+                      "Area",
+                      "Division",
+                      "Region",
+                      "Action",
+                    ]
+                  : [
+                      "ID",
+                      "Name",
+                      "Email",
+                      "Area",
+                      "Division",
+                      "Position",
+                      "Region",
+                      "Action",
+                    ]
+              }
+              data={
+                selectTab === "sales"
+                  ? rowsByDivision.sales
+                  : selectTab === "marketing"
+                  ? rowsByDivision.marketing
+                  : rowsByDivision.distributor
+              }
+              isFetching={isFetching}
+            />
           </div>
         </div>
       </div>
@@ -481,6 +519,7 @@ export default function ManageAccount() {
                       }
                       value={formik.values.division}
                     />
+
                     {formik.touched.division && formik.errors.division && (
                       <div className="text-red-500 text-xs">
                         *
@@ -547,22 +586,54 @@ export default function ManageAccount() {
                   </div>
 
                   <div className="mt-3">
-                    <CustomSelect
-                      value={formik.values.position}
-                      options={Positionlist}
-                      placeholder="Position"
-                      onChange={(val: any) =>
-                        formik.setFieldValue("position", val)
-                      }
-                    />
-                    {formik.touched.position && formik.errors.position && (
-                      <div className="text-red-500 text-xs">
-                        *
-                        {typeof formik.errors.position === "string"
-                          ? formik.errors.position
-                          : ""}
-                      </div>
+                    {formik.values.division !== "Distributor" ? (
+                      <CustomSelect
+                        value={formik.values.position}
+                        options={Positionlist}
+                        placeholder="Position"
+                        onChange={(val: any) =>
+                          formik.setFieldValue("position", val)
+                        }
+                      />
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          value="Distributor"
+                          disabled
+                          className="rounded-md hidden w-full h-14 px-3 py-2 text-sm outline-none border-primary border-[0.5px] bg-gray-100"
+                        />
+
+                        <CustomInput
+                          value={formik.values.ownerName}
+                          label="Owner Name"
+                          onChange={(e: any) =>
+                            formik.setFieldValue("ownerName", e.target.value)
+                          }
+                          placeholder="Select Owner Name"
+                        />
+                        {formik.touched.ownerName &&
+                          formik.errors.ownerName && (
+                            <div className="text-red-500 text-xs">
+                              *
+                              {typeof formik.errors.ownerName === "string"
+                                ? formik.errors.ownerName
+                                : ""}
+                            </div>
+                          )}
+                      </>
                     )}
+
+                    {formik.values.division !== "Distributor" &&
+                      formik.touched.position &&
+                      formik.errors.position && (
+                        <div className="text-red-500 text-xs">
+                          *
+                          {typeof formik.errors.position === "string"
+                            ? formik.errors.position
+                            : ""}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
