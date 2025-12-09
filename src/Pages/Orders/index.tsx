@@ -58,6 +58,7 @@ export default function Orders() {
       selectedMR,
       selectedDate.start,
       selectedDate.end,
+      "approved",
     ],
     queryFn: () =>
       getAllOrders(
@@ -65,7 +66,8 @@ export default function Orders() {
         itemsPerPage,
         selectedMR,
         selectedDate.start || undefined,
-        selectedDate.end || undefined
+        selectedDate.end || undefined,
+        "approved"
       ),
     staleTime: 5 * 60 * 1000,
   });
@@ -217,34 +219,36 @@ export default function Orders() {
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "#0755E9" }} spin />
   );
 
-  const tableData = allOrders.map((order) => [
-    <div key={order.orderId} className="flex items-center gap-2">
-      <Checkbox
-        checked={!!checkedOrders[order.orderId]}
-        onChange={(e) =>
-          handleCheckboxChange(order.orderId, order, e.target.checked)
-        }
-        style={{ transform: "scale(1.2)", marginRight: "10px" }}
-      />
-      <p>{order.orderId}</p>
-    </div>,
-    order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
-    order.pharmacyId.name,
-    order.distributorName,
-    order.mrName,
-    <p key={`amount-${order.orderId}`} className="text-[12px]">
-      Rs:
-      {order.total}
-    </p>,
-    <button
-      key={`details-${order.orderId}`}
-      className="flex gap-2 items-center"
-      onClick={() => handleGoDetails(order)}
-    >
-      <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
-      Details
-    </button>,
-  ]);
+  const tableData = allOrders
+    .filter((order) => order.IStatus)
+    .map((order) => [
+      <div key={order.orderId} className="flex items-center gap-2">
+        <Checkbox
+          checked={!!checkedOrders[order.orderId]}
+          onChange={(e) =>
+            handleCheckboxChange(order.orderId, order, e.target.checked)
+          }
+          style={{ transform: "scale(1.2)", marginRight: "10px" }}
+        />
+        <p>{order.orderId}</p>
+      </div>,
+      order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
+      order.pharmacyId.name,
+      order.distributorName,
+      order.mrName,
+      <p key={`amount-${order.orderId}`} className="text-[12px]">
+        Rs: {order.total}
+      </p>,
+      <button
+        key={`details-${order.orderId}`}
+        className="flex gap-2 items-center"
+        onClick={() => handleGoDetails(order)}
+      >
+        <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
+        Details
+      </button>,
+    ]);
+
   const handleFilter = () => {
     if (selectedMR === "All") setSelectedMR("");
   };

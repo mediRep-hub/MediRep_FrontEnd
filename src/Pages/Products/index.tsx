@@ -3,6 +3,7 @@ import CustomTable from "../../Components/CustomTable";
 import { IoMdCloseCircle, IoMdEye } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
 import CustomInput from "../../Components/CustomInput";
+import TargetsUploadFile from "../../Components/TargetUploads";
 import ImagePicker from "../../Components/ImagePicker";
 import { ProductSchema } from "../../utils/validation";
 import { useFormik } from "formik";
@@ -68,6 +69,7 @@ const medicineForms = [
 
 const statusOptions = ["Active", "Discontinued"];
 export default function Products() {
+  const [openModalChannel, setOpenModalChannel] = useState(false);
   const [openModel, setOpenModel] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloading, setLoading] = useState(false);
@@ -210,6 +212,7 @@ export default function Products() {
         <p className="text-heading font-medium text-[22px] sm:text-[24px]">
           Products
         </p>
+
         <button
           onClick={() => {
             setEditingProduct(null);
@@ -495,6 +498,9 @@ export default function Products() {
             )}
           </div>
         </div>
+      )}
+      {openModalChannel && (
+        <TargetsUploadFile closeModle={setOpenModalChannel} refetch={refetch} />
       )}
     </div>
   );

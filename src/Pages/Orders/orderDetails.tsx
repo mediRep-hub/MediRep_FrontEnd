@@ -64,7 +64,6 @@ export default function OrderDetails() {
 
   return (
     <div>
-      {" "}
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
         <div className="flex flex-wrap gap-5 justify-between items-start">
           <div className="flex flex-wrap items-center gap-4 ">
@@ -213,14 +212,19 @@ export default function OrderDetails() {
                   <p className="text-heading text-xs">Subtotal</p>
                   <p className="text-heading text-xs">Rs.{order?.subtotal}</p>
                 </div>{" "}
-                <div className="flex mt-4 items-center justify-between pb-2 border-b-[1px] border-[#7d7d7d] ">
-                  <p className="text-heading text-xs">Distcount</p>
-                  <p className="text-heading text-xs">
-                    Rs.{" "}
-                    {(order.subtotal * (order.discount / 100)).toLocaleString()}{" "}
-                    ({order?.discount}%){" "}
-                  </p>
-                </div>{" "}
+                {order?.discount && (
+                  <div className="flex mt-4 items-center justify-between pb-2 border-b-[1px] border-[#7d7d7d] ">
+                    <p className="text-heading text-xs">Distcount</p>
+                    <p className="text-heading text-xs">
+                      Rs.{" "}
+                      {(
+                        order.subtotal *
+                        (order.discount / 100)
+                      ).toLocaleString()}{" "}
+                      ({order?.discount}%)
+                    </p>
+                  </div>
+                )}
                 <div className="flex mt-4 items-center justify-between ">
                   <p className="text-heading text-xs font-bold">Total</p>
                   <p className="text-heading text-xs font-bold">

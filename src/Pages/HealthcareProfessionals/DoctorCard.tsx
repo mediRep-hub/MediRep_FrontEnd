@@ -36,23 +36,6 @@ export default function DoctorCard({
               </p>
             </div>
           </div>
-          {doctor?.channel && (
-            <p
-              className={`text-xs border-[1px] px-2 rounded-sm 
-                ${
-                  doctor?.channel === "RT"
-                    ? "text-primary  border-primary"
-                    : doctor?.channel === "Local Modern Trade"
-                    ? "text-green-500 border-green-500"
-                    : doctor?.channel === "Wholesale"
-                    ? "text-yellow-500 border-yellow-500"
-                    : "text-gray-500 border-gray-500"
-                }
-              `}
-            >
-              {doctor?.channel}
-            </p>
-          )}
 
           <div
             className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"

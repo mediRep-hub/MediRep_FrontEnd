@@ -211,8 +211,17 @@ export const defaultLinks: SidebarLink[] = [
 
   {
     name: "Orders",
-    path: "/orders",
     icon: "material-symbols:orders-rounded",
+    children: [
+      {
+        name: "All Orders",
+        path: "/orders",
+      },
+      {
+        name: "Pending Discount",
+        path: "/pendingOrders",
+      },
+    ],
   },
 ];
 

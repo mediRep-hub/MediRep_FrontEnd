@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
+import PendingOrder from "../Pages/Orders/pendingOrder";
 
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
@@ -66,6 +67,7 @@ export default function MainRoutes() {
         <Route path="/bricks" element={<Bricks />} />
         <Route path="/bricks/details" element={<BricksDetail />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/pendingOrders" element={<PendingOrder />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
       </Routes>
     </Suspense>
