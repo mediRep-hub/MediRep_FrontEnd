@@ -103,7 +103,7 @@ export default function Bricks() {
   const doctorLimit = 10;
 
   const navigate = useNavigate();
-  const { data: doctorss, refetch: refetchDoctor } = useQuery({
+  const { data: doctorss } = useQuery({
     queryKey: ["AllDoctorsss", selectedArea],
     queryFn: () => getAllDoctorsLIst(selectedArea),
   });
