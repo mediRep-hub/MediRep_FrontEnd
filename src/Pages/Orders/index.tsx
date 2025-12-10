@@ -106,7 +106,6 @@ export default function Orders() {
     });
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i];
-      console.log("🚀 ~ generatePDF ~ order:", order);
       const tempDiv = document.createElement("div");
       tempDiv.style.width = "800px";
       tempDiv.style.padding = "20px";
@@ -140,7 +139,9 @@ export default function Orders() {
           <table border="1" cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;">
             <tr >
               <th style="width:40%;text-align:start">Item Detail</th>
-              <th style="width:20%;text-align:start;">Qty</th>
+              <th style="width:40%;text-align:start">Strength</th>
+              <th style="width:20%;text-align:start;">Qty</th>      
+              <th style="width:40%;text-align:start">Medicine Type</th>
               <th style="width:20%;text-align:start;">Rate</th>
               <th style="width:20%;text-align:start;">Amount</th>
             </tr>
@@ -151,7 +152,9 @@ export default function Orders() {
                 <td style="text-transform:uppercase;">${
                   m.medicineId?.productName
                 }</td>
+                <td style="text-align:start;">${m.strength}</td>
                 <td style="text-align:start;">${m.quantity}</td>
+                <td style="text-align:start;">${m.medicineType}</td>
                 <td style="text-align:start;">Rs.${m.medicineId?.amount}</td>
                 <td style="text-align:start;">Rs.${
                   m?.medicineId?.amount * m?.quantity

@@ -31,6 +31,14 @@ export const updateOrder = (id: string, values: any) => {
   return HTTP_CLIENT.put(`${ENDPOINTS.ORDER_UPDATE}/${id}`, values);
 };
 
+export const acceptOrder = (payload: {
+  orderId: string;
+  duration: number;
+  discount: number;
+}) => {
+  return HTTP_CLIENT.put(`${ENDPOINTS.ORDER_ACCEPT}`, payload);
+};
+
 export const deleteOrder = (id: string) => {
   return HTTP_CLIENT.delete(`${ENDPOINTS.ORDER_DELETE}/${id}`);
 };

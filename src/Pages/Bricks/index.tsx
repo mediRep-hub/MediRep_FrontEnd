@@ -66,6 +66,7 @@ export default function Bricks() {
   const [viewDetails, SetViewdetails] = useState(false);
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string>("");
+  console.log("🚀 ~ Bricks ~ selectedArea:", selectedArea);
   const [selectedDate, setSelectedDate] = useState<{
     start: string;
     end: string;
@@ -102,9 +103,9 @@ export default function Bricks() {
   const doctorLimit = 10;
 
   const navigate = useNavigate();
-  const { data: doctorss } = useQuery({
-    queryKey: ["AllDoctors"],
-    queryFn: () => getAllDoctorsLIst(),
+  const { data: doctorss, refetch: refetchDoctor } = useQuery({
+    queryKey: ["AllDoctorsss", selectedArea],
+    queryFn: () => getAllDoctorsLIst(selectedArea),
   });
   const { data: allMr } = useQuery({
     queryKey: ["AllAccount"],
@@ -208,6 +209,9 @@ export default function Bricks() {
       }
     },
   });
+  useEffect(() => {
+    setSelectedArea(formik.values.area || "");
+  }, [formik.values.area]);
   const handleDelete = async () => {
     setLoadingDelete(true);
     try {

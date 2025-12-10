@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CustomTable from "../../Components/CustomTable";
 import Pagination from "../../Components/Pagination";
-import { getAllOrders, updateOrder } from "../../api/orderServices";
+import { acceptOrder, getAllOrders } from "../../api/orderServices";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import { getAllAccounts } from "../../api/adminServices";
@@ -18,6 +18,17 @@ const titles = [
   "Amount",
   "Action",
 ];
+
+interface Order {
+  _id: string;
+  orderId: string;
+  mrName: string;
+  pharmacyId: { name: string; discount?: { value: number } };
+  distributorName: string;
+  total: number;
+  IStatus: boolean;
+  discount?: number;
+}
 
 export default function PendingOrders() {
   const [selectedMR, setSelectedMR] = useState<string>("");
@@ -45,7 +56,7 @@ export default function PendingOrders() {
       selectedMR,
       selectedDate.start,
       selectedDate.end,
-      "pending", // <-- add status to queryKey
+      "pending",
     ],
     queryFn: () =>
       getAllOrders(
@@ -59,7 +70,9 @@ export default function PendingOrders() {
     staleTime: 5 * 60 * 1000,
   });
 
-  const allOrders: any[] = Array.isArray(data?.data.data) ? data.data.data : [];
+  const allOrders: Order[] = Array.isArray(data?.data.data)
+    ? data.data.data
+    : [];
   const paginationInfo = {
     currentPage: data?.data.page || 1,
     itemsPerPage,
@@ -76,16 +89,18 @@ export default function PendingOrders() {
       order.mrName,
       order.pharmacyId.name,
       order.distributorName,
-      <p>{order.discount}%</p>,
+      <p>{order?.discount}%</p>,
       <p key={`amount-${order.orderId}`} className="text-[12px]">
         Rs: {order.total}
       </p>,
       <StatusDropdown
-        initialValue={order.isStatus}
-        orderId={order._id}
-        onStatusChange={async (newStatus: boolean) => {
+        key={order._id}
+        initialValue={order.IStatus}
+        order={order}
+        onStatusChange={async (orderId, duration, discount) => {
           try {
-            await updateOrder(order._id, { IStatus: newStatus }); // update backend
+            await acceptOrder({ orderId, duration, discount });
+
             queryClient.invalidateQueries({
               predicate: (query) =>
                 query.queryKey[0] === "GetOrder" &&
@@ -93,11 +108,7 @@ export default function PendingOrders() {
                 query.queryKey[2] === selectedMR,
             });
 
-            notifySuccess(
-              newStatus
-                ? "Status successfully Approved"
-                : "Status changed to Pending"
-            );
+            notifySuccess("Order Approved & Pharmacy Discount Updated");
           } catch (error: any) {
             notifyError("Failed to update status: " + error.message);
           }
@@ -109,7 +120,7 @@ export default function PendingOrders() {
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
       <div className="flex flex-wrap gap-4 justify-between items-start">
         <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-          Orders
+          Pending Orders
         </p>
         <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
           <div className="w-full md:w-[300px]">
@@ -135,7 +146,7 @@ export default function PendingOrders() {
         </div>
       </div>
 
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] xl:h-[calc(64vh-0px)] h-auto">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.5vh-0px)] xl:h-[calc(64vh-0px)] h-auto">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Orders List</p>
           <Pagination
@@ -145,7 +156,7 @@ export default function PendingOrders() {
             onPageChange={handlePageChange}
           />
         </div>
-        <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(68vh-0px)] xl:h-[calc(53vh-0px)]">
+        <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(69vh-0px)] xl:h-[calc(53vh-0px)]">
           <CustomTable
             titles={titles}
             data={tableData}
@@ -157,15 +168,33 @@ export default function PendingOrders() {
   );
 }
 
-const StatusDropdown = ({ initialValue, onStatusChange }: any) => {
-  const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState(initialValue);
+interface StatusDropdownProps {
+  initialValue: boolean;
+  order: Order;
+  onStatusChange: (orderId: string, duration: number, discount: number) => void;
+}
 
-  const handleSelect = async (val: boolean) => {
-    setStatus(val);
+const StatusDropdown: React.FC<StatusDropdownProps> = ({
+  initialValue,
+  order,
+  onStatusChange,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [status, setStatus] = useState(initialValue);
+  const [duration, setDuration] = useState<number>(0);
+  const [discount, setDiscount] = useState<number>(order.discount ?? 0);
+
+  const handleApproveClick = () => {
+    setModalOpen(true);
     setOpen(false);
-    if (onStatusChange) {
-      await onStatusChange(val);
+  };
+
+  const handleSave = () => {
+    if (duration > 0 && discount >= 0) {
+      onStatusChange(order._id, duration, discount);
+      setStatus(true);
+      setModalOpen(false);
     }
   };
 
@@ -178,25 +207,60 @@ const StatusDropdown = ({ initialValue, onStatusChange }: any) => {
         }`}
       >
         {status ? "Approved" : "Pending"}
-
         <Icon icon="formkit:down" height={20} width={20} />
       </div>
 
       {open && (
         <div className="absolute left-0 w-full border bg-white rounded shadow mt-1 z-20">
-          <div
-            onClick={() => handleSelect(false)}
-            className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between"
-          >
-            <span className="text-[#D96F79]">Pending</span>
-            {!status && <span>✔</span>}
-          </div>
-          <div
-            onClick={() => handleSelect(true)}
-            className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between"
-          >
-            <span className="text-green-800">Approved</span>
-            {status && <span>✔</span>}
+          {!status && (
+            <div
+              onClick={handleApproveClick}
+              className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between"
+            >
+              <span className="text-green-800">Approve</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-xl w-[400px] p-6">
+            <p className="text-lg font-medium mb-4">Set Duration & Discount</p>
+            <div className="flex flex-col gap-3 mb-4">
+              <label>
+                Duration (Days)
+                <input
+                  type="number"
+                  value={duration}
+                  onChange={(e) => setDuration(Number(e.target.value))}
+                  className="w-full border p-2 rounded mt-1"
+                />
+              </label>
+              <label>
+                Discount (%)
+                <input
+                  type="number"
+                  value={discount}
+                  disabled
+                  className="w-full border p-2 rounded mt-1"
+                />
+              </label>
+            </div>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setModalOpen(false)}
+                className="px-4 py-2 rounded border"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 rounded bg-green-600 text-white"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </div>
       )}

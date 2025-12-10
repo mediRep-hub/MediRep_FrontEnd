@@ -15,6 +15,10 @@
 // import { useQuery } from "@tanstack/react-query";
 // import { getAllAccounts } from "../../api/adminServices";
 
+import { Icon } from "@iconify/react";
+import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
+import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
+
 // const areaOptions: string[] = [
 //   "All",
 //   "Lahore",
@@ -594,7 +598,27 @@
 export default function Teams() {
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-      Team
+      <div className="flex flex-wrap gap-4 justify-between items-start">
+        <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
+          Teams
+        </p>
+        <div className="flex flex-wrap w-auto md:w-full lg:w-auto items-center gap-3">
+          <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
+            <SearchSelection />
+          </div>{" "}
+          <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
+            <SearchSelection placeholder="Select Area" />
+          </div>{" "}
+          <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
+            <SearchDateRange />
+          </div>
+        </div>
+        <button className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          <Icon icon="mingcute:add-fill" height="20" width="20" color="#fff" />
+          <p className="text-white text-base font-medium">Create Team</p>
+        </button>
+      </div>
+      <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto "></div>
     </div>
   );
 }

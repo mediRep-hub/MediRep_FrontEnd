@@ -156,7 +156,11 @@ export default function SideBar({ link }: any) {
 
                   <span className="text-sm">{item.name}</span>
                   {hasChildren && (
-                    <span className="ml-auto pr-4 ">
+                    <span
+                      className={`ml-auto pr-4 ${
+                        isActive ? "text-primary" : "text-[#7d7d7d]"
+                      }`}
+                    >
                       {isDropdownOpen ? (
                         <IoChevronUpOutline size={16} />
                       ) : (

@@ -22,6 +22,7 @@ import {
 } from "../../api/pharmacyServices";
 import PharmacyUploads from "../../Components/PharmacyUploads";
 import { Icon } from "@iconify/react";
+import dayjs from "dayjs";
 
 interface Pharmacy {
   _id?: string;

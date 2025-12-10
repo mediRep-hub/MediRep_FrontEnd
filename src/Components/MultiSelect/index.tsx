@@ -60,24 +60,30 @@ export default function MultiSelect({
       </div>
       {isOpen && (
         <ul className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
-          {options.map((option, index) => {
-            const selected = value.includes(option);
-            return (
-              <li
-                key={index}
-                className="px-4 py-2 text-sm cursor-pointer flex items-center gap-2  text-heading hover:bg-gray-100 "
-                onClick={() => handleSelect(option)}
-              >
-                <input
-                  type="checkbox"
-                  checked={selected}
-                  readOnly
-                  className="cursor-pointer"
-                />
-                {option}
-              </li>
-            );
-          })}
+          {options.length > 0 ? (
+            options.map((option, index) => {
+              const selected = value.includes(option);
+              return (
+                <li
+                  key={index}
+                  className="px-4 py-2 text-sm cursor-pointer flex items-center gap-2 text-heading hover:bg-gray-100"
+                  onClick={() => handleSelect(option)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selected}
+                    readOnly
+                    className="cursor-pointer"
+                  />
+                  {option}
+                </li>
+              );
+            })
+          ) : (
+            <li className="px-4 py-3 text-sm text-[#7d7d7d] text-center">
+              No Data Found
+            </li>
+          )}
         </ul>
       )}
     </div>

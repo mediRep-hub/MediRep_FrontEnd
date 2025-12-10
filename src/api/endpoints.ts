@@ -58,6 +58,7 @@ export const ENDPOINTS = {
   ORDER_GET_ALL: "/orders/getAllOrders",
   ORDER_GET_SINGLE: "/orders/getOrder",
   ORDER_UPDATE: "/orders/updateOrder",
+  ORDER_ACCEPT: "/orders/acceptOrder",
   ORDER_DELETE: "/orders/deleteOrder",
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",

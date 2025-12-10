@@ -11,9 +11,12 @@ export const getAllDoctors = ({ page = 1, limit = 6 }) => {
   );
 };
 
-export const getAllDoctorsLIst = () => {
-  return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL_LIST);
+export const getAllDoctorsLIst = (area?: string) => {
+  return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL_LIST, {
+    params: { area }, // send area as query param
+  });
 };
+
 // export const getDoctorById = (id: string) => {
 //   return HTTP_CLIENT.get(`${ENDPOINTS.DOCTOR_GET_SINGLE}/${id}`);
 // };
