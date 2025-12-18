@@ -158,7 +158,7 @@ export default function ManageAccount() {
             formik.resetForm();
             refetch();
           })
-          .catch((error) => {
+          .catch((error: any) => {
             console.error(error);
             notifyError("Failed to update Account.");
             notifyError(error.response.data.message);
@@ -172,7 +172,7 @@ export default function ManageAccount() {
             formik.resetForm();
             refetch();
           })
-          .catch((error) => {
+          .catch((error: any) => {
             console.error("❌ Error creating Account:", error.response.data);
             notifyError("Failed to add Account. Please try again.");
             notifyError(error.response.data.message);
@@ -250,7 +250,9 @@ export default function ManageAccount() {
             <button
               key={tab}
               className={`w-[120px] h-12 rounded-t-lg ${
-                selectTab === tab ? "bg-[#E5EBF7]" : "bg-white"
+                selectTab === tab
+                  ? "bg-[#E5EBF7] text-heading"
+                  : "bg-white text-[#7d7d7d]"
               }`}
               onClick={() => {
                 setSelectTab(tab as typeof selectTab);
@@ -279,7 +281,7 @@ export default function ManageAccount() {
                   : rowsByDivision.distributor.length
               }
               itemsPerPage={itemsPerPage}
-              onPageChange={(page) => setCurrentPage(page)}
+              onPageChange={(page: any) => setCurrentPage(page)}
             />
           </div>
 
@@ -307,9 +309,9 @@ export default function ManageAccount() {
                       "ID",
                       "Name",
                       "Email",
+                      "Position",
                       "Area",
                       "Division",
-                      "Position",
                       "Region",
                       "Action",
                     ]

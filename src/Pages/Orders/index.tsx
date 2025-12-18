@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -31,6 +31,9 @@ const titles = [
 
 export default function Orders() {
   const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "MediRep | Orders";
+  }, []);
   const [checkedOrders, setCheckedOrders] = useState<{ [key: string]: any }>(
     {}
   );
@@ -125,7 +128,6 @@ export default function Orders() {
           </div>
           <div style="margin-bottom:20px;">
             <p><strong>Order ID:</strong> ${order.orderId}</p>
-            <p><strong>Customer Name:</strong> ${order.customerName}</p>
             <p><strong>Pharmacy Name:</strong> ${
               order.pharmacyId.name || "-"
             }</p>
@@ -134,7 +136,6 @@ export default function Orders() {
               "DD MMM, YYYY"
             )}</p>
             <p><strong>MR Name:</strong> ${order.mrName}</p>
-            <p><strong>Order Type:</strong> ${order.orderType}</p>
           </div>
           <table border="1" cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;">
             <tr >

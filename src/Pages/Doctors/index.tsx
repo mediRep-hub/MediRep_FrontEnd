@@ -53,7 +53,7 @@ const specialtyOptions = [
 const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
-export default function HealthcareProfessionals() {
+export default function Doctors() {
   const [addDoctor, setAddDoctor] = useState<boolean>(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
   const [openModal, setOpenModal] = useState(false);
@@ -76,7 +76,7 @@ export default function HealthcareProfessionals() {
   const paginatedDoctors = doctorsList;
 
   useEffect(() => {
-    document.title = "MediRep | Healthcare Professionals";
+    document.title = "MediRep | Doctors";
   }, []);
 
   const handleEditDoctor = (doctor: Doctor) => {
@@ -126,7 +126,7 @@ export default function HealthcareProfessionals() {
       if (editingDoctor && editingDoctor._id) {
         updateDoctor(editingDoctor._id, cleanedValues)
           .then(() => {
-            notifySuccess("Profile updated successfully");
+            notifySuccess("Doctor updated successfully");
             setAddDoctor(false);
             setEditingDoctor(null);
             formik.resetForm();
@@ -134,7 +134,7 @@ export default function HealthcareProfessionals() {
           })
           .catch((error) => {
             console.error(
-              "Error updating Profile:",
+              "Error updating Doctor:",
               error.response?.data || error
             );
             const errorMessage =
@@ -144,7 +144,7 @@ export default function HealthcareProfessionals() {
               "An unexpected error occurred.";
 
             notifyError(
-              `Failed to update Profile. Please try again. ${errorMessage}`
+              `Failed to update Doctor. Please try again. ${errorMessage}`
             );
             notifyError(error.response?.data.message);
           })
@@ -152,18 +152,18 @@ export default function HealthcareProfessionals() {
       } else {
         addDoctors(cleanedValues)
           .then(() => {
-            notifySuccess("Profile added successfully");
+            notifySuccess("Doctor added successfully");
             setAddDoctor(false);
             formik.resetForm();
             refetch();
           })
           .catch((error) => {
             console.error(
-              "Error adding Profile:",
+              "Error adding Doctor:",
               error.response?.data || error
             );
             refetch();
-            notifyError("Failed to add Profile. Please try again.");
+            notifyError("Failed to add Doctor. Please try again.");
             notifyError(error.response?.data.message);
           })
           .finally(() => setLoading(false));
@@ -204,7 +204,7 @@ export default function HealthcareProfessionals() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap md:flex-nowrap justify-between items-start gap-4">
           <p className="text-heading font-medium text-[22px] lg:text-[24px]">
-            Healthcare Professionals
+            Doctors
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <button
@@ -229,9 +229,7 @@ export default function HealthcareProfessionals() {
                 width="20"
                 color="#fff"
               />
-              <p className="text-white text-base font-medium">
-                Upload Profiles
-              </p>
+              <p className="text-white text-base font-medium">Upload Doctor</p>
             </button>
           </div>
         </div>
@@ -241,9 +239,7 @@ export default function HealthcareProfessionals() {
           className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex justify-between items-center">
-            <p className="text-[#7D7D7D] font-medium text-sm">
-              Doctors Profile
-            </p>
+            <p className="text-[#7D7D7D] font-medium text-sm">Doctors Doctor</p>
             <Pagination
               currentPage={currentPage}
               totalItems={totalItems}
@@ -285,7 +281,7 @@ export default function HealthcareProfessionals() {
           >
             <div className="flex items-center justify-between">
               <p className="text-[24px] text-heading capitalize font-semibold">
-                {editingDoctor ? "Edit Profile" : "Upload Profile"}
+                {editingDoctor ? "Edit Doctor" : "Upload Doctor"}
               </p>
 
               <IoMdCloseCircle
@@ -302,7 +298,7 @@ export default function HealthcareProfessionals() {
             <form onSubmit={formik.handleSubmit} className="mt-5">
               <div className="flex flex-wrap items-start gap-4">
                 <div className="xl:w-[calc(50%-8px)] w-full">
-                  <p className="text-heading text-base">Profile Details</p>
+                  <p className="text-heading text-base">Doctor Details</p>
 
                   <div className="mt-4">
                     <CustomInput
@@ -491,9 +487,9 @@ export default function HealthcareProfessionals() {
                   {isloading ? (
                     <Spin indicator={antIcon} />
                   ) : editingDoctor ? (
-                    "Update Profile"
+                    "Update Doctor"
                   ) : (
-                    "Add Profile"
+                    "Add Doctor"
                   )}
                 </button>
               </div>
@@ -510,7 +506,7 @@ export default function HealthcareProfessionals() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Profiles</strong>
+                Are you sure you want to delete this <strong>Doctor</strong>
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">

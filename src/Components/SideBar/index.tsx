@@ -171,20 +171,23 @@ export default function SideBar({ link }: any) {
                 </p>
                 {hasChildren && isDropdownOpen && (
                   <div>
-                    <div className="pl-5 pr-4 py-2 flex flex-col gap-1 mt-2 bg-[#E5EBF7] rounded-[12px]">
+                    <div className="pl-5 pr-4 py-2 flex flex-col  mt-2 bg-[#E5EBF7] rounded-[12px]">
                       {item.children.map((child: any, idx: number) => {
                         const isChildActive = location.pathname.startsWith(
                           child.path
                         );
 
                         return (
-                          <div className="flex gap-2 items-center  cursor-pointer">
+                          <div
+                            key={child.path}
+                            className="flex gap-2 items-center cursor-pointer"
+                          >
                             <div
-                              className={`h-5
+                              className={`h-7
                               ${
                                 isChildActive
-                                  ? " border-primary border-l-[2px]"
-                                  : " border-[#E5EBF7] border-l-[2px]"
+                                  ? " border-primary  border-l-[2px]"
+                                  : " border-[#7D7D7D] border-l-[2px]"
                               }
                             `}
                             ></div>

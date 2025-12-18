@@ -3,15 +3,13 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import logo from "../../assets/medirep-logo.png";
+import logo from "../../../assets/medirep-logo.png";
 import { LuDownload } from "react-icons/lu";
 import { useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
-export default function OrderDetails() {
-  useEffect(() => {
-    document.title = "MediRep | Orders Details";
-  }, []);
+import SearchBar from "../../../Components/SearchBar";
+export default function SecondarySaleDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const { order } = location.state || {};
@@ -24,7 +22,7 @@ export default function OrderDetails() {
   }, []);
 
   const handleBack = () => {
-    navigate("/orders");
+    navigate("/distributor/secondarySale");
   };
 
   const handleDownloadPDF = async () => {
@@ -67,7 +65,11 @@ export default function OrderDetails() {
 
   return (
     <div>
-      <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
+      {" "}
+      <div className="sticky top-0">
+        <SearchBar />
+      </div>
+      <div className="mt-4 bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
         <div className="flex flex-wrap gap-5 justify-between items-start">
           <div className="flex flex-wrap items-center gap-4 ">
             <div
@@ -77,7 +79,7 @@ export default function OrderDetails() {
               <FaArrowLeft size={16} color="#000000" />
             </div>
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-              Order Details
+              Secondary Sale Details
             </p>
           </div>
           <button

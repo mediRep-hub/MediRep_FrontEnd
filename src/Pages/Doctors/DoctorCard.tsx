@@ -36,7 +36,6 @@ export default function DoctorCard({
               </p>
             </div>
           </div>
-
           <div
             className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
             onClick={() => {
@@ -90,7 +89,7 @@ export default function DoctorCard({
           <div>
             <p className="text-primary text-xs font-medium">Affiliation</p>
             <ul className="list-none space-y-1 mt-2 ">
-              <li className="flex items-start gap-2 text-xs font-normal  text-heading">
+              <li className="flex items-start gap-2 text-xs font-normal text-heading">
                 <FaDotCircle size={8} className="text-[#7d7d7d] mt-1" />
                 {doctor?.affiliation}
               </li>
@@ -101,11 +100,11 @@ export default function DoctorCard({
             <div className="relative inline-block">
               <div className="absolute -top-2 left-4 bg-primary px-2 py-[2px] rounded-sm">
                 <p className="text-white leading-[12px] font-normal text-xs">
-                  Region
+                  Area
                 </p>
               </div>
               <button className="h-[55px] w-[150px] text-[#0ECABE] border-[#0ECABE] border bg-white rounded-[6px] gap-3 flex justify-center items-center">
-                {doctor?.region}
+                {doctor?.area}
               </button>
             </div>
           </div>

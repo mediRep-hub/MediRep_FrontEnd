@@ -13,7 +13,7 @@ import CustomTimePicker from "../../Components/TimeRangePicker";
 import Pagination from "../../Components/Pagination";
 import { Spin } from "antd";
 import LocationPicker from "../../Components/LocationPicker";
-import DoctorCard from "../HealthcareProfessionals/DoctorCard";
+import DoctorCard from "../Doctors/DoctorCard";
 import {
   addPharmacypost,
   deletePharmacy,

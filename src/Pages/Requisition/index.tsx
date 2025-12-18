@@ -69,12 +69,12 @@ export default function Requisition() {
       v?.duration,
       <p className="capitalize">{v?.requisitionType}</p>,
       <p
-        className={`inline-block rounded-sm px-2 py-0.5 font-normal text-sm border ${
-          v?.status === "Pending"
+        className={`inline-block rounded-sm capitalize px-2 py-0.5 font-normal text-sm border ${
+          v?.status?.toLowerCase() === "pending"
             ? "text-[#E90761] border-[#E90761]"
-            : v?.status === "Approved"
+            : v?.status?.toLowerCase() === "accepted"
             ? "text-primary border-primary"
-            : v?.status === "Rejected"
+            : v?.status?.toLowerCase() === "rejected"
             ? "text-[#FF9500] border-[#FF9500]"
             : v?.status === "Paid"
             ? "text-[#0BA69C] border-[#0BA69C]"

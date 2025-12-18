@@ -30,6 +30,14 @@ export const getSingleRequisition = (id: string) => {
 export const deleteRequisition = (id: string) => {
   return HTTP_CLIENT.delete(`${ENDPOINTS.REQUISITIONS_DELETE}/${id}`);
 };
-export const acceptRequisition = async (id: string) => {
-  return HTTP_CLIENT.patch(`${ENDPOINTS.REQUISITIONS_UPDATEACCEPTED}/${id}`);
+type StatusPayload = { status: "accepted" | "rejected" };
+
+export const updateStatusRequisition = async (
+  id: string,
+  payload: StatusPayload
+) => {
+  return HTTP_CLIENT.patch(
+    `${ENDPOINTS.REQUISITIONS_UPDATEACCEPTED}/${id}`,
+    payload
+  );
 };

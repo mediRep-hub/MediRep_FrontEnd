@@ -13,7 +13,6 @@ function App() {
     setupInterceptors(navigate);
   }, [navigate]);
 
-  // Detect Internet Connection
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);

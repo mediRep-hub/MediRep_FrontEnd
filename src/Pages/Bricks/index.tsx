@@ -25,6 +25,7 @@ import Pagination from "../../Components/Pagination";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { Icon } from "@iconify/react";
+import { getAllProductsMR } from "../../api/productServices";
 
 const areaOptions: string[] = [
   "All",
@@ -66,7 +67,6 @@ export default function Bricks() {
   const [viewDetails, SetViewdetails] = useState(false);
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string>("");
-  console.log("🚀 ~ Bricks ~ selectedArea:", selectedArea);
   const [selectedDate, setSelectedDate] = useState<{
     start: string;
     end: string;
@@ -106,6 +106,10 @@ export default function Bricks() {
   const { data: doctorss } = useQuery({
     queryKey: ["AllDoctorsss", selectedArea],
     queryFn: () => getAllDoctorsLIst(selectedArea),
+  });
+  const { data: Products } = useQuery({
+    queryKey: ["getAllProductsMR"],
+    queryFn: () => getAllProductsMR(),
   });
   const { data: allMr } = useQuery({
     queryKey: ["AllAccount"],
@@ -156,6 +160,9 @@ export default function Bricks() {
   const AllDOctors = Array.isArray(doctorss?.data?.data)
     ? doctorss.data?.data
     : [];
+  const AllProducts = Array.isArray(Products?.data?.data)
+    ? Products.data?.data
+    : [];
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -165,6 +172,7 @@ export default function Bricks() {
       brickName: editingProduct?.brickName || "",
       route: editingProduct?.route || "",
       day: editingProduct?.day || "",
+      products: editingProduct?.products?.map((pro: any) => pro.name) || [],
       mrName: editingProduct?.mrName?.name || "",
       doctorList: editingProduct?.doctorList?.map((doc: any) => doc.name) || [],
     },
@@ -179,16 +187,39 @@ export default function Bricks() {
           return;
         }
 
+        // Convert doctor names to IDs
         const doctorIds = AllDOctors?.filter((doc: any) =>
           values.doctorList.includes(doc.name)
         )?.map((doc: any) => doc._id);
+
+        const selectedProducts = AllProducts.filter((pro: any) =>
+          values.products.some(
+            (p: any) =>
+              p.name?.trim().toLowerCase() ===
+              pro.productName.trim().toLowerCase()
+          )
+        );
+
+        if (selectedProducts.length === 0) {
+          notifyError("Please select at least one valid product.");
+          setLoading(false);
+          return;
+        }
+
+        console.log("🚀 ~ Bricks ~ selectedProducts:", selectedProducts);
+        console.log("values.products =", values.products);
+        if (selectedProducts.length === 0) {
+          notifyError("Please select at least one valid product.");
+          setLoading(false);
+          return;
+        }
 
         const payload = {
           ...values,
           mrName: values.mrName,
           doctorList: doctorIds,
+          products: values.products.map((p: any) => p.name), // <-- map to strings
         };
-
         if (editingProduct) {
           await updateReports(editingProduct._id, payload);
           notifySuccess("Brick updated successfully");
@@ -374,18 +405,32 @@ export default function Bricks() {
                   >
                     <div className="flex items-start justify-between">
                       <Avatar size={42} src={mr?.mrName?.image} />
-                      <div className="flex items-center gap-2">
-                        <Icon
-                          color="#E90761"
-                          height="18"
-                          width="20"
-                          icon="mingcute:delete-fill"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setDeleteConfirmation(true);
-                            setEditingProduct(mr);
-                          }}
-                        />
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-primary">
+                          <Icon
+                            color="#0755E9"
+                            height="18"
+                            width="20"
+                            icon="icon-park-solid:doc-detail"
+                            onClick={(e) => {
+                              SetViewdetails(true);
+                              e.stopPropagation();
+                            }}
+                          />
+                        </div>{" "}
+                        <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-[#E90761]">
+                          <Icon
+                            color="#E90761"
+                            height="18"
+                            width="20"
+                            icon="mingcute:delete-fill"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeleteConfirmation(true);
+                              setEditingProduct(mr);
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                     <p className="text-[#131313] capitalize text-sm mt-3">
@@ -397,14 +442,24 @@ export default function Bricks() {
                       MR ID: {mr?.mrName?.adminId}
                     </p>
                     <p className="text-[#131313] text-sm ">
-                      Brick Name: {mr.brickName}
+                      Brick Name:{" "}
+                      <span className="text-[#7d7d7d]">{mr.brickName}</span>
                     </p>
                     <p className="text-[#131313] text-sm ">
                       MR Status:{" "}
                       <span className="text-primary">
                         {mr?.mrStatus?.completedCalls}
                       </span>
-                      /{mr?.mrStatus?.totalCalls}
+                      /
+                      <span className="text-[#7d7d7d]">
+                        {mr?.mrStatus?.totalCalls}
+                      </span>
+                    </p>{" "}
+                    <p className="text-[#131313] text-sm">
+                      Products:{" "}
+                      <span className="text-[#7d7d7d]">
+                        {mr?.products?.join(", ") || "--"}
+                      </span>
                     </p>
                   </div>
                 ))}
@@ -458,7 +513,6 @@ export default function Bricks() {
                       <tr
                         key={rowIndex}
                         className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
-                        onClick={() => handleGoTODetails(doc)}
                       >
                         <td className="px-5 py-2 min-w-[120px]   border-b-[0.5px] text-[13px] border-primary">
                           {doc.callId}
@@ -502,10 +556,7 @@ export default function Bricks() {
                         <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
                           <div
                             className="flex gap-3 items-center"
-                            onClick={(e) => {
-                              SetViewdetails(true);
-                              e.stopPropagation();
-                            }}
+                            onClick={() => handleGoTODetails(doc)}
                           >
                             <Icon
                               icon="iconoir:notes"
@@ -668,6 +719,25 @@ export default function Bricks() {
                     {formik.touched.doctorList && formik.errors.doctorList && (
                       <div className="text-red-500 text-xs">
                         *{String(formik.errors.doctorList)}
+                      </div>
+                    )}
+                  </div>{" "}
+                  <div className="mt-3">
+                    <MultiSelect
+                      options={AllProducts.map((p: any) => p.productName)}
+                      value={formik.values.products.map((p: any) => p.name)}
+                      onChange={(selectedNames: string[]) =>
+                        formik.setFieldValue(
+                          "products",
+                          selectedNames.map((name) => ({ name }))
+                        )
+                      }
+                      placeholder="Select Products"
+                    />
+
+                    {formik.touched.products && formik.errors.products && (
+                      <div className="text-red-500 text-xs">
+                        *{String(formik.errors.products)}
                       </div>
                     )}
                   </div>

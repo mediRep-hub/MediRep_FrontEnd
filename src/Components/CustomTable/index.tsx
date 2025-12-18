@@ -31,7 +31,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
             {titles?.map((title, index) => (
               <th
                 key={index}
-                className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white whitespace-nowrap"
+                className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white "
               >
                 {title}
               </th>

@@ -4,6 +4,9 @@ import Logo from "../assets/medirep-logoBIg.png";
 import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
 import PendingOrder from "../Pages/Orders/pendingOrder";
+import PrimarySale from "../Pages/SaleData/primarySale";
+import SecondarySale from "../Pages/SaleData/secondarySale";
+import PrimarySaleDetails from "../Pages/SaleData/primarySaleDetails";
 
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
@@ -15,9 +18,7 @@ const RequisitionDetail = lazy(
 );
 const ManageAccount = lazy(() => import("../Pages/ManageAccount"));
 const DashBoard = lazy(() => import("../Pages/DashBoard"));
-const HealthcareProfessionals = lazy(
-  () => import("../Pages/HealthcareProfessionals")
-);
+const Doctors = lazy(() => import("../Pages/Doctors"));
 const StrategyPlanning = lazy(() => import("../Pages/Bricks"));
 const DataReporting = lazy(() => import("../Pages/DataReporting"));
 const Products = lazy(() => import("../Pages/Products"));
@@ -39,10 +40,7 @@ export default function MainRoutes() {
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<DashBoard />} />
-        <Route
-          path="/healthcareProfessionals"
-          element={<HealthcareProfessionals />}
-        />
+        <Route path="/doctors" element={<Doctors />} />
         <Route path="/strategyPlanning" element={<StrategyPlanning />} />
         <Route path="/dataReporting" element={<DataReporting />} />
         <Route
@@ -69,6 +67,12 @@ export default function MainRoutes() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/pendingOrders" element={<PendingOrder />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
+        <Route path="/primarySale" element={<PrimarySale />} />{" "}
+        <Route
+          path="/primarySale/primarySaleDetails"
+          element={<PrimarySaleDetails />}
+        />
+        <Route path="/secondarySale" element={<SecondarySale />} />
       </Routes>
     </Suspense>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CustomTable from "../../Components/CustomTable";
 import Pagination from "../../Components/Pagination";
@@ -31,6 +31,9 @@ interface Order {
 }
 
 export default function PendingOrders() {
+  useEffect(() => {
+    document.title = "MediRep | Pending Discount";
+  }, []);
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<{
     start: string;

@@ -91,6 +91,14 @@ export const BrickSchema = Yup.object().shape({
   day: Yup.string().required("Please select a day."),
   mrName: Yup.string().required("Please select the MR."),
   doctorList: Yup.array().min(1, "Please select at least one doctor."),
+  products: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Product name is required"),
+      })
+    )
+    .min(1, "Please select at least one product.")
+    .required("Products are required"),
 });
 
 export const reportSchema = Yup.object().shape({
@@ -111,41 +119,44 @@ export const AccountSchema = (isEdit: boolean) =>
     name: Yup.string().required("Name is required"),
     phoneNumber: Yup.string().required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    password:
-      isEdit === true
-        ? Yup.string()
-            .notRequired()
-            .matches(
-              /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
-              "Must include 1 uppercase, 1 special character, and 1 digit."
-            )
-        : Yup.string()
-            .required("Password is required")
-            .matches(
-              /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
-              "Must include 1 uppercase, 1 special character, and 1 digit."
-            ),
 
-    confirmPassword:
-      isEdit === true
-        ? Yup.string()
-            .notRequired()
-            .matches(
-              /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
-              "Must include 1 uppercase, 1 special character, and 1 digit."
-            )
-        : Yup.string()
-            .required("Password is required")
-            .matches(
-              /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
-              "Must include 1 uppercase, 1 special character, and 1 digit."
-            ),
+    password: isEdit
+      ? Yup.string()
+          .notRequired()
+          .matches(
+            /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
+            "Must include 1 uppercase, 1 special character, and 1 digit."
+          )
+      : Yup.string()
+          .required("Password is required")
+          .matches(
+            /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
+            "Must include 1 uppercase, 1 special character, and 1 digit."
+          ),
+
+    confirmPassword: isEdit
+      ? Yup.string()
+          .notRequired()
+          .oneOf([Yup.ref("password")], "Passwords must match")
+      : Yup.string()
+          .required("Confirm Password is required")
+          .oneOf([Yup.ref("password")], "Passwords must match"),
+
     image: Yup.string().optional(),
     division: Yup.string().required("Division is required"),
     area: Yup.string().required("Area is required"),
     region: Yup.string().required("Region is required"),
     strategy: Yup.string().required("Strategy is required"),
     position: Yup.string().required("Position is required"),
+
+    ownerName: Yup.string().when("division", {
+      is: (val: string) => val === "Distributor",
+      then: (schema) =>
+        schema
+          .required("Owner Name is required")
+          .min(1, "Owner Name cannot be empty"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   });
 
 export interface SidebarLink {
@@ -165,14 +176,19 @@ export const defaultLinks: SidebarLink[] = [
   },
   {
     name: "Healthcare Professionals",
-    path: "/healthcareProfessionals",
     icon: "fontisto:doctor",
+    children: [
+      {
+        name: "Doctors",
+        path: "/doctors",
+      },
+      {
+        name: "Pharmacies",
+        path: "/pharmacies",
+      },
+    ],
   },
-  {
-    name: "Pharmacies",
-    path: "/pharmacies",
-    icon: "ic:round-local-pharmacy",
-  },
+
   {
     name: "Targets/Achievement",
     path: "/targets-achievements",
@@ -202,13 +218,20 @@ export const defaultLinks: SidebarLink[] = [
       },
     ],
   },
-
   {
-    name: "Data Reporting",
-    path: "/dataReporting",
+    name: "Sale Data",
     icon: "academicons:open-data",
+    children: [
+      {
+        name: "Primary Sale",
+        path: "/primarySale",
+      },
+      {
+        name: "Secondary Sale",
+        path: "/secondarySale",
+      },
+    ],
   },
-
   {
     name: "Orders",
     icon: "material-symbols:orders-rounded",
@@ -220,6 +243,10 @@ export const defaultLinks: SidebarLink[] = [
       {
         name: "Pending Discount",
         path: "/pendingOrders",
+      },
+      {
+        name: "Track Sale",
+        path: "/trackSale",
       },
     ],
   },

@@ -3,11 +3,11 @@ import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import {
-  acceptRequisition,
   deleteRequisition,
   getAllRequisition,
   getSingleRequisition,
   updateRequisition,
+  updateStatusRequisition,
 } from "../../api/requisitionServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { RiAlertFill } from "react-icons/ri";
@@ -107,18 +107,27 @@ export default function RequisitionDetail() {
   const handleAccept = async (id: string) => {
     try {
       setLoading(true);
-      const res = await acceptRequisition(id);
-      console.log(res);
+      await updateStatusRequisition(id, { status: "accepted" });
       notifySuccess("Requisition accepted!");
       await handleGetSingle(id);
     } catch (error: any) {
-      notifyError(
-        error?.response?.data?.error || "Failed to accept requisition"
-      );
+      notifyError(error?.response?.data?.message || "Failed to accept");
     } finally {
       setLoading(false);
       refetch();
-      handleGetSingle(requisition._id);
+    }
+  };
+  const handleReject = async (id: string) => {
+    try {
+      setLoading(true);
+      await updateStatusRequisition(id, { status: "rejected" });
+      notifySuccess("Requisition rejected!");
+      await handleGetSingle(id);
+    } catch (error: any) {
+      notifyError(error?.response?.data?.message || "Failed to reject");
+    } finally {
+      setLoading(false);
+      refetch();
     }
   };
 
@@ -259,12 +268,15 @@ export default function RequisitionDetail() {
                           {dataRequisitions?.doctorName}
                         </p>
                         <p
-                          className={`inline-block rounded-[3px] px-2 mt-3 font-normal text-sm border ${
-                            dataRequisitions?.status === "Pending"
+                          className={`inline-block mt-3 rounded-sm capitalize px-2  font-normal text-sm border ${
+                            dataRequisitions?.status?.toLowerCase() ===
+                            "pending"
                               ? "text-[#E90761] border-[#E90761]"
-                              : dataRequisitions?.status === "Approved"
+                              : dataRequisitions?.status?.toLowerCase() ===
+                                "accepted"
                               ? "text-primary border-primary"
-                              : dataRequisitions?.status === "Rejected"
+                              : dataRequisitions?.status?.toLowerCase() ===
+                                "rejected"
                               ? "text-[#FF9500] border-[#FF9500]"
                               : dataRequisitions?.status === "Paid"
                               ? "text-[#0BA69C] border-[#0BA69C]"
@@ -399,29 +411,63 @@ export default function RequisitionDetail() {
                         >
                           Delete
                         </button>
-                        <button
-                          onClick={() =>
-                            dataRequisitions?._id &&
-                            handleAccept(dataRequisitions._id)
-                          }
-                          disabled={dataRequisitions?.accepted}
-                          className={`h-[56px] w-[100px] rounded-md text-white  
-    ${
-      dataRequisitions?.accepted
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-primary cursor-pointer"
-    }`}
-                        >
-                          {loading ? (
-                            <Spin indicator={antIcon} />
-                          ) : (
-                            <span>
-                              {dataRequisitions?.accepted
-                                ? "Accepted"
-                                : "Accept"}
-                            </span>
-                          )}
-                        </button>
+                        <div className="flex items-center gap-4">
+                          {/* Reject Button */}
+                          <button
+                            onClick={() =>
+                              dataRequisitions?._id &&
+                              handleReject(dataRequisitions._id)
+                            }
+                            disabled={
+                              dataRequisitions?.status === "accepted" ||
+                              dataRequisitions?.status === "rejected"
+                            }
+                            className={`h-[56px] w-[100px] rounded-md text-white  
+      ${
+        dataRequisitions?.status === "rejected" || "accepted"
+          ? "bg-red-400 cursor-not-allowed"
+          : "bg-red-600 hover:bg-red-700 cursor-pointer"
+      }`}
+                          >
+                            {loading ? (
+                              <Spin indicator={antIcon} />
+                            ) : (
+                              <span>
+                                {dataRequisitions?.status === "rejected"
+                                  ? "Rejected"
+                                  : "Reject"}
+                              </span>
+                            )}
+                          </button>
+
+                          {/* Accept Button */}
+                          <button
+                            onClick={() =>
+                              dataRequisitions?._id &&
+                              handleAccept(dataRequisitions._id)
+                            }
+                            disabled={
+                              dataRequisitions?.status === "accepted" ||
+                              dataRequisitions?.status === "rejected"
+                            }
+                            className={`h-[56px] w-[100px] rounded-md text-white  
+      ${
+        dataRequisitions?.status === "rejected" || "accepted"
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-primary hover:bg-primary cursor-pointer"
+      }`}
+                          >
+                            {loading ? (
+                              <Spin indicator={antIcon} />
+                            ) : (
+                              <span>
+                                {dataRequisitions?.status === "accepted"
+                                  ? "Accepted"
+                                  : "Accept"}
+                              </span>
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )}

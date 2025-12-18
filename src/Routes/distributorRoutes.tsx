@@ -1,12 +1,16 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
-import Report from "../Pages/Distributor/Reports";
-import Billing from "../Pages/Distributor/Billing";
-import MrRoutes from "../Pages/Distributor/MrRoutes";
-import SecondarySale from "../Pages/Distributor/SecondarySale";
-import PrimarySale from "../Pages/Distributor/PrimaerySale";
+
 const Warehouse = lazy(() => import("../Pages/Distributor/Warehouse"));
+const Report = lazy(() => import("../Pages/Distributor/Reports"));
+const Billing = lazy(() => import("../Pages/Distributor/Billing"));
+const MrRoutes = lazy(() => import("../Pages/Distributor/MrRoutes"));
+const SecondarySale = lazy(() => import("../Pages/Distributor/SecondarySale"));
+const PrimarySale = lazy(() => import("../Pages/Distributor/PrimaerySale"));
+const SecondarySaleDetails = lazy(
+  () => import("../Pages/Distributor/SecondarySale/SecondarySaleDetails")
+);
 const DistributorDashboard = lazy(
   () => import("../Pages/Distributor/DistributorDashboard")
 );
@@ -31,19 +35,18 @@ export default function DistributorRoutes() {
             path="/distributor/dashboard"
             element={<DistributorDashboard />}
           />
-
           <Route path="/distributor/warehouse" element={<Warehouse />} />
           <Route path="/distributor/primarySale" element={<PrimarySale />} />
-
           <Route
             path="/distributor/secondarySale"
             element={<SecondarySale />}
+          />{" "}
+          <Route
+            path="/distributor/secondarySale/secondarySaleDetails"
+            element={<SecondarySaleDetails />}
           />
-
           <Route path="/distributor/mr-Routes" element={<MrRoutes />} />
-
           <Route path="/distributor/billing" element={<Billing />} />
-
           <Route path="/distributor/reports" element={<Report />} />
         </Routes>
       </Suspense>

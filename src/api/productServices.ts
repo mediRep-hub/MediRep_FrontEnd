@@ -20,7 +20,9 @@ export const getAllProducts = (
   const query = `?${params.toString()}`;
   return HTTP_CLIENT.get(`${ENDPOINTS.PRODUCT_GET_ALL}${query}`);
 };
-
+export const getAllProductsMR = async () => {
+  return HTTP_CLIENT.get(`${ENDPOINTS.PRODUCT_GET_ALL_MR}`);
+};
 export const updateProducts = (id: string, values: any) => {
   return HTTP_CLIENT.put(`${ENDPOINTS.PRODUCT_UPDATE}/${id}`, values);
 };
