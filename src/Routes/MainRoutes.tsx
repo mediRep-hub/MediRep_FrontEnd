@@ -7,12 +7,13 @@ import PendingOrder from "../Pages/Orders/pendingOrder";
 import PrimarySale from "../Pages/SaleData/primarySale";
 import SecondarySale from "../Pages/SaleData/secondarySale";
 import PrimarySaleDetails from "../Pages/SaleData/primarySaleDetails";
+import TrackRequisition from "../Pages/Requisition/trackRequisition";
 
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
 const BricksDetail = lazy(() => import("../Pages/Bricks/bricksDetail"));
 const Pharmacy = lazy(() => import("../Pages/Pharmacy"));
-const Teams = lazy(() => import("../Pages/Teams"));
+const Group = lazy(() => import("../Pages/Group"));
 const RequisitionDetail = lazy(
   () => import("../Pages/Requisition/RequisitionDetail")
 );
@@ -56,12 +57,13 @@ export default function MainRoutes() {
         <Route path="/targets-achievements" element={<Tragets />} />
         <Route path="/products" element={<Products />} />
         <Route path="/pharmacies" element={<Pharmacy />} />
-        <Route path="/requisitions" element={<Requisition />} />
+        <Route path="/requisitionsList" element={<Requisition />} />
         <Route
-          path="/requisitions/requisitionDetail"
+          path="/requisitionsList/requisitionDetail"
           element={<RequisitionDetail />}
-        />
-        <Route path="/teams" element={<Teams />} />
+        />{" "}
+        <Route path="/trackRequisition" element={<TrackRequisition />} />
+        <Route path="/group" element={<Group />} />
         <Route path="/bricks" element={<Bricks />} />
         <Route path="/bricks/details" element={<BricksDetail />} />
         <Route path="/orders" element={<Orders />} />

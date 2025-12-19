@@ -142,7 +142,7 @@ export default function SecondarySale() {
         `}
       >
         <p className="text-[#7d7d7d] text-sm">
-          Brick Wise Sale From Distributor
+          {selectTab === "Group Sale" ? "Group List" : "Bricks List"}
         </p>
         <div
           style={{

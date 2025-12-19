@@ -87,7 +87,7 @@ export default function Requisition() {
   });
 
   const handleGoDetails = (requisition: any) => {
-    navigate("/requisitions/requisitionDetail", {
+    navigate("/requisitionsList/requisitionDetail", {
       state: { requisition },
     });
   };

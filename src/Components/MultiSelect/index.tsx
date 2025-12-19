@@ -12,7 +12,7 @@ export default function MultiSelect({
   options,
   value = [],
   onChange,
-  placeholder = "Select options",
+  placeholder = "Select The Options",
 }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 

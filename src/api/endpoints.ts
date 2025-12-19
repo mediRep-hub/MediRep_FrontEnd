@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-export const BASE_URL = "http://localhost:5001";
+export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+// export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -40,6 +40,10 @@ export const ENDPOINTS = {
   REPORTING_UPDATE_REPORT: "/brick/updateBrick",
   REPORTING_DELETE_REPORT: "/brick/deleteBrick",
   REPORTING_REORDER_REPORT: "/brick/reorderDoctorList",
+  //   -----------Bricks Group-------------
+  GROUP_GET_ALL_BRICK: "/group/getAllSalesGroups",
+  GROUP_ADD_BRICK: "/group/createSalesGroup",
+  GROUP_DELETE_BRICK: "/group/updateSalesGroup",
 
   //   -----------Manage MR-------------
   MR_ADD_MR: "/manageMr/addMR",

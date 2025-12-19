@@ -102,7 +102,7 @@ export default function RequisitionDetail() {
     staleTime: 5 * 60 * 1000,
   });
 
-  const handleBack = () => navigate("/requisitions");
+  const handleBack = () => navigate("/requisitionsList");
 
   const handleAccept = async (id: string) => {
     try {

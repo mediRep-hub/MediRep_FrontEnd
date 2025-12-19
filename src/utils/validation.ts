@@ -201,8 +201,17 @@ export const defaultLinks: SidebarLink[] = [
   },
   {
     name: "Requisitions",
-    path: "/requisitions",
     icon: "mdi:application-edit",
+    children: [
+      {
+        name: "Requisitions List",
+        path: "/requisitionsList",
+      },
+      {
+        name: "TrackRequisition",
+        path: "/trackRequisition",
+      },
+    ],
   },
   {
     name: "Field Execution",
@@ -213,8 +222,8 @@ export const defaultLinks: SidebarLink[] = [
         path: "/bricks",
       },
       {
-        name: "Teams",
-        path: "/teams",
+        name: "Group",
+        path: "/group",
       },
     ],
   },
@@ -244,10 +253,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Pending Discount",
         path: "/pendingOrders",
       },
-      {
-        name: "Track Sale",
-        path: "/trackSale",
-      },
+      // {
+      //   name: "Track Sale",
+      //   path: "/trackSale",
+      // },
     ],
   },
 ];

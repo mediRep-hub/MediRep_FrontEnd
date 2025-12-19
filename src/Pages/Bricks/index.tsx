@@ -27,14 +27,6 @@ import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { Icon } from "@iconify/react";
 import { getAllProductsMR } from "../../api/productServices";
 
-const areaOptions: string[] = [
-  "All",
-  "Lahore",
-  "Islamabad",
-  "BahawalPur",
-  "Karachi",
-];
-
 const titles = [
   "Call ID",
   "Doctor Name",
@@ -42,6 +34,13 @@ const titles = [
   "Check in",
   "Check out",
   "Actions",
+];
+const areaOptions: string[] = [
+  "All",
+  "Lahore",
+  "Islamabad",
+  "BahawalPur",
+  "Karachi",
 ];
 
 const selectRegionOptions = [
@@ -406,18 +405,21 @@ export default function Bricks() {
                     <div className="flex items-start justify-between">
                       <Avatar size={42} src={mr?.mrName?.image} />
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-primary">
-                          <Icon
-                            color="#0755E9"
-                            height="18"
-                            width="20"
-                            icon="icon-park-solid:doc-detail"
-                            onClick={(e) => {
-                              SetViewdetails(true);
-                              e.stopPropagation();
-                            }}
-                          />
-                        </div>{" "}
+                        {selectedBrick?._id === mr._id && (
+                          <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-primary">
+                            <Icon
+                              color="#0755E9"
+                              height="18"
+                              width="20"
+                              icon="icon-park-solid:doc-detail"
+                              onClick={(e) => {
+                                SetViewdetails(true);
+                                e.stopPropagation();
+                              }}
+                            />
+                          </div>
+                        )}
+
                         <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-[#E90761]">
                           <Icon
                             color="#E90761"
