@@ -5,7 +5,7 @@ import { Avatar, Input, Modal, Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Pagination from "../../Components/Pagination";
-import { IoIosArrowDown, IoMdCloseCircle } from "react-icons/io";
+import { IoMdCloseCircle } from "react-icons/io";
 import MultiSelect from "../../Components/MultiSelect";
 import CustomSelect from "../../Components/Select";
 import CustomInput from "../../Components/CustomInput";
@@ -24,31 +24,6 @@ const titles = [
   "Products",
   "Status",
   "Actions",
-];
-const AllBricks = [
-  {
-    groupId: "GROUP-001",
-    groupName: "Lahore Central",
-    distributorName: "Ahmed Khan",
-    totalMRs: 5,
-    totalDoctors: 20,
-    distributorImages: [
-      "https://i.pravatar.cc/150?img=1",
-      "https://i.pravatar.cc/150?img=2",
-      "https://i.pravatar.cc/150?img=3",
-    ],
-  },
-  {
-    groupId: "GROUP-002",
-    groupName: "Karachi South",
-    distributorName: "Bilal Hassan",
-    totalMRs: 7,
-    totalDoctors: 28,
-    distributorImages: [
-      "https://i.pravatar.cc/150?img=4",
-      "https://i.pravatar.cc/150?img=5",
-    ],
-  },
 ];
 
 const doctorList = [
@@ -88,16 +63,11 @@ const selectRegionOptions = [
   "Gilgit",
 ];
 
-interface ProductRow {
-  productName: string;
-  quantity: number;
-  bonus?: number;
-  total: number;
-}
 const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function Group() {
   const [selectedBrick, setSelectedBrick] = useState<any>(null);
+  console.log("🚀 ~ Group ~ setSelectedBrick:", setSelectedBrick);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addGroupModel, setAddGroupModel] = useState(false);
   const [currentRowIndex, setCurrentRowIndex] = useState<number | null>(null);

@@ -15,16 +15,14 @@ const titles = [
   "Floor Stock Value",
   "Status",
 ];
-const datafff = [
-  ["DIS-007", "Lahore", "Noorsons", "8,000", "1,600", "8000", "18000", "Good"],
-];
+
 export default function PrimarySale() {
   const [openImport, setOpenImport] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "MediRep | Primary Sale";
   }, []);
-  const { data, refetch, isFetching } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["PrimarySales"],
     queryFn: () => getAllPrimarySales(),
     staleTime: 5 * 60 * 1000,
