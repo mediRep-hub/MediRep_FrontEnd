@@ -1,5 +1,5 @@
 import { HTTP_CLIENT } from "../utils/httpClient";
-import { ENDPOINTS } from "./endPoints";
+import { ENDPOINTS } from "./endpoints";
 
 export const generatePayroll = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.GENERATE_PAYROLL, values);

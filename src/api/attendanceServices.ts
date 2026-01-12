@@ -1,5 +1,5 @@
 import { HTTP_CLIENT } from "../utils/httpClient";
-import { ENDPOINTS } from "./endPoints";
+import { ENDPOINTS } from "./endpoints";
 
 export const getAllAttendance = (params?: {
   search?: string;

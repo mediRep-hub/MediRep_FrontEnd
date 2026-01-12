@@ -4,7 +4,6 @@ import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import { useFormik } from "formik";
 import { BrickSchema } from "../../utils/validation";
-import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
 import { RiAlertFill } from "react-icons/ri";
@@ -26,6 +25,7 @@ import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { Icon } from "@iconify/react";
 import { getAllProductsMR } from "../../api/productServices";
+import MultiSelect from "../../Components/MultiSelect";
 
 const titles = [
   "Call ID",

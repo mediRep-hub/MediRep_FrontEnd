@@ -1,5 +1,5 @@
 import { HTTP_CLIENT } from "../utils/httpClient";
-import { ENDPOINTS } from "./endPoints";
+import { ENDPOINTS } from "./endpoints";
 
 export const getAllLeaves = (search?: string) => {
   return HTTP_CLIENT.get(ENDPOINTS.LEAVES_GET_ALL, {
