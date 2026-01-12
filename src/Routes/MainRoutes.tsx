@@ -3,12 +3,21 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
-import PendingOrder from "../Pages/Orders/pendingOrder";
-import PrimarySale from "../Pages/SaleData/primarySale";
-import SecondarySale from "../Pages/SaleData/secondarySale";
-import PrimarySaleDetails from "../Pages/SaleData/primarySaleDetails";
-import TrackRequisition from "../Pages/Requisition/trackRequisition";
 
+const PendingOrder = lazy(() => import("../Pages/Orders/pendingOrder"));
+const PrimarySale = lazy(() => import("../Pages/SaleData/primarySale"));
+const SecondarySale = lazy(() => import("../Pages/SaleData/secondarySale"));
+const PrimarySaleDetails = lazy(
+  () => import("../Pages/SaleData/primarySaleDetails")
+);
+const TrackRequisition = lazy(
+  () => import("../Pages/Requisition/trackRequisition")
+);
+const Attendance = lazy(() => import("../Pages/Attendance"));
+const Leaves = lazy(() => import("../Pages/Leaves"));
+const Payroll = lazy(() => import("../Pages/Payroll"));
+const PayrollDetails = lazy(() => import("../Pages/Payroll/payRollDetails"));
+const Setting = lazy(() => import("../Pages/Setting"));
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
 const BricksDetail = lazy(() => import("../Pages/Bricks/bricksDetail"));
@@ -75,6 +84,11 @@ export default function MainRoutes() {
           element={<PrimarySaleDetails />}
         />
         <Route path="/secondarySale" element={<SecondarySale />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="/leaves" element={<Leaves />} />
+        <Route path="/payroll" element={<Payroll />} />
+        <Route path="/payroll/payrollDetails" element={<PayrollDetails />} />
+        <Route path="/setting" element={<Setting />} />
       </Routes>
     </Suspense>
   );

@@ -175,7 +175,7 @@ export const defaultLinks: SidebarLink[] = [
     icon: "material-symbols-light:space-dashboard-rounded",
   },
   {
-    name: "Healthcare Professionals",
+    name: "Healthcare Experts",
     icon: "fontisto:doctor",
     children: [
       {
@@ -188,11 +188,20 @@ export const defaultLinks: SidebarLink[] = [
       },
     ],
   },
-
   {
     name: "Targets/Achievement",
     path: "/targets-achievements",
     icon: "fluent:rectangle-portrait-location-target-20-filled",
+  },
+  {
+    name: "Attendance",
+    icon: "clarity:employee-group-solid",
+    path: "/attendance",
+  },
+  {
+    name: "Leaves",
+    path: "/leaves",
+    icon: "material-symbols:holiday-village-rounded",
   },
   {
     name: "Products",
@@ -259,6 +268,16 @@ export const defaultLinks: SidebarLink[] = [
       // },
     ],
   },
+  {
+    name: "Payroll",
+    path: "/payroll",
+    icon: "ph:scroll-fill",
+  },
+  {
+    name: "Setting",
+    path: "/setting",
+    icon: "lets-icons:setting-fill",
+  },
 ];
 
 export const DistributorLinks: SidebarLink[] = [
@@ -298,6 +317,41 @@ export const DistributorLinks: SidebarLink[] = [
     icon: "academicons:open-data",
   },
 ];
+
+export const payrollSchema = Yup.object({
+  employeeId: Yup.string().required("Employee ID is required"),
+  employeeName: Yup.string().required("Employee Name is required"),
+  position: Yup.string().required("Position Name is required"),
+  month: Yup.string().required("Month is required"),
+  year: Yup.number().required("Year is required"),
+  approvedLeaves: Yup.number().required("Approved Leaves is required"),
+  presentDays: Yup.number().required("Present Days is required"),
+  basicSalary: Yup.number().required("Basic Salary is required"),
+  totalWorkingDays: Yup.number().required("Total Working Days is required"),
+  allowances: Yup.object({
+    medical: Yup.number().required("Medical Allowance is required"),
+    transport: Yup.number().required("Transport Allowance is required"),
+    others: Yup.number().required("Other Allowance is required"),
+  }),
+  deductions: Yup.object({
+    pf: Yup.number().required("PF is required"),
+    loan: Yup.number().required("Loan is required"),
+    advanceSalary: Yup.number().required("Advance Salary is required"),
+    tax: Yup.number().required("Tax is required"),
+    others: Yup.number().required("others deduction is required"),
+  }),
+});
+export const LeaveSchema = Yup.object().shape({
+  employeeId: Yup.string().required("Employee ID is required"),
+
+  employeeName: Yup.string().required("Employee name is required"),
+
+  leaveType: Yup.string().required("Leave type is required"),
+
+  endDate: Yup.date().required("End date is required"),
+
+  reason: Yup.string().required("Reason is required"),
+});
 
 export const logo_medi: string = `
 

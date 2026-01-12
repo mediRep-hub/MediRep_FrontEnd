@@ -9,6 +9,7 @@ export const ENDPOINTS = {
   ACCOUNTS_UPDATE: "/admin/updateAccount",
   ACCOUNTS_DELETE: "/admin/deleteAccount",
   ACCOUNTS_ADD: "/admin/register",
+  ACCOUNTS_UPDATEPASSWORD: "/admin/updatePassword",
 
   //   -----------Doctor-------------
   DOCTOR_GET_ALL: "/doctor/getAllDoctor",
@@ -73,4 +74,32 @@ export const ENDPOINTS = {
   PRIMARY_SALE_BULK_UPLOAD: "/primarySale/uploadBulkPrimarySales",
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
+
+  //   ---------------Attendance----------
+
+  ATTENDANCE_GETALL: "/attendance/getAllAttendance",
+  ATTENDANCE_UPDATE: "/attendance/UpdateAttendance",
+  ATTENDANCE_SUMMARY: "/attendance/getAttendanceSummary",
+  ATTENDANCE_UpdateAttendanceAdmin: "/attendance/updateAttendanceAdmin",
+  ATTENDANCE_DAILYATTENDENCE: "/attendance/createDailyAttendance",
+  ATTENDANCE_GETATTENDANCEGRAPH: "/attendance/getMonthlyAttendanceGraph",
+  ATTENDANCE_UPDATECOMPANYTIMING: "/attendance/setCompanyTiming",
+  ATTENDANCE_COMPANYTIMING: "/attendance/getCompanyTiming",
+
+  //   -----------Leaves-------------
+  LEAVES_UPDATE: "/leave/updateLeave",
+  LEAVES_DELETE: "/leave/deleteLeave",
+  LEAVES_APPLY: "/leave/apply",
+  LEAVES_GET_ALL: "/leave/getAllLeaves",
+  LEAVES_APPROVE: "/leave/updateLeaveStatus",
+
+  //   -----------PAYROLL-------------
+
+  GENERATE_PAYROLL: "/payroll/generatePayroll",
+  APPROVE_PAYROLL: "/payroll/approve/:id",
+  UPDATE_PAYROLL: "/payroll/updatePayroll",
+  GET_ALL_PAYROLLS: "/payroll/getAllPayrolls",
+  GET_EMPLOYEE_PAYROLLS: "/payroll/employee",
+  GENERATE_SALARY_SLIP: "/payroll/generateSalarySlip",
+  DOWNLOAD_SALARY_SLIP: "/payroll/salarySlip",
 };
