@@ -25,28 +25,32 @@ const Login = () => {
       await handleLogin(values);
     },
   });
+
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
+
     try {
       const response = await adminLogin(values);
-      const data = response.data;
+      const data = response.data ?? response;
 
-      const position = data.admin?.position;
+      console.log("FINAL DATA 👉", data);
 
-      if (position === "MedicalRep(MR)" || position === "MR") {
-        notifyError("You are not allowed to login.");
-        setLoading(false);
-        return;
-      }
-      dispatch(setUser({ user: data.admin, token: data.token }));
+      // Correct: use data.admin
+      dispatch(
+        setUser({
+          user: data.admin,
+          token: data.token,
+        })
+      );
+
       dispatch(setIsLoggedIn(true));
-      dispatch(setToken(data.token));
+
       notifySuccess("Successfully Logged In");
     } catch (error: any) {
       notifyError(
         error.response?.data?.message ||
           error.message ||
-          "Something went wrong. Try again."
+          "Something went wrong."
       );
     } finally {
       setLoading(false);

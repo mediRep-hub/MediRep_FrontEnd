@@ -42,7 +42,7 @@ const doctorList = [
     totalMRs: 7,
     totalDoctors: 28,
     products: ["Calpol", "Arinac"],
-    view: "Details",
+    view: "a",
     status: "Inactive",
   },
   {
