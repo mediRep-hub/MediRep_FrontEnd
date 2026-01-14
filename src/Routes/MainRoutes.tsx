@@ -13,10 +13,6 @@ const PrimarySaleDetails = lazy(
 const TrackRequisition = lazy(
   () => import("../Pages/Requisition/trackRequisition")
 );
-const Attendance = lazy(() => import("../Pages/Attendance"));
-const Leaves = lazy(() => import("../Pages/Leaves"));
-const Payroll = lazy(() => import("../Pages/Payroll"));
-const PayrollDetails = lazy(() => import("../Pages/Payroll/payRollDetails"));
 const Setting = lazy(() => import("../Pages/Setting"));
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
@@ -84,10 +80,6 @@ export default function MainRoutes() {
           element={<PrimarySaleDetails />}
         />
         <Route path="/secondarySale" element={<SecondarySale />} />
-        <Route path="/attendance" element={<Attendance />} />
-        <Route path="/leaves" element={<Leaves />} />
-        <Route path="/payroll" element={<Payroll />} />
-        <Route path="/payroll/payrollDetails" element={<PayrollDetails />} />
         <Route path="/setting" element={<Setting />} />
       </Routes>
     </Suspense>

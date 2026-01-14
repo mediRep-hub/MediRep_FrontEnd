@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
+export interface SelectedOption {
+  label: string;
+  amount: number;
+}
+
 interface MultiSelectProps {
-  options: string[];
-  value?: string[];
-  onChange?: (value: string[]) => void;
+  options: SelectedOption[];
+  value?: SelectedOption[];
+  onChange?: (value: SelectedOption[]) => void;
   placeholder?: string;
 }
 
@@ -16,21 +21,38 @@ export default function MultiSelect({
 }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSelect = (option: string) => {
-    let newValue: string[];
-    if (value.includes(option)) {
-      newValue = value.filter((item) => item !== option);
+  // handle select/deselect
+  const handleSelect = (option: SelectedOption) => {
+    let newValue: SelectedOption[];
+    const exists = value.find((v) => v.label === option.label);
+
+    if (exists) {
+      // remove if already selected
+      newValue = value.filter((v) => v.label !== option.label);
     } else {
+      // add with default amount
       newValue = [...value, option];
     }
-    if (onChange) onChange(newValue);
+    onChange?.(newValue);
   };
+
+  // handle amount change
+  const handleAmountChange = (label: string, amount: number) => {
+    const newValue = value.map((v) =>
+      v.label === label ? { ...v, amount } : v
+    );
+    onChange?.(newValue);
+  };
+
+  // calculate total
+  const totalAmount = value.reduce((sum, v) => sum + v.amount, 0);
 
   return (
     <div className="relative w-full">
       <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-gray-500">
         {placeholder}
       </label>
+
       <div
         className="flex items-center h-14 justify-between px-4 py-2 border-primary border-[0.5px] rounded-md bg-white cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
@@ -42,11 +64,11 @@ export default function MultiSelect({
                 key={idx}
                 className="bg-primary text-white px-2 py-1 rounded-md text-xs"
               >
-                {val}
+                {val.label} ({val.amount})
               </span>
             ))
           ) : (
-            <span className="text-gray-400 text-sm">Select options</span>
+            <span className="text-gray-400 text-sm">{placeholder}</span>
           )}
         </span>
 
@@ -56,26 +78,49 @@ export default function MultiSelect({
           }`}
         />
       </div>
+
       {isOpen && (
-        <ul className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+        <ul className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
           {options.map((option, index) => {
-            const selected = value.includes(option);
+            const selected = !!value.find((v) => v.label === option.label);
+            const selectedValue = value.find((v) => v.label === option.label);
+
             return (
               <li
                 key={index}
-                className="px-4 py-2 text-sm cursor-pointer flex items-center gap-2  text-gray-700 hover:bg-gray-100 "
-                onClick={() => handleSelect(option)}
+                className="px-4 py-2 text-sm cursor-pointer flex items-center justify-between gap-2 text-gray-700 hover:bg-gray-100"
               >
-                <input
-                  type="checkbox"
-                  checked={selected}
-                  readOnly
-                  className="cursor-pointer"
-                />
-                {option}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selected}
+                    onChange={() => handleSelect(option)}
+                    className="cursor-pointer"
+                  />
+                  <span>{option.label}</span>
+                </div>
+
+                {selected && (
+                  <input
+                    type="number"
+                    min={0}
+                    value={selectedValue?.amount || 0}
+                    onChange={(e) =>
+                      handleAmountChange(option.label, Number(e.target.value))
+                    }
+                    className="w-16 px-2 py-1 border rounded text-sm"
+                  />
+                )}
               </li>
             );
           })}
+
+          {/* Total at bottom */}
+          {value.length > 0 && (
+            <li className="px-4 py-2 text-sm font-semibold border-t mt-2">
+              Total: {totalAmount}
+            </li>
+          )}
         </ul>
       )}
     </div>

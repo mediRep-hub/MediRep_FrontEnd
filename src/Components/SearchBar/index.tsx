@@ -27,7 +27,6 @@ export default function SearchBar() {
   const { user } = useSelector((state: any) => {
     return state.user;
   });
-  console.log("🚀 ~ SearchBar ~ user:", user);
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>("");

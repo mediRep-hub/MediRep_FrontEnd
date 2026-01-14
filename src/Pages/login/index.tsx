@@ -47,6 +47,11 @@ const Login = () => {
 
       notifySuccess("Successfully Logged In");
     } catch (error: any) {
+      console.log(
+        `🚀 ~ handleLogin ~    error.response?.data?.message`,
+        error.response?.data?.message
+      );
+
       notifyError(
         error.response?.data?.message ||
           error.message ||

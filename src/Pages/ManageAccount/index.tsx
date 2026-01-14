@@ -1,32 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
 import { RiAlertFill } from "react-icons/ri";
-import CustomTable from "../../Components/CustomTable";
 import { IoMdCloseCircle } from "react-icons/io";
+import { TbEdit } from "react-icons/tb";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { Loading3QuartersOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import { Icon } from "@iconify/react";
+import { useFormik } from "formik";
+import { useQuery } from "@tanstack/react-query";
+
+import CustomTable from "../../Components/CustomTable";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import ImagePicker from "../../Components/ImagePicker";
-import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
-import { TbEdit } from "react-icons/tb";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import Pagination from "../../Components/Pagination";
 import { notifyError, notifySuccess } from "../../Components/Toast";
-import { useFormik } from "formik";
 import { AccountSchema } from "../../utils/validation";
-import { useQuery } from "@tanstack/react-query";
 import {
   addAccount,
   deleteAccount,
   getAllAccounts,
   updateAccount,
 } from "../../api/adminServices";
-import Pagination from "../../Components/Pagination";
-import { Icon } from "@iconify/react";
-
-interface RowsByDivision {
-  sales: any[];
-  marketing: any[];
-  distributor: any[];
-}
 
 const Positionlist = [
   "Director Sales",
@@ -38,8 +33,14 @@ const Positionlist = [
 const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 const StrategyList = ["Canal Road", "Riwind Road", "Multan Road", "Gt Road"];
 const RegionList = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
+const Divisionlist = ["Sales", "Marketing", "Distributor"] as const;
 
-interface Account {
+export interface SelectedOption {
+  label: string;
+  amount: number;
+}
+
+export interface Account {
   _id?: string;
   adminId?: string | number;
   name?: string;
@@ -52,6 +53,12 @@ interface Account {
   region?: string;
   strategy?: string;
   image?: string;
+}
+
+interface RowsByDivision {
+  sales: any[];
+  marketing: any[];
+  distributor: any[];
 }
 
 export default function ManageAccount() {
@@ -67,8 +74,7 @@ export default function ManageAccount() {
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const Divisionlist = ["Sales", "Marketing", "Distributor"] as const;
+  const itemsPerPage = 10;
 
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllAccount"],
@@ -77,13 +83,15 @@ export default function ManageAccount() {
   });
 
   const AllAccounts: Account[] = data?.data?.admins ?? [];
+  console.log("🚀 ~ ManageAccount ~ AllAccounts:", AllAccounts);
+
   const rowsByDivision: RowsByDivision = useMemo(() => {
     const buildRow = (v: Account) => {
       const baseRow = [
         v?.adminId,
         v?.name,
         v?.email,
-        v?.division === "Distributor" ? v?.ownerName : null,
+        v?.division === "Distributor" ? v?.ownerName : v?.position,
         v?.area,
         v?.division,
         v?.region,
@@ -109,25 +117,18 @@ export default function ManageAccount() {
           />
         </div>,
       ];
-
-      if (v?.division !== "Distributor") {
-        baseRow.splice(4, 0, v?.position);
-      }
-
       return baseRow;
     };
 
-    const sales = AllAccounts.filter((a) => a?.division === "Sales").map(
-      buildRow
-    );
-    const marketing = AllAccounts.filter(
-      (a) => a?.division === "Marketing"
-    ).map(buildRow);
-    const distributor = AllAccounts.filter(
-      (a) => a?.division === "Distributor"
-    ).map(buildRow);
-
-    return { sales, marketing, distributor };
+    return {
+      sales: AllAccounts.filter((a) => a.division === "Sales").map(buildRow),
+      marketing: AllAccounts.filter((a) => a.division === "Marketing").map(
+        buildRow
+      ),
+      distributor: AllAccounts.filter((a) => a.division === "Distributor").map(
+        buildRow
+      ),
+    };
   }, [AllAccounts]);
 
   const formik = useFormik({
@@ -149,59 +150,58 @@ export default function ManageAccount() {
     validationSchema: AccountSchema(isEdit),
     onSubmit: (values) => {
       setLoading(true);
-      if (editingAccount) {
-        updateAccount(editingAccount._id as string, values)
-          .then(() => {
-            notifySuccess("Account updated successfully");
-            setCreateAccount(false);
-            setEditingAccount(null);
-            formik.resetForm();
-            refetch();
-          })
-          .catch((error: any) => {
-            console.error(error);
-            notifyError("Failed to update Account.");
-            notifyError(error.response.data.message);
-          })
-          .finally(() => setLoading(false));
-      } else {
-        addAccount(values)
-          .then(() => {
-            notifySuccess("Account added successfully!");
-            setCreateAccount(false);
-            formik.resetForm();
-            refetch();
-          })
-          .catch((error: any) => {
-            console.error("❌ Error creating Account:", error.response.data);
-            notifyError("Failed to add Account. Please try again.");
-            notifyError(error.response.data.message);
-          })
-          .finally(() => setLoading(false));
-      }
+
+      const payload = {
+        name: values.name,
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+        division: values.division,
+        area: values.area,
+        region: values.region,
+        strategy: values.strategy,
+        position: values.position,
+        ownerName: values.ownerName,
+      };
+
+      const action = editingAccount
+        ? updateAccount(editingAccount._id as string, payload)
+        : addAccount(payload);
+
+      action
+        .then(() => {
+          notifySuccess(
+            `Account ${editingAccount ? "updated" : "added"} successfully`
+          );
+          setCreateAccount(false);
+          setEditingAccount(null);
+          formik.resetForm();
+          refetch();
+        })
+        .catch((error: any) => {
+          console.error(error);
+          notifyError("Operation failed.");
+          notifyError(error.response?.data?.message || error.message);
+        })
+        .finally(() => setLoading(false));
     },
   });
+
+  // Auto-set Distributor position
   useEffect(() => {
-    if (formik.values.division === "Distributor") {
+    if (formik.values.division === "Distributor")
       formik.setFieldValue("position", "Distributor");
-    } else if (
-      formik.values.division !== "Distributor" &&
-      formik.values.position === "Distributor"
-    ) {
+    else if (formik.values.position === "Distributor")
       formik.setFieldValue("position", "");
-    }
   }, [formik.values.division]);
 
+  // Delete handler
   const handleDelete = () => {
     const id = editingAccount?._id;
-
-    if (!id) {
-      notifyError("Invalid account ID");
-      return;
-    }
+    if (!id) return notifyError("Invalid account ID");
 
     setLoadingDelete(true);
-
     deleteAccount(id)
       .then(() => {
         notifySuccess("Account deleted successfully");
@@ -509,6 +509,69 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
+                  {/* <div className="mt-3">
+                    <CustomInput
+                      name="role"
+                      label="Role"
+                      placeholder="Enter role"
+                      value={formik.values.role}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.touched.role && formik.errors.role && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.role}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-3">
+                    <CustomSelect
+                      options={["Active", "Inactive"]}
+                      placeholder="User Status"
+                      value={formik.values.userStatus}
+                      onChange={(val: any) =>
+                        formik.setFieldValue("userStatus", val)
+                      }
+                    />
+                    {formik.touched.userStatus && formik.errors.userStatus && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.userStatus}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-3">
+                    <DatePicker
+                      label="Joining Date"
+                      value={
+                        formik.values.joiningDate
+                          ? dayjs(formik.values.joiningDate)
+                          : null
+                      }
+                      onChange={(date) =>
+                        formik.setFieldValue("joiningDate", date)
+                      }
+                    />
+                    {formik.touched.joiningDate &&
+                      formik.errors.joiningDate && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.joiningDate}
+                        </div>
+                      )}
+                  </div>
+                  <div className="mt-3">
+                    <DatePicker
+                      label="DOB"
+                      value={
+                        formik.values.DOB ? dayjs(formik.values.DOB) : null
+                      }
+                      onChange={(date) => formik.setFieldValue("DOB", date)}
+                    />
+
+                    {formik.touched.DOB && formik.errors.DOB && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.DOB}
+                      </div>
+                    )}
+                  </div> */}
                 </div>
 
                 <div className="md:w-[calc(50%-16px)] w-full">
@@ -637,6 +700,113 @@ export default function ManageAccount() {
                         </div>
                       )}
                   </div>
+
+                  {/* <p className="font-medium text-base mt-4 mb-2">
+                    Salary Structure
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="w-full md:w-[calc(50%-6px)]">
+                      <CustomInput
+                        name="salaryStructure.basic"
+                        label="Basic"
+                        value={formik.values.salaryStructure?.basic || "0"}
+                        onChange={formik.handleChange}
+                        type="number"
+                      />
+                    </div>
+                    <div className="w-full md:w-[calc(50%-6px)]">
+                      <CustomInput
+                        name="salaryStructure.gross"
+                        label="Gross"
+                        value={formik.values.salaryStructure?.gross || "0"}
+                        onChange={formik.handleChange}
+                        type="number"
+                      />
+                    </div>
+                    <div className="w-full md:w-[calc(50%-6px)]">
+                      <CustomInput
+                        name="salaryStructure.deductions"
+                        label="Deductions"
+                        value={formik.values.salaryStructure?.deductions || "0"}
+                        onChange={formik.handleChange}
+                        type="number"
+                      />
+                    </div>
+                    <div className="w-full md:w-[calc(50%-6px)]">
+                      <CustomInput
+                        name="salaryStructure.tax"
+                        label="Tax"
+                        value={formik.values.salaryStructure?.tax || "0"}
+                        onChange={formik.handleChange}
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2 mt-3">
+                    <CustomInput
+                      name="salaryStructure.incentive.flue"
+                      label="Flue Incentive"
+                      value={
+                        formik.values.salaryStructure?.incentive?.flue || "0"
+                      }
+                      onChange={formik.handleChange}
+                      type="number"
+                    />
+                    <CustomInput
+                      name="salaryStructure.incentive.medical"
+                      label="Medical Incentive"
+                      value={
+                        formik.values.salaryStructure?.incentive?.medical || "0"
+                      }
+                      onChange={formik.handleChange}
+                      type="number"
+                    />
+                    <CustomInput
+                      name="salaryStructure.incentive.others"
+                      label="Other Incentive"
+                      value={
+                        formik.values.salaryStructure?.incentive?.others || "0"
+                      }
+                      onChange={formik.handleChange}
+                      type="number"
+                    />
+                  </div>
+
+                
+                  <p className="font-medium text-base mt-4 mb-2">Loan & PF</p>
+                  <div className="flex gap-2">
+                    <CustomInput
+                      name="loanPF.loan"
+                      label="Loan"
+                      value={formik.values.loanPF?.loan || "0"}
+                      onChange={formik.handleChange}
+                      type="number"
+                    />
+                    <CustomInput
+                      name="loanPF.pf"
+                      label="PF"
+                      value={formik.values.loanPF?.pf || "0"}
+                      onChange={formik.handleChange}
+                      type="number"
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <MultiSelect
+                      options={leaveOptions.map((label) => ({
+                        label,
+                        amount: 0,
+                      }))}
+                      value={formik.values.leaveMultiSelect}
+                      onChange={(val: SelectedOption[]) => {
+                        formik.setFieldValue("leaveMultiSelect", val);
+                        formik.setFieldValue(
+                          "leaveEntitlements",
+                          multiSelectToObject(val)
+                        );
+                      }}
+                      placeholder="Select Leave Entitlements"
+                    />
+                  </div> */}
                 </div>
               </div>
 
