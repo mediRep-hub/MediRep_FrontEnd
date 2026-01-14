@@ -1,5 +1,7 @@
 import { Icon } from "@iconify/react";
 import CustomTable from "../../Components/CustomTable";
+import BulkUploadModal from "../../Components/SecondarySaleUpload";
+
 import { useEffect, useState } from "react";
 const tableData = [
   [
@@ -73,6 +75,7 @@ export default function SecondarySale() {
   const [selectTab, setSelectTab] = useState<"Individual Sale" | "Group Sale">(
     "Individual Sale"
   );
+  const [openUploadModal, setOpenUploadModal] = useState(false);
   useEffect(() => {
     document.title = "MediRep | Secondary Sale";
   }, []);
@@ -84,7 +87,10 @@ export default function SecondarySale() {
           Secondary Sale
         </p>
         <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
-          <button className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          <button
+            onClick={() => setOpenUploadModal(true)}
+            className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+          >
             <Icon
               icon="solar:upload-linear"
               height="24"
@@ -92,7 +98,7 @@ export default function SecondarySale() {
               color="#131313"
             />
             <p className="text-heading text-base font-medium">Import</p>
-          </button>{" "}
+          </button>
           <button className="h-[55px] w-full min-w-[172px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="solar:download-linear"
@@ -180,6 +186,10 @@ export default function SecondarySale() {
           />
         </div>
       </div>
+      <BulkUploadModal
+        open={openUploadModal}
+        onClose={() => setOpenUploadModal(false)}
+      />
     </div>
   );
 }

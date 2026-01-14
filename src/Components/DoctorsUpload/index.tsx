@@ -87,7 +87,7 @@ export default function DoctorUploads({ closeModle, refetch }: any) {
           >
             <MdFileUpload size={50} className="text-primary mb-3" />
             <p className="text-xl text-center text-heading font-medium">
-              Drag and Drop or{" "}
+              Drag and Drop or
               <span className="text-primary">Click to upload</span>
             </p>
             <p className="text-base text-center font-medium text-[#7d7d7d]/60">

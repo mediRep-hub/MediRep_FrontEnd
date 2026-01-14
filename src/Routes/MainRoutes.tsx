@@ -7,6 +7,7 @@ import PendingOrder from "../Pages/Orders/pendingOrder";
 import PrimarySale from "../Pages/SaleData/primarySale";
 import SecondarySale from "../Pages/SaleData/secondarySale";
 import PrimarySaleDetails from "../Pages/SaleData/primarySaleDetails";
+import PurchaseOrder from "../Pages/SaleData/PurchaseOrder";
 import TrackRequisition from "../Pages/Requisition/trackRequisition";
 
 const Orders = lazy(() => import("../Pages/Orders"));
@@ -69,11 +70,12 @@ export default function MainRoutes() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/pendingOrders" element={<PendingOrder />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
-        <Route path="/primarySale" element={<PrimarySale />} />{" "}
+        <Route path="/primarySale" element={<PrimarySale />} />
         <Route
           path="/primarySale/primarySaleDetails"
           element={<PrimarySaleDetails />}
         />
+        <Route path="/primarySale/purchaseOrder" element={<PurchaseOrder />} />
         <Route path="/secondarySale" element={<SecondarySale />} />
       </Routes>
     </Suspense>
