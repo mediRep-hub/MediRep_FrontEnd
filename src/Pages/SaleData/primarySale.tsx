@@ -8,7 +8,6 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 import { getAllPrimarySales } from "../../api/primaryServices";
-import { Checkbox } from "antd";
 import dayjs from "dayjs";
 const titles = [
   "Order ID",

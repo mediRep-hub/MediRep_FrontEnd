@@ -10,7 +10,7 @@ import { LoginSchema } from "../../utils/validation";
 import { adminLogin } from "../../api/adminServices";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { setIsLoggedIn, setToken, setUser } from "../../redux/userSlice";
+import { setIsLoggedIn, setUser } from "../../redux/userSlice";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
