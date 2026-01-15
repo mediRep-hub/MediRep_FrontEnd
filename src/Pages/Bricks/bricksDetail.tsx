@@ -82,108 +82,108 @@ export default function BricksDetail() {
             </div>
             <div className="mt-7">
               <div className="flex items-center gap-5 ">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Call ID:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Call ID:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.callId}
                 </p>
               </div>
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Doctor Name:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Doctor Name:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.name}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Doctor Address:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.address}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Brick Name:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Brick Name:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.brickName}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Date:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Date:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.date ? dayjs(doctor.date).format("DD/MM/YYYY") : "-"}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Check in:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Check in:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.checkIn}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Check out:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Check out:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.checkOut}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">Duration:</p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">Duration:</p>
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.duration}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Product Discussed:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.productDiscussed}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Doctor Response:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.doctorResponse}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Promotional Material Given:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.promotionalMaterialGiven}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Follow-up Required:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.followUpRequired}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Doctor Purchase Intrest:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.doctorPurchaseInterest}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Key Discussion Points:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.keyDiscussionPoints}
                 </p>
               </div>{" "}
               <div className="flex items-center gap-5 mt-2">
-                <p className="w-[150px] text-[#7D7D7D] text-sm">
+                <p className="w-[200px] text-[#7D7D7D] text-sm">
                   Doctor’s Concerns:
                 </p>
-                <p className="w-[150px] sm:w-full text-heading text-sm">
+                <p className="w-[200px] sm:w-full text-heading text-sm">
                   {doctor?.doctorConcerns}
                 </p>
               </div>{" "}

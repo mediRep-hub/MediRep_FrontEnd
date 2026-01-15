@@ -62,6 +62,14 @@ const selectRegionOptions = [
   "South Punjab",
   "Gilgit",
 ];
+const activePeriodOptions = [
+  "1 month",
+  "2 month",
+  "3 month",
+  "4 month",
+  "5 month",
+  "6 month",
+];
 
 const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
@@ -114,7 +122,6 @@ export default function Group() {
       distributor: "",
     },
     onSubmit: (values) => {
-      // This function runs when the form is submitted
       console.log("Form Values:", values);
     },
   });
@@ -486,10 +493,8 @@ export default function Group() {
                       options={AllMR.filter(
                         (doc: any) => doc.position === "MedicalRep(MR)"
                       ).map((doc: any) => doc.name)}
-                      value={formik.values.doctorList}
-                      onChange={(val) =>
-                        formik.setFieldValue("doctorList", val)
-                      }
+                      value={formik.values.mrName}
+                      onChange={(val) => formik.setFieldValue("mrName", val)}
                       placeholder="Select MR"
                     />
 
@@ -506,7 +511,10 @@ export default function Group() {
                   </p>
                   <div className="mt-3">
                     <CustomSelect
-                      options={cityOptions}
+                      options={AllMR.filter(
+                        (doc: any) =>
+                          doc.position === "Area Sales Manager (ASM)"
+                      ).map((doc: any) => doc.name)}
                       value={formik.values.manager}
                       onChange={(val) => formik.setFieldValue("manager", val)}
                       placeholder="Select Manager"
@@ -519,7 +527,9 @@ export default function Group() {
                   </div>{" "}
                   <div className="mt-3">
                     <CustomSelect
-                      options={cityOptions}
+                      options={AllMR.filter(
+                        (doc: any) => doc.position === "MedicalRep(MR)"
+                      ).map((doc: any) => doc.name)}
                       value={formik.values.teamLead}
                       onChange={(val) => formik.setFieldValue("teamLead", val)}
                       placeholder="Team Lead"
@@ -532,7 +542,7 @@ export default function Group() {
                   </div>{" "}
                   <div className="mt-3">
                     <CustomSelect
-                      options={cityOptions}
+                      options={activePeriodOptions}
                       value={formik.values.activePeriod}
                       onChange={(val) =>
                         formik.setFieldValue("activePeriod", val)
@@ -548,7 +558,9 @@ export default function Group() {
                   </div>{" "}
                   <div className="mt-3">
                     <CustomSelect
-                      options={cityOptions}
+                      options={AllMR.filter(
+                        (doc: any) => doc.division === "Distributor"
+                      ).map((doc: any) => doc.name)}
                       value={formik.values.distributor}
                       onChange={(val) =>
                         formik.setFieldValue("distributor", val)

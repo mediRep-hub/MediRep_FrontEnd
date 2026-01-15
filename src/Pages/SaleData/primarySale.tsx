@@ -4,20 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PrimarySaleUpload from "../../Components/PrimarySaleUpload";
 import { useQuery } from "@tanstack/react-query";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 import { getAllPrimarySales } from "../../api/primaryServices";
+import { Checkbox } from "antd";
+import dayjs from "dayjs";
 const titles = [
-  "ID",
-  "Distributors Name",
-  "Area",
-  "Total Primary Qty(CTN)",
-  "Total Sale Qty(CTN)",
-  "Floor Stock Qty (CTN)",
-  "Floor Stock Value",
-  "Status",
+  "Order ID",
+  "Order Date",
+  "Doctor/Pharmacy Name",
+  "Distributor Name",
+  "MR Name",
+  "Amount",
+  "Details",
 ];
 
 export default function PrimarySale() {
   const [openImport, setOpenImport] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "MediRep | Primary Sale";
@@ -29,26 +35,122 @@ export default function PrimarySale() {
   });
 
   let AllSales = data?.data?.data;
-  console.log("🚀 ~ PrimarySale ~ data:", AllSales);
 
   let tableData: any = [];
   AllSales?.map((v: any) => {
     tableData.push([
-      v?.distributorId,
-      v?.distributorName,
-      v?.area,
-      v?.primarySale,
-      v?.totalSaleQNT,
-      v?.floorStockQNT,
-      v?.floorStockValue,
-      v?.status,
+      v.orderId,
+      v.createdAt ? dayjs(v.createdAt).format("DD MMM, YYYY") : "-",
+      v.pharmacyId?.name || v?.pharmacyName,
+      v.distributorName,
+      v.mrName,
+      <p key={`amount-${v.orderId}`} className="text-[12px]">
+        Rs: {v.total}
+      </p>,
+      <button
+        key={`details-${v.orderId}`}
+        className="flex gap-2 items-center"
+        onClick={() => handleGoDetails(v)}
+      >
+        <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
+        Details
+      </button>,
     ]);
   });
-  const handleGoToDetail = (rowIndex: number) => {
-    const rowData = AllSales[rowIndex]; // get full object using index
-    if (rowData) {
-      navigate("/primarySale/primarySaleDetails", { state: rowData });
-    }
+  const handleGoDetails = (v: any[]) => {
+    navigate("/primarySale/primarySaleDetails", { state: v });
+  };
+
+  const handleDownloadExcel = () => {
+    if (!AllSales || AllSales.length === 0) return;
+
+    setIsDownloading(true);
+
+    setTimeout(() => {
+      try {
+        const workbook = XLSX.utils.book_new();
+
+        /* =========================
+         SHEET 1: PRIMARY SALE
+      ========================= */
+        const primarySaleSheetData = AllSales.map((v: any) => ({
+          ID: v.distributorId,
+          "Distributor Name": v.distributorName,
+          Area: v.area,
+          "Total Primary Qty (CTN)": v.primarySale,
+          "Total Sale Qty (CTN)": v.totalSaleQNT,
+          "Floor Stock Qty (CTN)": v.floorStockQNT,
+          "Floor Stock Value": v.floorStockValue,
+          Status: v.status,
+        }));
+
+        const primarySaleSheet = XLSX.utils.json_to_sheet(primarySaleSheetData);
+
+        primarySaleSheet["!cols"] = Object.keys(primarySaleSheetData[0]).map(
+          () => ({ wch: 25 })
+        );
+
+        XLSX.utils.book_append_sheet(
+          workbook,
+          primarySaleSheet,
+          "Primary Sales"
+        );
+
+        /* =========================
+         SHEET 2: PRIMARY SALE DETAILS
+      ========================= */
+        const primarySaleDetailData: any[] = [];
+
+        AllSales.forEach((sale: any) => {
+          sale?.products?.forEach((item: any) => {
+            primarySaleDetailData.push({
+              Distributor_ID: sale.distributorId,
+              Distributor_Name: sale.distributorName,
+              Area: sale.area,
+              SKU: item.sku,
+              Product: item.productName,
+              "Opening Balance Qty (CTN)": item.openBalance,
+              "Purchase Qty (CTN)": item.purchaseQNT,
+              "Purchase Return Qty (CTN)": item.purchaseReturn,
+              "Sale Qty (CTN)": item.saleQty,
+              "Sale Return Qty (CTN)": item.saleReturnQNT,
+              "Net Sale Qty (CTN)": item.netSale,
+              "Floor Stock Value": item.floorStockValue,
+            });
+          });
+        });
+
+        const primarySaleDetailSheet = XLSX.utils.json_to_sheet(
+          primarySaleDetailData
+        );
+
+        primarySaleDetailSheet["!cols"] = Object.keys(
+          primarySaleDetailData[0]
+        ).map(() => ({ wch: 28 }));
+
+        XLSX.utils.book_append_sheet(
+          workbook,
+          primarySaleDetailSheet,
+          "Primary Sale Details"
+        );
+
+        /* =========================
+         DOWNLOAD FILE
+      ========================= */
+        const excelBuffer = XLSX.write(workbook, {
+          bookType: "xlsx",
+          type: "array",
+        });
+
+        const blob = new Blob([excelBuffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(blob, "Primary_Sales_Complete_Report.xlsx");
+      } finally {
+        setIsDownloading(false);
+      }
+    }, 0);
   };
 
   return (
@@ -72,14 +174,29 @@ export default function PrimarySale() {
             />
             <p className="text-heading text-base font-medium">Import</p>
           </button>{" "}
-          <button className="h-[55px] w-full min-w-[172px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
-            <Icon
-              icon="solar:download-linear"
-              height="24"
-              width="24"
-              color="#0755E9"
-            />
-            <p className="text-primary text-base font-medium">Download</p>
+          <button
+            onClick={handleDownloadExcel}
+            disabled={isDownloading}
+            className={`h-[55px] w-full min-w-[172px] rounded-[6px] gap-3 flex justify-center items-center
+    ${
+      isDownloading
+        ? "bg-gray-300 cursor-not-allowed"
+        : "bg-[#E5EBF7] cursor-pointer"
+    }`}
+          >
+            {isDownloading ? (
+              <p className="text-gray-600 font-medium">Downloading...</p>
+            ) : (
+              <>
+                <Icon
+                  icon="solar:download-linear"
+                  height="24"
+                  width="24"
+                  color="#0755E9"
+                />
+                <p className="text-primary text-base font-medium">Download</p>
+              </>
+            )}
           </button>
           <button className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
@@ -106,11 +223,7 @@ export default function PrimarySale() {
           }}
           className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(53vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
         >
-          <CustomTable
-            titles={titles}
-            data={tableData}
-            handleGoToDetail={handleGoToDetail}
-          />
+          <CustomTable titles={titles} data={tableData} />
         </div>
       </div>
       {openImport && (

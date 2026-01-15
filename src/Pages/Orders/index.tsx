@@ -224,7 +224,7 @@ export default function Orders() {
   );
 
   const tableData = allOrders
-    .filter((order) => order.IStatus)
+    .filter((order) => order.IStatus === true)
     .map((order) => [
       <div key={order.orderId} className="flex items-center gap-2">
         <Checkbox

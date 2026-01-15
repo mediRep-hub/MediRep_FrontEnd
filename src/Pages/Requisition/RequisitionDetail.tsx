@@ -57,6 +57,9 @@ const requisitionTypeOptions: Requisition["requisitionType"][] = [
 
 export default function RequisitionDetail() {
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const requisition = location.state?.requisition;
+  console.log("🚀 ~ RequisitionDetail ~ requisition:", requisition);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
@@ -75,8 +78,6 @@ export default function RequisitionDetail() {
   const [remarks, setRemarks] = useState(dataRequisitions?.remarks || "");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
-  const location = useLocation();
-  const requisition = location.state?.requisition;
   const navigate = useNavigate();
 
   const antIcon = (

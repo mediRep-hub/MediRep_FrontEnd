@@ -12,7 +12,7 @@ const titles = [
   "Requisition ID",
   "Doctor Name",
   "MR Name",
-  "Product",
+  "Products",
   "Quantity",
   "Duration",
   "Requisition Type",
@@ -86,15 +86,25 @@ export default function Requisition() {
     ]);
   });
 
-  const handleGoDetails = (requisition: any) => {
-    navigate("/requisitionsList/requisitionDetail", {
-      state: { requisition },
-    });
+  const handleGoDetails = (row: any[]) => {
+    const requisitionId = row[0];
+    const rowData = Requisitions?.find(
+      (item: any) => item._id === requisitionId || item.reqId === requisitionId
+    );
+
+    if (rowData) {
+      navigate("/requisitionsList/requisitionDetail", {
+        state: { requisition: rowData },
+      });
+    } else {
+      console.error("Requisition not found for ID:", requisitionId);
+    }
   };
 
   useEffect(() => {
     document.title = "MediRep | Requisitions";
   }, []);
+
   const handleFilter = () => {
     if (selectedMR === "All") setSelectedMR("");
   };
@@ -154,7 +164,7 @@ export default function Requisition() {
             titles={titles}
             isFetching={isFetching}
             data={tableData}
-            handleGoToDetail={(index) => handleGoDetails(Requisitions[index])}
+            handleGoToDetail={handleGoDetails}
           />
         </div>
       </div>

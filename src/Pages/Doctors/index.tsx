@@ -239,7 +239,9 @@ export default function Doctors() {
           className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex justify-between items-center">
-            <p className="text-[#7D7D7D] font-medium text-sm">Doctors Doctor</p>
+            <p className="text-[#7D7D7D] font-medium text-sm">
+              Doctors Profiles
+            </p>
             <Pagination
               currentPage={currentPage}
               totalItems={totalItems}

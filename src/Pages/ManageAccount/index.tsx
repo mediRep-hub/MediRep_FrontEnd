@@ -155,6 +155,7 @@ export default function ManageAccount() {
         name: values.name,
         phoneNumber: values.phoneNumber,
         email: values.email,
+        image: values.image,
         password: values.password,
         confirmPassword: values.confirmPassword,
         division: values.division,

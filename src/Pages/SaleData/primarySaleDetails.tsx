@@ -61,21 +61,7 @@ export default function PrimarySaleDetails() {
           </p>
         </div>
         <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
-          <button
-            onClick={() => {
-              setOpenImport(true);
-            }}
-            className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
-          >
-            <Icon
-              icon="solar:upload-linear"
-              height="24"
-              width="24"
-              color="#131313"
-            />
-            <p className="text-heading text-base font-medium">Import</p>
-          </button>{" "}
-          <button className="h-[55px] w-full min-w-[172px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          {/* <button className="h-[55px] w-full min-w-[172px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="solar:download-linear"
               height="24"
@@ -83,7 +69,7 @@ export default function PrimarySaleDetails() {
               color="#0755E9"
             />
             <p className="text-primary text-base font-medium">Download</p>
-          </button>
+          </button> */}
           <button className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="grommet-icons:status-good"
