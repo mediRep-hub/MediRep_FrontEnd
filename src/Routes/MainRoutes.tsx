@@ -13,7 +13,6 @@ const PrimarySaleDetails = lazy(
 const TrackRequisition = lazy(
   () => import("../Pages/Requisition/trackRequisition")
 );
-const Setting = lazy(() => import("../Pages/Setting"));
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
 const BricksDetail = lazy(() => import("../Pages/Bricks/bricksDetail"));
@@ -80,7 +79,7 @@ export default function MainRoutes() {
           element={<PrimarySaleDetails />}
         />
         <Route path="/secondarySale" element={<SecondarySale />} />
-        <Route path="/setting" element={<Setting />} />
+        {/* <Route path="/setting" element={<Setting />} /> */}
       </Routes>
     </Suspense>
   );
