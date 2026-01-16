@@ -193,16 +193,16 @@ export const defaultLinks: SidebarLink[] = [
     path: "/targets-achievements",
     icon: "fluent:rectangle-portrait-location-target-20-filled",
   },
-  {
-    name: "Attendance",
-    icon: "clarity:employee-group-solid",
-    path: "/attendance",
-  },
-  {
-    name: "Leaves",
-    path: "/leaves",
-    icon: "material-symbols:holiday-village-rounded",
-  },
+  // {
+  //   name: "Attendance",
+  //   icon: "clarity:employee-group-solid",
+  //   path: "/attendance",
+  // },
+  // {
+  //   name: "Leaves",
+  //   path: "/leaves",
+  //   icon: "material-symbols:holiday-village-rounded",
+  // },
   {
     name: "Products",
     path: "/products",
@@ -230,10 +230,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Bricks",
         path: "/bricks",
       },
-      {
-        name: "Group",
-        path: "/group",
-      },
+      // {
+      //   name: "Group",
+      //   path: "/group",
+      // },
     ],
   },
   {
@@ -268,16 +268,16 @@ export const defaultLinks: SidebarLink[] = [
       // },
     ],
   },
-  {
-    name: "Payroll",
-    path: "/payroll",
-    icon: "ph:scroll-fill",
-  },
-  {
-    name: "Setting",
-    path: "/setting",
-    icon: "lets-icons:setting-fill",
-  },
+  // {
+  //   name: "Payroll",
+  //   path: "/payroll",
+  //   icon: "ph:scroll-fill",
+  // },
+  // {
+  //   name: "Setting",
+  //   path: "/setting",
+  //   icon: "lets-icons:setting-fill",
+  // },
 ];
 
 export const DistributorLinks: SidebarLink[] = [
