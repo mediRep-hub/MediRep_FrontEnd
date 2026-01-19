@@ -93,7 +93,7 @@ export default function SecondarySale() {
             />
             <p className="text-heading text-base font-medium">Import</p>
           </button>{" "}
-          <button className="h-[55px] w-full min-w-[172px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          {/* <button className="h-[55px] w-full min-w-[172px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="solar:download-linear"
               height="24"
@@ -101,15 +101,21 @@ export default function SecondarySale() {
               color="#0755E9"
             />
             <p className="text-primary text-base font-medium">Download</p>
-          </button>
+          </button> */}
           <button className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
-            <Icon
+            {/* <Icon
               icon="mingcute:add-fill"
               height="20"
               width="20"
               color="#fff"
+            /> */}
+            <Icon
+              icon="solar:download-linear"
+              height="24"
+              width="24"
+              color="#FFFFFF"
             />
-            <p className="text-white text-base font-medium">Generate GRN</p>
+            <p className="text-white text-base font-medium">Generate Reports</p>
           </button>
         </div>
       </div>

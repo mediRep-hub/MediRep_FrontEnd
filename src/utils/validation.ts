@@ -193,7 +193,20 @@ export const defaultLinks: SidebarLink[] = [
     path: "/targets-achievements",
     icon: "fluent:rectangle-portrait-location-target-20-filled",
   },
+<<<<<<< HEAD
 
+=======
+  // {
+  //   name: "Attendance",
+  //   icon: "clarity:employee-group-solid",
+  //   path: "/attendance",
+  // },
+  // {
+  //   name: "Leaves",
+  //   path: "/leaves",
+  //   icon: "material-symbols:holiday-village-rounded",
+  // },
+>>>>>>> a8464c710ff4e8fdd164c1cfb6a16f469aa1a550
   {
     name: "Products",
     path: "/products",
@@ -221,10 +234,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Bricks",
         path: "/bricks",
       },
-      {
-        name: "Group",
-        path: "/group",
-      },
+      // {
+      //   name: "Group",
+      //   path: "/group",
+      // },
     ],
   },
   {
@@ -259,6 +272,19 @@ export const defaultLinks: SidebarLink[] = [
       // },
     ],
   },
+<<<<<<< HEAD
+=======
+  // {
+  //   name: "Payroll",
+  //   path: "/payroll",
+  //   icon: "ph:scroll-fill",
+  // },
+  // {
+  //   name: "Setting",
+  //   path: "/setting",
+  //   icon: "lets-icons:setting-fill",
+  // },
+>>>>>>> a8464c710ff4e8fdd164c1cfb6a16f469aa1a550
 ];
 
 export const DistributorLinks: SidebarLink[] = [

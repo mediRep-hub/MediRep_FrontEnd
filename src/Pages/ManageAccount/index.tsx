@@ -303,7 +303,7 @@ export default function ManageAccount() {
                       "Owner Name",
                       "Area",
                       "Division",
-                      "Region",
+                      "Brick",
                       "Action",
                     ]
                   : [
@@ -313,7 +313,7 @@ export default function ManageAccount() {
                       "Position",
                       "Area",
                       "Division",
-                      "Region",
+                      "Brick",
                       "Action",
                     ]
               }
