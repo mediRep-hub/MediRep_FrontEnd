@@ -42,7 +42,6 @@ interface Pharmacy {
   };
 }
 
-const regionOptions = ["Brick 1", "Brick 2", "Brick 3", "Brick 4", "Brick 5"];
 const channelOptions = ["RT", "Local Modern Trade", "Wholesale"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 

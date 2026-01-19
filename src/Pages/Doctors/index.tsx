@@ -51,7 +51,6 @@ const specialtyOptions = [
   "Gastroenterologist",
   "Family Doctor",
 ];
-const regionOptions = ["Brick 1", "Brick 2", "Brick 3", "Brick 4", "Brick 5"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
 export default function Doctors() {

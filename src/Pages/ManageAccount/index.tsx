@@ -32,7 +32,6 @@ const Positionlist = [
 ];
 const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 const StrategyList = ["Canal Road", "Riwind Road", "Multan Road", "Gt Road"];
-const RegionList = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
 const Divisionlist = ["Sales", "Marketing", "Distributor"] as const;
 
 export interface SelectedOption {
