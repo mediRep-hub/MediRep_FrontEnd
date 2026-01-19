@@ -184,11 +184,23 @@ export default function PrimarySale() {
         </div>
       </div>
 
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(77.5vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none">
+      <div
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+        className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(70.5vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
+      >
         <p className="text-[#7d7d7d] text-sm">
           Distributor Details Stock Report
         </p>
-        <div className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(70.5vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none">
+        <div
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(70.5vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+        >
           <CustomTable titles={titles} data={renderTableData} />
         </div>
       </div>

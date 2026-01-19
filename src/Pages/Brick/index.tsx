@@ -157,7 +157,13 @@ export default function Brick() {
         </div>
 
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
-          <div className="bg-white h-[68vh] rounded-[12px] mt-4">
+          <div
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(56.2vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+          >
             <CustomTable titles={titles} data={tableData} />
           </div>
         </div>

@@ -46,7 +46,7 @@ export default function ReportFilterModalStatic({ close }: any) {
           </p>
           <IoMdCloseCircle
             size={20}
-            onClick={() => close}
+            onClick={close}
             className="cursor-pointer text-primary"
           />
         </div>
