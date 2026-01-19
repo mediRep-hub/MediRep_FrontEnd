@@ -72,9 +72,10 @@ export default function Products() {
   const [openModalChannel, setOpenModalChannel] = useState(false);
   const [openModel, setOpenModel] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
-  const [deleteID, setdeleteID] = useState<any>(null);
+
   const [viewImage, setViewImage] = useState<any>(null);
   const [openImage, setOpenImage] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);

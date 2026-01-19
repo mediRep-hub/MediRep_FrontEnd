@@ -12,6 +12,54 @@ import { FaCheckCircle } from "react-icons/fa";
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
 
+const SaleData = [
+  {
+    asm: "Area Sales Manager",
+    area: "Lahore",
+    brick: "Canal Road, Raiwind Road",
+    mrName: "Umair Yaqoob",
+    target: "500,000",
+    achievement: "350,000",
+    percentage: "70%",
+  },
+  {
+    asm: "Area Sales Manager",
+    area: "Karachi",
+    brick: "Clifton Block 2",
+    mrName: "Ahmed Raza",
+    target: "600,000",
+    achievement: "480,000",
+    percentage: "80%",
+  },
+  {
+    asm: "Regional Sales Manager",
+    area: "Islamabad",
+    brick: "Blue Area",
+    mrName: "Ali Khan",
+    target: "450,000",
+    achievement: "300,000",
+    percentage: "66%",
+  },
+  {
+    asm: "Area Sales Manager",
+    area: "Faisalabad",
+    brick: "D Ground",
+    mrName: "Hassan Shah",
+    target: "550,000",
+    achievement: "410,000",
+    percentage: "74%",
+  },
+  {
+    asm: "Regional Sales Manager",
+    area: "Multan",
+    brick: "Cantt Area",
+    mrName: "Usman Ali",
+    target: "400,000",
+    achievement: "320,000",
+    percentage: "80%",
+  },
+];
+
 interface EditData {
   _id?: string;
   target?: number;
@@ -19,6 +67,15 @@ interface EditData {
 }
 
 export default function Targets() {
+  const [selectTab, setSelectTab] = useState<"Sales Wise" | "Product Wise">(
+    "Sales Wise",
+  );
+
+  const [asmFilter, setAsmFilter] = useState("");
+  const [areaFilter, setAreaFilter] = useState("");
+  const [brickFilter, setBrickFilter] = useState("");
+  const [mrFilter, setMrFilter] = useState("");
+
   const [openModal, setOpenModal] = useState(false);
   const [notifiedModel, setNotifiedModel] = useState(false);
   const [SkuNo, setSkuNo] = useState("");
@@ -40,6 +97,14 @@ export default function Targets() {
   });
 
   const ProductData = data?.data?.data || [];
+  const filteredSaleData = SaleData.filter((item) => {
+    return (
+      item.asm.toLowerCase().includes(asmFilter.toLowerCase()) &&
+      item.area.toLowerCase().includes(areaFilter.toLowerCase()) &&
+      item.brick.toLowerCase().includes(brickFilter.toLowerCase()) &&
+      item.mrName.toLowerCase().includes(mrFilter.toLowerCase())
+    );
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -62,7 +127,7 @@ export default function Targets() {
           const updatedProducts = products.map((item: any) =>
             item._id === editData._id
               ? { ...item, target: editData.target }
-              : item
+              : item,
           );
 
           return {
@@ -72,7 +137,7 @@ export default function Targets() {
               data: updatedProducts,
             },
           };
-        }
+        },
       );
 
       setNotifiedModel(true);
@@ -111,8 +176,30 @@ export default function Targets() {
             <p className="text-white text-base font-medium">Upload Target</p>
           </button>
         </div>
-
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] h-auto">
+        <div className="mt-4 flex gap-2">
+          {["Sales Wise", "Product Wise"].map((tab) => (
+            <button
+              key={tab}
+              className={`w-[120px] h-12 rounded-t-lg ${
+                selectTab === tab
+                  ? "bg-[#E5EBF7] text-heading"
+                  : "bg-white text-[#7d7d7d]"
+              }`}
+              onClick={() => {
+                setSelectTab(tab as typeof selectTab);
+                // setCurrentPage(1);
+              }}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
+            selectTab === "Sales Wise" ? "rounded-tl-none" : "rounded-tl-[12px]"
+          }`}
+        >
+          {" "}
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
               Targets as List
@@ -128,160 +215,293 @@ export default function Targets() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
-            <div className="w-full flex-1 overflow-x-auto">
-              <table className="w-full border-collapse min-w-[900px]">
-                <thead className="sticky top-0 z-[1] bg-white">
-                  <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
-                    <th className="px-4 py-3 w-[16%]">
-                      <div className="relative flex items-center">
-                        <LuSearch
-                          className="absolute left-2 text-[#7d7d7d]"
-                          size={14}
-                        />
-                        <div className="absolute left-7 flex items-center h-full pr-2 border-r border-gray-400 text-xs font-medium text-heading">
-                          SKU
-                        </div>
-                        <input
-                          value={SkuNo}
-                          onChange={(e) => setSkuNo(e.target.value)}
-                          type="text"
-                          className="h-8 pl-[66px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
-                        />
-                      </div>
-                    </th>
-                    <th className="px-4 py-3 2xl:w-[18%] w-[25%]">
-                      <div className="relative flex items-center">
-                        <LuSearch
-                          className="absolute left-2 text-[#7d7d7d]"
-                          size={14}
-                        />
-                        <div className="absolute left-7 top-0 h-full flex items-center border-r border-gray-400 pr-2">
-                          <p className="text-heading text-xs font-medium">
-                            Product Name
-                          </p>
-                        </div>
-                        <input
-                          value={productName}
-                          onChange={(e) => setProductName(e.target.value)}
-                          type="text"
-                          className="h-8 pl-[120px] pr-3 w-full border border-gray-400 rounded-md text-sm text-heading font-normal focus:outline-none"
-                        />
-                      </div>
-                    </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
-                      Form
-                    </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
-                      Status
-                    </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[18%]">
-                      Target
-                    </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
-                      Achievement
-                    </th>
-                    <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
+            {selectTab === "Product Wise" ? (
+              <>
+                <div className="w-full flex-1 overflow-x-auto">
+                  <table className="w-full border-collapse min-w-[900px]">
+                    <thead className="sticky top-0 z-[1] bg-white">
+                      <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
+                        <th className="px-4 py-3 text-[12px] w-[14.5%]">
+                          <div className="relative flex items-center">
+                            <LuSearch
+                              className="absolute left-2 text-[#7d7d7d]"
+                              size={14}
+                            />
 
-                <tbody>
-                  {isFetching ? (
-                    <tr>
-                      <td
-                        colSpan={7}
-                        className="py-5 text-center text-[#7d7d7d]"
-                      >
-                        <Spin indicator={antIcon} />
-                      </td>
-                    </tr>
-                  ) : ProductData.length > 0 ? (
-                    ProductData.map((row: any, rowIndex: number) => (
-                      <tr
-                        key={rowIndex}
-                        className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
-                      >
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          {row.sku}
-                        </td>
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          {row.productName}
-                        </td>
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          {row.isfrom}
-                        </td>
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          {row.isStatus}
-                        </td>
-                        <td className="px-5 py-2 w-[90px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          {editIndex === rowIndex ? (
                             <input
-                              type="number"
-                              value={editData.target ?? row.target}
-                              onChange={(e) =>
-                                setEditData({
-                                  ...editData,
-                                  _id: row._id,
-                                  target: Number(e.target.value),
-                                })
-                              }
-                              className="border border-gray-400 rounded-md px-2 py-1 w-[90px] text-sm text-heading focus:outline-none"
-                            />
-                          ) : (
-                            <span>{row.target}</span>
-                          )}
-                        </td>
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          {row.achievement}
-                        </td>
-                        <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                          <div className="flex gap-5 items-center">
-                            <TbEdit
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditIndex(
-                                  editIndex === rowIndex ? null : rowIndex
-                                );
-                                setEditData({
-                                  _id: row._id,
-                                  target: row.target,
-                                });
-                              }}
-                              size={18}
-                              className={`cursor-pointer ${
-                                editIndex === rowIndex
-                                  ? "text-primary"
-                                  : "text-[#7d7d7d]"
-                              }`}
-                            />
-                            <FaCheckCircle
-                              size={18}
-                              onClick={(e: any) => {
-                                e.stopPropagation();
-                                handleEdit(editData);
-                              }}
-                              className="cursor-pointer text-primary"
+                              placeholder="SKU"
+                              value={SkuNo}
+                              onChange={(e) => setSkuNo(e.target.value)}
+                              type="text"
+                              className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
                             />
                           </div>
+                        </th>
+                        <th className="px-4 py-3 w-[14.5%]">
+                          <div className="relative flex items-center">
+                            <LuSearch
+                              className="absolute left-2 text-[#7d7d7d]"
+                              size={14}
+                            />
+
+                            <input
+                              placeholder="Product Name"
+                              value={productName}
+                              onChange={(e) => setProductName(e.target.value)}
+                              type="text"
+                              className="h-8 pl-[30px] pr-3 w-full border border-gray-400 rounded-md text-sm text-heading font-normal focus:outline-none"
+                            />
+                          </div>
+                        </th>
+                        <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
+                          Form
+                        </th>
+                        <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                          Status
+                        </th>
+                        <th className="px-4 font-medium py-3 text-[12px] w-[18%]">
+                          Target
+                        </th>
+                        <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                          Achievement
+                        </th>
+                        <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {isFetching ? (
+                        <tr>
+                          <td
+                            colSpan={7}
+                            className="py-5 text-center text-[#7d7d7d]"
+                          >
+                            <Spin indicator={antIcon} />
+                          </td>
+                        </tr>
+                      ) : ProductData.length > 0 ? (
+                        ProductData.map((row: any, rowIndex: number) => (
+                          <tr
+                            key={rowIndex}
+                            className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
+                          >
+                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              {row.sku}
+                            </td>
+                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              {row.productName}
+                            </td>
+                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              {row.isfrom}
+                            </td>
+                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              {row.isStatus}
+                            </td>
+                            <td className="px-5 py-2 w-[90px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              {editIndex === rowIndex ? (
+                                <input
+                                  type="number"
+                                  value={editData.target ?? row.target}
+                                  onChange={(e) =>
+                                    setEditData({
+                                      ...editData,
+                                      _id: row._id,
+                                      target: Number(e.target.value),
+                                    })
+                                  }
+                                  className="border border-gray-400 rounded-md px-2 py-1 w-[90px] text-sm text-heading focus:outline-none"
+                                />
+                              ) : (
+                                <span>{row.target}</span>
+                              )}
+                            </td>
+                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              {row.achievement}
+                            </td>
+                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                              <div className="flex gap-5 items-center">
+                                <TbEdit
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditIndex(
+                                      editIndex === rowIndex ? null : rowIndex,
+                                    );
+                                    setEditData({
+                                      _id: row._id,
+                                      target: row.target,
+                                    });
+                                  }}
+                                  size={18}
+                                  className={`cursor-pointer ${
+                                    editIndex === rowIndex
+                                      ? "text-primary"
+                                      : "text-[#7d7d7d]"
+                                  }`}
+                                />
+                                <FaCheckCircle
+                                  size={18}
+                                  onClick={(e: any) => {
+                                    e.stopPropagation();
+                                    handleEdit(editData);
+                                  }}
+                                  className="cursor-pointer text-primary"
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={7}
+                            className="px-3 py-6 text-center text-heading"
+                          >
+                            No data found
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            ) : (
+              <div className="w-full flex-1 overflow-x-auto">
+                <table className="w-full border-collapse min-w-[900px]">
+                  <thead className="sticky top-0 z-[1] bg-white">
+                    <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
+                      <th className="px-4 py-3 text-[12px] w-[14.5%]">
+                        <div className="relative flex items-center">
+                          <LuSearch
+                            className="absolute left-2 text-[#7d7d7d]"
+                            size={14}
+                          />
+
+                          <input
+                            placeholder="Postion"
+                            value={asmFilter}
+                            onChange={(e) => setAsmFilter(e.target.value)}
+                            type="text"
+                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
+                          />
+                        </div>
+                      </th>
+                      <th className="px-4 py-3 text-[12px]  w-[14.5%]">
+                        <div className="relative flex items-center">
+                          <LuSearch
+                            className="absolute left-2 text-[#7d7d7d]"
+                            size={14}
+                          />
+
+                          <input
+                            placeholder="Area Name"
+                            value={areaFilter}
+                            onChange={(e) => setAreaFilter(e.target.value)}
+                            type="text"
+                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
+                          />
+                        </div>
+                      </th>
+                      <th className="px-4 py-3  text-[12px] w-[14.5%]">
+                        <div className="relative flex items-center">
+                          <LuSearch
+                            className="absolute left-2 text-[#7d7d7d]"
+                            size={14}
+                          />
+
+                          <input
+                            placeholder="Brick Name"
+                            value={brickFilter}
+                            onChange={(e) => setBrickFilter(e.target.value)}
+                            type="text"
+                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
+                          />
+                        </div>
+                      </th>
+                      <th className="px-4 py-3 text-[12px] w-[14.5%]">
+                        <div className="relative flex items-center ">
+                          <LuSearch
+                            className="absolute left-2 text-[#7d7d7d]"
+                            size={14}
+                          />
+
+                          <input
+                            placeholder="MR Name"
+                            value={mrFilter}
+                            onChange={(e) => setMrFilter(e.target.value)}
+                            type="text"
+                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
+                          />
+                        </div>
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Target
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Achievement
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Percentage
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {isFetching ? (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="py-5 text-center text-[#7d7d7d]"
+                        >
+                          <Spin indicator={antIcon} />
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan={7}
-                        className="px-3 py-6 text-center text-heading"
-                      >
-                        No data found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    ) : filteredSaleData.length > 0 ? (
+                      filteredSaleData.map((row, rowIndex) => (
+                        <tr
+                          key={rowIndex}
+                          className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
+                        >
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.asm}
+                          </td>
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.area}
+                          </td>
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.brick}
+                          </td>
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.mrName}
+                          </td>
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.target}
+                          </td>
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.achievement}
+                          </td>
+                          <td className="px-5 py-2 border-b border-primary text-[13px]">
+                            {row.percentage}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="px-3 py-6 text-center text-heading"
+                        >
+                          No data found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       </div>

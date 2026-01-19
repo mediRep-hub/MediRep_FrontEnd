@@ -34,7 +34,7 @@ interface Doctor {
   image?: string | null;
   startTime?: string | null;
   endTime?: string | null;
-  region?: string;
+  brick?: string;
   area?: string;
   location: {
     address: string;
@@ -92,7 +92,7 @@ export default function Doctors() {
       phone: doctor.phone || "",
       startTime: doctor.startTime || "",
       endTime: doctor.endTime || "",
-      region: doctor.region || "",
+      brick: doctor.brick || "",
       area: doctor.area || "",
       affiliation: doctor.affiliation || "",
       image: doctor.image || null,
@@ -110,7 +110,7 @@ export default function Doctors() {
       startTime: editingDoctor?.startTime || "",
       endTime: editingDoctor?.endTime || "",
       affiliation: editingDoctor?.affiliation || "",
-      region: editingDoctor?.region || "",
+      brick: editingDoctor?.brick || "",
       area: editingDoctor?.area || "",
       image: editingDoctor?.image || null,
       location: editingDoctor?.location || { address: "", lat: 0, lng: 0 },
@@ -135,7 +135,7 @@ export default function Doctors() {
           .catch((error) => {
             console.error(
               "Error updating Doctor:",
-              error.response?.data || error
+              error.response?.data || error,
             );
             const errorMessage =
               error?.response?.data?.message ||
@@ -144,7 +144,7 @@ export default function Doctors() {
               "An unexpected error occurred.";
 
             notifyError(
-              `Failed to update Doctor. Please try again. ${errorMessage}`
+              `Failed to update Doctor. Please try again. ${errorMessage}`,
             );
             notifyError(error.response?.data.message);
           })
@@ -160,7 +160,7 @@ export default function Doctors() {
           .catch((error) => {
             console.error(
               "Error adding Doctor:",
-              error.response?.data || error
+              error.response?.data || error,
             );
             refetch();
             notifyError("Failed to add Doctor. Please try again.");
@@ -426,13 +426,13 @@ export default function Doctors() {
                   <div className="mt-4">
                     <CustomSelect
                       options={regionOptions}
-                      value={formik.values.region}
-                      onChange={(val) => formik.setFieldValue("region", val)}
-                      placeholder="Region"
+                      value={formik.values.brick}
+                      onChange={(val) => formik.setFieldValue("brick", val)}
+                      placeholder="Brick"
                     />
-                    {formik.touched.region && formik.errors.region && (
+                    {formik.touched.brick && formik.errors.brick && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.region}
+                        *{formik.errors.brick}
                       </div>
                     )}
                   </div>

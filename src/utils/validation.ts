@@ -30,7 +30,7 @@ export const DoctorSchema = Yup.object().shape({
   phone: Yup.string().required("Phone is required"),
   startTime: Yup.string().required("Start time is required"),
   endTime: Yup.string().required("End time is required"),
-  region: Yup.string().required("Region is required"),
+  brick: Yup.string().required("brick is required"),
   area: Yup.string().required("Area is required"),
   affiliation: Yup.string().required("Affiliation is required"),
   image: Yup.string().nullable(),
@@ -95,7 +95,7 @@ export const BrickSchema = Yup.object().shape({
     .of(
       Yup.object().shape({
         name: Yup.string().required("Product name is required"),
-      })
+      }),
     )
     .min(1, "Please select at least one product.")
     .required("Products are required"),
@@ -125,13 +125,13 @@ export const AccountSchema = (isEdit: boolean) =>
           .notRequired()
           .matches(
             /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
-            "Must include 1 uppercase, 1 special character, and 1 digit."
+            "Must include 1 uppercase, 1 special character, and 1 digit.",
           )
       : Yup.string()
           .required("Password is required")
           .matches(
             /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{6,}$/,
-            "Must include 1 uppercase, 1 special character, and 1 digit."
+            "Must include 1 uppercase, 1 special character, and 1 digit.",
           ),
 
     confirmPassword: isEdit
@@ -144,8 +144,7 @@ export const AccountSchema = (isEdit: boolean) =>
 
     image: Yup.string().optional(),
     division: Yup.string().required("Division is required"),
-    area: Yup.string().required("Area is required"),
-    region: Yup.string().required("Region is required"),
+    city: Yup.string().required("city is required"),
     strategy: Yup.string().required("Strategy is required"),
     position: Yup.string().required("Position is required"),
 
@@ -193,20 +192,6 @@ export const defaultLinks: SidebarLink[] = [
     path: "/targets-achievements",
     icon: "fluent:rectangle-portrait-location-target-20-filled",
   },
-<<<<<<< HEAD
-
-=======
-  // {
-  //   name: "Attendance",
-  //   icon: "clarity:employee-group-solid",
-  //   path: "/attendance",
-  // },
-  // {
-  //   name: "Leaves",
-  //   path: "/leaves",
-  //   icon: "material-symbols:holiday-village-rounded",
-  // },
->>>>>>> a8464c710ff4e8fdd164c1cfb6a16f469aa1a550
   {
     name: "Products",
     path: "/products",
@@ -227,12 +212,17 @@ export const defaultLinks: SidebarLink[] = [
     ],
   },
   {
+    name: "Brick",
+    path: "/brick",
+    icon: "mage:edit-pen-fill",
+  },
+  {
     name: "Field Execution",
     icon: "game-icons:field",
     children: [
       {
-        name: "Bricks",
-        path: "/bricks",
+        name: "Call Reporting",
+        path: "/callReporting",
       },
       // {
       //   name: "Group",
@@ -272,19 +262,6 @@ export const defaultLinks: SidebarLink[] = [
       // },
     ],
   },
-<<<<<<< HEAD
-=======
-  // {
-  //   name: "Payroll",
-  //   path: "/payroll",
-  //   icon: "ph:scroll-fill",
-  // },
-  // {
-  //   name: "Setting",
-  //   path: "/setting",
-  //   icon: "lets-icons:setting-fill",
-  // },
->>>>>>> a8464c710ff4e8fdd164c1cfb6a16f469aa1a550
 ];
 
 export const DistributorLinks: SidebarLink[] = [

@@ -48,9 +48,9 @@ export interface Account {
   phoneNumber?: string;
   division?: string;
   position?: string;
-  area?: string;
+  city?: string;
   ownerName?: string;
-  region?: string;
+  // region?: string;
   strategy?: string;
   image?: string;
 }
@@ -92,9 +92,9 @@ export default function ManageAccount() {
         v?.name,
         v?.email,
         v?.division === "Distributor" ? v?.ownerName : v?.position,
-        v?.area,
+        v?.city,
         v?.division,
-        v?.region,
+        // v?.region,
         <div className="flex items-center gap-2" key={v._id}>
           <TbEdit
             onClick={() => {
@@ -123,10 +123,10 @@ export default function ManageAccount() {
     return {
       sales: AllAccounts.filter((a) => a.division === "Sales").map(buildRow),
       marketing: AllAccounts.filter((a) => a.division === "Marketing").map(
-        buildRow
+        buildRow,
       ),
       distributor: AllAccounts.filter((a) => a.division === "Distributor").map(
-        buildRow
+        buildRow,
       ),
     };
   }, [AllAccounts]);
@@ -141,8 +141,8 @@ export default function ManageAccount() {
       confirmPassword: "",
       image: editingAccount?.image ?? "",
       division: editingAccount?.division ?? "",
-      area: editingAccount?.area ?? "",
-      region: editingAccount?.region ?? "",
+      city: editingAccount?.city ?? "",
+      // region: editingAccount?.region ?? "",
       strategy: editingAccount?.strategy ?? "",
       position: editingAccount?.position ?? "",
       ownerName: editingAccount?.ownerName ?? "",
@@ -159,8 +159,8 @@ export default function ManageAccount() {
         password: values.password,
         confirmPassword: values.confirmPassword,
         division: values.division,
-        area: values.area,
-        region: values.region,
+        city: values.city,
+        // region: values.region,
         strategy: values.strategy,
         position: values.position,
         ownerName: values.ownerName,
@@ -173,7 +173,7 @@ export default function ManageAccount() {
       action
         .then(() => {
           notifySuccess(
-            `Account ${editingAccount ? "updated" : "added"} successfully`
+            `Account ${editingAccount ? "updated" : "added"} successfully`,
           );
           setCreateAccount(false);
           setEditingAccount(null);
@@ -189,7 +189,7 @@ export default function ManageAccount() {
     },
   });
 
-  // Auto-set Distributor position
+  // Auto-set Distributor positio
   useEffect(() => {
     if (formik.values.division === "Distributor")
       formik.setFieldValue("position", "Distributor");
@@ -278,8 +278,8 @@ export default function ManageAccount() {
                 selectTab === "sales"
                   ? rowsByDivision.sales.length
                   : selectTab === "marketing"
-                  ? rowsByDivision.marketing.length
-                  : rowsByDivision.distributor.length
+                    ? rowsByDivision.marketing.length
+                    : rowsByDivision.distributor.length
               }
               itemsPerPage={itemsPerPage}
               onPageChange={(page: any) => setCurrentPage(page)}
@@ -301,9 +301,8 @@ export default function ManageAccount() {
                       "Name",
                       "Email",
                       "Owner Name",
-                      "Area",
+                      "City",
                       "Division",
-                      "Brick",
                       "Action",
                     ]
                   : [
@@ -311,9 +310,8 @@ export default function ManageAccount() {
                       "Name",
                       "Email",
                       "Position",
-                      "Area",
+                      "City",
                       "Division",
-                      "Brick",
                       "Action",
                     ]
               }
@@ -321,8 +319,8 @@ export default function ManageAccount() {
                 selectTab === "sales"
                   ? rowsByDivision.sales
                   : selectTab === "marketing"
-                  ? rowsByDivision.marketing
-                  : rowsByDivision.distributor
+                    ? rowsByDivision.marketing
+                    : rowsByDivision.distributor
               }
               isFetching={isFetching}
             />
@@ -598,22 +596,22 @@ export default function ManageAccount() {
 
                   <div className="mt-3">
                     <CustomSelect
-                      value={formik.values.area}
+                      value={formik.values.city}
                       options={Arealist}
-                      onChange={(val: any) => formik.setFieldValue("area", val)}
-                      placeholder="Area"
+                      onChange={(val: any) => formik.setFieldValue("city", val)}
+                      placeholder="City"
                     />
-                    {formik.touched.area && formik.errors.area && (
+                    {formik.touched.city && formik.errors.city && (
                       <div className="text-red-500 text-xs">
                         *
-                        {typeof formik.errors.area === "string"
-                          ? formik.errors.area
+                        {typeof formik.errors.city === "string"
+                          ? formik.errors.city
                           : ""}
                       </div>
                     )}
                   </div>
 
-                  <div className="mt-3">
+                  {/* <div className="mt-3">
                     <CustomSelect
                       value={formik.values.region}
                       options={RegionList}
@@ -630,7 +628,7 @@ export default function ManageAccount() {
                           : ""}
                       </div>
                     )}
-                  </div>
+                  </div> */}
 
                   <div className="mt-3">
                     <CustomSelect
@@ -838,7 +836,8 @@ export default function ManageAccount() {
                 Confirm Delete
               </h2>
               <p className="mb-6">
-                Are you sure you want to delete this <strong>Account</strong>{" "}
+                Are you sure you want to delete this{" "}
+                <strong>Account</strong>{" "}
               </p>
             </div>
             <div className="flex mt-5 justify-between gap-4">

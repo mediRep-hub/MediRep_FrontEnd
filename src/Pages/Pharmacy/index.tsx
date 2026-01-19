@@ -31,7 +31,7 @@ interface Pharmacy {
   image?: string | null;
   startTime?: string | null;
   endTime?: string | null;
-  region?: string;
+  brick?: string;
   channel?: string;
   area?: string;
   location: {
@@ -85,7 +85,7 @@ export default function Pharmacies() {
       phone: pharmacy.phone || "",
       startTime: pharmacy.startTime || "",
       endTime: pharmacy.endTime || "",
-      region: pharmacy.region || "",
+      brick: pharmacy.brick || "",
       area: pharmacy.area || "",
       affiliation: pharmacy.affiliation || "",
       image: pharmacy.image || null,
@@ -103,7 +103,7 @@ export default function Pharmacies() {
       startTime: editingPharmacy?.startTime || "",
       endTime: editingPharmacy?.endTime || "",
       affiliation: editingPharmacy?.affiliation || "",
-      region: editingPharmacy?.region || "",
+      brick: editingPharmacy?.brick || "",
       area: editingPharmacy?.area || "",
       image: editingPharmacy?.image || null,
       channel: editingPharmacy?.channel || "",
@@ -129,7 +129,7 @@ export default function Pharmacies() {
           .catch((error) => {
             console.error(
               "Error updating Pharmacy:",
-              error.response?.data || error
+              error.response?.data || error,
             );
             notifyError("Failed to update Pharmacy. Please try again.");
             notifyError(error.response?.data.message);
@@ -146,7 +146,7 @@ export default function Pharmacies() {
           .catch((error) => {
             console.error(
               "Error adding Pharmacy:",
-              error.response?.data || error
+              error.response?.data || error,
             );
             notifyError("Failed to add Pharmacy. Please try again.");
             notifyError(error.response?.data.message);
@@ -413,13 +413,13 @@ export default function Pharmacies() {
                   <div className="mt-4">
                     <CustomSelect
                       options={regionOptions}
-                      value={formik.values.region}
-                      onChange={(val) => formik.setFieldValue("region", val)}
-                      placeholder="Region"
+                      value={formik.values.brick}
+                      onChange={(val) => formik.setFieldValue("brick", val)}
+                      placeholder="Brick"
                     />{" "}
-                    {formik.touched.region && formik.errors.region && (
+                    {formik.touched.brick && formik.errors.brick && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.region}
+                        *{formik.errors.brick}
                       </div>
                     )}
                   </div>

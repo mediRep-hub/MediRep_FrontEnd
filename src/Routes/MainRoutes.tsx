@@ -3,32 +3,33 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
+import CallReporting from "../Pages/CallReporting";
+import CallReportingDetail from "../Pages/CallReporting/CallReportingDetail";
+import Brick from "../Pages/Brick";
 
 const PendingOrder = lazy(() => import("../Pages/Orders/pendingOrder"));
 const PrimarySale = lazy(() => import("../Pages/SaleData/primarySale"));
 const SecondarySale = lazy(() => import("../Pages/SaleData/secondarySale"));
 const PrimarySaleDetails = lazy(
-  () => import("../Pages/SaleData/primarySaleDetails")
+  () => import("../Pages/SaleData/primarySaleDetails"),
 );
 const TrackRequisition = lazy(
-  () => import("../Pages/Requisition/trackRequisition")
+  () => import("../Pages/Requisition/trackRequisition"),
 );
 const Orders = lazy(() => import("../Pages/Orders"));
 const OrderDetails = lazy(() => import("../Pages/Orders/orderDetails"));
-const BricksDetail = lazy(() => import("../Pages/Bricks/bricksDetail"));
 const Pharmacy = lazy(() => import("../Pages/Pharmacy"));
 const Group = lazy(() => import("../Pages/Group"));
 const RequisitionDetail = lazy(
-  () => import("../Pages/Requisition/RequisitionDetail")
+  () => import("../Pages/Requisition/RequisitionDetail"),
 );
 const ManageAccount = lazy(() => import("../Pages/ManageAccount"));
 const DashBoard = lazy(() => import("../Pages/DashBoard"));
 const Doctors = lazy(() => import("../Pages/Doctors"));
-const StrategyPlanning = lazy(() => import("../Pages/Bricks"));
+const StrategyPlanning = lazy(() => import("../Pages/CallReporting"));
 const DataReporting = lazy(() => import("../Pages/DataReporting"));
 const Products = lazy(() => import("../Pages/Products"));
 const Requisition = lazy(() => import("../Pages/Requisition"));
-const Bricks = lazy(() => import("../Pages/Bricks"));
 
 export default function MainRoutes() {
   const { user } = useSelector((state: any) => state.user);
@@ -68,8 +69,11 @@ export default function MainRoutes() {
         />{" "}
         <Route path="/trackRequisition" element={<TrackRequisition />} />
         <Route path="/group" element={<Group />} />
-        <Route path="/bricks" element={<Bricks />} />
-        <Route path="/bricks/details" element={<BricksDetail />} />
+        <Route path="/callReporting" element={<CallReporting />} />
+        <Route
+          path="/callReporting/details"
+          element={<CallReportingDetail />}
+        />
         <Route path="/orders" element={<Orders />} />
         <Route path="/pendingOrders" element={<PendingOrder />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
@@ -80,6 +84,7 @@ export default function MainRoutes() {
         />
         <Route path="/secondarySale" element={<SecondarySale />} />
         {/* <Route path="/setting" element={<Setting />} /> */}
+        <Route path="/brick" element={<Brick />} />{" "}
       </Routes>
     </Suspense>
   );

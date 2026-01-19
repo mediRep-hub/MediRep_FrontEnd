@@ -7,20 +7,20 @@ import { FaArrowLeft, FaCalendar } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function BricksDetail() {
+export default function CallReportingDetail() {
   const location = useLocation();
   const doctor = location.state?.doctor;
   const [isLoaction, setLoaction] = useState(false);
 
   useEffect(() => {
-    document.title = "MediRep | Brick Details";
+    document.title = "MediRep | Call Reporting Details";
   }, []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A",
   });
   const navigate = useNavigate();
   const handleGOBack = () => {
-    navigate("/bricks");
+    navigate("/callReporting");
   };
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
@@ -38,7 +38,7 @@ export default function BricksDetail() {
           </div>
 
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Brick Details
+            Call Details
           </p>
         </div>
         <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(76.8vh-0px)] lg:h-[calc(66vh-0px)] h-auto ">
@@ -199,7 +199,7 @@ export default function BricksDetail() {
           >
             <div className="flex items-center justify-between ">
               <p className="text-[24px] text-heading capitalize font-semibold">
-                Check out Location
+                Check In Location
               </p>
               <IoMdCloseCircle
                 size={20}

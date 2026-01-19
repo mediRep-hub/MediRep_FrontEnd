@@ -61,7 +61,7 @@ const selectDaysOptions = [
 const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 
-export default function Bricks() {
+export default function CallReporting() {
   const [addBrickModel, setAddBrickModel] = useState(false);
   const [viewDetails, SetViewdetails] = useState(false);
   const [selectedMR, setSelectedMR] = useState<string>("");
@@ -85,7 +85,7 @@ export default function Bricks() {
   const [doctorList, setDoctorList] = useState<any[]>([]);
 
   useEffect(() => {
-    document.title = "MediRep | Bricks";
+    document.title = "MediRep | Call Reporting";
   }, []);
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
@@ -139,7 +139,7 @@ export default function Bricks() {
         selectedMR,
         selectedDate.start || undefined,
         selectedDate.end || undefined,
-        capitalize(selectedArea?.toLowerCase())
+        capitalize(selectedArea?.toLowerCase()),
       ),
   });
   useEffect(() => {
@@ -188,15 +188,15 @@ export default function Bricks() {
 
         // Convert doctor names to IDs
         const doctorIds = AllDOctors?.filter((doc: any) =>
-          values.doctorList.includes(doc.name)
+          values.doctorList.includes(doc.name),
         )?.map((doc: any) => doc._id);
 
         const selectedProducts = AllProducts.filter((pro: any) =>
           values.products.some(
             (p: any) =>
               p.name?.trim().toLowerCase() ===
-              pro.productName.trim().toLowerCase()
-          )
+              pro.productName.trim().toLowerCase(),
+          ),
         );
 
         if (selectedProducts.length === 0) {
@@ -307,7 +307,7 @@ export default function Bricks() {
       checkInLocation: doctor?.checkInLocation,
       nextVisitDate: doctor?.nextVisitDate,
     };
-    navigate("/bricks/details", { state: { doctor: plainDoctor } });
+    navigate("/callReporting/details", { state: { doctor: plainDoctor } });
   };
 
   return (
@@ -315,7 +315,7 @@ export default function Bricks() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between items-start">
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
-            Bricks
+            Plan
           </p>
           <div className="flex flex-wrap w-auto md:w-full lg:w-auto items-center gap-3">
             <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
@@ -324,7 +324,7 @@ export default function Bricks() {
                 options={[
                   "All",
                   ...AllMR.filter(
-                    (mr: any) => mr?.position === "MedicalRep(MR)"
+                    (mr: any) => mr?.position === "MedicalRep(MR)",
                   ).map((mr: any) => mr?.name),
                 ]}
                 value={selectedMR}
@@ -366,7 +366,7 @@ export default function Bricks() {
               width="20"
               color="#fff"
             />
-            <p className="text-white text-base font-medium">Create Brick</p>
+            <p className="text-white text-base font-medium">Create Plan</p>
           </button>
         </div>
         <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
@@ -528,10 +528,10 @@ export default function Bricks() {
                               doc.status === "pending"
                                 ? "text-[#E90761] border-[#E90761]"
                                 : doc.status === "close"
-                                ? "text-[#0BA69C] border-[#0BA69C]"
-                                : doc.status === "check In"
-                                ? "text-[#FF9500] border-[#FF9500]"
-                                : "text-heading border-heading"
+                                  ? "text-[#0BA69C] border-[#0BA69C]"
+                                  : doc.status === "check In"
+                                    ? "text-[#FF9500] border-[#FF9500]"
+                                    : "text-heading border-heading"
                             }`}
                           >
                             {doc.status}
@@ -598,7 +598,7 @@ export default function Bricks() {
           >
             <div className="flex items-center justify-between ">
               <p className="text-[24px] text-heading capitalize font-medium">
-                {editingProduct === null ? "Create Bricks" : "Update  Bricks"}
+                {editingProduct === null ? "Create Plan" : "Update  Plan"}
               </p>
               <IoMdCloseCircle
                 size={20}
@@ -692,7 +692,7 @@ export default function Bricks() {
                     <CustomSelectMR
                       options={[
                         ...AllMR.filter(
-                          (mr: any) => mr?.position === "MedicalRep(MR)"
+                          (mr: any) => mr?.position === "MedicalRep(MR)",
                         ).map((mr: any) => ({
                           label: mr.name,
                           value: mr._id,
@@ -731,7 +731,7 @@ export default function Bricks() {
                       onChange={(selectedNames: string[]) =>
                         formik.setFieldValue(
                           "products",
-                          selectedNames.map((name) => ({ name }))
+                          selectedNames.map((name) => ({ name })),
                         )
                       }
                       placeholder="Select Products"
@@ -753,9 +753,9 @@ export default function Bricks() {
                   {isloading ? (
                     <Spin indicator={antIcon} />
                   ) : editingProduct === null ? (
-                    "Create Bricks"
+                    "Create Plan"
                   ) : (
-                    "Update Bricks"
+                    "Update Plan"
                   )}
                 </button>
               </div>
@@ -855,7 +855,7 @@ export default function Bricks() {
                 ))
               ) : (
                 <p className="text-[#7d7d7d] text-sm text-center">
-                  No doctors found for this Bricks.
+                  No doctors found for this Plan.
                 </p>
               )}
             </div>
