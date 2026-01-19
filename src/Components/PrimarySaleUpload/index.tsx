@@ -6,13 +6,13 @@ import { notifyError, notifySuccess } from "../Toast";
 import CustomSelect from "../Select";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAccounts } from "../../api/adminServices";
-import { uploadBulkPrimarySales } from "../../api/primaryServices";
+import { uploadBulkSECONDARYSales } from "../../api/secondaryServices";
 export default function PrimarySaleUpload({ closeModle, refetch }: any) {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedDistributor, setSelectedDistributor] = useState<string | null>(
-    null
+    null,
   );
 
   const { data: Distributor } = useQuery({
@@ -23,7 +23,7 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
 
   const AllDistributor =
     Distributor?.data?.admins?.filter(
-      (item: any) => item.position === "Distributor"
+      (item: any) => item.position === "Distributor",
     ) ?? [];
 
   console.log("all DIstributor ", AllDistributor);
@@ -40,7 +40,7 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
     setLoading(true); // start loading
 
     try {
-      await uploadBulkPrimarySales(formData);
+      await uploadBulkSECONDARYSales(formData);
       notifySuccess("Sale uploaded successfully!");
 
       if (refetch) refetch();
@@ -62,7 +62,7 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
     setFile(null);
     setProgress(0);
     const inputElement = document.getElementById(
-      "fileUpload"
+      "fileUpload",
     ) as HTMLInputElement;
     if (inputElement) inputElement.value = "";
   };

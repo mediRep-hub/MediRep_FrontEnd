@@ -6,13 +6,12 @@ import { useSelector } from "react-redux";
 import CallReporting from "../Pages/CallReporting";
 import CallReportingDetail from "../Pages/CallReporting/CallReportingDetail";
 import Brick from "../Pages/Brick";
+import SecondarySaleDetails from "../Pages/SaleData/secondarySaleDetails";
 
 const PendingOrder = lazy(() => import("../Pages/Orders/pendingOrder"));
 const PrimarySale = lazy(() => import("../Pages/SaleData/primarySale"));
 const SecondarySale = lazy(() => import("../Pages/SaleData/secondarySale"));
-const PrimarySaleDetails = lazy(
-  () => import("../Pages/SaleData/primarySaleDetails"),
-);
+
 const TrackRequisition = lazy(
   () => import("../Pages/Requisition/trackRequisition"),
 );
@@ -79,8 +78,8 @@ export default function MainRoutes() {
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
         <Route path="/primarySale" element={<PrimarySale />} />{" "}
         <Route
-          path="/primarySale/primarySaleDetails"
-          element={<PrimarySaleDetails />}
+          path="/secondarySale/secondarySaleDetails"
+          element={<SecondarySaleDetails />}
         />
         <Route path="/secondarySale" element={<SecondarySale />} />
         {/* <Route path="/setting" element={<Setting />} /> */}

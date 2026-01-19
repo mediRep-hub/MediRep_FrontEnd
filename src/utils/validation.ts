@@ -13,7 +13,7 @@ export const PharmacySchema = Yup.object().shape({
   startTime: Yup.string().required("Start time is required"),
   endTime: Yup.string().required("End time is required"),
   region: Yup.string().required("Region is required"),
-  area: Yup.string().required("Area is required"),
+  city: Yup.string().required("city is required"),
   affiliation: Yup.string().required("Affiliation is required"),
   channel: Yup.string().required("Channel is required"),
   image: Yup.string().nullable(),
@@ -31,7 +31,7 @@ export const DoctorSchema = Yup.object().shape({
   startTime: Yup.string().required("Start time is required"),
   endTime: Yup.string().required("End time is required"),
   brick: Yup.string().required("brick is required"),
-  area: Yup.string().required("Area is required"),
+  city: Yup.string().required("city is required"),
   affiliation: Yup.string().required("Affiliation is required"),
   image: Yup.string().nullable(),
   location: Yup.object({

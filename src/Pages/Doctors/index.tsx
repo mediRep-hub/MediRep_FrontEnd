@@ -22,6 +22,7 @@ import Pagination from "../../Components/Pagination";
 import { Spin } from "antd";
 import LocationPicker from "../../Components/LocationPicker";
 import { Icon } from "@iconify/react";
+import { bricksData } from "../../utils/brick";
 
 interface Doctor {
   _id?: string;
@@ -35,7 +36,7 @@ interface Doctor {
   startTime?: string | null;
   endTime?: string | null;
   brick?: string;
-  area?: string;
+  city?: string;
   location: {
     address: string;
     lat: number;
@@ -50,7 +51,7 @@ const specialtyOptions = [
   "Gastroenterologist",
   "Family Doctor",
 ];
-const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
+const regionOptions = ["Brick 1", "Brick 2", "Brick 3", "Brick 4", "Brick 5"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
 export default function Doctors() {
@@ -93,7 +94,7 @@ export default function Doctors() {
       startTime: doctor.startTime || "",
       endTime: doctor.endTime || "",
       brick: doctor.brick || "",
-      area: doctor.area || "",
+      city: doctor.city || "",
       affiliation: doctor.affiliation || "",
       image: doctor.image || null,
       location: doctor.location || { address: "", lat: 0, lng: 0 },
@@ -111,7 +112,7 @@ export default function Doctors() {
       endTime: editingDoctor?.endTime || "",
       affiliation: editingDoctor?.affiliation || "",
       brick: editingDoctor?.brick || "",
-      area: editingDoctor?.area || "",
+      city: editingDoctor?.city || "",
       image: editingDoctor?.image || null,
       location: editingDoctor?.location || { address: "", lat: 0, lng: 0 },
     },
@@ -199,6 +200,10 @@ export default function Doctors() {
       });
   };
 
+  const brickOptions: string[] = bricksData.map(
+    (brick: any) => brick.brickName,
+  );
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -229,7 +234,7 @@ export default function Doctors() {
                 width="20"
                 color="#fff"
               />
-              <p className="text-white text-base font-medium">Upload Doctor</p>
+              <p className="text-white text-base font-medium">Add Doctor</p>
             </button>
           </div>
         </div>
@@ -283,7 +288,7 @@ export default function Doctors() {
           >
             <div className="flex items-center justify-between">
               <p className="text-[24px] text-heading capitalize font-semibold">
-                {editingDoctor ? "Edit Doctor" : "Upload Doctor"}
+                {editingDoctor ? "Edit Doctor" : "Add Doctor"}
               </p>
 
               <IoMdCloseCircle
@@ -425,11 +430,12 @@ export default function Doctors() {
                   </div>
                   <div className="mt-4">
                     <CustomSelect
-                      options={regionOptions}
+                      options={brickOptions}
                       value={formik.values.brick}
                       onChange={(val) => formik.setFieldValue("brick", val)}
                       placeholder="Brick"
                     />
+
                     {formik.touched.brick && formik.errors.brick && (
                       <div className="text-red-500 text-xs">
                         *{formik.errors.brick}
@@ -439,13 +445,13 @@ export default function Doctors() {
                   <div className="mt-4">
                     <CustomSelect
                       options={areaOptions}
-                      value={formik.values.area}
-                      onChange={(val) => formik.setFieldValue("area", val)}
-                      placeholder="Area"
+                      value={formik.values.city}
+                      onChange={(val) => formik.setFieldValue("city", val)}
+                      placeholder="City"
                     />
-                    {formik.touched.area && formik.errors.area && (
+                    {formik.touched.city && formik.errors.city && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.area}
+                        *{formik.errors.city}
                       </div>
                     )}
                   </div>

@@ -66,12 +66,12 @@ export const ENDPOINTS = {
   ORDER_UPDATE: "/orders/updateOrder",
   ORDER_ACCEPT: "/orders/acceptOrder",
   ORDER_DELETE: "/orders/deleteOrder",
-  //   -----------Primary Sales-------------
-  PRIMARY_SALE_ADD: "/primarySale/createPrimarySale",
-  PRIMARY_SALE_GET_ALL: "/primarySale/getAllPrimarySales",
-  PRIMARY_SALE_UPDATE: "/primarySale/updatePrimarySale",
-  PRIMARY_SALE_DELETE: "/primarySale/deletePrimarySale",
-  PRIMARY_SALE_BULK_UPLOAD: "/primarySale/uploadBulkPrimarySales",
+  //   -----------Secondary Sales-------------
+  SECONDARY_SALE_ADD: "/secondarySale/createSecondarySale",
+  SECONDARY_SALE_GET_ALL: "/secondarySale/getAllSecondarySales",
+  SECONDARY_SALE_UPDATE: "/secondarySale/updateSecondarySale",
+  SECONDARY_SALE_DELETE: "/secondarySale/deleteSecondarySale",
+  SECONDARY_SALE_BULK_UPLOAD: "/secondarySale/uploadBulkSecondarySales",
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
 

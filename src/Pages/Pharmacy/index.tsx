@@ -22,6 +22,7 @@ import {
 } from "../../api/pharmacyServices";
 import PharmacyUploads from "../../Components/PharmacyUploads";
 import { Icon } from "@iconify/react";
+import { bricksData } from "../../utils/brick";
 interface Pharmacy {
   _id?: string;
   name: string;
@@ -41,7 +42,7 @@ interface Pharmacy {
   };
 }
 
-const regionOptions = ["Sindh", "North Punjab", "Kashmir", "South Punjab"];
+const regionOptions = ["Brick 1", "Brick 2", "Brick 3", "Brick 4", "Brick 5"];
 const channelOptions = ["RT", "Local Modern Trade", "Wholesale"];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
@@ -185,6 +186,9 @@ export default function Pharmacies() {
       });
   };
 
+  const brickOptions: string[] = bricksData.map(
+    (brick: any) => brick.brickName,
+  );
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -215,9 +219,7 @@ export default function Pharmacies() {
                 width="20"
                 color="#fff"
               />
-              <p className="text-white text-base font-medium">
-                Upload Pharmacy
-              </p>
+              <p className="text-white text-base font-medium">Add Pharmacy</p>
             </button>
           </div>
         </div>
@@ -412,7 +414,7 @@ export default function Pharmacies() {
                   </div>
                   <div className="mt-4">
                     <CustomSelect
-                      options={regionOptions}
+                      options={brickOptions}
                       value={formik.values.brick}
                       onChange={(val) => formik.setFieldValue("brick", val)}
                       placeholder="Brick"
