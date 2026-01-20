@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp, IoMdCloseCircle } from "react-icons/io";
-import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import { useFormik } from "formik";
 import { BrickSchema } from "../../utils/validation";
@@ -26,6 +25,7 @@ import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { Icon } from "@iconify/react";
 import { getAllProductsMR } from "../../api/productServices";
 import MultiSelect from "../../Components/MultiSelect";
+import { bricksData } from "../../utils/brick";
 
 const titles = [
   "Call ID",
@@ -43,12 +43,7 @@ const areaOptions: string[] = [
   "Karachi",
 ];
 
-const selectRegionOptions = [
-  "North Punjab",
-  "Kashmir",
-  "South Punjab",
-  "Gilgit",
-];
+const planOptions = ["Weekly", "Monthly"];
 const selectDaysOptions = [
   "Monday",
   "Tuesday",
@@ -58,7 +53,6 @@ const selectDaysOptions = [
   "Saturday",
   "Sunday",
 ];
-const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 
 export default function CallReporting() {
@@ -84,6 +78,9 @@ export default function CallReporting() {
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [doctorList, setDoctorList] = useState<any[]>([]);
 
+  const brickOptions: string[] = bricksData.map(
+    (brick: any) => brick.brickName,
+  );
   useEffect(() => {
     document.title = "MediRep | Call Reporting";
   }, []);
@@ -166,10 +163,9 @@ export default function CallReporting() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      region: editingProduct?.region || "",
-      area: editingProduct?.area || "",
+      planType: editingProduct?.planType || "",
+      city: editingProduct?.city || "",
       brickName: editingProduct?.brickName || "",
-      route: editingProduct?.route || "",
       day: editingProduct?.day || "",
       products: editingProduct?.products?.map((pro: any) => pro.name) || [],
       mrName: editingProduct?.mrName?.name || "",
@@ -240,8 +236,8 @@ export default function CallReporting() {
     },
   });
   useEffect(() => {
-    setSelectedArea(formik.values.area || "");
-  }, [formik.values.area]);
+    setSelectedArea(formik.values.city || "");
+  }, [formik.values.city]);
   const handleDelete = async () => {
     setLoadingDelete(true);
     try {
@@ -336,7 +332,7 @@ export default function CallReporting() {
             </div>{" "}
             <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
               <SearchSelection
-                placeholder="Select Area"
+                placeholder="Select City"
                 options={areaOptions}
                 value={selectedArea}
                 onChange={(val) => {
@@ -614,42 +610,12 @@ export default function CallReporting() {
             <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-wrap mt-5 gap-8">
                 <div className="md:w-[calc(50%-16px)] w-full">
-                  <p className="text-base font-normal text-heading">
-                    Brick Details
-                  </p>
                   <div className="mt-3">
                     <CustomSelect
-                      options={selectRegionOptions}
-                      value={formik.values.region}
-                      onChange={(val) => formik.setFieldValue("region", val)}
-                      placeholder="Region"
-                    />
-                    {formik.touched.region && formik.errors.region && (
-                      <div className="text-red-500 text-xs">
-                        *{String(formik.errors.region)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-3">
-                    <CustomSelect
-                      options={cityOptions}
-                      value={formik.values.area}
-                      onChange={(val) => formik.setFieldValue("area", val)}
-                      placeholder="Area"
-                    />
-                    {formik.touched.area && formik.errors.area && (
-                      <div className="text-red-500 text-xs">
-                        *{String(formik.errors.area)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-3">
-                    <CustomInput
-                      label="Brick Name"
-                      name="brickName"
-                      placeholder="Write the Brick Name"
+                      options={brickOptions}
                       value={formik.values.brickName}
-                      onChange={formik.handleChange}
+                      onChange={(val) => formik.setFieldValue("brickName", val)}
+                      placeholder="Brick Name"
                     />
                     {formik.touched.brickName && formik.errors.brickName && (
                       <div className="text-red-500 text-xs">
@@ -659,22 +625,32 @@ export default function CallReporting() {
                   </div>
                   <div className="mt-3">
                     <CustomSelect
-                      options={selectRouteOptions}
-                      value={formik.values.route}
-                      onChange={(val) => formik.setFieldValue("route", val)}
-                      placeholder="Route Status"
+                      options={cityOptions}
+                      value={formik.values.city}
+                      onChange={(val) => formik.setFieldValue("city", val)}
+                      placeholder="City"
                     />
-                    {formik.touched.route && formik.errors.route && (
+                    {formik.touched.city && formik.errors.city && (
                       <div className="text-red-500 text-xs">
-                        *{String(formik.errors.route)}
+                        *{String(formik.errors.city)}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-3">
+                    <CustomSelect
+                      options={planOptions}
+                      value={formik.values.planType}
+                      onChange={(val) => formik.setFieldValue("planType", val)}
+                      placeholder="Plan Type"
+                    />
+                    {formik.touched.planType && formik.errors.planType && (
+                      <div className="text-red-500 text-xs">
+                        *{String(formik.errors.planType)}
                       </div>
                     )}
                   </div>
                 </div>
                 <div className="md:w-[calc(50%-16px)] w-full">
-                  <p className="text-base font-normal text-heading">
-                    Set Doctors
-                  </p>
                   <div className="mt-3">
                     <CustomSelect
                       options={selectDaysOptions}

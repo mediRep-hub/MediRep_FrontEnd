@@ -26,24 +26,26 @@ import { bricksData } from "../../utils/brick";
 interface Pharmacy {
   _id?: string;
   name: string;
+  DSL: string;
   email: string;
   phone: string;
+  pharmacyClass: string;
   affiliation: string;
   image?: string | null;
   startTime?: string | null;
   endTime?: string | null;
   brick?: string;
-  channel?: string;
-  area?: string;
+  // channel?: string;
+  city?: string;
   location: {
     address: string;
     lat: number;
     lng: number;
   };
 }
-
-const channelOptions = ["RT", "Local Modern Trade", "Wholesale"];
-const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
+const ClassOptions = ["AA", "AB", "BB", "BC"];
+// const channelOptions = ["RT", "Local Modern Trade", "Wholesale"];
+const cityOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
 export default function Pharmacies() {
   const [addPharmacy, setAddPharmacy] = useState<boolean>(false);
@@ -69,6 +71,7 @@ export default function Pharmacies() {
   const pharmaciesList: Pharmacy[] = data?.data?.data || [];
   const totalItems = data?.data.total;
   const paginatedPharmacies = pharmaciesList;
+  console.log("🚀 ~ Pharmacies ~ paginatedPharmacies:", paginatedPharmacies);
 
   useEffect(() => {
     document.title = "MediRep | Pharmacies";
@@ -82,14 +85,16 @@ export default function Pharmacies() {
     formik.setValues({
       name: pharmacy.name || "",
       email: pharmacy.email || "",
+      DSL: pharmacy.DSL || "",
       phone: pharmacy.phone || "",
       startTime: pharmacy.startTime || "",
+      pharmacyClass: pharmacy.pharmacyClass || "",
       endTime: pharmacy.endTime || "",
       brick: pharmacy.brick || "",
-      area: pharmacy.area || "",
+      city: pharmacy.city || "",
       affiliation: pharmacy.affiliation || "",
       image: pharmacy.image || null,
-      channel: pharmacy.channel || "",
+      // channel: pharmacy.channel || "",
       location: pharmacy.location || { address: "", lat: 0, lng: 0 },
     });
   };
@@ -99,14 +104,16 @@ export default function Pharmacies() {
     initialValues: {
       name: editingPharmacy?.name || "",
       email: editingPharmacy?.email || "",
+      DSL: editingPharmacy?.DSL || "",
       phone: editingPharmacy?.phone || "",
+      pharmacyClass: editingPharmacy?.pharmacyClass || "",
       startTime: editingPharmacy?.startTime || "",
       endTime: editingPharmacy?.endTime || "",
       affiliation: editingPharmacy?.affiliation || "",
       brick: editingPharmacy?.brick || "",
-      area: editingPharmacy?.area || "",
+      city: editingPharmacy?.city || "",
       image: editingPharmacy?.image || null,
-      channel: editingPharmacy?.channel || "",
+      // channel: editingPharmacy?.channel || "",
       location: editingPharmacy?.location || { address: "", lat: 0, lng: 0 },
     },
     validationSchema: PharmacySchema,
@@ -305,7 +312,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>{" "}
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <CustomSelect
                       options={channelOptions}
                       value={formik.values.channel}
@@ -317,6 +324,22 @@ export default function Pharmacies() {
                         *{formik.errors.channel}
                       </div>
                     )}
+                  </div> */}
+                  <div className="mt-4">
+                    <CustomSelect
+                      options={ClassOptions}
+                      value={formik.values.pharmacyClass}
+                      onChange={(val) =>
+                        formik.setFieldValue("pharmacyClass", val)
+                      }
+                      placeholder="CLass"
+                    />{" "}
+                    {formik.touched.pharmacyClass &&
+                      formik.errors.pharmacyClass && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.pharmacyClass}
+                        </div>
+                      )}
                   </div>
                   <div className="mt-4">
                     <CustomInput
@@ -426,14 +449,30 @@ export default function Pharmacies() {
                   </div>
                   <div className="mt-4">
                     <CustomSelect
-                      options={areaOptions}
-                      value={formik.values.area}
-                      onChange={(val) => formik.setFieldValue("area", val)}
-                      placeholder="Area"
+                      options={cityOptions}
+                      value={formik.values.city}
+                      onChange={(val) => formik.setFieldValue("city", val)}
+                      placeholder="City"
                     />{" "}
-                    {formik.touched.area && formik.errors.area && (
+                    {formik.touched.city && formik.errors.city && (
                       <div className="text-red-500 text-xs">
-                        *{formik.errors.area}
+                        *{formik.errors.city}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4">
+                    <CustomInput
+                      id="DSL"
+                      name="DSL"
+                      label="DSL"
+                      placeholder="Write your Drug Sale License"
+                      height="128px"
+                      value={formik.values.DSL}
+                      onChange={formik.handleChange}
+                    />{" "}
+                    {formik.touched.DSL && formik.errors.DSL && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.DSL}
                       </div>
                     )}
                   </div>

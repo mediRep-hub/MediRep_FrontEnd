@@ -9,13 +9,14 @@ export const LoginSchema = Yup.object({
 export const PharmacySchema = Yup.object().shape({
   name: Yup.string().required("Doctor name is required"),
   email: Yup.string().email().required("Email is required"),
+  DSL: Yup.string().required("Drug Sale License is required"),
   phone: Yup.string().required("Phone is required"),
   startTime: Yup.string().required("Start time is required"),
+  pharmacyClass: Yup.string().required("Class is required"),
   endTime: Yup.string().required("End time is required"),
-  region: Yup.string().required("Region is required"),
+  brick: Yup.string().required("Brick is required"),
   city: Yup.string().required("city is required"),
   affiliation: Yup.string().required("Affiliation is required"),
-  channel: Yup.string().required("Channel is required"),
   image: Yup.string().nullable(),
   location: Yup.object({
     address: Yup.string().required("Address is required"),
@@ -84,10 +85,9 @@ export const ProductSchema = Yup.object().shape({
 });
 
 export const BrickSchema = Yup.object().shape({
-  region: Yup.string().required("Please select a region."),
-  area: Yup.string().required("Please select an area or city."),
+  city: Yup.string().required("City is required"),
   brickName: Yup.string().required("Brick Name is required."),
-  route: Yup.string().required("Please enter the route name."),
+  planType: Yup.string().required("Plan Type is required"),
   day: Yup.string().required("Please select a day."),
   mrName: Yup.string().required("Please select the MR."),
   doctorList: Yup.array().min(1, "Please select at least one doctor."),

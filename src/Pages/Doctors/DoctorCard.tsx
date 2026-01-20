@@ -28,11 +28,18 @@ export default function DoctorCard({
               className="w-10 h-10 border-[0.5px] border-[#7d7d7d]"
             />
             <div>
-              <p className="leading-1 text-heading font-medium text-sm">
-                {doctor?.name}
-              </p>
+              <div className="flex gap-3">
+                <p className="leading-1 text-heading font-medium text-sm">
+                  {doctor?.name}
+                </p>{" "}
+                {doctor?.pharmacyClass && (
+                  <p className="leading-1 text-heading font-medium text-sm">
+                    ({doctor.pharmacyClass})
+                  </p>
+                )}
+              </div>
               <p className="leading-1 text-primary font-medium text-xs">
-                {doctor?.docId}
+                {doctor?.docId || doctor?.pharmacyId}
               </p>
             </div>
           </div>
@@ -100,11 +107,11 @@ export default function DoctorCard({
             <div className="relative inline-block">
               <div className="absolute -top-2 left-4 bg-primary px-2 py-[2px] rounded-sm">
                 <p className="text-white leading-[12px] font-normal text-xs">
-                  Area
+                  City
                 </p>
               </div>
               <button className="h-[55px] w-[150px] text-[#0ECABE] border-[#0ECABE] border bg-white rounded-[6px] gap-3 flex justify-center items-center">
-                {doctor?.area}
+                {doctor?.city}
               </button>
             </div>
           </div>
