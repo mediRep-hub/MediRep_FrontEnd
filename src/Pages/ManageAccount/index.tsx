@@ -22,6 +22,7 @@ import {
   getAllAccounts,
   updateAccount,
 } from "../../api/adminServices";
+import { useNavigate } from "react-router-dom";
 
 const Positionlist = [
   "Director Sales",
@@ -74,6 +75,13 @@ export default function ManageAccount() {
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const navigate = useNavigate();
+
+  const handleGoTODetails = (v: Account) => {
+    navigate("/manageAccounts/details", {
+      state: { v }, // ✅ only plain JS object
+    });
+  };
 
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllAccount"],
@@ -82,7 +90,6 @@ export default function ManageAccount() {
   });
 
   const AllAccounts: Account[] = data?.data?.admins ?? [];
-  console.log("🚀 ~ ManageAccount ~ AllAccounts:", AllAccounts);
 
   const rowsByDivision: RowsByDivision = useMemo(() => {
     const buildRow = (v: Account) => {
@@ -93,7 +100,6 @@ export default function ManageAccount() {
         v?.division === "Distributor" ? v?.ownerName : v?.position,
         v?.city,
         v?.division,
-        // v?.region,
         <div className="flex items-center gap-2" key={v._id}>
           <TbEdit
             onClick={() => {
@@ -114,6 +120,13 @@ export default function ManageAccount() {
               setEditingAccount(v);
             }}
           />
+        </div>,
+        <div
+          className="flex gap-3 items-center"
+          onClick={() => handleGoTODetails(v)}
+        >
+          <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
+          Details
         </div>,
       ];
       return baseRow;
@@ -303,6 +316,7 @@ export default function ManageAccount() {
                       "City",
                       "Division",
                       "Action",
+                      "Details",
                     ]
                   : [
                       "ID",
@@ -312,6 +326,7 @@ export default function ManageAccount() {
                       "City",
                       "Division",
                       "Action",
+                      "Details",
                     ]
               }
               data={

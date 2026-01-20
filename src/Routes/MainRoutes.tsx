@@ -7,6 +7,7 @@ import CallReporting from "../Pages/CallReporting";
 import CallReportingDetail from "../Pages/CallReporting/CallReportingDetail";
 import Brick from "../Pages/Brick";
 import SecondarySaleDetails from "../Pages/SaleData/secondarySaleDetails";
+import AccountDetails from "../Pages/ManageAccount/AccountDetails";
 
 const PendingOrder = lazy(() => import("../Pages/Orders/pendingOrder"));
 const PrimarySale = lazy(() => import("../Pages/SaleData/primarySale"));
@@ -53,6 +54,16 @@ export default function MainRoutes() {
           element={
             user?.position === "Admin" ? (
               <ManageAccount />
+            ) : (
+              <Navigate to="/dashboard" replace />
+            )
+          }
+        />{" "}
+        <Route
+          path="/manageAccounts/details"
+          element={
+            user?.position === "Admin" ? (
+              <AccountDetails />
             ) : (
               <Navigate to="/dashboard" replace />
             )

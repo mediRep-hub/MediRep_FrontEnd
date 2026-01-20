@@ -37,8 +37,5 @@ export const deleteAccount = (id: string) => {
 };
 
 export const updatePassword = (id: string, values: { password: string }) => {
-  return HTTP_CLIENT.patch(
-    `${ENDPOINTS.ACCOUNTS_UPDATEPASSWORD}/${id}`,
-    values
-  );
+  return HTTP_CLIENT.put(`${ENDPOINTS.ACCOUNTS_UPDATEPASSWORD}/${id}`, values);
 };

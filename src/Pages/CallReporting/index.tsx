@@ -53,6 +53,21 @@ const selectDaysOptions = [
   "Saturday",
   "Sunday",
 ];
+const selectMonthsOptions = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 
 export default function CallReporting() {
@@ -653,10 +668,22 @@ export default function CallReporting() {
                 <div className="md:w-[calc(50%-16px)] w-full">
                   <div className="mt-3">
                     <CustomSelect
-                      options={selectDaysOptions}
+                      options={
+                        formik.values.planType === "Weekly"
+                          ? selectDaysOptions
+                          : formik.values.planType === "Monthly"
+                            ? selectMonthsOptions
+                            : []
+                      }
                       value={formik.values.day}
                       onChange={(val) => formik.setFieldValue("day", val)}
-                      placeholder="Select Day"
+                      placeholder={
+                        formik.values.planType === "Weekly"
+                          ? "Select Day"
+                          : formik.values.planType === "Monthly"
+                            ? "Select Month"
+                            : "Select Plan Type first"
+                      }
                     />
                     {formik.touched.day && formik.errors.day && (
                       <div className="text-red-500 text-xs">
