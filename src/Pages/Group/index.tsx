@@ -222,10 +222,10 @@ export default function Group() {
                         ? "border-2 border-primary"
                         : "border-2 border-white"
                     }`}
-                    // onClick={() => {
-                    //   setSelectedBrick(mr);
-                    //   setDoctorPage(1);
-                    // }}
+                    onClick={() => {
+                      setSelectedBrick(mr);
+                      // setDoctorPage(1);
+                    }}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex -space-x-5">
