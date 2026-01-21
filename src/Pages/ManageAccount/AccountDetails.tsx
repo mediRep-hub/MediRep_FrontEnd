@@ -16,7 +16,6 @@ export default function AccountDetails() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const location = useLocation();
   const account = location.state?.v;
-  console.log("🚀 AccountDetails ~ account:", account);
 
   const navigate = useNavigate();
 

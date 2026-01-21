@@ -71,7 +71,6 @@ export default function Pharmacies() {
   const pharmaciesList: Pharmacy[] = data?.data?.data || [];
   const totalItems = data?.data.total;
   const paginatedPharmacies = pharmaciesList;
-  console.log("🚀 ~ Pharmacies ~ paginatedPharmacies:", paginatedPharmacies);
 
   useEffect(() => {
     document.title = "MediRep | Pharmacies";

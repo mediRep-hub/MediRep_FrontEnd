@@ -45,7 +45,7 @@ export default function SideBar({ link }: any) {
     HTTP_CLIENT.post(
       "/admin/logout",
       {},
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } },
     )
       .then(() => {
         store.dispatch(setIsLoggedIn(false));
@@ -55,7 +55,7 @@ export default function SideBar({ link }: any) {
       .catch((err: any) => {
         console.error(
           "🚀 ~ handleLogout ~ err:",
-          err.response?.data?.message || err.message
+          err.response?.data?.message || err.message,
         );
         notifyError(err.response?.data?.message || "Logout failed");
       });
@@ -109,7 +109,7 @@ export default function SideBar({ link }: any) {
             const isDropdownOpen = openDropdown === item.name;
             const isActive = hasChildren
               ? item.children.some((child: any) =>
-                  location.pathname.startsWith(child.path)
+                  location.pathname.startsWith(child.path),
                 )
               : location.pathname.startsWith(item.path);
 
@@ -119,6 +119,9 @@ export default function SideBar({ link }: any) {
                   onClick={() => {
                     if (hasChildren) {
                       toggleDropdown(item.name);
+                      if (!isDropdownOpen && item.children.length > 0) {
+                        onClick(item.children[0].path);
+                      }
                     } else {
                       setOpenDropdown(null);
                       onClick(item.path);
@@ -174,7 +177,7 @@ export default function SideBar({ link }: any) {
                     <div className="pl-5 pr-4 py-2 flex flex-col  mt-2 bg-[#E5EBF7] rounded-[12px]">
                       {item.children.map((child: any, idx: number) => {
                         const isChildActive = location.pathname.startsWith(
-                          child.path
+                          child.path,
                         );
 
                         return (

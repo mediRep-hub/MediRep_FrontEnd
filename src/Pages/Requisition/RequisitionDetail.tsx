@@ -59,7 +59,6 @@ export default function RequisitionDetail() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const requisition = location.state?.requisition;
-  console.log("🚀 ~ RequisitionDetail ~ requisition:", requisition);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
@@ -68,7 +67,7 @@ export default function RequisitionDetail() {
   const { user } = useSelector((state: any) => state.user);
 
   const [dataRequisitions, setRequisitionsingle] = useState<Requisition | null>(
-    null
+    null,
   );
 
   const [requisitionType, setRequisitionType] = useState<
@@ -177,7 +176,7 @@ export default function RequisitionDetail() {
               amount: requisitionType === "cash" ? selectedProduct.amount : 0,
               duration: selectedProduct.duration || "",
             }
-          : { ...p, amount: requisitionType === "cash" ? p.amount : 0 }
+          : { ...p, amount: requisitionType === "cash" ? p.amount : 0 },
       );
 
       const updatedRequisition: Requisition = {
@@ -201,7 +200,7 @@ export default function RequisitionDetail() {
       setChangeRequisition(false);
     } catch (error: any) {
       notifyError(
-        error?.response?.data?.error || "Failed to update requisition"
+        error?.response?.data?.error || "Failed to update requisition",
       );
     } finally {
       setLoadingUpdate(false);
@@ -274,14 +273,14 @@ export default function RequisitionDetail() {
                             "pending"
                               ? "text-[#E90761] border-[#E90761]"
                               : dataRequisitions?.status?.toLowerCase() ===
-                                "accepted"
-                              ? "text-primary border-primary"
-                              : dataRequisitions?.status?.toLowerCase() ===
-                                "rejected"
-                              ? "text-[#FF9500] border-[#FF9500]"
-                              : dataRequisitions?.status === "Paid"
-                              ? "text-[#0BA69C] border-[#0BA69C]"
-                              : "text-[#7d7d7d] border-[#7d7d7d]"
+                                  "accepted"
+                                ? "text-primary border-primary"
+                                : dataRequisitions?.status?.toLowerCase() ===
+                                    "rejected"
+                                  ? "text-[#FF9500] border-[#FF9500]"
+                                  : dataRequisitions?.status === "Paid"
+                                    ? "text-[#0BA69C] border-[#0BA69C]"
+                                    : "text-[#7d7d7d] border-[#7d7d7d]"
                           }`}
                         >
                           {dataRequisitions?.status}
@@ -292,7 +291,7 @@ export default function RequisitionDetail() {
                             if (dataRequisitions?.attachedDoc) {
                               window.open(
                                 dataRequisitions.attachedDoc,
-                                "_blank"
+                                "_blank",
                               );
                             }
                           }}
@@ -329,7 +328,7 @@ export default function RequisitionDetail() {
                         <p className="text-[#131313] mt-3 font-normal text-sm">
                           {dataRequisitions?.startingDate
                             ? dayjs(dataRequisitions.startingDate).format(
-                                "DD-MM-YYYY"
+                                "DD-MM-YYYY",
                               )
                             : "-"}
                         </p>
@@ -366,7 +365,7 @@ export default function RequisitionDetail() {
                       </p>
                     )}
                     {["Admin", "Area Sales Manager (ASM)"].includes(
-                      user?.position || ""
+                      user?.position || "",
                     ) && (
                       <>
                         <textarea
@@ -397,7 +396,7 @@ export default function RequisitionDetail() {
                     )}
                   </div>
                   {["Admin", "Area Sales Manager (ASM)"].includes(
-                    user?.position || ""
+                    user?.position || "",
                   ) && (
                     <div className=" p-5">
                       <p className="text-[#131313] mt-3 font-medium text-sm">
@@ -568,7 +567,7 @@ export default function RequisitionDetail() {
                 options={requisitionTypeOptions}
                 onChange={(value) =>
                   setRequisitionType(
-                    value as "cash" | "other" | "house" | "car" | "tour"
+                    value as "cash" | "other" | "house" | "car" | "tour",
                   )
                 }
               />

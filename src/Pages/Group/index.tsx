@@ -75,7 +75,6 @@ const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function Group() {
   const [selectedBrick, setSelectedBrick] = useState<any>(null);
-  console.log("🚀 ~ Group ~ setSelectedBrick:", setSelectedBrick);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addGroupModel, setAddGroupModel] = useState(false);
   const [currentRowIndex, setCurrentRowIndex] = useState<number | null>(null);
@@ -107,7 +106,6 @@ export default function Group() {
     staleTime: 5 * 60 * 1000,
   });
   let allbrickGroup = brickGroup?.data?.data;
-  console.log("🚀 ~ Group ~ allbrickGroup:", allbrickGroup);
   const formik = useFormik({
     initialValues: {
       groupName: "",
@@ -364,10 +362,10 @@ export default function Group() {
                               doc.status === "pending"
                                 ? "text-[#E90761] border-[#E90761]"
                                 : doc.status === "close"
-                                ? "text-[#0BA69C] border-[#0BA69C]"
-                                : doc.status === "check In"
-                                ? "text-[#FF9500] border-[#FF9500]"
-                                : "text-heading border-heading"
+                                  ? "text-[#0BA69C] border-[#0BA69C]"
+                                  : doc.status === "check In"
+                                    ? "text-[#FF9500] border-[#FF9500]"
+                                    : "text-heading border-heading"
                             }`}
                           >
                             {doc.status}
@@ -491,7 +489,7 @@ export default function Group() {
                   <div className="mt-3">
                     <MultiSelect
                       options={AllMR.filter(
-                        (doc: any) => doc.position === "MedicalRep(MR)"
+                        (doc: any) => doc.position === "MedicalRep(MR)",
                       ).map((doc: any) => doc.name)}
                       value={formik.values.mrName}
                       onChange={(val) => formik.setFieldValue("mrName", val)}
@@ -513,7 +511,7 @@ export default function Group() {
                     <CustomSelect
                       options={AllMR.filter(
                         (doc: any) =>
-                          doc.position === "Area Sales Manager (ASM)"
+                          doc.position === "Area Sales Manager (ASM)",
                       ).map((doc: any) => doc.name)}
                       value={formik.values.manager}
                       onChange={(val) => formik.setFieldValue("manager", val)}
@@ -528,7 +526,7 @@ export default function Group() {
                   <div className="mt-3">
                     <CustomSelect
                       options={AllMR.filter(
-                        (doc: any) => doc.position === "MedicalRep(MR)"
+                        (doc: any) => doc.position === "MedicalRep(MR)",
                       ).map((doc: any) => doc.name)}
                       value={formik.values.teamLead}
                       onChange={(val) => formik.setFieldValue("teamLead", val)}
@@ -559,7 +557,7 @@ export default function Group() {
                   <div className="mt-3">
                     <CustomSelect
                       options={AllMR.filter(
-                        (doc: any) => doc.division === "Distributor"
+                        (doc: any) => doc.division === "Distributor",
                       ).map((doc: any) => doc.name)}
                       value={formik.values.distributor}
                       onChange={(val) =>
@@ -614,7 +612,7 @@ export default function Group() {
                     {rows.map((row, index) => {
                       // Get the price of the selected product
                       const product = AllProducts.find(
-                        (p: any) => p.productName === row.productName
+                        (p: any) => p.productName === row.productName,
                       );
                       const price = product ? product.amount : 0;
                       const total = price * (row.quantity || 0);

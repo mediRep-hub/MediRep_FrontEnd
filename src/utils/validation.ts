@@ -176,6 +176,7 @@ export const defaultLinks: SidebarLink[] = [
   {
     name: "Healthcare Experts",
     icon: "fontisto:doctor",
+    path: "/doctors",
     children: [
       {
         name: "Doctors",
@@ -200,6 +201,7 @@ export const defaultLinks: SidebarLink[] = [
   {
     name: "Requisitions",
     icon: "mdi:application-edit",
+    path: "/requisitionsList",
     children: [
       {
         name: "Requisitions List",
@@ -219,6 +221,7 @@ export const defaultLinks: SidebarLink[] = [
   {
     name: "Field Execution",
     icon: "game-icons:field",
+    path: "/callReporting",
     children: [
       {
         name: "Call Reporting",
@@ -233,6 +236,7 @@ export const defaultLinks: SidebarLink[] = [
   {
     name: "Sale Data",
     icon: "academicons:open-data",
+    path: "/primarySale",
     children: [
       {
         name: "Primary Sale",

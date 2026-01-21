@@ -1,96 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import CustomTable from "../../Components/CustomTable";
+import { LuSearch } from "react-icons/lu";
 
-type QtyValue = { qty: number; value: number };
-
-type RowData = [
-  string, // SKU
-  string, // Product
-  number, // Opening Balance
-  number, // Purchase
-  number, // Purchase-Ret
-  number, // Sale
-  number, // Sale-Ret
-  QtyValue, // Net Sale
-  QtyValue, // Closing Stock
-];
-
+// Table Titles
 const titles = [
-  "SKU",
-  "Product",
-  "Opening Balance Qty(CTN)",
-  "Purchase Qty(CTN)",
-  "Purchase-Ret Qty(CTN)",
-  "Sale Qty (CTN)",
-  "Sale-Ret Qty (CTN)",
-  "Net Sale Qty/Value",
-  "Closing Stock Qty/Value",
+  "ID",
+  "Distributors Name",
+  "City",
+  "Total Primary Qty(CTN)",
+  "Total Sale Qty(CTN)",
+  "Floor Stock Qty (CTN)",
+  "Floor Stock Value",
+  "Status",
 ];
 
-const tableData: RowData[] = [
-  [
-    "SKU001",
-    "Paracetamol 500mg",
-    10,
-    5,
-    1,
-    7,
-    0,
-    { qty: 7, value: 1400 },
-    { qty: 8, value: 1600 },
-  ],
-  [
-    "SKU002",
-    "Amoxicillin 250mg",
-    15,
-    10,
-    2,
-    12,
-    1,
-    { qty: 11, value: 2200 },
-    { qty: 12, value: 2400 },
-  ],
-  [
-    "SKU003",
-    "Cough Syrup 100ml",
-    20,
-    5,
-    0,
-    10,
-    2,
-    { qty: 8, value: 1600 },
-    { qty: 17, value: 3400 },
-  ],
-  [
-    "SKU004",
-    "Vitamin D 1000IU",
-    8,
-    12,
-    1,
-    9,
-    0,
-    { qty: 9, value: 900 },
-    { qty: 11, value: 1100 },
-  ],
-  [
-    "SKU005",
-    "Ibuprofen 200mg",
-    25,
-    15,
-    3,
-    18,
-    2,
-    { qty: 16, value: 3200 },
-    { qty: 21, value: 4200 },
-  ],
+// Table Data Type
+type DistributorRow = [
+  number, // ID
+  string, // Distributor Name
+  string, // City
+  number, // Total Primary Qty
+  number, // Total Sale Qty
+  number, // Floor Stock Qty
+  number, // Floor Stock Value
+  string, // Status
+];
+
+// Table Data
+const tableData: DistributorRow[] = [
+  [11232, "Al-Fatah Distributors", "Karachi", 120, 90, 30, 450000, "Good"],
+  [22132, "HealthCare Pharma", "Lahore", 200, 160, 40, 620000, "Below"],
+  [334343, "City Medicos", "Islamabad", 150, 110, 40, 510000, "Good"],
+  [43412, "LifeLine Traders", "Peshawar", 180, 140, 40, 580000, "Average"],
+  [512312, "Good Health Supplies", "Quetta", 100, 70, 30, 390000, "Average"],
 ];
 
 export default function PrimarySale() {
   const [isDownloading, setIsDownloading] = useState(false);
 
+  useEffect(() => {
+    document.title = "MediRep | Primary Sale";
+  }, []);
+
+  // Excel Download
   const handleDownloadExcel = () => {
     setIsDownloading(true);
 
@@ -98,19 +53,15 @@ export default function PrimarySale() {
       try {
         const workbook = XLSX.utils.book_new();
 
-        // Convert table data to JSON suitable for Excel
         const excelData = tableData.map((row) => ({
-          SKU: row[0],
-          Product: row[1],
-          "Opening Balance Qty(CTN)": row[2],
-          "Purchase Qty(CTN)": row[3],
-          "Purchase-Ret Qty(CTN)": row[4],
-          "Sale Qty (CTN)": row[5],
-          "Sale-Ret Qty (CTN)": row[6],
-          "Net Sale Qty": row[7].qty,
-          "Net Sale Value": row[7].value,
-          "Closing Stock Qty": row[8].qty,
-          "Closing Stock Value": row[8].value,
+          ID: row[0],
+          "Distributor Name": row[1],
+          City: row[2],
+          "Total Primary Qty (CTN)": row[3],
+          "Total Sale Qty (CTN)": row[4],
+          "Floor Stock Qty (CTN)": row[5],
+          "Floor Stock Value": row[6],
+          Status: row[7],
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(excelData);
@@ -132,7 +83,6 @@ export default function PrimarySale() {
     }, 0);
   };
 
-  // Render table data for React
   const renderTableData = tableData.map((row) => [
     row[0],
     row[1],
@@ -140,15 +90,18 @@ export default function PrimarySale() {
     row[3],
     row[4],
     row[5],
-    row[6],
-    <div className="flex flex-col">
-      <p>Qty: {row[7].qty}</p>
-      <p>Rs: {row[7].value}</p>
-    </div>,
-    <div className="flex flex-col">
-      <p>Qty: {row[8].qty}</p>
-      <p>Rs: {row[8].value}</p>
-    </div>,
+    `Rs ${row[6].toLocaleString()}`,
+    <span
+      className={`px-2 py-0.5 rounded-md text-sm font-medium ${
+        row[7] === "Good"
+          ? "border-[#0BA69C] border-[1px] text-[#0BA69C]"
+          : row[7] === "Below"
+            ? "border-[#E90761] border-[1px] text-[#E90761]"
+            : "border-primary border-[1px] text-primary"
+      }`}
+    >
+      {row[7]}
+    </span>,
   ]);
 
   return (
@@ -157,33 +110,82 @@ export default function PrimarySale() {
         <p className="text-heading font-medium text-[22px] lg:text-[24px]">
           Primary Sale
         </p>
+
         <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
+          {" "}
+          <div className=" w-[200] flex items-center gap-2">
+            <p className="text-sm text-[#131313] font-medium">
+              Distributor Name:
+            </p>
+            <div className="relative flex items-center">
+              <LuSearch className="absolute left-2 text-[#7d7d7d]" size={16} />
+
+              <input
+                placeholder="Search"
+                // value={SkuNo}
+                // onChange={(e) => setSkuNo(e.target.value)}
+                type="text"
+                className="h-[40px] pl-[30px] pr-3 w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+              />
+            </div>
+          </div>
+          <div className=" w-[200] flex items-center gap-2">
+            <p className="text-sm text-[#131313] font-medium">City:</p>
+            <div className="relative flex items-center">
+              <LuSearch className="absolute left-2 text-[#7d7d7d]" size={16} />
+
+              <input
+                placeholder="Search"
+                // value={SkuNo}
+                // onChange={(e) => setSkuNo(e.target.value)}
+                type="text"
+                className="h-[40px] pl-[30px] pr-3 w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+              />
+            </div>
+          </div>
           <button
             onClick={handleDownloadExcel}
             disabled={isDownloading}
-            className={`h-[55px] w-full min-w-[172px] rounded-[6px] gap-3 flex justify-center items-center ${
+            className={`h-[55px] w-[60px] cursor-pointer rounded-[6px] gap-3 flex justify-center items-center ${
               isDownloading
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#E5EBF7] cursor-pointer"
+                : "bg-[#0755E9] cursor-pointer"
             }`}
           >
-            {isDownloading ? (
-              <p className="text-gray-600 font-medium">Downloading...</p>
-            ) : (
-              <>
-                <Icon
-                  icon="solar:download-linear"
-                  height="24"
-                  width="24"
-                  color="#0755E9"
-                />
-                <p className="text-primary text-base font-medium">Download</p>
-              </>
-            )}
+            <Icon
+              icon="solar:upload-linear"
+              height="24"
+              width="24"
+              color="#fff"
+            />
+          </button>
+          <button
+            onClick={handleDownloadExcel}
+            disabled={isDownloading}
+            className={`h-[55px] w-[60px] rounded-[6px] gap-3 flex justify-center items-center ${
+              isDownloading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#fff] cursor-pointer"
+            }`}
+          >
+            <Icon
+              icon="solar:download-linear"
+              height="24"
+              width="24"
+              color="#131313"
+            />
+          </button>
+          <button className="h-[55px] w-full md:w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+            <Icon
+              icon="grommet-icons:status-good"
+              height="20"
+              width="20"
+              color="#fff"
+            />
+            <p className="text-white text-base font-medium">POA </p>
           </button>
         </div>
       </div>
-
       <div
         style={{
           scrollbarWidth: "none",

@@ -162,7 +162,7 @@ export default function Brick() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(56.2vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(72.4vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableData} />
           </div>

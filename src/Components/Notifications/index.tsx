@@ -21,7 +21,7 @@ export default function Notification() {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { token } = store.getState().user;
-  console.log("🚀 ~ Notification ~ token:", token);
+  // console.log("🚀 ~ Notification ~ token:", token);
 
   useEffect(() => {
     const unsubscribe = onMessage(messaging, async (payload) => {
@@ -73,7 +73,7 @@ export default function Notification() {
 
   const removeNotification = (id: string) => {
     setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, removing: true } : n))
+      prev.map((n) => (n.id === id ? { ...n, removing: true } : n)),
     );
 
     setTimeout(() => {
@@ -112,8 +112,8 @@ export default function Notification() {
                   note.removing
                     ? "opacity-0 translate-x-10"
                     : note.read
-                    ? "bg-[#f7f7f7]"
-                    : "bg-[#EAF0FF] border-[#0755E9]"
+                      ? "bg-[#f7f7f7]"
+                      : "bg-[#EAF0FF] border-[#0755E9]"
                 }`}
               >
                 <div>

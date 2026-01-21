@@ -215,9 +215,6 @@ export default function CallReporting() {
           setLoading(false);
           return;
         }
-
-        console.log("🚀 ~ Bricks ~ selectedProducts:", selectedProducts);
-        console.log("values.products =", values.products);
         if (selectedProducts.length === 0) {
           notifyError("Please select at least one valid product.");
           setLoading(false);

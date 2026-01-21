@@ -24,7 +24,7 @@ export default function TrackRequisition() {
           Track Requisition
         </p>
       </div>
-      <div className="bg-[#E5EBF7]  gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(77.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+      <div className="bg-[#E5EBF7]  gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(77.7vh-0px)] xl:h-[calc(67vh-0px)] h-auto ">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Requisition List</p>
 
@@ -35,7 +35,7 @@ export default function TrackRequisition() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(70.2vh-0px)] xl:h-[calc(54vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(70.2vh-0px)] xl:h-[calc(55.7vh-0px)] mt-4 overflow-y-auto scrollbar-none"
         >
           <CustomTable titles={titles} data={Data} />
         </div>
