@@ -174,7 +174,7 @@ export default function SideBar({ link }: any) {
                 </p>
                 {hasChildren && isDropdownOpen && (
                   <div>
-                    <div className="pl-5 pr-4 py-2 flex flex-col  mt-2 bg-[#E5EBF7] rounded-[12px]">
+                    <div className="pl-7 pr-2 py-2 flex flex-col rounded-[12px]">
                       {item.children.map((child: any, idx: number) => {
                         const isChildActive = location.pathname.startsWith(
                           child.path,
@@ -183,24 +183,24 @@ export default function SideBar({ link }: any) {
                         return (
                           <div
                             key={child.path}
-                            className="flex gap-2 items-center cursor-pointer"
+                            className="flex gap-3 items-center cursor-pointer"
                           >
                             <div
-                              className={`h-7
+                              className={`h-9
                               ${
                                 isChildActive
-                                  ? " border-primary  border-l-[2px]"
-                                  : " border-[#7D7D7D] border-l-[2px]"
+                                  ? " border-primary border-l-[2px]"
+                                  : " border-[#7D7D7D]/40 border-l-[2px]"
                               }
                             `}
                             ></div>
                             <p
                               key={idx}
                               onClick={() => onClick(child.path)}
-                              className={`cursor-pointer text-sm py-1 pl-3 hover:bg-[#F7F7F7] rounded-md w-full
+                              className={`cursor-pointer text-sm py-2 pl-3 rounded-md w-full
                               ${
                                 isChildActive
-                                  ? "text-heading font-medium"
+                                  ? "text-heading font-medium bg-[#E5EBF7]"
                                   : "text-[#7d7d7d]"
                               }
                             `}

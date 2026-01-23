@@ -19,26 +19,26 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
 
 interface MonthYearPickerProps {
-  value: { month: string; year: number };
-  onChange: (val: { month: string; year: number }) => void;
+  value?: { month: string; year: number };
+  onChange?: (val: { month: string; year: number }) => void;
 }
 
 export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
-  value,
+  value = { month: months[new Date().getMonth()], year: currentYear },
   onChange,
 }) => {
   const [open, setOpen] = useState(false);
 
   const handleMonthChange = (month: string) => {
-    onChange({ ...value, month });
+    onChange?.({ ...value, month });
   };
 
   const handleYearChange = (year: number) => {
-    onChange({ ...value, year });
+    onChange?.({ ...value, year });
   };
 
   return (
-    <div className="relative inline-block w-full h-10 lg:w-45">
+    <div className="relative inline-block w-full h-10 lg:w-41">
       <div
         className="flex items-center justify-between px-3 py-2 text-sm text-[#131313] border border-[#0755E9] rounded-lg cursor-pointer"
         onClick={() => setOpen(!open)}

@@ -219,7 +219,7 @@ export const defaultLinks: SidebarLink[] = [
     icon: "mage:edit-pen-fill",
   },
   {
-    name: "Field Execution",
+    name: "Bricks/Group",
     icon: "game-icons:field",
     path: "/callReporting",
     children: [
@@ -246,6 +246,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Secondary Sale",
         path: "/secondarySale",
       },
+      {
+        name: "Channel Wise Sale",
+        path: "/channelWiseSale",
+      },
     ],
   },
   {
@@ -264,6 +268,40 @@ export const defaultLinks: SidebarLink[] = [
       //   name: "Track Sale",
       //   path: "/trackSale",
       // },
+    ],
+  },
+  {
+    name: "Reports",
+    icon: "icon-park-solid:table-report",
+    children: [
+      {
+        name: "Daily Call Report (DCR)",
+        path: "/dailyCallReport",
+      },
+      {
+        name: "MR Productivity Report",
+        path: "/mrProductivityReport",
+      },
+      {
+        name: "Route Compliance Report",
+        path: "/routeComplianceReport",
+      },
+      {
+        name: "Sample Distribution Report",
+        path: "/sampleDistributionReport",
+      },
+      {
+        name: "Doctor Coverage Report",
+        path: "/doctorCoverageReport",
+      },
+      {
+        name: "Team Performance Report",
+        path: "/teamPerformanceReport",
+      },
+      {
+        name: "Geo-location Report",
+        path: "/geo-locationReport",
+      },
     ],
   },
 ];

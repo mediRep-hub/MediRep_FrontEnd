@@ -28,12 +28,12 @@ const titles = [
   "Details",
 ];
 
-export default function SecondarySale() {
+export default function SecondarySaleDistributor() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [checkedOrders, setCheckedOrders] = useState<{ [key: string]: any }>(
-    {}
+    {},
   );
   const [itemsPerPage] = useState(10);
   const [selectedMR, setSelectedMR] = useState<string | null>(null);
@@ -50,7 +50,7 @@ export default function SecondarySale() {
 
   const AllMR =
     allAccounts?.data?.admins?.filter(
-      (mr: any) => mr.position === "MedicalRep(MR)"
+      (mr: any) => mr.position === "MedicalRep(MR)",
     ) ?? [];
 
   const { data: ordersData, isFetching } = useQuery({
@@ -69,14 +69,14 @@ export default function SecondarySale() {
         selectedMR || undefined,
         selectedDate.start || undefined,
         selectedDate.end || undefined,
-        "approved"
+        "approved",
       ),
     staleTime: 5 * 60 * 1000,
   });
   const handleCheckboxChange = (
     orderId: string,
     order: any,
-    checked: boolean
+    checked: boolean,
   ) => {
     setCheckedOrders((prev) => ({
       ...prev,
@@ -158,7 +158,7 @@ export default function SecondarySale() {
             }</p>
             <p><strong>Address:</strong> ${order.address || "-"}</p>
             <p><strong>Order Date:</strong> ${dayjs(order.createdAt).format(
-              "DD MMM, YYYY"
+              "DD MMM, YYYY",
             )}</p>
             <p><strong>MR Name:</strong> ${order.mrName}</p>
           </div>
@@ -186,7 +186,7 @@ export default function SecondarySale() {
                   m?.medicineId?.amount * m?.quantity
                 }</td>
               </tr>
-            `
+            `,
               )
               .join("")}
           </table>
@@ -199,8 +199,8 @@ export default function SecondarySale() {
   <p class="font-medium">Discount:</p>
   <p style="width: 150px; text-align: start;"">
     Rs. ${(order.subtotal * (order.discount / 100)).toLocaleString()} (${
-        order.discount
-      }%)
+      order.discount
+    }%)
   </p>
 </div>
             <div style="border-top:0.5px solid #000;margin-top:20px;">

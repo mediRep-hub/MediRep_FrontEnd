@@ -3,16 +3,18 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 
 const Warehouse = lazy(() => import("../Pages/Distributor/Warehouse"));
-const Report = lazy(() => import("../Pages/Distributor/Reports"));
+const DistributorReports = lazy(
+  () => import("../Pages/Distributor/DistributorReports"),
+);
 const Billing = lazy(() => import("../Pages/Distributor/Billing"));
 const MrRoutes = lazy(() => import("../Pages/Distributor/MrRoutes"));
 const SecondarySale = lazy(() => import("../Pages/Distributor/SecondarySale"));
 const PrimarySale = lazy(() => import("../Pages/Distributor/PrimaerySale"));
 const SecondarySaleDetails = lazy(
-  () => import("../Pages/Distributor/SecondarySale/SecondarySaleDetails")
+  () => import("../Pages/Distributor/SecondarySale/SecondarySaleDetails"),
 );
 const DistributorDashboard = lazy(
-  () => import("../Pages/Distributor/DistributorDashboard")
+  () => import("../Pages/Distributor/DistributorDashboard"),
 );
 export default function DistributorRoutes() {
   return (
@@ -47,7 +49,7 @@ export default function DistributorRoutes() {
           />
           <Route path="/distributor/mr-Routes" element={<MrRoutes />} />
           <Route path="/distributor/billing" element={<Billing />} />
-          <Route path="/distributor/reports" element={<Report />} />
+          <Route path="/distributor/reports" element={<DistributorReports />} />
         </Routes>
       </Suspense>
     </div>

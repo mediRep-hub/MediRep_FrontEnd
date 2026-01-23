@@ -1,17 +1,41 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
-import Tragets from "../Pages/Targets";
 import { useSelector } from "react-redux";
-import CallReporting from "../Pages/CallReporting";
-import CallReportingDetail from "../Pages/CallReporting/CallReportingDetail";
-import Brick from "../Pages/Brick";
-import SecondarySaleDetails from "../Pages/SaleData/secondarySaleDetails";
-import AccountDetails from "../Pages/ManageAccount/AccountDetails";
 
-const PendingOrder = lazy(() => import("../Pages/Orders/pendingOrder"));
-const PrimarySale = lazy(() => import("../Pages/SaleData/primarySale"));
-const SecondarySale = lazy(() => import("../Pages/SaleData/secondarySale"));
+const Tragets = lazy(() => import("../Pages/Targets"));
+
+const CallReporting = lazy(() => import("../Pages/CallReporting"));
+const CallReportingDetail = lazy(
+  () => import("../Pages/CallReporting/CallReportingDetail"),
+);
+import Brick from "../Pages/Brick";
+const AccountDetails = lazy(
+  () => import("../Pages/ManageAccount/AccountDetails"),
+);
+import PendingOrders from "../Pages/Orders/pendingOrder";
+import DailyCallReport from "../Pages/Reports/DailyCallReport";
+import MRProductivityReport from "../Pages/Reports/MRProductivityReport";
+import GeoLocationReport from "../Pages/Reports/Geo-locationReport";
+import DoctorCoverageReport from "../Pages/Reports/DoctorCoverageReport";
+import RouteComplianceReport from "../Pages/Reports/RouteComplianceReport";
+import SampleDistributionReport from "../Pages/Reports/SampleDistributionReport";
+import TeamPerformanceReport from "../Pages/Reports/TeamPerformanceReport";
+import DailyCallReportingDetail from "../Pages/Reports/DailyCallReport/DailyCallReportingDetail";
+
+const ChannelWiseSale = lazy(() => import("../Pages/SaleData/ChannelwiseSale"));
+const PrimarySale = lazy(
+  () => import("../Pages/SaleData/PrimarySales/primarySale"),
+);
+const PrimarySaleDetails = lazy(
+  () => import("../Pages/SaleData/PrimarySales/primarySaleDetails"),
+);
+const SecondarySale = lazy(
+  () => import("../Pages/SaleData/SecondarySales/secondarySale"),
+);
+const SecondarySaleDetails = lazy(
+  () => import("../Pages/SaleData/SecondarySales/secondarySaleDetails"),
+);
 
 const TrackRequisition = lazy(
   () => import("../Pages/Requisition/trackRequisition"),
@@ -85,16 +109,46 @@ export default function MainRoutes() {
           element={<CallReportingDetail />}
         />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/pendingOrders" element={<PendingOrder />} />
+        <Route path="/pendingOrders" element={<PendingOrders />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
-        <Route path="/primarySale" element={<PrimarySale />} />{" "}
+        <Route path="/primarySale" element={<PrimarySale />} />
+        <Route
+          path="/primarySale/PrimarySaleDetails"
+          element={<PrimarySaleDetails />}
+        />{" "}
+        <Route path="/secondarySale" element={<SecondarySale />} />
         <Route
           path="/secondarySale/secondarySaleDetails"
           element={<SecondarySaleDetails />}
         />
-        <Route path="/secondarySale" element={<SecondarySale />} />
-        {/* <Route path="/setting" element={<Setting />} /> */}
-        <Route path="/brick" element={<Brick />} />{" "}
+        <Route path="/channelWiseSale" element={<ChannelWiseSale />} />
+        <Route path="/brick" element={<Brick />} />
+        <Route path="/dailyCallReport" element={<DailyCallReport />} />
+        <Route
+          path="/dailyCallReport/dailyCallReportingDetail"
+          element={<DailyCallReportingDetail />}
+        />
+        <Route
+          path="/mrProductivityReport"
+          element={<MRProductivityReport />}
+        />
+        <Route
+          path="/routeComplianceReport"
+          element={<RouteComplianceReport />}
+        />
+        <Route
+          path="/sampleDistributionReport"
+          element={<SampleDistributionReport />}
+        />
+        <Route
+          path="/doctorCoverageReport"
+          element={<DoctorCoverageReport />}
+        />
+        <Route
+          path="/teamPerformanceReport"
+          element={<TeamPerformanceReport />}
+        />
+        <Route path="/geo-locationReport" element={<GeoLocationReport />} />
       </Routes>
     </Suspense>
   );

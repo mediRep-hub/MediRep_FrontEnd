@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Icon } from "@iconify/react";
-import CustomTable from "../../Components/CustomTable";
-import ReportFilterModalStatic from "../../Components/ReportFilter";
+import CustomTable from "../../../Components/CustomTable";
+import ReportFilterModalStatic from "../../../Components/ReportFilter";
 
 const titles = [
   "MR_Name",
@@ -228,7 +228,7 @@ export default function SecondarySaleDetails() {
                 Secondary Sale
               </p>
             </div>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 flex-wrap items-center w-full md:w-auto">
               <button className="h-[55px] w-full md:w-[192px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
                 <Icon
                   icon="solar:upload-linear"
@@ -265,7 +265,7 @@ export default function SecondarySaleDetails() {
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(72.2vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+              className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
             >
               <CustomTable
                 titles={selectTab == "Individual Sale" ? titles : titles22}

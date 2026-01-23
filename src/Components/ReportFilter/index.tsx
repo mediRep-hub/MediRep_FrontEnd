@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { Checkbox } from "antd";
 import { useFormik } from "formik";
@@ -5,7 +6,14 @@ import CustomSelect from "../../Components/Select";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 
 export default function ReportFilterModalStatic({ close }: any) {
-  // Dummy options
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation after mount
+    const timer = setTimeout(() => setAnimate(true), 10); // small delay
+    return () => clearTimeout(timer);
+  }, []);
+
   const regionOptions = ["North", "South", "East", "West"];
   const areaOptions = ["Area 1", "Area 2", "Area 3"];
   const mrOptions = ["MR Umair", "MR Ali", "MR Sara"];
@@ -35,17 +43,20 @@ export default function ReportFilterModalStatic({ close }: any) {
   });
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-end items-center z-50">
       <div
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+        className={`bg-white rounded-tl-xl rounded-bl-xl xl:mx-0 mx-5 w-[500px] h-[100vh] overflow-y-auto xl:p-6 p-4 shadow-xl relative
+          transform transition-transform duration-500 ease-in-out
+          ${animate ? "translate-x-0" : "translate-x-full"}`}
       >
+        {/* Header */}
         <div className="flex items-center justify-between">
           <p className="text-[24px] text-heading capitalize font-semibold">
             Select Report Type
           </p>
           <IoMdCloseCircle
-            size={20}
+            size={24}
             onClick={close}
             className="cursor-pointer text-primary"
           />
@@ -53,73 +64,64 @@ export default function ReportFilterModalStatic({ close }: any) {
 
         {/* Form */}
         <form onSubmit={formik.handleSubmit} className="mt-5">
-          {/* Row 1: Region & Start Time */}
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="lg:w-[calc(50%-8px)] w-full">
-              <CustomSelect
-                options={regionOptions}
-                value={formik.values.region}
-                onChange={(val) => formik.setFieldValue("region", val)}
-                placeholder="Select Region"
-              />
-            </div>
-
-            <div className="lg:w-[calc(50%-8px)] w-full">
-              <CustomTimePicker
-                value={formik.values.startTime}
-                onChange={(val) => formik.setFieldValue("startTime", val)}
-                placeholder="Select Start Time"
-              />
-            </div>
+          <div className="mt-3">
+            <CustomSelect
+              options={regionOptions}
+              value={formik.values.region}
+              onChange={(val) => formik.setFieldValue("region", val)}
+              placeholder="Select Region"
+            />
           </div>
 
-          {/* Row 2: Area & End Time */}
-          <div className="flex flex-wrap items-center gap-4 mt-4">
-            <div className="lg:w-[calc(50%-8px)] w-full">
-              <CustomSelect
-                options={areaOptions}
-                value={formik.values.area}
-                onChange={(val) => formik.setFieldValue("area", val)}
-                placeholder="Select Area"
-              />
-            </div>
-
-            <div className="lg:w-[calc(50%-8px)] w-full">
-              <CustomTimePicker
-                value={formik.values.endTime}
-                onChange={(val) => formik.setFieldValue("endTime", val)}
-                placeholder="Select End Time"
-              />
-            </div>
+          <div className="mt-3">
+            <CustomTimePicker
+              value={formik.values.startTime}
+              onChange={(val) => formik.setFieldValue("startTime", val)}
+              placeholder="Select Start Time"
+            />
           </div>
 
-          {/* Row 3: MR & Export Type */}
-          <div className="flex flex-wrap items-center gap-4 mt-4">
-            <div className="lg:w-[calc(50%-8px)] w-full">
-              <CustomSelect
-                options={mrOptions}
-                value={formik.values.selectMR}
-                onChange={(val) => formik.setFieldValue("selectMR", val)}
-                placeholder="Select MR"
-              />
-            </div>
-
-            <div className="lg:w-[calc(50%-8px)] w-full">
-              <CustomSelect
-                options={exportTypeOptions}
-                value={formik.values.exportType}
-                onChange={(val) => formik.setFieldValue("exportType", val)}
-                placeholder="Select Export Type"
-              />
-            </div>
+          <div className="mt-3">
+            <CustomSelect
+              options={areaOptions}
+              value={formik.values.area}
+              onChange={(val) => formik.setFieldValue("area", val)}
+              placeholder="Select Area"
+            />
           </div>
 
-          {/* Report checkboxes */}
+          <div className="mt-3">
+            <CustomTimePicker
+              value={formik.values.endTime}
+              onChange={(val) => formik.setFieldValue("endTime", val)}
+              placeholder="Select End Time"
+            />
+          </div>
+
+          <div className="mt-3">
+            <CustomSelect
+              options={mrOptions}
+              value={formik.values.selectMR}
+              onChange={(val) => formik.setFieldValue("selectMR", val)}
+              placeholder="Select MR"
+            />
+          </div>
+
+          <div className="mt-3">
+            <CustomSelect
+              options={exportTypeOptions}
+              value={formik.values.exportType}
+              onChange={(val) => formik.setFieldValue("exportType", val)}
+              placeholder="Select Export Type"
+            />
+          </div>
+
+          {/* Report Checkboxes */}
           <div className="flex flex-wrap justify-start gap-4 mt-5">
             {reportTitles.map((title, index) => (
               <label
                 key={index}
-                className="flex items-center space-x-2 lg:w-[23%] sm:w-[45%] mt-3"
+                className="flex items-center space-x-2 lg:w-[45%] sm:w-[45%] mt-3"
               >
                 <Checkbox
                   className="[&.ant-checkbox-inner]:border-primary [&.ant-checkbox-checked_.ant-checkbox-inner]:bg-primary"
@@ -144,11 +146,11 @@ export default function ReportFilterModalStatic({ close }: any) {
             ))}
           </div>
 
+          {/* Generate Button */}
           <div className="flex justify-end mt-5">
             <button
-              onClick={close}
               type="submit"
-              className="h-[55px] w-full lg:w-[200px] text-white bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full lg:w-[200px] text-white bg-primary rounded-[6px] flex justify-center items-center"
             >
               Generate
             </button>

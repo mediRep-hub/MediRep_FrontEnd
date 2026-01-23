@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import SearchBar from "../../../Components/SearchBar";
-export default function SecondarySaleDetails() {
+export default function SecondarySaleDetailsDistributor() {
   const navigate = useNavigate();
   const location = useLocation();
   const { order } = location.state || {};

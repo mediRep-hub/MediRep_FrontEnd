@@ -1,18 +1,20 @@
 import { Icon } from "@iconify/react";
-import CustomTable from "../../Components/CustomTable";
+import CustomTable from "../../../Components/CustomTable";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import PrimarySaleUpload from "../../Components/PrimarySaleUpload";
-import ReportFilterModal from "../../Components/ReportFilter";
+import PrimarySaleUpload from "../../../Components/PrimarySaleUpload";
+import ReportFilterModal from "../../../Components/ReportFilter";
 import { LuSearch } from "react-icons/lu";
+import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 const titles = [
   "MR Name",
   "Region",
   "Area",
-  "Products",
   "Brick Name",
+  "Products",
   "Target Qty/Value",
   "Total Sale Qty/Value",
+  "Discount",
   "Action",
 ];
 const titles22 = [
@@ -28,6 +30,7 @@ const titles22 = [
 ];
 
 export default function SecondarySale() {
+  const [openModelUpload, setOpenUpload] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
   const [selectTab, setSelectTab] = useState<"Individual Sale" | "Group Sale">(
@@ -50,8 +53,9 @@ export default function SecondarySale() {
       "Cardio Alpha",
       "Lahore",
       "Canal Road",
-      "Naunehal Baby Soap - 100 gm, Roghan B...",
       "Brick A",
+      "Naunehal Baby Soap - 100 gm, Roghan B...",
+
       <div>
         <p>Qty: 7500</p>
         <p>Rs: 550000</p>
@@ -60,6 +64,7 @@ export default function SecondarySale() {
         <p>Qty: 5500</p>
         <p>Rs: 312100</p>
       </div>,
+      "30%",
       <div className="flex gap-2 items-center" onClick={handleGoDetails}>
         <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
         <p>Details</p>
@@ -69,8 +74,9 @@ export default function SecondarySale() {
       "HealthCare Pharma",
       "Lahore",
       "Shadman",
-      "Roghan Badam Shirin - 500 ml",
       "Brick B",
+      "Roghan Badam Shirin - 500 ml",
+
       <div>
         <p>Qty: 6000</p>
         <p>Rs: 420000</p>
@@ -79,6 +85,7 @@ export default function SecondarySale() {
         <p>Qty: 4800</p>
         <p>Rs: 336000</p>
       </div>,
+      "20%",
       <div className="flex gap-2 items-center" onClick={handleGoDetails}>
         <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
         <p>Details</p>
@@ -88,8 +95,9 @@ export default function SecondarySale() {
       "LifeLine Traders",
       "Karachi",
       "Clifton",
-      "Baby Soap - 200 gm",
       "Brick C",
+      "Baby Soap - 200 gm",
+
       <div>
         <p>Qty: 8000</p>
         <p>Rs: 640000</p>
@@ -98,6 +106,7 @@ export default function SecondarySale() {
         <p>Qty: 7200</p>
         <p>Rs: 576000</p>
       </div>,
+      "12%",
       <div className="flex gap-2 items-center" onClick={handleGoDetails}>
         <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
         <p>Details</p>
@@ -107,8 +116,9 @@ export default function SecondarySale() {
       "City Medicos",
       "Islamabad",
       "F-6 Markaz",
-      "Roghan Arq - 100 ml",
       "Brick D",
+      "Roghan Arq - 100 ml",
+
       <div>
         <p>Qty: 5000</p>
         <p>Rs: 250000</p>
@@ -117,6 +127,7 @@ export default function SecondarySale() {
         <p>Qty: 4500</p>
         <p>Rs: 225000</p>
       </div>,
+      "10%",
       <div className="flex gap-2 items-center" onClick={handleGoDetails}>
         <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
         <p>Details</p>
@@ -126,8 +137,9 @@ export default function SecondarySale() {
       "Good Health Supplies",
       "Peshawar",
       "University Town",
-      "Baby Oil - 100 ml",
       "Brick E",
+      "Baby Oil - 100 ml",
+
       <div>
         <p>Qty: 4000</p>
         <p>Rs: 200000</p>
@@ -136,6 +148,7 @@ export default function SecondarySale() {
         <p>Qty: 3500</p>
         <p>Rs: 175000</p>
       </div>,
+      "28%",
       <div className="flex gap-2 items-center" onClick={handleGoDetails}>
         <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
         <p>Details</p>
@@ -248,14 +261,21 @@ export default function SecondarySale() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap lg:flex-nowrap justify-between items-start gap-4">
-          <p className="text-heading font-medium text-[22px] lg:text-[24px]">
-            Secondary Sale
-          </p>
-          <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
+        <div className="flex flex-wrap w-full xl:flex-nowrap justify-between items-start gap-4">
+          <div className="flex flex-wrap gap-4 items-center">
+            <p className="text-heading font-medium text-[22px] lg:text-[24px]">
+              Secondary Sale
+            </p>
+            <div className="md:w-[180px] w-auto">
+              <MonthYearPicker />
+            </div>
+          </div>
+          <div className="flex flex-wrap  gap-4  items-center">
             {" "}
-            <div className=" w-[200] flex items-center gap-2">
-              <p className="text-sm text-[#131313] font-medium">Brick Name:</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm w-[80px] text-[#131313] font-medium">
+                Brick Name:
+              </p>
               <div className="relative flex items-center">
                 <LuSearch
                   className="absolute left-2 text-[#7d7d7d]"
@@ -265,12 +285,14 @@ export default function SecondarySale() {
                 <input
                   placeholder="Search"
                   type="text"
-                  className="h-[40px] pl-[30px] pr-3 w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] placeholder:text-base xl:w-[130px] md:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
-            <div className=" w-[200] flex items-center gap-2">
-              <p className="text-sm text-[#131313] font-medium">City:</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm w-[30px] text-[#131313] font-medium">
+                City:
+              </p>
               <div className="relative flex items-center">
                 <LuSearch
                   className="absolute left-2 text-[#7d7d7d]"
@@ -280,11 +302,55 @@ export default function SecondarySale() {
                 <input
                   placeholder="Search"
                   type="text"
-                  className="h-[40px] pl-[30px] pr-3 w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] placeholder:text-base pl-[30px] md:w-[150px] pr-3 xl:w-[130px] 2xl:w-[200px] border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                />
+              </div>
+            </div>{" "}
+            <div className="flex items-center gap-2">
+              <p className="text-sm w-[70px] text-[#131313] font-medium">
+                Sale Type:
+              </p>
+              <div className="relative flex items-center">
+                <LuSearch
+                  className="absolute left-2 text-[#7d7d7d]"
+                  size={16}
+                />
+
+                <input
+                  placeholder="Search"
+                  type="text"
+                  className="h-[40px] placeholder:text-base pl-[30px] pr-3 xl:w-[130px] md:w-[150px] 2xl:w-[200px] w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
-            <button className="h-[55px] w-[60px] bg-primary cursor-pointer rounded-[6px] gap-3 flex justify-center items-center ">
+          </div>
+        </div>
+        <div className="flex  flex-wrap-reverse justify-between mt-4 items-end">
+          <div className="flex gap-2 w-full md:w-auto">
+            {["Individual Sale", "Group Sale"].map((tab) => (
+              <button
+                key={tab}
+                className={`w-[150px] h-12 rounded-t-lg ${
+                  selectTab === tab
+                    ? "bg-[#E5EBF7] text-heading"
+                    : "bg-white text-[#7d7d7d]"
+                }`}
+                onClick={() => setSelectTab(tab as typeof selectTab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex  gap-3 mb-4 w-full md:w-auto">
+            <button className="h-[55px] min-w-[60px] bg-white rounded-[6px] flex items-center justify-center">
+              <Icon icon="solar:download-linear" height="24" width="24" />
+            </button>
+
+            <button
+              onClick={() => setOpenUpload(true)}
+              className="h-[55px] min-w-[60px] bg-primary rounded-[6px] flex items-center justify-center"
+            >
               <Icon
                 icon="solar:upload-linear"
                 height="24"
@@ -292,19 +358,10 @@ export default function SecondarySale() {
                 color="#fff"
               />
             </button>
-            <button className="h-[55px] bg-white w-[60px]  rounded-[6px] gap-3 flex justify-center items-center">
-              <Icon
-                icon="solar:download-linear"
-                height="24"
-                width="24"
-                color="#131313"
-              />
-            </button>
+
             <button
-              onClick={() => {
-                setOpenReportModal(true);
-              }}
-              className="h-[55px] w-full md:w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              onClick={() => setOpenReportModal(true)}
+              className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] flex items-center justify-center gap-2"
             >
               <Icon
                 icon="mingcute:add-fill"
@@ -313,34 +370,18 @@ export default function SecondarySale() {
                 color="#fff"
               />
               <p className="text-white text-base font-medium">
-                Generate Reports{" "}
+                Generate Reports
               </p>
             </button>
           </div>
         </div>
-        <div className="mt-4 flex gap-2">
-          {["Individual Sale", "Group Sale"].map((tab) => (
-            <button
-              key={tab}
-              className={`w-[150px] h-12 rounded-t-lg ${
-                selectTab === tab
-                  ? "bg-[#E5EBF7] text-heading"
-                  : "bg-white text-[#7d7d7d]"
-              }`}
-              onClick={() => {
-                setSelectTab(tab as typeof selectTab);
-              }}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
+
         <div
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(55vh-0px)] h-auto ${
             selectTab === "Individual Sale"
               ? "rounded-tl-none"
               : "rounded-tl-[12px]"
@@ -354,7 +395,7 @@ export default function SecondarySale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(44.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={selectTab == "Individual Sale" ? titles : titles22}
@@ -372,6 +413,13 @@ export default function SecondarySale() {
         <>
           <ReportFilterModal close={handleClose} />{" "}
         </>
+      )}
+      {openModelUpload && (
+        <PrimarySaleUpload
+          closeModle={() => {
+            setOpenUpload(false);
+          }}
+        />
       )}
     </>
   );
