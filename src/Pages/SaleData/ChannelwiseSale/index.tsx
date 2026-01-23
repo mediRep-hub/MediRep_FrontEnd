@@ -2,6 +2,8 @@ import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import { useEffect } from "react";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const titles = [
   "Channel Type",
@@ -80,6 +82,46 @@ export default function ChannelWiseSale() {
   useEffect(() => {
     document.title = "MediRep | Channel Wise Sale";
   }, []);
+  const handleDownloadExcel = () => {
+    const exportData = tableDataTitles.map((row) =>
+      row.map((cell) => {
+        // If JSX (Icon + Details)
+        if (typeof cell === "object" && cell?.props) {
+          if (cell.props.children) {
+            if (Array.isArray(cell.props.children)) {
+              return cell.props.children
+                .map((child: any) =>
+                  typeof child === "string"
+                    ? child
+                    : child?.props?.children || "",
+                )
+                .join(" ");
+            }
+            return cell.props.children;
+          }
+          return "";
+        }
+        return cell;
+      }),
+    );
+
+    const worksheet = XLSX.utils.aoa_to_sheet([titles, ...exportData]);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Channel Wise Sale");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const data = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+
+    saveAs(data, "Channel_Wise_Sale_Report.xlsx");
+  };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -95,6 +137,7 @@ export default function ChannelWiseSale() {
 
           <div className="flex flex-wrap w-full md:w-auto sm:flex-nowrap gap-4 items-center">
             <button
+              onClick={handleDownloadExcel}
               className="h-[55px] w-full md:w-[160px] bg-[#E5EBF7] rounded-[6px] gap-3 flex justify-center items-center 
            "
             >
@@ -105,7 +148,7 @@ export default function ChannelWiseSale() {
                 width="24"
                 color="#0755E9"
               />
-              <p className="text-primary font-medium">Export</p>
+              <p className="text-primary font-medium">Download</p>
             </button>
           </div>
         </div>{" "}
@@ -118,7 +161,7 @@ export default function ChannelWiseSale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+            className=" scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)] overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableDataTitles} />
           </div>{" "}

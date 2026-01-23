@@ -82,14 +82,14 @@ export default function PrimarySaleDetails() {
                 width="24"
                 color="#131313"
               />
-              <p>Import</p>
+              <p>Upload</p>
             </button>
             <button
               className="h-[55px] w-[calc(50%-8px)] md:w-[160px] bg-[#E5EBF7] rounded-[6px] gap-3 flex justify-center items-center 
            "
             >
               {" "}
-              <p className="text-primary font-medium">Export</p>
+              <p className="text-primary font-medium">Download</p>
               <Icon
                 icon="solar:download-linear"
                 height="24"

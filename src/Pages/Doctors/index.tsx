@@ -30,6 +30,8 @@ interface Doctor {
   specialty: string;
   email: string;
   phone: string;
+  PMDC: string;
+  doctorClass: string;
   value?: [string, string] | null;
   affiliation: string;
   image?: string | null;
@@ -52,7 +54,7 @@ const specialtyOptions = [
   "Family Doctor",
 ];
 const areaOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
-
+const ClassOptions = ["Class A", "Class B", "Class C", "Class D"];
 export default function Doctors() {
   const [addDoctor, setAddDoctor] = useState<boolean>(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
@@ -89,10 +91,12 @@ export default function Doctors() {
       name: doctor.name || "",
       specialty: doctor.specialty || "",
       email: doctor.email || "",
+      PMDC: doctor.PMDC || "",
       phone: doctor.phone || "",
       startTime: doctor.startTime || "",
       endTime: doctor.endTime || "",
       brick: doctor.brick || "",
+      doctorClass: doctor.doctorClass || "",
       city: doctor.city || "",
       affiliation: doctor.affiliation || "",
       image: doctor.image || null,
@@ -107,7 +111,9 @@ export default function Doctors() {
       specialty: editingDoctor?.specialty || "",
       email: editingDoctor?.email || "",
       phone: editingDoctor?.phone || "",
+      PMDC: editingDoctor?.PMDC || "",
       startTime: editingDoctor?.startTime || "",
+      doctorClass: editingDoctor?.doctorClass || "",
       endTime: editingDoctor?.endTime || "",
       affiliation: editingDoctor?.affiliation || "",
       brick: editingDoctor?.brick || "",
@@ -379,6 +385,22 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>
+                  <div className="mt-4">
+                    <CustomSelect
+                      options={ClassOptions}
+                      value={formik.values.doctorClass}
+                      onChange={(val) =>
+                        formik.setFieldValue("doctorClass", val)
+                      }
+                      placeholder="CLass"
+                    />{" "}
+                    {formik.touched.doctorClass &&
+                      formik.errors.doctorClass && (
+                        <div className="text-red-500 text-xs">
+                          *{formik.errors.doctorClass}
+                        </div>
+                      )}
+                  </div>
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Profile</p>
@@ -471,6 +493,21 @@ export default function Doctors() {
                           *{formik.errors.affiliation}
                         </div>
                       )}
+                  </div>{" "}
+                  <div className="mt-4">
+                    <CustomInput
+                      id="PMDC"
+                      name="PMDC"
+                      label="PMDC"
+                      placeholder="Enter PMDC No. (Optional)"
+                      value={formik.values.PMDC}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.touched.PMDC && formik.errors.PMDC && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.PMDC}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

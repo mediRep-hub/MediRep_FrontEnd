@@ -69,7 +69,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     >
                       {cell}
                     </td>
-                  ) : null
+                  ) : null,
                 )}
               </tr>
             ))

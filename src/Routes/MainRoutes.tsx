@@ -13,15 +13,39 @@ import Brick from "../Pages/Brick";
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
-import PendingOrders from "../Pages/Orders/pendingOrder";
-import DailyCallReport from "../Pages/Reports/DailyCallReport";
-import MRProductivityReport from "../Pages/Reports/MRProductivityReport";
-import GeoLocationReport from "../Pages/Reports/Geo-locationReport";
-import DoctorCoverageReport from "../Pages/Reports/DoctorCoverageReport";
-import RouteComplianceReport from "../Pages/Reports/RouteComplianceReport";
-import SampleDistributionReport from "../Pages/Reports/SampleDistributionReport";
-import TeamPerformanceReport from "../Pages/Reports/TeamPerformanceReport";
-import DailyCallReportingDetail from "../Pages/Reports/DailyCallReport/DailyCallReportingDetail";
+const PendingOrders = lazy(() => import("../Pages/Orders/pendingOrder"));
+
+const DailyCallReport = lazy(() => import("../Pages/Reports/DailyCallReport"));
+
+const MRProductivityReport = lazy(
+  () => import("../Pages/Reports/MRProductivityReport"),
+);
+
+const GeoLocationReport = lazy(
+  () => import("../Pages/Reports/Geo-locationReport"),
+);
+
+const DoctorCoverageReport = lazy(
+  () => import("../Pages/Reports/DoctorCoverageReport"),
+);
+
+const RouteComplianceReport = lazy(
+  () => import("../Pages/Reports/RouteComplianceReport"),
+);
+
+const SampleDistributionReport = lazy(
+  () => import("../Pages/Reports/SampleDistributionReport"),
+);
+
+const TeamPerformanceReport = lazy(
+  () => import("../Pages/Reports/TeamPerformanceReport"),
+);
+
+const DailyCallReportingDetail = lazy(
+  () => import("../Pages/Reports/DailyCallReport/DailyCallReportingDetail"),
+);
+
+const BrickWiseSale = lazy(() => import("../Pages/SaleData/BrickWiseSale"));
 
 const ChannelWiseSale = lazy(() => import("../Pages/SaleData/ChannelwiseSale"));
 const PrimarySale = lazy(
@@ -122,6 +146,7 @@ export default function MainRoutes() {
           element={<SecondarySaleDetails />}
         />
         <Route path="/channelWiseSale" element={<ChannelWiseSale />} />
+        <Route path="/salebrickWise" element={<BrickWiseSale />} />
         <Route path="/brick" element={<Brick />} />
         <Route path="/dailyCallReport" element={<DailyCallReport />} />
         <Route

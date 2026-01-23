@@ -174,7 +174,7 @@ export default function SideBar({ link }: any) {
                 </p>
                 {hasChildren && isDropdownOpen && (
                   <div>
-                    <div className="pl-7 pr-2 py-2 flex flex-col rounded-[12px]">
+                    <div className="pl-7 pr-0 py-2 flex flex-col rounded-[12px]">
                       {item.children.map((child: any, idx: number) => {
                         const isChildActive = location.pathname.startsWith(
                           child.path,

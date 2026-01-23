@@ -32,17 +32,47 @@ export default function DoctorCard({
                 <p className="leading-1 text-heading font-medium text-sm">
                   {doctor?.name}
                 </p>{" "}
-                {doctor?.pharmacyClass && (
-                  <p className="leading-1 text-heading font-medium text-sm">
-                    ({doctor.pharmacyClass})
-                  </p>
-                )}
               </div>
               <p className="leading-1 text-primary font-medium text-xs">
                 {doctor?.docId || doctor?.pharmacyId}
               </p>
             </div>
           </div>
+          {doctor?.doctorClass && (
+            <div
+              className={`px-2 py-0.5 rounded-sm ${
+                doctor.doctorClass === "Class A"
+                  ? "bg-[#0BA69C]"
+                  : doctor.doctorClass === "Class B"
+                    ? "bg-primary"
+                    : doctor.doctorClass === "Class C"
+                      ? "bg-[#AC7F5E]"
+                      : "bg-gray-700"
+              }`}
+            >
+              <p className="leading-1 text-white font-medium text-sm">
+                {doctor.doctorClass}
+              </p>
+            </div>
+          )}
+          {doctor?.channel && (
+            <div
+              className={`px-2 py-0.5 rounded-sm ${
+                doctor.channel === "Chain Pharmacy"
+                  ? "bg-[#0BA69C]"
+                  : doctor.channel === "RT"
+                    ? "bg-primary"
+                    : doctor.channel === "Wholesale"
+                      ? "bg-[#AC7F5E]"
+                      : "bg-gray-700"
+              }`}
+            >
+              <p className="leading-1 text-white font-medium text-sm">
+                {doctor.channel}
+              </p>
+            </div>
+          )}
+
           <div
             className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
             onClick={() => {
@@ -62,6 +92,18 @@ export default function DoctorCard({
           </div>
         </div>
         <div className="mt-4 space-y-2">
+          {doctor?.PMDC && (
+            <div className="flex gap-3 items-center">
+              <Icon icon="material-symbols:license-rounded" color="#7d7d7d" />
+              <p className="text-heading text-xs font-normal">{doctor?.PMDC}</p>
+            </div>
+          )}{" "}
+          {doctor?.DSL && (
+            <div className="flex gap-3 items-center">
+              <Icon icon="material-symbols:license-rounded" color="#7d7d7d" />
+              <p className="text-heading text-xs font-normal">{doctor?.DSL}</p>
+            </div>
+          )}{" "}
           {doctor?.specialty && (
             <div className="flex gap-3 items-center">
               <IoBulb color="#7d7d7d" />
@@ -69,7 +111,7 @@ export default function DoctorCard({
                 {doctor?.specialty}
               </p>
             </div>
-          )}
+          )}{" "}
           <div className="flex gap-3 items-center">
             <MdPhone color="#7d7d7d" />
             <p className="text-heading text-xs font-normal">{doctor?.phone}</p>

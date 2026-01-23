@@ -4,6 +4,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const titles = [
   "MR_Name",
@@ -211,6 +213,56 @@ export default function SecondarySaleDetails() {
   const handleGoToBack = () => {
     navigate("/secondarySale");
   };
+  const extractCellText = (cell: any) => {
+    if (typeof cell === "string" || typeof cell === "number") return cell;
+
+    if (cell?.props?.children) {
+      if (Array.isArray(cell.props.children)) {
+        return cell.props.children
+          .map((child: any) =>
+            typeof child === "string" ? child : child?.props?.children || "",
+          )
+          .join(" | ");
+      }
+      return cell.props.children;
+    }
+
+    return "";
+  };
+
+  const handleDownloadExcel = () => {
+    const isIndividual = selectTab === "Individual Sale";
+
+    const headers = isIndividual ? titles : titles22;
+    const rows = isIndividual ? tableDataTitles : tableDataTitles22;
+
+    const exportData = rows.map((row) =>
+      row.map((cell) => extractCellText(cell)),
+    );
+
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...exportData]);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      isIndividual ? "Individual Sale" : "Group Sale",
+    );
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const blob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+
+    saveAs(
+      blob,
+      `Secondary_Sale_${isIndividual ? "Individual" : "Group"}_Report.xlsx`,
+    );
+  };
 
   return (
     <>
@@ -229,14 +281,17 @@ export default function SecondarySaleDetails() {
               </p>
             </div>
             <div className="flex gap-3 flex-wrap items-center w-full md:w-auto">
-              <button className="h-[55px] w-full md:w-[192px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+              <button
+                onClick={handleDownloadExcel}
+                className="h-[55px] w-full md:w-[192px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              >
                 <Icon
-                  icon="solar:upload-linear"
+                  icon="solar:download-linear"
                   height="20"
                   width="20"
                   color="#0755E9"
                 />
-                <p className="text-primary text-base font-medium">Export</p>
+                <p className="text-primary text-base font-medium">Download</p>
               </button>{" "}
               <button
                 onClick={() => {

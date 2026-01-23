@@ -6,6 +6,9 @@ import PrimarySaleUpload from "../../../Components/PrimarySaleUpload";
 import ReportFilterModal from "../../../Components/ReportFilter";
 import { LuSearch } from "react-icons/lu";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 const titles = [
   "MR Name",
   "Region",
@@ -258,6 +261,58 @@ export default function SecondarySale() {
       </div>,
     ],
   ];
+
+  const extractCellText = (cell: any) => {
+    if (typeof cell === "string" || typeof cell === "number") return cell;
+
+    if (cell?.props?.children) {
+      if (Array.isArray(cell.props.children)) {
+        return cell.props.children
+          .map((child: any) =>
+            typeof child === "string" ? child : child?.props?.children || "",
+          )
+          .join(" | ");
+      }
+      return cell.props.children;
+    }
+
+    return "";
+  };
+
+  const handleDownloadExcel = () => {
+    const isIndividual = selectTab === "Individual Sale";
+
+    const headers = isIndividual ? titles : titles22;
+    const rows = isIndividual ? tableDataTitles : tableDataTitles22;
+
+    const exportData = rows.map((row) =>
+      row.map((cell) => extractCellText(cell)),
+    );
+
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...exportData]);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      isIndividual ? "Individual Sale" : "Group Sale",
+    );
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const blob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+
+    saveAs(
+      blob,
+      `Secondary_Sale_${isIndividual ? "Individual" : "Group"}_Report.xlsx`,
+    );
+  };
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -325,7 +380,7 @@ export default function SecondarySale() {
             </div>
           </div>
         </div>
-        <div className="flex  flex-wrap-reverse justify-between mt-4 items-end">
+        <div className="flex flex-wrap justify-between mt-4 items-start md:items-end">
           <div className="flex gap-2 w-full md:w-auto">
             {["Individual Sale", "Group Sale"].map((tab) => (
               <button
@@ -343,7 +398,10 @@ export default function SecondarySale() {
           </div>
 
           <div className="flex  gap-3 mb-4 w-full md:w-auto">
-            <button className="h-[55px] min-w-[60px] bg-white rounded-[6px] flex items-center justify-center">
+            <button
+              onClick={handleDownloadExcel}
+              className="h-[55px] min-w-[60px] bg-white rounded-[6px] flex items-center justify-center"
+            >
               <Icon icon="solar:download-linear" height="24" width="24" />
             </button>
 

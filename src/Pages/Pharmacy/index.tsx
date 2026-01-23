@@ -28,14 +28,14 @@ interface Pharmacy {
   name: string;
   DSL: string;
   email: string;
+
   phone: string;
-  pharmacyClass: string;
   affiliation: string;
   image?: string | null;
   startTime?: string | null;
   endTime?: string | null;
   brick?: string;
-  // channel?: string;
+  channel?: string;
   city?: string;
   location: {
     address: string;
@@ -43,8 +43,12 @@ interface Pharmacy {
     lng: number;
   };
 }
-const ClassOptions = ["AA", "AB", "BB", "BC"];
-// const channelOptions = ["RT", "Local Modern Trade", "Wholesale"];
+const channelOptions = [
+  "Chain Pharmacy",
+  "RT",
+  "Wholesale",
+  "Local Modern Trade",
+];
 const cityOptions = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
 
 export default function Pharmacies() {
@@ -87,13 +91,12 @@ export default function Pharmacies() {
       DSL: pharmacy.DSL || "",
       phone: pharmacy.phone || "",
       startTime: pharmacy.startTime || "",
-      pharmacyClass: pharmacy.pharmacyClass || "",
       endTime: pharmacy.endTime || "",
       brick: pharmacy.brick || "",
       city: pharmacy.city || "",
       affiliation: pharmacy.affiliation || "",
       image: pharmacy.image || null,
-      // channel: pharmacy.channel || "",
+      channel: pharmacy.channel || "",
       location: pharmacy.location || { address: "", lat: 0, lng: 0 },
     });
   };
@@ -103,16 +106,16 @@ export default function Pharmacies() {
     initialValues: {
       name: editingPharmacy?.name || "",
       email: editingPharmacy?.email || "",
+
       DSL: editingPharmacy?.DSL || "",
       phone: editingPharmacy?.phone || "",
-      pharmacyClass: editingPharmacy?.pharmacyClass || "",
       startTime: editingPharmacy?.startTime || "",
       endTime: editingPharmacy?.endTime || "",
       affiliation: editingPharmacy?.affiliation || "",
       brick: editingPharmacy?.brick || "",
       city: editingPharmacy?.city || "",
       image: editingPharmacy?.image || null,
-      // channel: editingPharmacy?.channel || "",
+      channel: editingPharmacy?.channel || "",
       location: editingPharmacy?.location || { address: "", lat: 0, lng: 0 },
     },
     validationSchema: PharmacySchema,
@@ -311,7 +314,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>{" "}
-                  {/* <div className="mt-4">
+                  <div className="mt-4">
                     <CustomSelect
                       options={channelOptions}
                       value={formik.values.channel}
@@ -323,22 +326,6 @@ export default function Pharmacies() {
                         *{formik.errors.channel}
                       </div>
                     )}
-                  </div> */}
-                  <div className="mt-4">
-                    <CustomSelect
-                      options={ClassOptions}
-                      value={formik.values.pharmacyClass}
-                      onChange={(val) =>
-                        formik.setFieldValue("pharmacyClass", val)
-                      }
-                      placeholder="CLass"
-                    />{" "}
-                    {formik.touched.pharmacyClass &&
-                      formik.errors.pharmacyClass && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.pharmacyClass}
-                        </div>
-                      )}
                   </div>
                   <div className="mt-4">
                     <CustomInput
@@ -385,6 +372,22 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>{" "}
+                  <div className="mt-4">
+                    <CustomInput
+                      id="DSL"
+                      name="DSL"
+                      label="DSL"
+                      placeholder="Write your Drug Sale License"
+                      height="128px"
+                      value={formik.values.DSL}
+                      onChange={formik.handleChange}
+                    />{" "}
+                    {formik.touched.DSL && formik.errors.DSL && (
+                      <div className="text-red-500 text-xs">
+                        *{formik.errors.DSL}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Pharmacy Details</p>
@@ -459,22 +462,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
-                    <CustomInput
-                      id="DSL"
-                      name="DSL"
-                      label="DSL"
-                      placeholder="Write your Drug Sale License"
-                      height="128px"
-                      value={formik.values.DSL}
-                      onChange={formik.handleChange}
-                    />{" "}
-                    {formik.touched.DSL && formik.errors.DSL && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.DSL}
-                      </div>
-                    )}
-                  </div>
+
                   <div className="mt-4">
                     <CustomInput
                       id="affiliation"

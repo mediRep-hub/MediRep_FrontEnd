@@ -9,10 +9,10 @@ export const LoginSchema = Yup.object({
 export const PharmacySchema = Yup.object().shape({
   name: Yup.string().required("Doctor name is required"),
   email: Yup.string().email().required("Email is required"),
-  DSL: Yup.string().required("Drug Sale License is required"),
+  DSL: Yup.string().optional(),
   phone: Yup.string().required("Phone is required"),
   startTime: Yup.string().required("Start time is required"),
-  pharmacyClass: Yup.string().required("Class is required"),
+  channel: Yup.string().required("Channel is required"),
   endTime: Yup.string().required("End time is required"),
   brick: Yup.string().required("Brick is required"),
   city: Yup.string().required("city is required"),
@@ -30,6 +30,8 @@ export const DoctorSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
   phone: Yup.string().required("Phone is required"),
   startTime: Yup.string().required("Start time is required"),
+  doctorClass: Yup.string().required("Class is required"),
+  PMDC: Yup.string().optional(),
   endTime: Yup.string().required("End time is required"),
   brick: Yup.string().required("brick is required"),
   city: Yup.string().required("city is required"),
@@ -249,6 +251,10 @@ export const defaultLinks: SidebarLink[] = [
       {
         name: "Channel Wise Sale",
         path: "/channelWiseSale",
+      },
+      {
+        name: "Brick Wise Sale",
+        path: "/salebrickWise",
       },
     ],
   },
