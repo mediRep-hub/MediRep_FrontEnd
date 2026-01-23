@@ -1,10 +1,10 @@
-import { FaArrowLeft } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import { Avatar } from "antd";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 const dummyDoctor = {
   mrImage:
@@ -13,7 +13,6 @@ const dummyDoctor = {
   doctorAvailability: "Yes",
   name: "Omar Rosser",
   code: "Re833434",
-  department: "Cardiology",
   address: "154-D Architecture Society, Lahore",
   brickName: "Canal Road",
   date: new Date(),
@@ -27,42 +26,41 @@ const dummyDoctor = {
   doctorPurchaseInterest: "High",
   keyDiscussionPoints: "Pricing, Availability, Benefits",
   doctorConcerns: "Stock consistency",
-  checkInLocation: {
-    lat: 31.5204,
-    lng: 74.3587,
-  },
+  checkInLocation: { lat: 31.5204, lng: 74.3587 },
 };
 
 export default function CallDetails() {
-  const [isLoaction, setLoaction] = useState(false);
-
+  const [isLocation, setLocation] = useState(false);
   const navigate = useNavigate();
-  const handleGOBack = () => {
-    navigate("/dailyCallReport");
-  };
+
+  const handleGoBack = () => navigate("/dailyCallReport");
+
+  // ✅ Hook to load Google Maps
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A", // Replace with your key
+  });
+
+  if (loadError) return <div>Error loading Google Maps</div>;
+
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 items-center">
           <div
-            onClick={handleGOBack}
-            className="h-11 w-11 cursor-pointer rounded-lg border-[#D2D2D2] border-[1px] flex justify-center items-center"
+            onClick={handleGoBack}
+            className="h-11 w-11 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center"
           >
-            <FaArrowLeft size={16} color="#000000" />
+            <FaArrowLeft size={16} color="#000" />
           </div>
-
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Daily Call Details
           </p>
         </div>
 
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.8vh-0px)] lg:h-[calc(66vh-0px)] h-auto">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[76.8vh] lg:h-[66vh] h-auto">
           <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="scroll-smooth mt-5 p-6 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(71.5vh-0px)] xl:h-[calc(58vh-0px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-5 p-6 gap-5 md:gap-0 bg-white border border-primary rounded-lg overflow-y-auto"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             <div className="flex justify-between flex-wrap gap-5">
               <div className="flex gap-3 items-center">
@@ -78,17 +76,16 @@ export default function CallDetails() {
               </div>
 
               <button
-                onClick={() => setLoaction(true)}
-                className="bg-primary text-white rounded-lg h-[50px] md:w-[180px] w-full cursor-pointer"
+                onClick={() => setLocation(true)}
+                className="bg-primary text-white rounded-lg h-[50px] md:w-[180px] w-full"
               >
                 Check in location
               </button>
             </div>
 
-            <div className="mt-7">
+            <div className="mt-7 flex flex-col gap-2">
               {[
                 { label: "Call ID:", value: "Call-2323123" },
-
                 {
                   label: "Doctor Availability:",
                   value: dummyDoctor.doctorAvailability,
@@ -132,13 +129,14 @@ export default function CallDetails() {
                   value: dummyDoctor.doctorConcerns,
                 },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-5 mt-2">
+                <div
+                  key={index}
+                  className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-5"
+                >
                   <p className="w-[200px] text-[#7D7D7D] text-sm">
                     {item.label}
                   </p>
-                  <p className="w-[200px] sm:w-full text-heading text-sm">
-                    {item.value}
-                  </p>
+                  <p className="w-full text-heading text-sm">{item.value}</p>
                 </div>
               ))}
             </div>
@@ -146,39 +144,36 @@ export default function CallDetails() {
         </div>
       </div>
 
-      {isLoaction && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
-          >
-            <div className="flex items-center justify-between">
-              <p className="text-[24px] text-heading capitalize font-semibold">
+      {/* Location Modal */}
+      {isLocation && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-xl w-full max-w-[1000px] max-h-[90vh] shadow-xl overflow-hidden relative">
+            <div className="flex items-center justify-between p-4 border-b">
+              <p className="text-[24px] text-heading font-semibold capitalize">
                 Check In Location
               </p>
               <IoMdCloseCircle
-                size={20}
-                onClick={() => setLoaction(false)}
+                size={24}
+                onClick={() => setLocation(false)}
                 className="cursor-pointer text-primary"
               />
             </div>
 
-            <div className="mt-5">
-              <GoogleMap
-                mapContainerStyle={{ width: "100%", height: "400px" }}
-                center={{
-                  lat: dummyDoctor.checkInLocation.lat,
-                  lng: dummyDoctor.checkInLocation.lng,
-                }}
-                zoom={15}
-              >
-                <Marker
-                  position={{
-                    lat: dummyDoctor.checkInLocation.lat,
-                    lng: dummyDoctor.checkInLocation.lng,
-                  }}
-                />
-              </GoogleMap>
+            <div className="w-full h-[400px]">
+              {/* ✅ Render map only if loaded */}
+              {isLoaded ? (
+                <GoogleMap
+                  mapContainerStyle={{ width: "100%", height: "100%" }}
+                  center={dummyDoctor.checkInLocation}
+                  zoom={15}
+                >
+                  <Marker position={dummyDoctor.checkInLocation} />
+                </GoogleMap>
+              ) : (
+                <div className="flex justify-center items-center h-full">
+                  Loading Map...
+                </div>
+              )}
             </div>
           </div>
         </div>

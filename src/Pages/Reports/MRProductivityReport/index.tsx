@@ -41,7 +41,6 @@ export default function MRProductivityReport() {
     placeholderData: (previous) => previous,
   });
   let AllDoctor = Doctor?.data?.data;
-  console.log("🚀 ~ MRProductivityReport ~ Allpharmacy:", AllDoctor);
   const Data = [
     [
       "Omar Rosser",
@@ -210,12 +209,14 @@ export default function MRProductivityReport() {
                     <p>0{index + 1}</p>
 
                     <div className="flex items-center gap-3">
-                      <Avatar src={item.image} size={40} />
+                      <Avatar src={item.image} size={50} />
                       <div>
-                        <p className="text-[#131313] leading-[100%]">
+                        <p className="text-[#131313] font-medium leading-[100%]">
                           {item.name}
                         </p>
-                        <p className="text-xs text-primary">{item.docId}</p>
+                        <p className="text-xs font-medium text-primary">
+                          {item.docId}
+                        </p>
                       </div>
                     </div>
                   </div>
