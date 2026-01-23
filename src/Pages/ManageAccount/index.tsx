@@ -8,6 +8,7 @@ import { Spin } from "antd";
 import { Icon } from "@iconify/react";
 import { useFormik } from "formik";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 import CustomTable from "../../Components/CustomTable";
 import CustomInput from "../../Components/CustomInput";
@@ -63,6 +64,13 @@ interface RowsByDivision {
 export default function ManageAccount() {
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isLoading, setLoading] = useState(false);
+  const buildRow = (v: Employee) => {
+    return {
+      original: v,
+      cells: [v.employeeId, v.name, v.email, v.department, v.position],
+    };
+  };
+
   const [selectTab, setSelectTab] = useState<
     "sales" | "marketing" | "distributor"
   >("sales");
@@ -74,6 +82,8 @@ export default function ManageAccount() {
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const navigate = useNavigate();
 
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllAccount"],
@@ -322,6 +332,9 @@ export default function ManageAccount() {
                     : rowsByDivision.distributor
               }
               isFetching={isFetching}
+              handleGoToDetail={(row) => {
+                navigate("/employeeDetail", { state: { rowData: row } });
+              }}
             />
           </div>
         </div>

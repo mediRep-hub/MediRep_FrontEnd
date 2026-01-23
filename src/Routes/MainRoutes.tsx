@@ -7,6 +7,7 @@ import CallReporting from "../Pages/CallReporting";
 import CallReportingDetail from "../Pages/CallReporting/CallReportingDetail";
 import Brick from "../Pages/Brick";
 import SecondarySaleDetails from "../Pages/SaleData/secondarySaleDetails";
+import EmployeeDetail from "../Pages/ManageAccount/EmployeeDetail";
 
 const PendingOrder = lazy(() => import("../Pages/Orders/pendingOrder"));
 const PrimarySale = lazy(() => import("../Pages/SaleData/primarySale"));
@@ -58,6 +59,11 @@ export default function MainRoutes() {
             )
           }
         />{" "}
+        <Route
+          path="/manageAccounts/employeeDetail"
+          element={<EmployeeDetail />}
+        />
+        <Route path="/employeeDetail" element={<EmployeeDetail />} />
         <Route path="/targets-achievements" element={<Tragets />} />
         <Route path="/products" element={<Products />} />
         <Route path="/pharmacies" element={<Pharmacy />} />

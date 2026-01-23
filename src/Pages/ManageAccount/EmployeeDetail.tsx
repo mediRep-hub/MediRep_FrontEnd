@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { notifyError, notifySuccess } from "../../Components/Toast";
+// import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
-import { updatePassword } from "../../api/adminServices";
+// import { updatePassword } from "../../api/adminServices";
 
 interface EmployeeData {
   _id: string;
@@ -55,26 +55,39 @@ export default function EmployeeDetails() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { rowData } = (location.state as { rowData: EmployeeData }) || {};
 
-  if (!rowData) {
-    // Data not yet available, or page accessed directly
-    return <p>Loading employee data...</p>;
-  }
+  // if (!rowData) {
+  //   return (
+  //     <div className="h-[calc(100vh-110px)] flex items-center justify-center bg-[#F7F7F7] rounded-xl">
+  //       <div className="bg-white p-6 rounded-xl shadow text-center">
+  //         <p className="text-red-500 mb-4">
+  //           Employee data not found. Please go back and select an employee.
+  //         </p>
+  //         <button
+  //           onClick={() => navigate("/employeeDetail")}
+  //           className="px-4 py-2 bg-[#0755E9] text-white rounded-md"
+  //         >
+  //           Go Back
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const navigate = useNavigate();
 
-  const handleUpdatePassword = async () => {
-    setLoading(true);
-    try {
-      await updatePassword(rowData._id, { password });
-      notifySuccess("Password updated successfully!");
-      setPassword("");
-    } catch (err: any) {
-      console.error(err);
-      notifyError(err?.response?.data?.message || "Failed to update password");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleUpdatePassword = async () => {
+  //   setLoading(true);
+  //   try {
+  //     await updatePassword(rowData._id, { password });
+  //     notifySuccess("Password updated successfully!");
+  //     setPassword("");
+  //   } catch (err: any) {
+  //     console.error(err);
+  //     notifyError(err?.response?.data?.message || "Failed to update password");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const leaveEntitlements = rowData.leaveEntitlements || {
     annualLeave: { consumed: 0, total: 0 },
