@@ -3,7 +3,7 @@ import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { Avatar, Spin } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaCalendar } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 
