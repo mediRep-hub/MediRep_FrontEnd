@@ -85,7 +85,6 @@ export default function ChannelWiseSale() {
   const handleDownloadExcel = () => {
     const exportData = tableDataTitles.map((row) =>
       row.map((cell) => {
-        // If JSX (Icon + Details)
         if (typeof cell === "object" && cell?.props) {
           if (cell.props.children) {
             if (Array.isArray(cell.props.children)) {

@@ -122,19 +122,19 @@ const tableDataTitles22 = [
 ];
 const tableDataTitles = [
   [
-    "Cardio Alpha", // MR_Name
-    "Canal Road", // Brick_Name
-    "2026-01-20", // Order_Dated
-    "Pharmacy A", // Pharmacy_Name
-    "Naunehal Baby Soap - 100 gm", // Product_Name
+    "Cardio Alpha",
+    "Canal Road",
+    "2026-01-20",
+    "Pharmacy A",
+    "Naunehal Baby Soap - 100 gm",
     <div>
       <p>Qty: 7500</p>
       <p>Rs: 550000</p>
-    </div>, // Quantity_Sold (Pack)
+    </div>,
     <div>
       <p>Qty: 5500</p>
       <p>Rs: 312100</p>
-    </div>, // Sales_Value
+    </div>,
   ],
   [
     "HealthCare Pharma",

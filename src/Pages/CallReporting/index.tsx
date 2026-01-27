@@ -196,8 +196,6 @@ export default function CallReporting() {
           setLoading(false);
           return;
         }
-
-        // Convert doctor names to IDs
         const doctorIds = AllDOctors?.filter((doc: any) =>
           values.doctorList.includes(doc.name),
         )?.map((doc: any) => doc._id);
@@ -225,7 +223,7 @@ export default function CallReporting() {
           ...values,
           mrName: values.mrName,
           doctorList: doctorIds,
-          products: values.products.map((p: any) => p.name), // <-- map to strings
+          products: values.products.map((p: any) => p.name),
         };
         if (editingProduct) {
           await updateReports(editingProduct._id, payload);
@@ -414,31 +412,35 @@ export default function CallReporting() {
                       <Avatar size={42} src={mr?.mrName?.image} />
                       <div className="flex items-center gap-3">
                         {selectedBrick?._id === mr._id && (
-                          <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-primary">
+                          <div
+                            onClick={(e) => {
+                              SetViewdetails(true);
+                              e.stopPropagation();
+                            }}
+                            className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-primary"
+                          >
                             <Icon
                               color="#0755E9"
                               height="18"
                               width="20"
                               icon="icon-park-solid:doc-detail"
-                              onClick={(e) => {
-                                SetViewdetails(true);
-                                e.stopPropagation();
-                              }}
                             />
                           </div>
                         )}
 
-                        <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-[#E90761]">
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteConfirmation(true);
+                            setEditingProduct(mr);
+                          }}
+                          className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-[#E90761]"
+                        >
                           <Icon
                             color="#E90761"
                             height="18"
                             width="20"
                             icon="mingcute:delete-fill"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDeleteConfirmation(true);
-                              setEditingProduct(mr);
-                            }}
                           />
                         </div>
                       </div>
@@ -711,6 +713,7 @@ export default function CallReporting() {
                   </div>
                   <div className="mt-3">
                     <MultiSelect
+                      label="Doctors List"
                       options={AllDOctors.map((doc: any) => doc.name)}
                       value={formik.values.doctorList}
                       onChange={(val) =>
@@ -726,6 +729,7 @@ export default function CallReporting() {
                   </div>{" "}
                   <div className="mt-3">
                     <MultiSelect
+                      label="Products"
                       options={AllProducts.map((p: any) => p.productName)}
                       value={formik.values.products.map((p: any) => p.name)}
                       onChange={(selectedNames: string[]) =>
@@ -941,7 +945,7 @@ const CustomSelectMR = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
+          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]/50"}`}
         >
           {selected
             ? options.find((opt) => opt.value === selected)?.label

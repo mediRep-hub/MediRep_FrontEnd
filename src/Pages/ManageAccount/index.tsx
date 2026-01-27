@@ -79,7 +79,7 @@ export default function ManageAccount() {
 
   const handleGoTODetails = (v: Account) => {
     navigate("/manageAccounts/details", {
-      state: { v }, // ✅ only plain JS object
+      state: { v },
     });
   };
 
@@ -201,7 +201,6 @@ export default function ManageAccount() {
     },
   });
 
-  // Auto-set Distributor positio
   useEffect(() => {
     if (formik.values.division === "Distributor")
       formik.setFieldValue("position", "Distributor");
@@ -808,7 +807,8 @@ export default function ManageAccount() {
                       options={leaveOptions.map((label) => ({
                         label,
                         amount: 0,
-                      }))}
+                      }))}\
+                      label="Leaves"
                       value={formik.values.leaveMultiSelect}
                       onChange={(val: SelectedOption[]) => {
                         formik.setFieldValue("leaveMultiSelect", val);

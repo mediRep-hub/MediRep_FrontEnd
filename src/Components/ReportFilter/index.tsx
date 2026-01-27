@@ -9,8 +9,7 @@ export default function ReportFilterModalStatic({ close }: any) {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    // Trigger animation after mount
-    const timer = setTimeout(() => setAnimate(true), 10); // small delay
+    const timer = setTimeout(() => setAnimate(true), 10);
     return () => clearTimeout(timer);
   }, []);
 

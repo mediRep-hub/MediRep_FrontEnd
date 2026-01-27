@@ -11,14 +11,14 @@ export const getAllOrders = (
   mrName?: string,
   startDate?: string,
   endDate?: string,
-  status?: string
+  status?: string,
 ) => {
   let query = `?page=${page}&limit=${limit}`;
 
   if (mrName) query += `&mrName=${encodeURIComponent(mrName)}`;
   if (startDate) query += `&startDate=${startDate}`;
   if (endDate) query += `&endDate=${endDate}`;
-  if (status) query += `&status=${status}`; // <-- use += not append
+  if (status) query += `&status=${status}`;
 
   return HTTP_CLIENT.get(`${ENDPOINTS.ORDER_GET_ALL}${query}`);
 };

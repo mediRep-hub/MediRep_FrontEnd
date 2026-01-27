@@ -22,7 +22,7 @@ export default function AccountDetails() {
   const handleUpdatePassword = async () => {
     setLoading(true);
     try {
-      await updatePassword(account._id, { password }); // send id in URL, password in body
+      await updatePassword(account._id, { password });
       notifySuccess("Password updated successfully!");
       setPassword("");
     } catch (err: any) {

@@ -34,10 +34,8 @@ export default function CallDetails() {
   const navigate = useNavigate();
 
   const handleGoBack = () => navigate("/dailyCallReport");
-
-  // ✅ Hook to load Google Maps
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A", // Replace with your key
+    googleMapsApiKey: "AIzaSyBrNjsUsrJ0Mmjhe-WUKDKVaIsMkZ8iQ4A",
   });
 
   if (loadError) return <div>Error loading Google Maps</div>;
@@ -59,7 +57,7 @@ export default function CallDetails() {
 
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[76.8vh] lg:h-[66vh] h-auto">
           <div
-            className="scroll-smooth mt-5 p-6 gap-5 md:gap-0 bg-white border border-primary rounded-lg overflow-y-auto"
+            className="scroll-smooth p-6 gap-5 2xl:h-[73.5vh] lg:h-[61vh] md:gap-0 bg-white border border-primary rounded-lg overflow-y-auto"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             <div className="flex justify-between flex-wrap gap-5">

@@ -37,7 +37,7 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
     formData.append("file", file);
     formData.append("distributorName", selectedDistributor);
 
-    setLoading(true); // start loading
+    setLoading(true);
 
     try {
       await uploadBulkSECONDARYSales(formData);

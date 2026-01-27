@@ -38,7 +38,7 @@ export default function CustomSelect({
 
     if (next) {
       window.dispatchEvent(
-        new CustomEvent("close-all-selects", { detail: id })
+        new CustomEvent("close-all-selects", { detail: id }),
       );
     }
   };
@@ -61,7 +61,7 @@ export default function CustomSelect({
       >
         <span
           className={`text-sm capitalize ${
-            selected ? "text-heading" : "text-[#7d7d7d]"
+            selected ? "text-heading" : "text-[#7d7d7d]/50 text-sm font-normal"
           }`}
         >
           {selected || "Select the Options"}

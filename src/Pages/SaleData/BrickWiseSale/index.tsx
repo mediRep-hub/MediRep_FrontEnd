@@ -105,11 +105,11 @@ export default function BrickWiseSale() {
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap lg:flex-nowrap justify-between items-center gap-4">
-          <div className="flex flex-wrap items-center gap-4 ">
+          <div className="flex w-full md:w-auto flex-wrap items-center gap-4 ">
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-              Bric Wise Sale
+              Brick Wise Sale
             </p>
-            <div className="md:w-[180px] w-full ">
+            <div className="md:w-[180px] w-full">
               <MonthYearPicker />
             </div>
           </div>

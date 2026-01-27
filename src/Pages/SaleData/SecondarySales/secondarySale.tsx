@@ -317,15 +317,15 @@ export default function SecondarySale() {
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap w-full xl:flex-nowrap justify-between items-start gap-4">
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-wrap w-full gap-4 items-center">
             <p className="text-heading font-medium text-[22px] lg:text-[24px]">
               Secondary Sale
             </p>
-            <div className="md:w-[180px] w-auto">
+            <div className="md:w-[180px] w-full ">
               <MonthYearPicker />
             </div>
           </div>
-          <div className="flex flex-wrap  gap-4  items-center">
+          <div className="flex flex-wrap md:flex-nowrap gap-4  items-center">
             {" "}
             <div className="flex items-center gap-2">
               <p className="text-sm w-[80px] text-[#131313] font-medium">
@@ -340,12 +340,12 @@ export default function SecondarySale() {
                 <input
                   placeholder="Search"
                   type="text"
-                  className="h-[40px] placeholder:text-base xl:w-[130px] md:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] w-full placeholder:text-base xl:w-[130px] md:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <p className="text-sm w-[30px] text-[#131313] font-medium">
+              <p className="text-sm w-[45px] md:[30px] text-[#131313] font-medium">
                 City:
               </p>
               <div className="relative flex items-center">
@@ -380,8 +380,8 @@ export default function SecondarySale() {
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap justify-between mt-4 items-start md:items-end">
-          <div className="flex gap-2 w-full md:w-auto">
+        <div className="flex flex-wrap-reverse justify-between mt-4 items-start md:items-end">
+          <div className="flex gap-2 w-full md:w-auto self-baseline">
             {["Individual Sale", "Group Sale"].map((tab) => (
               <button
                 key={tab}
@@ -427,7 +427,7 @@ export default function SecondarySale() {
                 width="20"
                 color="#fff"
               />
-              <p className="text-white text-base font-medium">
+              <p className="text-white text-base md:block hidden font-medium">
                 Generate Reports
               </p>
             </button>

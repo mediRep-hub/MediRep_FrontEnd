@@ -7,13 +7,13 @@ export const addDoctors = (values: any) => {
 
 export const getAllDoctors = ({ page = 1, limit = 6 }) => {
   return HTTP_CLIENT.get(
-    `${ENDPOINTS.DOCTOR_GET_ALL}?page=${page}&limit=${limit}`
+    `${ENDPOINTS.DOCTOR_GET_ALL}?page=${page}&limit=${limit}`,
   );
 };
 
 export const getAllDoctorsLIst = (area?: string) => {
   return HTTP_CLIENT.get(ENDPOINTS.DOCTOR_GET_ALL_LIST, {
-    params: { area }, // send area as query param
+    params: { area },
   });
 };
 

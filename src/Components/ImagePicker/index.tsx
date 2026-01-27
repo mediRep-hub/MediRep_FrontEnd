@@ -88,7 +88,7 @@ export default function ImagePicker({
   return (
     <div className="relative w-full">
       {label && (
-        <label className="absolute -top-2 left-5 z-9 bg-white px-1 text-xs text-[#7D7D7D]">
+        <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-[#7D7D7D]">
           {label}
         </label>
       )}
@@ -103,7 +103,7 @@ export default function ImagePicker({
           {uploading ? (
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-sm text-[#7D7D7D]">Uploading...</span>
+              <span className="text-sm text-[#7d7d7d]">Uploading...</span>
             </div>
           ) : preview && type !== "file" ? (
             <div className="flex items-center gap-3">
@@ -123,7 +123,7 @@ export default function ImagePicker({
               {fileName}
             </span>
           ) : (
-            <span className="text-[#7d7d7d] text-sm">{placeholder}</span>
+            <span className="text-[#7d7d7d]/50 text-sm">{placeholder}</span>
           )}
         </div>
 

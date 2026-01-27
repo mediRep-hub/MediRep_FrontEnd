@@ -144,12 +144,9 @@ export default function DailyCallReport() {
     ],
   ];
   const handleDownloadExcel = () => {
-    // Prepare data
     const exportData = Data.map((row) =>
       row.map((cell) => {
-        // If JSX element, extract the text
         if (typeof cell === "object" && cell.props) {
-          // recursively extract <p> text if needed
           if (cell.props.children) {
             if (Array.isArray(cell.props.children)) {
               return cell.props.children
@@ -167,13 +164,9 @@ export default function DailyCallReport() {
         return cell;
       }),
     );
-
-    // Create worksheet & workbook
     const worksheet = XLSX.utils.aoa_to_sheet([title, ...exportData]);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "DailyCallReport");
-
-    // Generate Excel file
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",

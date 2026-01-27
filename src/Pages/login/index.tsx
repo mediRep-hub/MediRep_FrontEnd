@@ -35,12 +35,11 @@ const Login = () => {
 
       console.log("FINAL DATA 👉", data);
 
-      // Correct: use data.admin
       dispatch(
         setUser({
           user: data.admin,
           token: data.token,
-        })
+        }),
       );
 
       dispatch(setIsLoggedIn(true));
@@ -49,13 +48,13 @@ const Login = () => {
     } catch (error: any) {
       console.log(
         `🚀 ~ handleLogin ~    error.response?.data?.message`,
-        error.response?.data?.message
+        error.response?.data?.message,
       );
 
       notifyError(
         error.response?.data?.message ||
           error.message ||
-          "Something went wrong."
+          "Something went wrong.",
       );
     } finally {
       setLoading(false);

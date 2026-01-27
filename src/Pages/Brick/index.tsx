@@ -69,7 +69,6 @@ export default function Brick() {
 
   const handleSave = () => {
     if (!editingProduct) {
-      // Add new brick
       const newBrick = {
         brickId: Date.now().toString(),
         brickName: (
@@ -81,7 +80,6 @@ export default function Brick() {
       };
       setBricksData([...bricksData, newBrick]);
     } else {
-      // Edit brick
       const updatedBricks = bricksData.map((b) =>
         b.brickId === editingProduct.brickId
           ? {
@@ -99,7 +97,6 @@ export default function Brick() {
       setBricksData(updatedBricks);
     }
 
-    // Reset modal
     setEditingProduct(null);
     setSelectedAreas([]);
     setSelectedPharmacies([]);
@@ -190,13 +187,13 @@ export default function Brick() {
               <div className="flex flex-wrap mt-5 gap-8">
                 <div className="md:w-[calc(50%-16px)] space-y-4 w-full">
                   <CustomInput
-                    label="brickName"
+                    label="Brick Name"
                     placeholder="Enter Brick Name"
                     name="brickName"
                     defaultValue={editingProduct?.brickName || ""}
                   />
                   <CustomInput
-                    label="city"
+                    label="City"
                     placeholder="Enter City"
                     name="city"
                     defaultValue={editingProduct?.city || ""}
@@ -205,12 +202,14 @@ export default function Brick() {
 
                 <div className="md:w-[calc(50%-16px)] space-y-4 w-full">
                   <MultiSelect
+                    label="Area"
                     options={aeraSelection}
                     value={selectedAreas}
                     onChange={setSelectedAreas}
                     placeholder="Enter Area Names"
                   />
                   <MultiSelect
+                    label="Pharmacies"
                     options={pharmacyOptions}
                     value={selectedPharmacies}
                     onChange={setSelectedPharmacies}

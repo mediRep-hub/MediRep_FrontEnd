@@ -7,7 +7,6 @@ import { LuSearch } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import PrimarySaleUpload from "../../../Components/PrimarySaleUpload";
 
-// Table Titles
 const titles = [
   "ID",
   "Distributors Name",
@@ -19,19 +18,17 @@ const titles = [
   "Status",
 ];
 
-// Table Data Type
 type DistributorRow = [
-  number, // ID
-  string, // Distributor Name
-  string, // City
-  number, // Total Primary Qty
-  number, // Total Sale Qty
-  number, // Floor Stock Qty
-  number, // Floor Stock Value
-  string, // Status
+  number,
+  string,
+  string,
+  number,
+  number,
+  number,
+  number,
+  string,
 ];
 
-// Table Data
 const tableData: DistributorRow[] = [
   [11232, "Al-Fatah Distributors", "Karachi", 120, 90, 30, 450000, "Good"],
   [22132, "HealthCare Pharma", "Lahore", 200, 160, 40, 620000, "Below"],
@@ -47,7 +44,6 @@ export default function PrimarySale() {
     document.title = "MediRep | Primary Sale";
   }, []);
 
-  // Excel Download
   const handleDownloadExcel = () => {
     setIsDownloading(true);
 
@@ -120,7 +116,7 @@ export default function PrimarySale() {
 
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             {" "}
-            <div className="flex items-center gap-2">
+            <div className="flex w-full items-center gap-2">
               <p className="text-sm 2xl:w-[115px] md:w-[110px] w-[70px] text-[#131313] font-medium">
                 Distributor Name:
               </p>
@@ -135,12 +131,12 @@ export default function PrimarySale() {
                   // value={SkuNo}
                   // onChange={(e) => setSkuNo(e.target.value)}
                   type="text"
-                  className="h-[40px] w-[calc(100%-70px)] md:w-[110px] lg:w-[150px] placeholder:text-base xl:w-[130px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] w-full md:w-[110px] lg:w-[150px] placeholder:text-base xl:w-[130px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <p className="text-sm w-[30px] text-[#131313] font-medium">
+            <div className="flex w-full items-center gap-2">
+              <p className="text-sm w-[45px] md:[30px] text-[#131313] font-medium">
                 City:
               </p>
               <div className="relative flex items-center">
@@ -154,7 +150,7 @@ export default function PrimarySale() {
                   // value={SkuNo}
                   // onChange={(e) => setSkuNo(e.target.value)}
                   type="text"
-                  className="h-[40px] w-[calc(100%-30px)] md:w-[110px] placeholder:text-base xl:w-[130px] lg:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] w-full  md:w-[110px] placeholder:text-base xl:w-[130px] lg:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
@@ -162,7 +158,7 @@ export default function PrimarySale() {
               <button
                 onClick={handleDownloadExcel}
                 disabled={isDownloading}
-                className="h-[55px] bg-white w-[60px] rounded-[6px] gap-3 flex justify-center items-center"
+                className="h-[55px] bg-white min-w-[60px] rounded-[6px] gap-3 flex justify-center items-center"
               >
                 <Icon
                   icon="solar:download-linear"
@@ -184,7 +180,7 @@ export default function PrimarySale() {
                   color="#fff"
                 />
               </button>
-              <button className="h-[55px] sm:w-[170x] md:w-[142px] min-w-[110px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+              <button className="h-[55px] sm:w-[170x] w-full md:w-[142px] min-w-[110px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
                 <Icon
                   icon="grommet-icons:status-good"
                   height="20"

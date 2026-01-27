@@ -488,6 +488,7 @@ export default function Group() {
                   </div>{" "}
                   <div className="mt-3">
                     <MultiSelect
+                      label="MR Name"
                       options={AllMR.filter(
                         (doc: any) => doc.position === "MedicalRep(MR)",
                       ).map((doc: any) => doc.name)}
@@ -574,6 +575,7 @@ export default function Group() {
                   </div>{" "}
                   <div className="mt-3">
                     <MultiSelect
+                      label="Doctors List"
                       options={AllDOctors.map((doc: any) => doc.name)}
                       value={formik.values.doctorList}
                       onChange={(val) =>
@@ -610,7 +612,6 @@ export default function Group() {
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-2">
                     {rows.map((row, index) => {
-                      // Get the price of the selected product
                       const product = AllProducts.find(
                         (p: any) => p.productName === row.productName,
                       );

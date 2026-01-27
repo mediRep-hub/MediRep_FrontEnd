@@ -19,6 +19,7 @@ export default function CustomTimePicker({
   const handleChange = (val: Dayjs | null) => {
     onChange?.(val ? val.format("HH:mm") : null);
   };
+
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
@@ -34,6 +35,12 @@ export default function CustomTimePicker({
         background-color: #0755E9 !important;
         color: #fff !important;
       }
+
+      /* Placeholder color red */
+      .custom-timepicker .ant-picker-input input::placeholder {
+        color: #7d7d7d !important;
+        opacity: 50% !important;
+      }
     `;
     document.head.appendChild(style);
 
@@ -41,6 +48,7 @@ export default function CustomTimePicker({
       document.head.removeChild(style);
     };
   }, []);
+
   return (
     <div className="w-full relative">
       <label className="absolute -top-2 left-5 z-10 bg-white px-1 text-xs text-[#7D7D7D]">
@@ -52,8 +60,7 @@ export default function CustomTimePicker({
         format="HH:mm"
         suffixIcon={<IoTime size={20} className="text-primary" />}
         placeholder={placeholder}
-        style={{ color: "#131313" }}
-        className="rounded-md w-full h-14 px-3 py-2 text-sm text-heading outline-none border-primary border-[0.5px]"
+        className="custom-timepicker rounded-md w-full h-14 px-3 py-2 text-sm text-heading outline-none border-primary border-[0.5px]"
       />
     </div>
   );

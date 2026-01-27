@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAccounts } from "../../api/adminServices";
 import { setIsFilter } from "../../redux/userSlice";
+
 const areaOptions: string[] = [
   "All Area",
   "Lahore",

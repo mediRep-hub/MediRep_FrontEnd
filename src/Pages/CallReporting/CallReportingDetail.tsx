@@ -62,7 +62,7 @@ export default function CallReportingDetail() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <FaCalendar className="text-primary" />
                 <p className="text-primary text-sm">
                   Next Visit{" "}
@@ -70,7 +70,7 @@ export default function CallReportingDetail() {
                     ? dayjs(doctor.nextVisitDate).format("DD MMM YYYY")
                     : "--"}
                 </p>
-              </div>
+              </div> */}
               <button
                 onClick={() => {
                   setLoaction(true);
