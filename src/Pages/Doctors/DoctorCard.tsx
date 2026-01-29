@@ -21,15 +21,15 @@ export default function DoctorCard({
   return (
     <>
       <div className="bg-white py-4 px-5 rounded-xl h-auto">
-        <div className="flex justify-between flex-wrap items-start">
-          <div className="flex items-center gap-3 md:w-auto w-full">
+        <div className="flex justify-between flex-wrap gap-2 items-start">
+          <div className="flex items-center gap-3">
             <Avatar
               src={doctor?.image}
-              className="w-10 h-10 border-[0.5px] border-[#7d7d7d]"
+              className="min-w-10 h-10 border-[0.5px] border-[#7d7d7d]"
             />
             <div>
               <div className="flex gap-3">
-                <p className="leading-1 text-heading font-medium text-sm">
+                <p className="leading-[100%] text-heading font-medium text-sm">
                   {doctor?.name}
                 </p>{" "}
               </div>
@@ -40,7 +40,7 @@ export default function DoctorCard({
           </div>
           {doctor?.doctorClass && (
             <div
-              className={`px-2 py-0.5 rounded-sm ${
+              className={`px-2 py-0.5 mt-3 md:mt-0 rounded-sm ${
                 doctor.doctorClass === "Class A"
                   ? "bg-[#0BA69C]"
                   : doctor.doctorClass === "Class B"
@@ -50,14 +50,14 @@ export default function DoctorCard({
                       : "bg-gray-700"
               }`}
             >
-              <p className="leading-1 text-white font-medium text-sm">
+              <p className="leading-1 text-white font-medium md:text-sm text-xs">
                 {doctor.doctorClass}
               </p>
             </div>
           )}
           {doctor?.channel && (
             <div
-              className={`px-2 py-0.5 rounded-sm ${
+              className={`px-2 py-0.5 mt-3 md:mt-0 rounded-sm ${
                 doctor.channel === "Chain Pharmacy"
                   ? "bg-[#0BA69C]"
                   : doctor.channel === "RT"
@@ -67,14 +67,14 @@ export default function DoctorCard({
                       : "bg-gray-700"
               }`}
             >
-              <p className="leading-1 text-white font-medium text-sm">
+              <p className="leading-1 text-white font-medium md:text-sm text-xs">
                 {doctor.channel}
               </p>
             </div>
           )}
 
           <div
-            className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-4 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
+            className="group w-12 bg-white h-12 ml-auto md:ml-0 mt-0 md:mt-0  rounded-md border border-primary cursor-pointer flex items-center justify-center hover:bg-primary transition-all duration-300"
             onClick={() => {
               if (doctor._id) {
                 onEdit(doctor._id);
@@ -94,42 +94,50 @@ export default function DoctorCard({
         <div className="mt-4 space-y-2">
           {doctor?.PMDC && (
             <div className="flex gap-3 items-center">
-              <Icon icon="material-symbols:license-rounded" color="#7d7d7d" />
+              <Icon
+                icon="material-symbols:license-rounded"
+                color="#7d7d7d"
+                className="min-w-[12px]"
+              />
               <p className="text-heading text-xs font-normal">{doctor?.PMDC}</p>
             </div>
           )}{" "}
           {doctor?.DSL && (
             <div className="flex gap-3 items-center">
-              <Icon icon="material-symbols:license-rounded" color="#7d7d7d" />
+              <Icon
+                icon="material-symbols:license-rounded"
+                color="#7d7d7d"
+                className="min-w-[12px]"
+              />
               <p className="text-heading text-xs font-normal">{doctor?.DSL}</p>
             </div>
           )}{" "}
           {doctor?.specialty && (
             <div className="flex gap-3 items-center">
-              <IoBulb color="#7d7d7d" />
+              <IoBulb color="#7d7d7d" className="min-w-[12px]" />
               <p className="text-heading text-xs font-normal">
                 {doctor?.specialty}
               </p>
             </div>
           )}{" "}
           <div className="flex gap-3 items-center">
-            <MdPhone color="#7d7d7d" />
+            <MdPhone color="#7d7d7d" className="min-w-[12px]" />
             <p className="text-heading text-xs font-normal">{doctor?.phone}</p>
           </div>
           <div className="flex gap-3 items-center">
-            <FaLocationDot color="#7d7d7d" />
+            <FaLocationDot color="#7d7d7d" className="min-w-[12px]" />
             <p className="text-heading text-xs font-normal">
               {doctor?.location?.address}
             </p>
           </div>
           <div className="flex gap-3 items-center">
-            <FaClock color="#7d7d7d" />
+            <FaClock color="#7d7d7d" className="min-w-[12px]" />
             <p className="text-heading text-xs font-normal">
               {doctor?.startTime} - {doctor?.endTime}
             </p>
           </div>{" "}
           <div className="flex gap-3 items-center">
-            <MdEmail color="#7d7d7d" />
+            <MdEmail color="#7d7d7d" className="min-w-[12px]" />
             <p className="text-heading text-xs font-normal">{doctor?.email}</p>
           </div>
         </div>
@@ -145,14 +153,14 @@ export default function DoctorCard({
             </ul>
           </div>
 
-          <div className="xl:mt-0 mt-5">
-            <div className="relative inline-block">
+          <div className="xl:mt-0 mt-5 md:w-auto w-full">
+            <div className="relative inline-block w-full">
               <div className="absolute -top-2 left-4 bg-primary px-2 py-[2px] rounded-sm">
                 <p className="text-white leading-[12px] font-normal text-xs">
                   City
                 </p>
               </div>
-              <button className="h-[55px] w-[150px] text-[#0ECABE] border-[#0ECABE] border bg-white rounded-[6px] gap-3 flex justify-center items-center">
+              <button className="h-[55px] md:w-[150px] w-full text-[#0ECABE] border-[#0ECABE] border bg-white rounded-[6px] gap-3 flex justify-center items-center">
                 {doctor?.city}
               </button>
             </div>

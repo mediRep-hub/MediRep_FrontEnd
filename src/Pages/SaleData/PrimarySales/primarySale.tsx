@@ -90,7 +90,7 @@ export default function PrimarySale() {
     row[5],
     `Rs ${row[6].toLocaleString()}`,
     <span
-      className={`px-2 py-0.5 rounded-md text-sm font-medium ${
+      className={`px-2 py-0.5 rounded-sm text-sm font-medium ${
         row[7] === "Good"
           ? "border-[#0BA69C] border-[1px] text-[#0BA69C]"
           : row[7] === "Below"
@@ -116,7 +116,7 @@ export default function PrimarySale() {
 
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             {" "}
-            <div className="flex w-full items-center gap-2">
+            <div className="flex  w-full items-center gap-2">
               <p className="text-sm 2xl:w-[115px] md:w-[110px] w-[70px] text-[#131313] font-medium">
                 Distributor Name:
               </p>
@@ -131,7 +131,7 @@ export default function PrimarySale() {
                   // value={SkuNo}
                   // onChange={(e) => setSkuNo(e.target.value)}
                   type="text"
-                  className="h-[40px] w-full md:w-[110px] lg:w-[150px] placeholder:text-base xl:w-[130px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] bg-secondary w-full md:w-[110px] lg:w-[150px] placeholder:text-base xl:w-[130px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
@@ -150,7 +150,7 @@ export default function PrimarySale() {
                   // value={SkuNo}
                   // onChange={(e) => setSkuNo(e.target.value)}
                   type="text"
-                  className="h-[40px] w-full  md:w-[110px] placeholder:text-base xl:w-[130px] lg:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] bg-secondary w-full  md:w-[110px] placeholder:text-base xl:w-[130px] lg:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>

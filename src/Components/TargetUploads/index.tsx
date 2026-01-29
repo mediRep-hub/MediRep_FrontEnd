@@ -49,7 +49,7 @@ export default function UploadFile({ closeModle, addToList, refetch }: any) {
     setFile(null);
     setProgress(0);
     const inputElement = document.getElementById(
-      "fileUpload"
+      "fileUpload",
     ) as HTMLInputElement;
     if (inputElement) inputElement.value = "";
   };

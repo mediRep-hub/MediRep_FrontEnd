@@ -42,12 +42,15 @@ export default function CallReportingDetail() {
           </p>
         </div>
         <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(76.8vh-0px)] lg:h-[calc(66vh-0px)] h-auto ">
+          <p className="leading-[100%] text-sm text-[#7d7d7d] ">
+            Call Summary and Interaction Details
+          </p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-5 p-6 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(71.5vh-0px)] xl:h-[calc(58vh-0px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-4 p-6 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(70.2vh-0px)] xl:h-[calc(56.5vh-0px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex justify-between flex-wrap gap-5">
               <div className="flex gap-3 items-center">

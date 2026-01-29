@@ -90,7 +90,7 @@ export default function PendingOrders() {
     .map((order) => [
       order.orderId,
       order.mrName,
-      order.pharmacyId.name,
+      order.pharmacyId?.name ?? "N/A",
       order.distributorName,
       <p>{order?.discount}%</p>,
       <p key={`amount-${order.orderId}`} className="text-[12px]">

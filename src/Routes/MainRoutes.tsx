@@ -10,6 +10,7 @@ const CallReportingDetail = lazy(
   () => import("../Pages/CallReporting/CallReportingDetail"),
 );
 import Brick from "../Pages/Brick";
+import SalewiseTargetDetail from "../Pages/Targets/salewiseTargetDetail";
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
@@ -118,6 +119,10 @@ export default function MainRoutes() {
           }
         />{" "}
         <Route path="/targets-achievements" element={<Tragets />} />
+        <Route
+          path="/targets-achievements/Details"
+          element={<SalewiseTargetDetail />}
+        />
         <Route path="/products" element={<Products />} />
         <Route path="/pharmacies" element={<Pharmacy />} />
         <Route path="/requisitionsList" element={<Requisition />} />

@@ -340,7 +340,7 @@ export default function SecondarySale() {
                 <input
                   placeholder="Search"
                   type="text"
-                  className="h-[40px] w-full placeholder:text-base xl:w-[130px] md:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] bg-secondary w-full placeholder:text-base xl:w-[130px] md:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
@@ -357,7 +357,7 @@ export default function SecondarySale() {
                 <input
                   placeholder="Search"
                   type="text"
-                  className="h-[40px] placeholder:text-base pl-[30px] md:w-[150px] pr-3 xl:w-[130px] 2xl:w-[200px] border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] bg-secondary placeholder:text-base pl-[30px] md:w-[150px] pr-3 xl:w-[130px] 2xl:w-[200px] border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>{" "}
@@ -374,7 +374,7 @@ export default function SecondarySale() {
                 <input
                   placeholder="Search"
                   type="text"
-                  className="h-[40px] placeholder:text-base pl-[30px] pr-3 xl:w-[130px] md:w-[150px] 2xl:w-[200px] w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
+                  className="h-[40px] bg-secondary placeholder:text-base pl-[30px] pr-3 xl:w-[130px] md:w-[150px] 2xl:w-[200px] w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
                 />
               </div>
             </div>
@@ -396,7 +396,6 @@ export default function SecondarySale() {
               </button>
             ))}
           </div>
-
           <div className="flex  gap-3 mb-4 w-full md:w-auto">
             <button
               onClick={handleDownloadExcel}

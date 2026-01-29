@@ -45,11 +45,10 @@ export default function ReportFilterModalStatic({ close }: any) {
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-end items-center z-50">
       <div
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        className={`bg-white rounded-tl-xl rounded-bl-xl xl:mx-0 mx-5 w-[500px] h-[100vh] overflow-y-auto xl:p-6 p-4 shadow-xl relative
+        className={`bg-white rounded-t-xl rounded-b-xl md:rounded-tl-xl md:rounded-bl-xl xl:mx-0 mx-5 w-[500px] h-[90vh] md:h-[100vh] overflow-y-auto xl:p-6 p-4 shadow-xl relative
           transform transition-transform duration-500 ease-in-out
           ${animate ? "translate-x-0" : "translate-x-full"}`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between">
           <p className="text-[24px] text-heading capitalize font-semibold">
             Select Report Type
@@ -60,8 +59,6 @@ export default function ReportFilterModalStatic({ close }: any) {
             className="cursor-pointer text-primary"
           />
         </div>
-
-        {/* Form */}
         <form onSubmit={formik.handleSubmit} className="mt-5">
           <div className="mt-3">
             <CustomSelect
@@ -71,7 +68,6 @@ export default function ReportFilterModalStatic({ close }: any) {
               placeholder="Select Region"
             />
           </div>
-
           <div className="mt-3">
             <CustomTimePicker
               value={formik.values.startTime}
@@ -115,7 +111,6 @@ export default function ReportFilterModalStatic({ close }: any) {
             />
           </div>
 
-          {/* Report Checkboxes */}
           <div className="flex flex-wrap justify-start gap-4 mt-5">
             {reportTitles.map((title, index) => (
               <label
@@ -144,8 +139,6 @@ export default function ReportFilterModalStatic({ close }: any) {
               </label>
             ))}
           </div>
-
-          {/* Generate Button */}
           <div className="flex justify-end mt-5">
             <button
               type="submit"

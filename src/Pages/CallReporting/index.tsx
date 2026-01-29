@@ -440,7 +440,7 @@ export default function CallReporting() {
                             color="#E90761"
                             height="18"
                             width="20"
-                            icon="mingcute:delete-fill"
+                            icon="mingcute:delete-line"
                           />
                         </div>
                       </div>
@@ -769,29 +769,39 @@ export default function CallReporting() {
       )}
       {deleteConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto xl:p-6 p-4 shadow-xl relative">
-            <RiAlertFill className="text-[120px] text-yellow-500 text-center mx-auto mb-2" />
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto shadow-xl relative">
+            <div className="bg-[#E90761]/10 p-4">
+              <p className="text-base text-[#131313]">Delete Plan</p>
+            </div>
+
+            <div className="flex justify-center my-6">
+              <div className="flex justify-center items-center bg-[#E90761]/10 h-[120px] w-[120px] rounded-full">
+                <div className="flex justify-center items-center  bg-[#E90761] h-[80px] w-[80px] rounded-full">
+                  <Icon
+                    icon="mingcute:delete-line"
+                    className="text-4xl text-white"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="text-center">
-              <h2 className="text-xl font-semibold text-primary mt-5">
-                Confirm Delete
-              </h2>
-              <p className="mb-6">
-                Are you sure you want to delete this <strong>Brick</strong>
+              <p className="text-base font-normal text-[#131313] mt-5">
+                Are you sure to delete this plan?
+              </p>
+              <p className="mb-6 text-[#7D7D7D]/40">
+                Once you delete it will not restored
               </p>
             </div>
-            <div className="flex mt-5 justify-between gap-4">
+            <div className="flex mt-5 justify-end gap-4 p-4">
               <button
-                onClick={() => {
-                  setDeleteConfirmation(false);
-                }}
-                className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={() => setDeleteConfirmation(false)}
+                className="px-7 h-[48px] py-2 font-medium bg-[#FDE6EF] rounded-md"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                disabled={isloadingDelete}
-                className="px-7 py-2 bg-[#E90761] text-white rounded flex justify-center items-center"
+                className="px-7 h-[48px] py-2 bg-[#E90761] font-medium text-white rounded-md"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

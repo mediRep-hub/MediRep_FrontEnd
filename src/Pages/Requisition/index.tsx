@@ -45,7 +45,7 @@ export default function Requisition() {
         limit,
         selectedMR,
         selectedDate.start || undefined,
-        selectedDate.end || undefined
+        selectedDate.end || undefined,
       ),
     placeholderData: (previous) => previous,
     staleTime: 5 * 60 * 1000,
@@ -73,12 +73,12 @@ export default function Requisition() {
           v?.status?.toLowerCase() === "pending"
             ? "text-[#E90761] border-[#E90761]"
             : v?.status?.toLowerCase() === "accepted"
-            ? "text-primary border-primary"
-            : v?.status?.toLowerCase() === "rejected"
-            ? "text-[#FF9500] border-[#FF9500]"
-            : v?.status === "Paid"
-            ? "text-[#0BA69C] border-[#0BA69C]"
-            : "text-[#7d7d7d] border-[#7d7d7d]"
+              ? "text-primary border-primary"
+              : v?.status?.toLowerCase() === "rejected"
+                ? "text-[#FF9500] border-[#FF9500]"
+                : v?.status === "Paid"
+                  ? "text-[#0BA69C] border-[#0BA69C]"
+                  : "text-[#7d7d7d] border-[#7d7d7d]"
         }`}
       >
         {v?.status}
@@ -89,7 +89,7 @@ export default function Requisition() {
   const handleGoDetails = (row: any[]) => {
     const requisitionId = row[0];
     const rowData = Requisitions?.find(
-      (item: any) => item._id === requisitionId || item.reqId === requisitionId
+      (item: any) => item._id === requisitionId || item.reqId === requisitionId,
     );
 
     if (rowData) {
@@ -121,7 +121,7 @@ export default function Requisition() {
               options={[
                 "All",
                 ...AllMR.filter(
-                  (mr: any) => mr?.position === "MedicalRep(MR)"
+                  (mr: any) => mr?.position === "MedicalRep(MR)",
                 ).map((mr: any) => mr?.name),
               ]}
               value={selectedMR}
@@ -141,7 +141,7 @@ export default function Requisition() {
         </div>
       </div>
 
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.4vh-0px)] xl:h-[calc(65vh-0px)] h-auto ">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.4vh-0px)] xl:h-[calc(66vh-0px)] h-auto ">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Requisition List</p>
 
@@ -158,7 +158,7 @@ export default function Requisition() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(55vh-0px)] mt-4 overflow-y-auto scrollbar-none"
         >
           <CustomTable
             titles={titles}

@@ -23,6 +23,7 @@ import {
 import PharmacyUploads from "../../Components/PharmacyUploads";
 import { Icon } from "@iconify/react";
 import { bricksData } from "../../utils/brick";
+import SearchByName from "../../Components/SearchBar/searchByName";
 interface Pharmacy {
   _id?: string;
   name: string;
@@ -205,9 +206,12 @@ export default function Pharmacies() {
             Pharmacies
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
+            <div className="md:w-[250px] w-full">
+              <SearchByName name="Pharmacy Name:" />
+            </div>
             <button
               onClick={() => setOpenModal(true)}
-              className="h-[55px] w-full min-w-[172px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[180px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="ic:round-upload"
@@ -219,7 +223,7 @@ export default function Pharmacies() {
             </button>
             <button
               onClick={() => setAddPharmacy(true)}
-              className="h-[55px] w-full min-w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"
@@ -236,7 +240,7 @@ export default function Pharmacies() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
         >
-          <div className="flex justify-between items-center">
+          <div className="flex flex-wrap gap-2 justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
               Pharmacy Profiles
             </p>
@@ -377,7 +381,7 @@ export default function Pharmacies() {
                       id="DSL"
                       name="DSL"
                       label="DSL"
-                      placeholder="Write your Drug Sale License"
+                      placeholder="Write Your Drug Sale License (Optional)"
                       height="128px"
                       value={formik.values.DSL}
                       onChange={formik.handleChange}
@@ -513,26 +517,39 @@ export default function Pharmacies() {
 
       {deleteConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto xl:p-6 p-4 shadow-xl relative">
-            <RiAlertFill className="text-[120px] text-yellow-500 text-center mx-auto mb-2" />
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto shadow-xl relative">
+            <div className="bg-[#E90761]/10 p-4">
+              <p className="text-base text-[#131313]">Delete Pharmacy</p>
+            </div>
+
+            <div className="flex justify-center my-6">
+              <div className="flex justify-center items-center bg-[#E90761]/10 h-[120px] w-[120px] rounded-full">
+                <div className="flex justify-center items-center  bg-[#E90761] h-[80px] w-[80px] rounded-full">
+                  <Icon
+                    icon="mingcute:delete-line"
+                    className="text-4xl text-white"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="text-center">
-              <h2 className="text-xl font-semibold text-primary mt-5">
-                Confirm Delete
-              </h2>
-              <p className="mb-6">
-                Are you sure you want to delete this <strong>Pharmacy</strong>?
+              <p className="text-base font-normal text-[#131313] mt-5">
+                Are you sure to delete this pharmacy?
+              </p>
+              <p className="mb-6 text-[#7D7D7D]/40">
+                Once you delete it will not restored
               </p>
             </div>
-            <div className="flex mt-5 justify-between gap-4">
+            <div className="flex mt-5 justify-end gap-4 p-4">
               <button
                 onClick={() => setDeleteConfirmation(false)}
-                className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                className="px-7 h-[48px] py-2 font-medium bg-[#FDE6EF] rounded-md"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-[#E90761] text-white rounded"
+                className="px-7 h-[48px] py-2 bg-[#E90761] font-medium text-white rounded-md"
               >
                 {isLoadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

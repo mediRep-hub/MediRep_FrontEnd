@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { LuSearch } from "react-icons/lu";
 
 interface SearchSelectionProps {
   options?: string[];
@@ -28,19 +29,22 @@ export function SearchSelection({
   };
 
   return (
-    <div className="relative w-full">
-      <label className="absolute -top-3 left-5 bg-secondary rounded-md px-1 text-sm text-[#7d7d7d]">
-        {placeholder}
-      </label>
+    <div className="relative w-full flex items-center">
+      <p className="bg-secondary font-medium px-1 text-sm text-[#131313]">
+        {placeholder}:
+      </p>
       <div
-        className="flex items-center capitalize h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d] rounded-md cursor-pointer"
+        className="flex items-center justify-between w-[200px] h-10  bg-secondary px-2 py-2 border-[0.5px] border-[#0755E9] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span
-          className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
-        >
-          {selected || "Select the option"}
-        </span>
+        <div className="flex items-center gap-2">
+          <LuSearch className="text-[#7d7d7d]" size={16} />
+          <span
+            className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
+          >
+            {selected || "Select the option"}
+          </span>
+        </div>
         <IoIosArrowDown
           className={`transition-transform duration-200 ${
             isOpen ? "rotate-180" : "rotate-0"
@@ -48,7 +52,7 @@ export function SearchSelection({
         />
       </div>
       {isOpen && options.length > 0 && (
-        <ul className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-50 max-h-60 overflow-y-auto">
+        <ul className="absolute mt-1 top-[40px] w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-50 max-h-60 overflow-y-auto">
           {options.map((option, idx) => (
             <li
               key={idx}

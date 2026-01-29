@@ -38,7 +38,7 @@ export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
   };
 
   return (
-    <div className="relative inline-block w-full h-10 lg:w-41">
+    <div className="relative inline-block w-full h-10 lg:w-[200px]">
       <div
         className="flex items-center justify-between px-3 py-2 text-sm text-[#131313] border border-[#0755E9] rounded-lg cursor-pointer"
         onClick={() => setOpen(!open)}

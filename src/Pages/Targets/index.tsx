@@ -11,6 +11,7 @@ import { notifyError, notifySuccess } from "../../Components/Toast";
 import { FaCheckCircle } from "react-icons/fa";
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 
 const SaleData = [
   {
@@ -21,6 +22,24 @@ const SaleData = [
     target: "500,000",
     achievement: "350,000",
     percentage: "70%",
+    details: [
+      {
+        employeeName: "Umair Yaqoob",
+        city: "Lahore",
+        brick: "Canal Road",
+        target: "250,000",
+        achievement: "150,000",
+        percentage: "60%",
+      },
+      {
+        employeeName: "Umair Yaqoob",
+        city: "Lahore",
+        brick: "Raiwind Road",
+        target: "250,000",
+        achievement: "200,000",
+        percentage: "80%",
+      },
+    ],
   },
   {
     asm: "Area Sales Manager",
@@ -30,6 +49,24 @@ const SaleData = [
     target: "600,000",
     achievement: "480,000",
     percentage: "80%",
+    details: [
+      {
+        employeeName: "Ahmed Raza",
+        city: "Karachi",
+        brick: "Clifton Block 2",
+        target: "300,000",
+        achievement: "240,000",
+        percentage: "80%",
+      },
+      {
+        employeeName: "Ahmed Raza",
+        city: "Karachi",
+        brick: "Block 2 Extension",
+        target: "300,000",
+        achievement: "240,000",
+        percentage: "80%",
+      },
+    ],
   },
   {
     asm: "Regional Sales Manager",
@@ -39,6 +76,16 @@ const SaleData = [
     target: "450,000",
     achievement: "300,000",
     percentage: "66%",
+    details: [
+      {
+        employeeName: "Ali Khan",
+        city: "Islamabad",
+        brick: "Blue Area",
+        target: "450,000",
+        achievement: "300,000",
+        percentage: "66%",
+      },
+    ],
   },
   {
     asm: "Area Sales Manager",
@@ -48,6 +95,16 @@ const SaleData = [
     target: "550,000",
     achievement: "410,000",
     percentage: "74%",
+    details: [
+      {
+        employeeName: "Hassan Shah",
+        city: "Faisalabad",
+        brick: "D Ground",
+        target: "550,000",
+        achievement: "410,000",
+        percentage: "74%",
+      },
+    ],
   },
   {
     asm: "Regional Sales Manager",
@@ -57,6 +114,24 @@ const SaleData = [
     target: "400,000",
     achievement: "320,000",
     percentage: "80%",
+    details: [
+      {
+        employeeName: "Usman Ali",
+        city: "Multan",
+        brick: "Cantt Area",
+        target: "200,000",
+        achievement: "160,000",
+        percentage: "80%",
+      },
+      {
+        employeeName: "Usman Ali",
+        city: "Multan",
+        brick: "City Road",
+        target: "200,000",
+        achievement: "160,000",
+        percentage: "80%",
+      },
+    ],
   },
 ];
 
@@ -156,6 +231,13 @@ export default function Targets() {
     <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
   );
 
+  const navigate = useNavigate();
+  const handleGoToDetails = (row: any) => {
+    navigate("/targets-achievements/details", {
+      state: { row },
+    });
+  };
+
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -202,7 +284,9 @@ export default function Targets() {
           {" "}
           <div className="flex justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
-              Targets as List
+              {selectTab === "Sales Wise"
+                ? "Employee Wise Target List"
+                : "  Products Wise Target List"}
             </p>
             <Pagination
               currentPage={data?.data?.pagination?.currentPage}
@@ -462,6 +546,7 @@ export default function Targets() {
                     ) : filteredSaleData.length > 0 ? (
                       filteredSaleData.map((row, rowIndex) => (
                         <tr
+                          onClick={() => handleGoToDetails(row)}
                           key={rowIndex}
                           className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
                         >

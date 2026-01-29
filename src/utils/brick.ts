@@ -2,6 +2,7 @@ export const bricksData = [
   {
     brickId: "BRK-001",
     brickName: "Brick 1",
+    mrName: "Salim Qureshi",
     city: "Lahore",
     areaNames: ["Johar Town", "Model Town", "DHA Lahore"],
     Pharmacies: [
@@ -9,17 +10,33 @@ export const bricksData = [
       "Health Plus Medical Store",
       "Life Care Pharmacy",
     ],
+    doctors: [
+      "Dr. Qayum ifitikhar",
+      "Dr.Yahya khan",
+      "Dr. Ahmed Khan",
+      "Bilawal butt",
+    ],
+    products: ["Synflex", "Clotrimazole", "Aspirin", "Tricod"],
   },
   {
     brickId: "BRK-002",
     brickName: "Brick 2",
+    mrName: "Salim Qureshi",
     city: "Lahore",
     areaNames: ["Thokar Niaz Baig", "Shahdara", "Gulberg"],
     Pharmacies: ["Al-Shifa Pharmacy", "Medico Store", "Care Point Pharmacy"],
+    doctors: [
+      "Dr. Qayum ifitikhar",
+      "Dr.Yahya khan",
+      "Dr. Ahmed Khan",
+      "Bilawal butt",
+    ],
+    products: ["Synflex", "Diclofenac", "Azithromycin", "Aspirin"],
   },
   {
     brickId: "BRK-003",
     brickName: "Brick 3",
+    mrName: "Salim Qureshi",
     city: "Karachi",
     areaNames: ["Clifton", "PECHS", "Gulshan-e-Iqbal"],
     Pharmacies: [
@@ -27,10 +44,18 @@ export const bricksData = [
       "Family Care Medical",
       "Wellness Pharmacy",
     ],
+    doctors: [
+      "Dr. Qayum ifitikhar",
+      "Dr.Yahya khan",
+      "Dr. Ahmed Khan",
+      "Bilawal butt",
+    ],
+    products: ["Synflex", "Diclofenac", "Azithromycin", "Tricod"],
   },
   {
     brickId: "BRK-004",
     brickName: "Brick 4",
+    mrName: "Salim Qureshi",
     city: "Islamabad",
     areaNames: ["Blue Area", "F-6", "G-9"],
     Pharmacies: [
@@ -38,16 +63,31 @@ export const bricksData = [
       "Islamabad Medical Store",
       "Prime Health Pharmacy",
     ],
+    doctors: [
+      "Dr. Qayum ifitikhar",
+      "Dr.Yahya khan",
+      "Dr. Ahmed Khan",
+      "Bilawal butt",
+    ],
+    products: ["Synflex", "Amoxicillin", "Aspirin", "Tricod"],
   },
   {
     brickId: "BRK-005",
     brickName: "Brick 5",
+    mrName: "Salim Qureshi",
     city: "Multan",
     areaNames: ["Gulgasht", "Bohar", "Shah Rukn-e-Alam"],
     Pharmacies: [
       "Multan Medicos",
       "Health Line Pharmacy",
       "Safe Care Medical Store",
+    ],
+    products: ["Synflex", "Amoxicillin", "Azithromycin", "Tricod"],
+    doctors: [
+      "Dr. Qayum ifitikhar",
+      "Dr.Yahya khan",
+      "Dr. Ahmed Khan",
+      "Bilawal butt",
     ],
   },
 ];

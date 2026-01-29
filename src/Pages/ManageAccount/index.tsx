@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { RiAlertFill } from "react-icons/ri";
 import { IoMdCloseCircle } from "react-icons/io";
 import { TbEdit } from "react-icons/tb";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -23,6 +22,8 @@ import {
   updateAccount,
 } from "../../api/adminServices";
 import { useNavigate } from "react-router-dom";
+import SearchByName from "../../Components/SearchBar/searchByName";
+import { bricksData } from "../../utils/brick";
 
 const Positionlist = [
   "Director Sales",
@@ -45,12 +46,12 @@ export interface Account {
   adminId?: string | number;
   name?: string;
   email?: string;
+  brickName?: string;
   phoneNumber?: string;
   division?: string;
   position?: string;
   city?: string;
   ownerName?: string;
-  // region?: string;
   strategy?: string;
   image?: string;
 }
@@ -77,6 +78,9 @@ export default function ManageAccount() {
   const itemsPerPage = 10;
   const navigate = useNavigate();
 
+  const brickOptions: string[] = bricksData.map(
+    (brick: any) => brick.brickName,
+  );
   const handleGoTODetails = (v: Account) => {
     navigate("/manageAccounts/details", {
       state: { v },
@@ -97,9 +101,9 @@ export default function ManageAccount() {
         v?.adminId,
         v?.name,
         v?.email,
-        v?.division === "Distributor" ? v?.ownerName : v?.position,
-        v?.city,
         v?.division,
+        v?.division === "Distributor" ? v?.ownerName : v?.position,
+        v?.division !== "Distributor" ? v?.brickName : null,
         <div className="flex items-center gap-2" key={v._id}>
           <TbEdit
             onClick={() => {
@@ -114,7 +118,7 @@ export default function ManageAccount() {
             color="#E90761"
             height="18"
             width="20"
-            icon="mingcute:delete-fill"
+            icon="mingcute:delete-line"
             onClick={() => {
               setDeleteConfirmation(true);
               setEditingAccount(v);
@@ -154,7 +158,7 @@ export default function ManageAccount() {
       image: editingAccount?.image ?? "",
       division: editingAccount?.division ?? "",
       city: editingAccount?.city ?? "",
-      // region: editingAccount?.region ?? "",
+      brickName: editingAccount?.brickName ?? "",
       strategy: editingAccount?.strategy ?? "",
       position: editingAccount?.position ?? "",
       ownerName: editingAccount?.ownerName ?? "",
@@ -172,7 +176,7 @@ export default function ManageAccount() {
         confirmPassword: values.confirmPassword,
         division: values.division,
         city: values.city,
-        // region: values.region,
+        brickName: values.brickName,
         strategy: values.strategy,
         position: values.position,
         ownerName: values.ownerName,
@@ -239,29 +243,37 @@ export default function ManageAccount() {
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Manage Accounts
           </p>
-          <button
-            onClick={() => {
-              setCreateAccount(true);
-              setEditingAccount(null);
-              setEdit(false);
-            }}
-            className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
-          >
-            <Icon
-              icon="mingcute:add-fill"
-              height="20"
-              width="20"
-              color="#fff"
-            />
-            <p className="text-white text-base font-medium">Create Account</p>
-          </button>
+          <div className="flex flex-wrap md:flex-nowrap gap-4 items-center">
+            <div className="md:w-[250px] w-full">
+              <SearchByName name="Employee Name:" />
+            </div>
+            <div className="md:w-[250px] w-full">
+              <SearchByName name="Brick Name:" />
+            </div>
+            <button
+              onClick={() => {
+                setCreateAccount(true);
+                setEditingAccount(null);
+                setEdit(false);
+              }}
+              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+            >
+              <Icon
+                icon="mingcute:add-fill"
+                height="20"
+                width="20"
+                color="#fff"
+              />
+              <p className="text-white text-base font-medium">Create Account</p>
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 flex gap-2">
           {["sales", "marketing", "distributor"].map((tab) => (
             <button
               key={tab}
-              className={`w-[120px] h-12 rounded-t-lg ${
+              className={`w-[120px] h-12 rounded-t-xl ${
                 selectTab === tab
                   ? "bg-[#E5EBF7] text-heading"
                   : "bg-white text-[#7d7d7d]"
@@ -278,7 +290,9 @@ export default function ManageAccount() {
 
         <div
           className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
-            selectTab === "marketing" ? "rounded-tl-[12px]" : "rounded-tl-none"
+            selectTab === "marketing" || selectTab === "distributor"
+              ? "rounded-tl-[12px]"
+              : "rounded-tl-none"
           }`}
         >
           <div className="flex justify-between items-center">
@@ -311,9 +325,8 @@ export default function ManageAccount() {
                       "ID",
                       "Name",
                       "Email",
-                      "Owner Name",
-                      "City",
                       "Division",
+                      "Owner Name",
                       "Action",
                       "Details",
                     ]
@@ -321,9 +334,9 @@ export default function ManageAccount() {
                       "ID",
                       "Name",
                       "Email",
-                      "Position",
-                      "City",
                       "Division",
+                      "Position",
+                      "Brick Name",
                       "Action",
                       "Details",
                     ]
@@ -356,10 +369,6 @@ export default function ManageAccount() {
                 className="cursor-pointer text-primary"
               />
             </div>
-            <p className="text-base mt-1 font-normal text-[#979797]">
-              {isEdit === false ? "Add Account" : "Update Account"}
-            </p>
-
             <form className="mt-5" onSubmit={formik.handleSubmit}>
               <div className="flex flex-wrap  gap-8">
                 <div className="md:w-[calc(50%-16px)] w-full">
@@ -521,69 +530,6 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
-                  {/* <div className="mt-3">
-                    <CustomInput
-                      name="role"
-                      label="Role"
-                      placeholder="Enter role"
-                      value={formik.values.role}
-                      onChange={formik.handleChange}
-                    />
-                    {formik.touched.role && formik.errors.role && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.role}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-3">
-                    <CustomSelect
-                      options={["Active", "Inactive"]}
-                      placeholder="User Status"
-                      value={formik.values.userStatus}
-                      onChange={(val: any) =>
-                        formik.setFieldValue("userStatus", val)
-                      }
-                    />
-                    {formik.touched.userStatus && formik.errors.userStatus && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.userStatus}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-3">
-                    <DatePicker
-                      label="Joining Date"
-                      value={
-                        formik.values.joiningDate
-                          ? dayjs(formik.values.joiningDate)
-                          : null
-                      }
-                      onChange={(date) =>
-                        formik.setFieldValue("joiningDate", date)
-                      }
-                    />
-                    {formik.touched.joiningDate &&
-                      formik.errors.joiningDate && (
-                        <div className="text-red-500 text-xs">
-                          *{formik.errors.joiningDate}
-                        </div>
-                      )}
-                  </div>
-                  <div className="mt-3">
-                    <DatePicker
-                      label="DOB"
-                      value={
-                        formik.values.DOB ? dayjs(formik.values.DOB) : null
-                      }
-                      onChange={(date) => formik.setFieldValue("DOB", date)}
-                    />
-
-                    {formik.touched.DOB && formik.errors.DOB && (
-                      <div className="text-red-500 text-xs">
-                        *{formik.errors.DOB}
-                      </div>
-                    )}
-                  </div> */}
                 </div>
 
                 <div className="md:w-[calc(50%-16px)] w-full">
@@ -623,25 +569,6 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
-
-                  {/* <div className="mt-3">
-                    <CustomSelect
-                      value={formik.values.region}
-                      options={RegionList}
-                      placeholder="Region"
-                      onChange={(val: any) =>
-                        formik.setFieldValue("region", val)
-                      }
-                    />
-                    {formik.touched.region && formik.errors.region && (
-                      <div className="text-red-500 text-xs">
-                        *
-                        {typeof formik.errors.region === "string"
-                          ? formik.errors.region
-                          : ""}
-                      </div>
-                    )}
-                  </div> */}
 
                   <div className="mt-3">
                     <CustomSelect
@@ -712,114 +639,26 @@ export default function ManageAccount() {
                         </div>
                       )}
                   </div>
-
-                  {/* <p className="font-medium text-base mt-4 mb-2">
-                    Salary Structure
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    <div className="w-full md:w-[calc(50%-6px)]">
-                      <CustomInput
-                        name="salaryStructure.basic"
-                        label="Basic"
-                        value={formik.values.salaryStructure?.basic || "0"}
-                        onChange={formik.handleChange}
-                        type="number"
+                  {formik.values.division !== "Distributor" && (
+                    <div className="mt-3">
+                      <CustomSelect
+                        value={formik.values.brickName}
+                        options={brickOptions}
+                        placeholder="Brick Name"
+                        onChange={(val: any) =>
+                          formik.setFieldValue("brickName", val)
+                        }
                       />
+                      {formik.touched.brickName && formik.errors.brickName && (
+                        <div className="text-red-500 text-xs">
+                          *
+                          {typeof formik.errors.brickName === "string"
+                            ? formik.errors.brickName
+                            : ""}
+                        </div>
+                      )}
                     </div>
-                    <div className="w-full md:w-[calc(50%-6px)]">
-                      <CustomInput
-                        name="salaryStructure.gross"
-                        label="Gross"
-                        value={formik.values.salaryStructure?.gross || "0"}
-                        onChange={formik.handleChange}
-                        type="number"
-                      />
-                    </div>
-                    <div className="w-full md:w-[calc(50%-6px)]">
-                      <CustomInput
-                        name="salaryStructure.deductions"
-                        label="Deductions"
-                        value={formik.values.salaryStructure?.deductions || "0"}
-                        onChange={formik.handleChange}
-                        type="number"
-                      />
-                    </div>
-                    <div className="w-full md:w-[calc(50%-6px)]">
-                      <CustomInput
-                        name="salaryStructure.tax"
-                        label="Tax"
-                        value={formik.values.salaryStructure?.tax || "0"}
-                        onChange={formik.handleChange}
-                        type="number"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex gap-2 mt-3">
-                    <CustomInput
-                      name="salaryStructure.incentive.flue"
-                      label="Flue Incentive"
-                      value={
-                        formik.values.salaryStructure?.incentive?.flue || "0"
-                      }
-                      onChange={formik.handleChange}
-                      type="number"
-                    />
-                    <CustomInput
-                      name="salaryStructure.incentive.medical"
-                      label="Medical Incentive"
-                      value={
-                        formik.values.salaryStructure?.incentive?.medical || "0"
-                      }
-                      onChange={formik.handleChange}
-                      type="number"
-                    />
-                    <CustomInput
-                      name="salaryStructure.incentive.others"
-                      label="Other Incentive"
-                      value={
-                        formik.values.salaryStructure?.incentive?.others || "0"
-                      }
-                      onChange={formik.handleChange}
-                      type="number"
-                    />
-                  </div>
-
-                
-                  <p className="font-medium text-base mt-4 mb-2">Loan & PF</p>
-                  <div className="flex gap-2">
-                    <CustomInput
-                      name="loanPF.loan"
-                      label="Loan"
-                      value={formik.values.loanPF?.loan || "0"}
-                      onChange={formik.handleChange}
-                      type="number"
-                    />
-                    <CustomInput
-                      name="loanPF.pf"
-                      label="PF"
-                      value={formik.values.loanPF?.pf || "0"}
-                      onChange={formik.handleChange}
-                      type="number"
-                    />
-                  </div>
-                  <div className="mt-3">
-                    <MultiSelect
-                      options={leaveOptions.map((label) => ({
-                        label,
-                        amount: 0,
-                      }))}\
-                      label="Leaves"
-                      value={formik.values.leaveMultiSelect}
-                      onChange={(val: SelectedOption[]) => {
-                        formik.setFieldValue("leaveMultiSelect", val);
-                        formik.setFieldValue(
-                          "leaveEntitlements",
-                          multiSelectToObject(val)
-                        );
-                      }}
-                      placeholder="Select Leave Entitlements"
-                    />
-                  </div> */}
+                  )}
                 </div>
               </div>
 
@@ -843,27 +682,39 @@ export default function ManageAccount() {
       )}
       {deleteConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto xl:p-6 p-4 shadow-xl relative">
-            <RiAlertFill className="text-[120px] text-yellow-500 text-center mx-auto mb-2" />
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[500px] h-auto overflow-x-auto shadow-xl relative">
+            <div className="bg-[#E90761]/10 p-4">
+              <p className="text-base text-[#131313]">Delete Account</p>
+            </div>
+
+            <div className="flex justify-center my-6">
+              <div className="flex justify-center items-center bg-[#E90761]/10 h-[120px] w-[120px] rounded-full">
+                <div className="flex justify-center items-center  bg-[#E90761] h-[80px] w-[80px] rounded-full">
+                  <Icon
+                    icon="mingcute:delete-line"
+                    className="text-4xl text-white"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="text-center">
-              <h2 className="text-xl font-semibold text-primary mt-5">
-                Confirm Delete
-              </h2>
-              <p className="mb-6">
-                Are you sure you want to delete this{" "}
-                <strong>Account</strong>{" "}
+              <p className="text-base font-normal text-[#131313] mt-5">
+                Are you sure to delete this account?
+              </p>
+              <p className="mb-6 text-[#7D7D7D]/40">
+                Once you delete it will not restored
               </p>
             </div>
-            <div className="flex mt-5 justify-between gap-4">
+            <div className="flex mt-5 justify-end gap-4 p-4">
               <button
                 onClick={() => setDeleteConfirmation(false)}
-                className="px-7 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                className="px-7 h-[48px] py-2 font-medium bg-[#FDE6EF] rounded-md"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-7 py-2 bg-[#E90761] text-white rounded"
+                className="px-7 h-[48px] py-2 bg-[#E90761] font-medium text-white rounded-md"
               >
                 {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>

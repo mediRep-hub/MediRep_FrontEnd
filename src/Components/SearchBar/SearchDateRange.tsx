@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { notifyError } from "../Toast";
+import { Icon } from "@iconify/react";
+import { LuSearch } from "react-icons/lu";
 
 export default function SearchDateRange({ onChange }: any) {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,14 +38,15 @@ export default function SearchDateRange({ onChange }: any) {
   const selected = range.start && range.end;
 
   return (
-    <div className="relative w-full" ref={divRef}>
-      <label className="absolute -top-3 left-5 bg-secondary px-1 text-sm text-[#7d7d7d]">
-        Select Date
-      </label>
+    <div className="w-full relative flex items-center" ref={divRef}>
+      <p className="bg-secondary font-medium px-1 text-sm text-[#131313]">
+        Date:
+      </p>
       <div
-        className="flex items-center h-12 justify-between bg-secondary px-4 py-2 border-[0.5px] border-[#7d7d7d] rounded-md cursor-pointer"
+        className="flex items-center w-[200px] h-10 gap-2 bg-secondary px-2 py-2 border-[0.5px] border-[#0755E9] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
+        <LuSearch className="text-[#7d7d7d]" size={16} />
         <span
           className={`text-sm ${selected ? "text-heading" : "text-gray-400"}`}
         >
@@ -51,7 +54,7 @@ export default function SearchDateRange({ onChange }: any) {
         </span>
       </div>
       {isOpen && (
-        <div className="absolute mt-1 p-3 bg-white border border-gray-300 rounded-md shadow-lg w-full z-50">
+        <div className="absolute mt-1 top-[40px] p-3 bg-white border border-gray-300 rounded-md shadow-lg w-full z-50">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col">
               <label className="text-xs text-gray-500">Start Date</label>

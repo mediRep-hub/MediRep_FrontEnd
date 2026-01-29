@@ -17,7 +17,7 @@ export const PharmacySchema = Yup.object().shape({
   brick: Yup.string().required("Brick is required"),
   city: Yup.string().required("city is required"),
   affiliation: Yup.string().required("Affiliation is required"),
-  image: Yup.string().nullable(),
+  image: Yup.string().nullable().required("Image is required"),
   location: Yup.object({
     address: Yup.string().required("Address is required"),
     lat: Yup.number().required(),
@@ -36,7 +36,7 @@ export const DoctorSchema = Yup.object().shape({
   brick: Yup.string().required("brick is required"),
   city: Yup.string().required("city is required"),
   affiliation: Yup.string().required("Affiliation is required"),
-  image: Yup.string().nullable(),
+  image: Yup.string().nullable().required("Image is required"),
   location: Yup.object({
     address: Yup.string().required("Address is required"),
     lat: Yup.number().required(),
@@ -144,7 +144,7 @@ export const AccountSchema = (isEdit: boolean) =>
           .required("Confirm Password is required")
           .oneOf([Yup.ref("password")], "Passwords must match"),
 
-    image: Yup.string().optional(),
+    image: Yup.string().optional().required("Image is required"),
     division: Yup.string().required("Division is required"),
     city: Yup.string().required("city is required"),
     strategy: Yup.string().required("Strategy is required"),
@@ -215,24 +215,19 @@ export const defaultLinks: SidebarLink[] = [
       },
     ],
   },
-  {
-    name: "Brick",
-    path: "/brick",
-    icon: "mage:edit-pen-fill",
-  },
+
   {
     name: "Bricks/Group",
-    icon: "game-icons:field",
-    path: "/callReporting",
+    icon: "mage:edit-pen-fill",
     children: [
       {
-        name: "Call Reporting",
-        path: "/callReporting",
+        name: "Individual",
+        path: "/brick",
       },
-      // {
-      //   name: "Group",
-      //   path: "/group",
-      // },
+      {
+        name: "Group",
+        path: "/group",
+      },
     ],
   },
   {

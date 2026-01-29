@@ -27,7 +27,7 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
     setFile(null);
     setProgress(0);
     const inputElement = document.getElementById(
-      "fileUpload"
+      "fileUpload",
     ) as HTMLInputElement;
     if (inputElement) inputElement.value = "";
   };
@@ -45,7 +45,7 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
       setProgress(70);
 
       notifySuccess(
-        response.data?.message || "Profiles uploaded successfully!"
+        response.data?.message || "Profiles uploaded successfully!",
       );
       refetch();
 
@@ -83,14 +83,14 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
         <div className="flex xl:p-6 p-4 flex-col items-center justify-center mt-10">
           <label
             htmlFor="fileUpload"
-            className="flex flex-col items-center justify-center border-2 w-full rounded-md p-10 border-dashed border-primary hover:bg-[#E5EBF7] cursor-pointer transition"
+            className="flex flex-col items-center justify-center border-2 w-full rounded-md p-10 border-dashed border-[#7D7D7D] hover:bg-[#E5EBF7] cursor-pointer transition"
           >
             <MdFileUpload size={50} className="text-primary mb-3" />
-            <p className="text-xl text-center text-heading font-medium">
+            <p className="text-xl text-center text-heading font-normal">
               Drag and Drop or{" "}
               <span className="text-primary">Click to upload</span>
             </p>
-            <p className="text-base text-center font-medium text-[#7d7d7d]/60">
+            <p className="text-base text-center font-normal text-[#7d7d7d]/60">
               Supported format: CSV
             </p>
           </label>
@@ -125,7 +125,13 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
             <p className="text-sm mt-1 text-[#7D7D7D]">{progress}%</p>
           </div>
         )}
-        <div className="flex justify-end mt-6 xl:p-6 p-4">
+        <div className="flex justify-end gap-4 mt-6 xl:p-6 p-4">
+          <button
+            className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] transition-all"
+            onClick={() => closeModle(false)}
+          >
+            Cancel
+          </button>
           <button
             className={`h-[45px] px-6 bg-primary text-white rounded-[6px] transition-all ${
               loading ? "opacity-60 cursor-not-allowed" : "hover:bg-primary/90"
