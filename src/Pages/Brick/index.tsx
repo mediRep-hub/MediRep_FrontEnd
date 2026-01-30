@@ -1,7 +1,5 @@
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
-import CustomTable from "../../Components/CustomTable";
-import { TbEdit } from "react-icons/tb";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import MultiSelect from "../../Components/MultiSelect";
@@ -15,6 +13,7 @@ import { getAllAccounts } from "../../api/adminServices";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
 import { getAllProducts } from "../../api/productServices";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import Excelsheet from "../../Components/Excelsheet";
 
 const aeraSelection = [
   "Johar Town",
@@ -163,24 +162,14 @@ export default function Brick() {
     brick.products?.join(", ") || "-",
     brick.Pharmacies?.length || 0,
     brick.doctors?.length || 0,
-    <div className="flex gap-2">
-      <TbEdit
-        size={18}
-        className="cursor-pointer text-primary"
-        onClick={() => handleEdit(brick)}
-      />
-      <Icon
-        icon="mingcute:delete-line"
-        color="#E90761"
-        height="18"
-        width="20"
-        className="cursor-pointer"
-        onClick={() => {
-          setDeletestore(brick.brickId);
-          setDeleteConfirmation(true);
-        }}
-      />
+    <div
+      onClick={() => {
+        setOpenModel(true);
+      }}
+    >
+      Edit
     </div>,
+    "Delete",
   ]);
 
   const antIcon = (
@@ -226,7 +215,7 @@ export default function Brick() {
             }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(72.4vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={tableData} />
+            <Excelsheet titles={titles} tableData={tableData} height={500} />
           </div>
         </div>
       </div>
@@ -349,82 +338,3 @@ export default function Brick() {
     </>
   );
 }
-
-// const CustomSelectMR = ({
-//   options = [],
-//   value,
-//   onChange,
-//   placeholder = "Select MR",
-//   firstSelected = false,
-// }: {
-//   options: { label: string; value: string }[];
-//   value?: string | null;
-//   onChange?: (value: string) => void;
-//   placeholder?: string;
-//   firstSelected?: boolean;
-// }) => {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const [selected, setSelected] = useState<string | null>(value || null);
-
-//   useEffect(() => {
-//     setSelected(value || null);
-//   }, [value]);
-
-//   useEffect(() => {
-//     if (firstSelected && options.length > 0 && !value) {
-//       setSelected(options[0].value);
-//       onChange?.(options[0].value);
-//     }
-//   }, [options, value, onChange, firstSelected]);
-
-//   const handleSelect = (option: { label: string; value: string }) => {
-//     setSelected(option.value);
-//     onChange?.(option.value);
-//     setIsOpen(false);
-//   };
-
-//   return (
-//     <div className="relative w-full">
-//       <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7d7d7d]">
-//         {placeholder}
-//       </label>
-//       <div
-//         className="flex items-center h-14 justify-between bg-white px-4 py-2 border-[0.5px] border-primary rounded-md cursor-pointer"
-//         onClick={() => setIsOpen(!isOpen)}
-//       >
-//         <span
-//           className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
-//         >
-//           {selected
-//             ? options.find((opt) => opt.value === selected)?.label
-//             : "Select the Options"}
-//         </span>
-//         <IoIosArrowDown
-//           className={`transition-transform duration-200 text-primary ${
-//             isOpen ? "rotate-180" : "rotate-0"
-//           }`}
-//         />
-//       </div>
-//       {isOpen && options.length > 0 && (
-//         <ul
-//           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-//           className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-10 max-h-60 overflow-y-auto"
-//         >
-//           {options.map((option, index) => (
-//             <li
-//               key={index}
-//               className={`px-4 flex items-center h-[56px] text-sm cursor-pointer ${
-//                 selected === option.value
-//                   ? "bg-primary text-white"
-//                   : "text-heading hover:bg-gray-100"
-//               }`}
-//               onClick={() => handleSelect(option)}
-//             >
-//               {option.label}
-//             </li>
-//           ))}
-//         </ul>
-//       )}
-//     </div>
-//   );
-// };
