@@ -6,14 +6,58 @@ const titles = [
   "Doctor Name",
   "MR Name",
   "Product",
+  "Target",
   "Actual Sales Qty",
   "Achievement %",
   "Status",
 ];
+const getStatusBadge = (status: string) => (
+  <p
+    className={`inline-block px-2 py-0.5 rounded text-sm font-medium border ${
+      status === "Average"
+        ? "text-primary border-primary"
+        : status === "Below Target"
+          ? "text-[#E90761] border-[#E90761]"
+          : status === "Achieved"
+            ? "text-[#0BA69C] border-[#0BA69C]"
+            : "text-heading border-gray-300"
+    }`}
+  >
+    {status}
+  </p>
+);
+
 const Data = [
-  ["REQ-001", "Dr. Ali", "Ahmed", "Panadol", 120, "85%", "Below Target"],
-  ["REQ-002", "Dr. Sara", "Usman", "Brufen", 90, "70%", "Average"],
-  ["REQ-003", "Dr. Khan", "Bilal", "Calpol", 150, "95%", "Below Target"],
+  [
+    "REQ-001",
+    "Dr. Ali",
+    "Ahmed",
+    "Panadol",
+    "10,000",
+    120,
+    "85%",
+    getStatusBadge("Below Target"),
+  ],
+  [
+    "REQ-002",
+    "Dr. Sara",
+    "Usman",
+    "Brufen",
+    "5,000",
+    90,
+    "70%",
+    getStatusBadge("Average"),
+  ],
+  [
+    "REQ-003",
+    "Dr. Khan",
+    "Bilal",
+    "Calpol",
+    "15,000",
+    150,
+    "95%",
+    getStatusBadge("Achieved"),
+  ],
 ];
 
 export default function TrackRequisition() {

@@ -11,6 +11,9 @@ const CallReportingDetail = lazy(
 );
 import Brick from "../Pages/Brick";
 import SalewiseTargetDetail from "../Pages/Targets/salewiseTargetDetail";
+import PlanSummary from "../Pages/Plan Management";
+import WeeklyPlans from "../Pages/Plan Management/WeeklyPlans";
+import MonthlyPlans from "../Pages/Plan Management/MonthlyPlans";
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
@@ -179,6 +182,9 @@ export default function MainRoutes() {
           element={<TeamPerformanceReport />}
         />
         <Route path="/geo-locationReport" element={<GeoLocationReport />} />
+        <Route path="/PlanSummary" element={<PlanSummary />} />
+        <Route path="/weeklyPlans" element={<WeeklyPlans />} />
+        <Route path="/monthlyPlans" element={<MonthlyPlans />} />
       </Routes>
     </Suspense>
   );

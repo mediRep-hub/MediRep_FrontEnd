@@ -29,7 +29,6 @@ const titles = [
   "Form",
   "Status",
   "Amount",
-  "Discount",
   "Image",
   "Actions",
 ];
@@ -76,7 +75,6 @@ export default function Products() {
   const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
-  const [openDiscount, setOpenDiscount] = useState(false);
   const [viewImage, setViewImage] = useState<any>(null);
   const [openImage, setOpenImage] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
@@ -113,14 +111,7 @@ export default function Products() {
         {" "}
         <span className="text-xs">Rs:</span> {v?.amount}
       </div>,
-      <div
-        onClick={() => {
-          setOpenDiscount(true);
-        }}
-        className="hover:bg-primary px-2 py-0.5 rounded-sm hover:text-white w-max"
-      >
-        Edit Discount
-      </div>,
+
       <div
         className="flex items-center gap-1"
         onClick={() => {
@@ -229,6 +220,7 @@ export default function Products() {
           <div className="md:w-[250px] w-full">
             <SearchByName name="Product Name:" />
           </div>
+
           <button
             onClick={() => {
               setEditingProduct(null);
@@ -535,36 +527,6 @@ export default function Products() {
       {openModalChannel && (
         <TargetsUploadFile closeModle={setOpenModalChannel} refetch={refetch} />
       )}{" "}
-      {openDiscount && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[350px] xl:h-auto max-h-[90vh] overflow-x-auto shadow-xl relative">
-            <div className="bg-[#E5EBF7] p-4">
-              <p className="text-base text-[#131313]">Edit Product Discount</p>
-            </div>
-            <div className="p-4 space-y-4">
-              <CustomInput label="RT Discount" placeholder="e.g; 08%" />
-              <CustomInput
-                label="Chain Pharmacy Discount"
-                placeholder="e.g; 16%"
-              />
-              <CustomInput label="Wholesale Discount" placeholder="e.g; 22%" />
-            </div>
-            <div className="flex flex-wrap p-4 items-center justify-between">
-              <button
-                onClick={() => {
-                  setOpenDiscount(false);
-                }}
-                className="h-[55px] w-full md:w-[120px] bg-[#F2FAFD] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
-              >
-                Cancel
-              </button>
-              <button className="h-[55px] text-white w-full md:w-[120px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

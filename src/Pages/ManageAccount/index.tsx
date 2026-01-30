@@ -33,7 +33,6 @@ const Positionlist = [
   "MedicalRep(MR)",
 ];
 const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
-const StrategyList = ["Canal Road", "Riwind Road", "Multan Road", "Gt Road"];
 const Divisionlist = ["Sales", "Marketing", "Distributor"] as const;
 
 export interface SelectedOption {
@@ -52,7 +51,6 @@ export interface Account {
   position?: string;
   city?: string;
   ownerName?: string;
-  strategy?: string;
   image?: string;
 }
 
@@ -81,9 +79,20 @@ export default function ManageAccount() {
   const brickOptions: string[] = bricksData.map(
     (brick: any) => brick.brickName,
   );
-  const handleGoTODetails = (v: Account) => {
+  const handleGoTODetails = (row: any[]) => {
+    const adminId = row[0]; // ID column
+
+    const account = AllAccounts.find(
+      (item) => item.adminId === adminId || item._id === adminId,
+    );
+
+    if (!account) {
+      console.error("Account not found for ID:", adminId);
+      return;
+    }
+
     navigate("/manageAccounts/details", {
-      state: { v },
+      state: { row: account },
     });
   };
 
@@ -125,13 +134,6 @@ export default function ManageAccount() {
             }}
           />
         </div>,
-        <div
-          className="flex gap-3 items-center"
-          onClick={() => handleGoTODetails(v)}
-        >
-          <Icon icon="iconoir:notes" height="16" width="16" color="#7d7d7d" />
-          Details
-        </div>,
       ];
       return baseRow;
     };
@@ -159,7 +161,6 @@ export default function ManageAccount() {
       division: editingAccount?.division ?? "",
       city: editingAccount?.city ?? "",
       brickName: editingAccount?.brickName ?? "",
-      strategy: editingAccount?.strategy ?? "",
       position: editingAccount?.position ?? "",
       ownerName: editingAccount?.ownerName ?? "",
     },
@@ -177,7 +178,6 @@ export default function ManageAccount() {
         division: values.division,
         city: values.city,
         brickName: values.brickName,
-        strategy: values.strategy,
         position: values.position,
         ownerName: values.ownerName,
       };
@@ -321,15 +321,7 @@ export default function ManageAccount() {
             <CustomTable
               titles={
                 selectTab === "distributor"
-                  ? [
-                      "ID",
-                      "Name",
-                      "Email",
-                      "Division",
-                      "Owner Name",
-                      "Action",
-                      "Details",
-                    ]
+                  ? ["ID", "Name", "Email", "Division", "Owner Name", "Action"]
                   : [
                       "ID",
                       "Name",
@@ -338,7 +330,6 @@ export default function ManageAccount() {
                       "Position",
                       "Brick Name",
                       "Action",
-                      "Details",
                     ]
               }
               data={
@@ -349,6 +340,7 @@ export default function ManageAccount() {
                     : rowsByDivision.distributor
               }
               isFetching={isFetching}
+              handleGoToDetail={handleGoTODetails}
             />
           </div>
         </div>
@@ -565,25 +557,6 @@ export default function ManageAccount() {
                         *
                         {typeof formik.errors.city === "string"
                           ? formik.errors.city
-                          : ""}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-3">
-                    <CustomSelect
-                      value={formik.values.strategy}
-                      options={StrategyList}
-                      onChange={(val: any) =>
-                        formik.setFieldValue("strategy", val)
-                      }
-                      placeholder="Select Strategy"
-                    />
-                    {formik.touched.strategy && formik.errors.strategy && (
-                      <div className="text-red-500 text-xs">
-                        *
-                        {typeof formik.errors.strategy === "string"
-                          ? formik.errors.strategy
                           : ""}
                       </div>
                     )}

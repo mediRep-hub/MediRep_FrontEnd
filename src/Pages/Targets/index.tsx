@@ -12,6 +12,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
+import { MonthYearPicker } from "../../Components/FilterMonthYear";
+import SearchByName from "../../Components/SearchBar/searchByName";
 
 const SaleData = [
   {
@@ -242,9 +244,61 @@ export default function Targets() {
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 items-start justify-between">
-          <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Targets
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-heading font-medium text-[22px] sm:text-[24px]">
+              Targets
+            </p>
+            <div className="w-full">
+              <MonthYearPicker />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {selectTab === "Sales Wise" ? (
+              <>
+                {" "}
+                <div>
+                  <SearchByName name="MR Name:" />
+                </div>{" "}
+                <div>
+                  <SearchByName name="Brick Name:" />
+                </div>{" "}
+                <div>
+                  <SearchByName name="City:" />
+                </div>
+              </>
+            ) : (
+              <>
+                {" "}
+                <div>
+                  <SearchByName name="Product Name:" />
+                </div>{" "}
+                <div>
+                  <SearchByName name="Foam:" />
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="flex mt-4 justify-between">
+          <div className="mt-4 flex gap-2">
+            {["Sales Wise", "Product Wise"].map((tab) => (
+              <button
+                key={tab}
+                className={`w-[120px] h-12 rounded-t-lg ${
+                  selectTab === tab
+                    ? "bg-[#E5EBF7] text-heading"
+                    : "bg-white text-[#7d7d7d]"
+                }`}
+                onClick={() => {
+                  setSelectTab(tab as typeof selectTab);
+                  // setCurrentPage(1);
+                }}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
           <button
             onClick={() => setOpenModal(true)}
             className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
@@ -257,24 +311,6 @@ export default function Targets() {
             />
             <p className="text-white text-base font-medium">Upload Target</p>
           </button>
-        </div>
-        <div className="mt-4 flex gap-2">
-          {["Sales Wise", "Product Wise"].map((tab) => (
-            <button
-              key={tab}
-              className={`w-[120px] h-12 rounded-t-lg ${
-                selectTab === tab
-                  ? "bg-[#E5EBF7] text-heading"
-                  : "bg-white text-[#7d7d7d]"
-              }`}
-              onClick={() => {
-                setSelectTab(tab as typeof selectTab);
-                // setCurrentPage(1);
-              }}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
         </div>
         <div
           className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
@@ -383,7 +419,18 @@ export default function Targets() {
                               {row.isfrom}
                             </td>
                             <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              {row.isStatus}
+                              <p
+                                className={`px-2 py-0.5 w-max rounded-sm ${
+                                  row.isStatus === "Active"
+                                    ? "text-primary border border-primary"
+                                    : row.isStatus === "Discontinued"
+                                      ? "text-[#E90761] border border-[#E90761]"
+                                      : "text-heading border border-gray-300"
+                                }`}
+                              >
+                                {" "}
+                                {row.isStatus}
+                              </p>{" "}
                             </td>
                             <td className="px-5 py-2 w-[90px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
                               {editIndex === rowIndex ? (
@@ -457,72 +504,20 @@ export default function Targets() {
                 <table className="w-full border-collapse min-w-[900px]">
                   <thead className="sticky top-0 z-[1] bg-white">
                     <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
-                      <th className="px-4 py-3 text-[12px] w-[14.5%]">
-                        <div className="relative flex items-center">
-                          <LuSearch
-                            className="absolute left-2 text-[#7d7d7d]"
-                            size={14}
-                          />
-
-                          <input
-                            placeholder="Postion"
-                            value={asmFilter}
-                            onChange={(e) => setAsmFilter(e.target.value)}
-                            type="text"
-                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
-                          />
-                        </div>
-                      </th>
-                      <th className="px-4 py-3 text-[12px]  w-[14.5%]">
-                        <div className="relative flex items-center">
-                          <LuSearch
-                            className="absolute left-2 text-[#7d7d7d]"
-                            size={14}
-                          />
-
-                          <input
-                            placeholder="Area Name"
-                            value={areaFilter}
-                            onChange={(e) => setAreaFilter(e.target.value)}
-                            type="text"
-                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
-                          />
-                        </div>
-                      </th>
-                      <th className="px-4 py-3  text-[12px] w-[14.5%]">
-                        <div className="relative flex items-center">
-                          <LuSearch
-                            className="absolute left-2 text-[#7d7d7d]"
-                            size={14}
-                          />
-
-                          <input
-                            placeholder="Brick Name"
-                            value={brickFilter}
-                            onChange={(e) => setBrickFilter(e.target.value)}
-                            type="text"
-                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
-                          />
-                        </div>
-                      </th>
-                      <th className="px-4 py-3 text-[12px] w-[14.5%]">
-                        <div className="relative flex items-center ">
-                          <LuSearch
-                            className="absolute left-2 text-[#7d7d7d]"
-                            size={14}
-                          />
-
-                          <input
-                            placeholder="MR Name"
-                            value={mrFilter}
-                            onChange={(e) => setMrFilter(e.target.value)}
-                            type="text"
-                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
-                          />
-                        </div>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Employees Name
                       </th>
                       <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
-                        Target
+                        City
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Brick Name
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Mr Name
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
+                        Enter Target
                       </th>
                       <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
                         Achievement

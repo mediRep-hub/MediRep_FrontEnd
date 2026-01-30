@@ -15,7 +15,7 @@ export default function AccountDetails() {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const location = useLocation();
-  const account = location.state?.v;
+  const account = location.state?.row;
 
   const navigate = useNavigate();
 

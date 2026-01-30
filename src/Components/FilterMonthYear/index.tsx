@@ -44,7 +44,12 @@ export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-2">
-          <Icon icon="mdi:calendar" width={20} height={20} color="#0755E9" />
+          <Icon
+            icon="material-symbols:calendar-clock"
+            width={20}
+            height={20}
+            color="#0755E9"
+          />
           <span>{`${value.month}-${value.year}`}</span>
         </div>
         <Icon

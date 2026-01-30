@@ -9,7 +9,7 @@ export const LoginSchema = Yup.object({
 export const PharmacySchema = Yup.object().shape({
   name: Yup.string().required("Doctor name is required"),
   email: Yup.string().email().required("Email is required"),
-  DSL: Yup.string().optional(),
+  DSL: Yup.string().optional().required("DSL is required"),
   phone: Yup.string().required("Phone is required"),
   startTime: Yup.string().required("Start time is required"),
   channel: Yup.string().required("Channel is required"),
@@ -31,7 +31,7 @@ export const DoctorSchema = Yup.object().shape({
   phone: Yup.string().required("Phone is required"),
   startTime: Yup.string().required("Start time is required"),
   doctorClass: Yup.string().required("Class is required"),
-  PMDC: Yup.string().optional(),
+  PMDC: Yup.string().optional().required("PMDC is required"),
   endTime: Yup.string().required("End time is required"),
   brick: Yup.string().required("brick is required"),
   city: Yup.string().required("city is required"),
@@ -147,7 +147,6 @@ export const AccountSchema = (isEdit: boolean) =>
     image: Yup.string().optional().required("Image is required"),
     division: Yup.string().required("Division is required"),
     city: Yup.string().required("city is required"),
-    strategy: Yup.string().required("Strategy is required"),
     position: Yup.string().required("Position is required"),
 
     ownerName: Yup.string().when("division", {
@@ -227,6 +226,24 @@ export const defaultLinks: SidebarLink[] = [
       {
         name: "Group",
         path: "/group",
+      },
+    ],
+  },
+  {
+    name: "Plan Management",
+    icon: "icon-park-solid:plan",
+    children: [
+      {
+        name: "Plan Summary",
+        path: "/planSummary",
+      },
+      {
+        name: "Weekly Plans",
+        path: "/weeklyPlans",
+      },
+      {
+        name: "Monthly Plans",
+        path: "/monthlyPlans",
       },
     ],
   },
