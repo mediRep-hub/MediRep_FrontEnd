@@ -14,7 +14,7 @@ export default function MultiSelect({
   label,
   value = [],
   onChange,
-  placeholder = "Select doctors",
+  placeholder = "Select Options",
 }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 

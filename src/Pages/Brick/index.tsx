@@ -248,11 +248,13 @@ export default function Brick() {
               <div className="space-y-4">
                 <CustomInput
                   label="Brick Name"
+                  placeholder="Enter Brick Name"
                   name="brickName"
                   defaultValue={editingProduct?.brickName || ""}
                 />
                 <CustomInput
                   label="City"
+                  placeholder="Enter City"
                   name="city"
                   defaultValue={editingProduct?.city || ""}
                 />
@@ -295,7 +297,7 @@ export default function Brick() {
             <div className="flex justify-end mt-6">
               <button
                 onClick={handleSave}
-                className="bg-primary text-white px-6 py-2 rounded"
+                className="bg-primary text-white w-[150px] h-[50px] px-6 py-2 rounded"
               >
                 Save
               </button>

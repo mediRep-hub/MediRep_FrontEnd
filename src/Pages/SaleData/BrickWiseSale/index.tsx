@@ -16,8 +16,8 @@ const titles = [
   "Brick_Name",
   "Pharmacy_Name",
   "Product_Name",
-  // "Quantity_Sold (Pack)",
-  // "Sales_Value",
+  "Quantity_Sold (Pack)",
+  "Sales_Value",
 ];
 
 const tableDataTitles = [
@@ -31,8 +31,8 @@ const tableDataTitles = [
     "Canal Road",
     "Servaid, Johar Town",
     "Naunehal Baby Soap - 100 gm",
-    // "18",
-    // "1,854",
+    "18",
+    "1,854",
   ],
   [
     "DIS-11890",
@@ -44,8 +44,8 @@ const tableDataTitles = [
     "Model Town",
     "D-Watson Pharmacy",
     "Naunehal Shampoo - 200 ml",
-    // "25",
-    // "3,450",
+    "25",
+    "3,450",
   ],
   [
     "DIS-12001",
@@ -57,8 +57,8 @@ const tableDataTitles = [
     "Gulshan",
     "Imtiaz Store",
     "Baby Lotion - 150 ml",
-    // "30",
-    // "4,800",
+    "30",
+    "4,800",
   ],
   [
     "DIS-12450",
@@ -70,8 +70,8 @@ const tableDataTitles = [
     "DHA",
     "Servaid DHA",
     "Baby Powder - 100 gm",
-    // "40",
-    // "6,200",
+    "40",
+    "6,200",
   ],
 ];
 

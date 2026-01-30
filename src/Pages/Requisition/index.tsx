@@ -16,6 +16,7 @@ const titles = [
   "Quantity",
   "Duration",
   "Requisition Type",
+  "Amount",
   "Status",
 ];
 
@@ -68,6 +69,7 @@ export default function Requisition() {
       v?.totalQuantity,
       v?.duration,
       <p className="capitalize">{v?.requisitionType}</p>,
+      v?.amount,
       <p
         className={`inline-block rounded-sm capitalize px-2 py-0.5 font-normal text-sm border ${
           v?.status?.toLowerCase() === "pending"
