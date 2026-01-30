@@ -48,7 +48,7 @@ export default function SalewiseTargetDetail() {
           </div>
 
           <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
-            <div className="md:w-[180px] w-full ">
+            <div className="md:w-[190px] w-full ">
               <MonthYearPicker />
             </div>
             <div className="w-[220px]">

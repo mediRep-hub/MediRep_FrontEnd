@@ -242,7 +242,7 @@ export default function Pharmacies() {
         >
           <div className="flex flex-wrap gap-2 justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
-              Pharmacy Profiles
+              Pharmacy List
             </p>
             <Pagination
               currentPage={currentPage}

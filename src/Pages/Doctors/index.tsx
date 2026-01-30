@@ -219,7 +219,7 @@ export default function Doctors() {
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <div className="md:w-[250px] w-full">
-              <SearchByName name="Dcotor Name:" />
+              <SearchByName name="Doctor Name:" />
             </div>
             <button
               onClick={() => setOpenModal(true)}
