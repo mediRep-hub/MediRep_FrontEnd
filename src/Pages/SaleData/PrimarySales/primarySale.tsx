@@ -3,7 +3,6 @@ import { Icon } from "@iconify/react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import CustomTable from "../../../Components/CustomTable";
-import { LuSearch } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import PrimarySaleUpload from "../../../Components/PrimarySaleUpload";
 import { SearchSelection } from "../../../Components/SearchBar/SearchSelection";

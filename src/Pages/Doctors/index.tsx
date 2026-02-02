@@ -15,7 +15,6 @@ import {
 } from "../../api/doctorServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { RiAlertFill } from "react-icons/ri";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 import DoctorUploads from "../../Components/DoctorsUpload";
 import Pagination from "../../Components/Pagination";

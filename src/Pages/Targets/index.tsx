@@ -254,7 +254,6 @@ export default function Targets() {
           <div className="flex flex-wrap items-center gap-3">
             {selectTab === "Sales Wise" ? (
               <>
-                {" "}
                 <div className="w-full md:w-[220px]">
                   <SearchByName
                     name="MR Name:"

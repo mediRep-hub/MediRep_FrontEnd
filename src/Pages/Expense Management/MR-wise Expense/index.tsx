@@ -165,6 +165,7 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState(initialValue);
   const [duration, setDuration] = useState<number>(0);
+  console.log("🚀 ~ StatusDropdown ~ setDuration:", setDuration);
   const [discount, setDiscount] = useState<number>(order.discount ?? 0);
   console.log(setDiscount);
 
