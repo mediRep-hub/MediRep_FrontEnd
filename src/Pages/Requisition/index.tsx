@@ -112,12 +112,12 @@ export default function Requisition() {
   };
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-      <div className="flex flex-wrap items-start gap-4 justify-between">
+      <div className="flex flex-wrap md:flex-nowrap items-start gap-4 justify-between">
         <p className="text-heading w-full md:w-auto font-medium text-[22px] sm:text-[24px]">
           Requisitions
         </p>
         <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
-          <div className="w-full md:w-[300px]">
+          <div className="w-full md:w-[270px]">
             <SearchSelection
               placeholder="Select MR"
               options={[
@@ -133,7 +133,7 @@ export default function Requisition() {
               }}
             />
           </div>{" "}
-          <div className="w-full md:w-[300px] md:mt-0 mt-2">
+          <div className="w-full md:w-[260px]">
             <SearchDateRange
               onChange={(range: { start: string; end: string }) => {
                 setSelectedDate(range);

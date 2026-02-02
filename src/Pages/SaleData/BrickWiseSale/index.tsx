@@ -104,8 +104,8 @@ export default function BrickWiseSale() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap lg:flex-nowrap justify-between items-center gap-4">
-          <div className="flex w-full md:w-auto flex-wrap items-center gap-4 ">
+        <div className="flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+          <div className="flex w-full md:w-auto md:flex-nowrap flex-wrap items-center gap-4 ">
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
               Brick Wise Sale
             </p>
@@ -117,8 +117,7 @@ export default function BrickWiseSale() {
           <div className="flex flex-wrap w-full md:w-auto sm:flex-nowrap gap-4 items-center">
             <button
               onClick={handleDownloadExcel}
-              className="h-[55px] w-full md:w-[160px] bg-[#E5EBF7] rounded-[6px] gap-3 flex justify-center items-center 
-           "
+              className="h-[55px] w-full md:w-[140px] lg:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               {" "}
               <Icon
@@ -133,7 +132,7 @@ export default function BrickWiseSale() {
               onClick={() => {
                 setOpenUpload(true);
               }}
-              className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] flex items-center justify-center gap-2"
+              className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"

@@ -15,7 +15,6 @@ import {
 } from "../../api/doctorServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { RiAlertFill } from "react-icons/ri";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 import DoctorUploads from "../../Components/DoctorsUpload";
 import Pagination from "../../Components/Pagination";
@@ -287,7 +286,7 @@ export default function Doctors() {
       </div>
 
       {addDoctor && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-40">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             style={{
               scrollbarWidth: "none",

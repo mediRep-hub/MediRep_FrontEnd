@@ -8,7 +8,6 @@ import { PharmacySchema } from "../../utils/validation";
 import { useQuery } from "@tanstack/react-query";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { RiAlertFill } from "react-icons/ri";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 import Pagination from "../../Components/Pagination";
 import { Spin } from "antd";
@@ -241,9 +240,7 @@ export default function Pharmacies() {
           className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex flex-wrap gap-2 justify-between items-center">
-            <p className="text-[#7D7D7D] font-medium text-sm">
-              Pharmacy List
-            </p>
+            <p className="text-[#7D7D7D] font-medium text-sm">Pharmacy List</p>
             <Pagination
               currentPage={currentPage}
               totalItems={totalItems}

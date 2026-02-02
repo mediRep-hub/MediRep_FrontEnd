@@ -2,6 +2,7 @@ import React from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import "./customTable.css";
+
 const antIcon = (
   <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
 );
@@ -73,7 +74,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     cell !== null ? (
                       <td
                         key={colIndex}
-                        className="px-5 py-2 border-b-[0.5px] border-[#0755E9] text-[13px] font-normal text-[#131313] break-words"
+                        className="px-5 py-2 border-b-[0.5px] border-[#0755E9] min-w-max  text-[13px] font-normal text-[#131313] break-words"
                       >
                         {cell}
                       </td>

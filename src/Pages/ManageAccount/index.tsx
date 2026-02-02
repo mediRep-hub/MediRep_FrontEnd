@@ -80,7 +80,7 @@ export default function ManageAccount() {
     (brick: any) => brick.brickName,
   );
   const handleGoTODetails = (row: any[]) => {
-    const adminId = row[0]; // ID column
+    const adminId = row[0];
 
     const account = AllAccounts.find(
       (item) => item.adminId === adminId || item._id === adminId,
@@ -115,7 +115,8 @@ export default function ManageAccount() {
         v?.division !== "Distributor" ? v?.brickName : null,
         <div className="flex items-center gap-2" key={v._id}>
           <TbEdit
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setEdit(true);
               setEditingAccount(v);
               setCreateAccount(true);
@@ -128,7 +129,8 @@ export default function ManageAccount() {
             height="18"
             width="20"
             icon="mingcute:delete-line"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setDeleteConfirmation(true);
               setEditingAccount(v);
             }}
@@ -212,7 +214,6 @@ export default function ManageAccount() {
       formik.setFieldValue("position", "");
   }, [formik.values.division]);
 
-  // Delete handler
   const handleDelete = () => {
     const id = editingAccount?._id;
     if (!id) return notifyError("Invalid account ID");

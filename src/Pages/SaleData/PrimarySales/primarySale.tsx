@@ -3,9 +3,9 @@ import { Icon } from "@iconify/react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import CustomTable from "../../../Components/CustomTable";
-import { LuSearch } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import PrimarySaleUpload from "../../../Components/PrimarySaleUpload";
+import { SearchSelection } from "../../../Components/SearchBar/SearchSelection";
 
 const titles = [
   "ID",
@@ -114,45 +114,13 @@ export default function PrimarySale() {
             Primary Sale
           </p>
 
-          <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
+          <div className="flex flex-wrap lg:flex-nowrap gap-4 items-center">
             {" "}
-            <div className="flex  w-full items-center gap-2">
-              <p className="text-sm 2xl:w-[115px] md:w-[110px] w-[70px] text-[#131313] font-medium">
-                Distributor Name:
-              </p>
-              <div className="relative flex items-center">
-                <LuSearch
-                  className="absolute left-2 text-[#7d7d7d]"
-                  size={16}
-                />
-
-                <input
-                  placeholder="Search"
-                  // value={SkuNo}
-                  // onChange={(e) => setSkuNo(e.target.value)}
-                  type="text"
-                  className="h-[40px] bg-secondary w-full md:w-[110px] lg:w-[150px] placeholder:text-base xl:w-[130px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
-                />
-              </div>
+            <div className="w-full md:w-[250px]">
+              <SearchSelection placeholder="Distributor Name" />
             </div>
-            <div className="flex w-full items-center gap-2">
-              <p className="text-sm w-[45px] md:[30px] text-[#131313] font-medium">
-                City:
-              </p>
-              <div className="relative flex items-center">
-                <LuSearch
-                  className="absolute left-2 text-[#7d7d7d]"
-                  size={16}
-                />
-
-                <input
-                  placeholder="Search"
-                  // value={SkuNo}
-                  // onChange={(e) => setSkuNo(e.target.value)}
-                  type="text"
-                  className="h-[40px] bg-secondary w-full  md:w-[110px] placeholder:text-base xl:w-[130px] lg:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
-                />
-              </div>
+            <div className="w-full md:w-[250px] ">
+              <SearchSelection placeholder="City" />
             </div>
             <div className="flex gap-3 items-center w-full">
               <button

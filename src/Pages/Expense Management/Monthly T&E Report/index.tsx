@@ -1,71 +1,59 @@
 import { Icon } from "@iconify/react";
-import { MonthYearPicker } from "../../Components/FilterMonthYear";
-import CustomTable from "../../Components/CustomTable";
-
-const Titles = [
-  "Plan ID",
-  "MR Name",
-  "Week",
-  "To Doctors Planned",
-  "Planned Visits",
-  "Actual Visits",
-  "Submitted On",
+import CustomTable from "../../../Components/CustomTable";
+import { MonthYearPicker } from "../../../Components/FilterMonthYear";
+const titles = [
+  "Month",
+  "Total Claim",
+  "Approved",
+  "Rejected",
+  "Paid",
+  "Pending",
 ];
 const Data = [
   [
-    "PLN007",
-    "Ali Al Ghafli",
-    "Weekly Plan (Jan 22 – Jan 27)",
-    "48",
-    "48",
-    "48",
-    "Sep 20, 2025",
+    "January",
+    <p>
+      <span className="text-xs">Rs:</span>12,785,100
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>950,605
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>10,500
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>14,071
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>12,785,100
+    </p>,
   ],
   [
-    "PLN008",
-    "Sara Malik",
-    "Weekly Plan (Jan 28 – Feb 03)",
-    "36",
-    "35",
-    "34",
-    "Sep 21, 2025",
-  ],
-  [
-    "PLN009",
-    "Bilal Hassan",
-    "Weekly Plan (Feb 04 – Feb 10)",
-    "52",
-    "50",
-    "51",
-    "Sep 22, 2025",
-  ],
-  [
-    "PLN010",
-    "Ahmed Khan",
-    "Weekly Plan (Feb 11 – Feb 17)",
-    "40",
-    "38",
-    "39",
-    "Sep 23, 2025",
-  ],
-  [
-    "PLN011",
-    "Razan Suleiman",
-    "Weekly Plan (Feb 18 – Feb 24)",
-    "48",
-    "47",
-    "46",
-    "Sep 24, 2025",
+    "February",
+    <p>
+      <span className="text-xs">Rs:</span>8,500,000
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>500,000
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>10,500
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>950,605
+    </p>,
+    <p>
+      <span className="text-xs">Rs:</span>8,500,000
+    </p>,
   ],
 ];
-
-export default function WeeklyPlans() {
+export default function MonthlyTEReport() {
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-      <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-start">
-        <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
-          <p className="text-heading w-full lg:w-[230px] font-medium text-[22px] sm:text-[24px]">
-            Weekly Plans
+      <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-center">
+        <div className="flex flex-wrap md:flex-nowrap w-full items-center gap-4">
+          <p className="text-heading leading-[100%] w-full lg:w-[270px] font-medium text-[22px] sm:text-[24px]">
+            Monthly T&E Report
           </p>
           <div className="w-full">
             <MonthYearPicker />
@@ -101,7 +89,7 @@ export default function WeeklyPlans() {
           }}
           className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(53vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
         >
-          <CustomTable titles={Titles} data={Data} />
+          <CustomTable titles={titles} data={Data} />
         </div>
       </div>
     </div>

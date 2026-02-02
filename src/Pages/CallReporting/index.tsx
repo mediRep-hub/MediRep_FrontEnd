@@ -5,7 +5,6 @@ import { useFormik } from "formik";
 import { BrickSchema } from "../../utils/validation";
 import { useQuery } from "@tanstack/react-query";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
-import { RiAlertFill } from "react-icons/ri";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Avatar, Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";

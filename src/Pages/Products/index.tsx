@@ -216,7 +216,7 @@ export default function Products() {
         <p className="text-heading font-medium text-[22px] sm:text-[24px]">
           Products
         </p>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <div className="md:w-[250px] w-full">
             <SearchByName name="Product Name:" />
           </div>

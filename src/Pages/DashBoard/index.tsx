@@ -130,7 +130,7 @@ export default function DashBoard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap  items-stretch gap-2">
+      <div className="flex flex-wrap  items-stretch md:gap-2 gap-3">
         <div className="lg:w-[calc(75%-2px)] h-[47vh] w-full bg-white rounded-xl py-5 pr-5">
           <div className="flex flex-wrap xl:gap-5 gap-3 items-center pl-5 mb-4">
             <p className="xl:text-xl md:w-auto w-full sm:text-xl font-semibold text-heading">
@@ -218,7 +218,7 @@ export default function DashBoard() {
                 <div
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`relative bg-white lg:w-[calc(33.33%-5.33px)] border-[1px] w-full pl-7 p-4 rounded-xl cursor-pointer ${
+                  className={`relative bg-white lg:w-[calc(33.33%-5.33px)] md:w-[calc(50%-4px)] border-[1px] w-full pl-7 p-4 rounded-xl cursor-pointer ${
                     activeIndex === index ? "" : ""
                   }`}
                 >
@@ -254,7 +254,7 @@ export default function DashBoard() {
                     <p className="text-xs font-normal leading-[12px] text-[#7d7d7d]">
                       Requisition Details
                     </p>
-                    <div className="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-col-auto gap-3 mt-3">
+                    <div className="flex flex-wrap gap-3 mt-3">
                       {[
                         {
                           value:
@@ -337,7 +337,10 @@ export default function DashBoard() {
                           ),
                         },
                       ].map((item, index) => (
-                        <div key={index} className="flex gap-2 items-center">
+                        <div
+                          key={index}
+                          className="flex w-[calc(50%-6px)] gap-2 items-center"
+                        >
                           {item.icon}
                           <p className="text-xs font-medium leading-[12px] text-heading">
                             {item.value || "-"}
