@@ -59,6 +59,7 @@ export default function Brick() {
   const [bricksData, setBricksData] = useState(initialBricksData);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deletestore, setDeletestore] = useState<any>(null);
+  console.log("🚀 ~ Brick ~ deletestore:", deletestore);
   const [isloadingDelete] = useState(false);
 
   const { data: Products } = useQuery({
@@ -190,11 +191,11 @@ export default function Brick() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 justify-between items-start">
+        <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-start">
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
             Brick
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
             <div className="md:w-[250px] w-full">
               <SearchByName name="Brick Name:" />
             </div>

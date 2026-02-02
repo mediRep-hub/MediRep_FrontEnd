@@ -29,12 +29,12 @@ export function SearchSelection({
   };
 
   return (
-    <div className="relative w-full flex items-center">
+    <div className="relative w-full md:w-[250px] flex items-center">
       <p className="bg-secondary font-medium px-1 text-sm text-[#131313]">
         {placeholder}:
       </p>
       <div
-        className="flex items-center justify-between w-[200px] h-10  bg-secondary px-2 py-2 border-[0.5px] border-[#0755E9] rounded-md cursor-pointer"
+        className="flex items-center justify-between w-full md:w-[230px] h-10  bg-secondary px-2 py-2 border-[0.5px] border-[#0755E9] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">

@@ -205,7 +205,7 @@ export default function MRProductivityReport() {
                   key={index}
                   className="border-[#131313] border-t-[1px] flex-wrap gap-5 flex items-center p-3 px-10"
                 >
-                  <div className="flex  items-center gap-10 w-full md:w-[40%]">
+                  <div className="flex  items-center gap-5 md:gap-10 w-full md:w-[40%]">
                     <p>0{index + 1}</p>
 
                     <div className="flex items-center gap-3">

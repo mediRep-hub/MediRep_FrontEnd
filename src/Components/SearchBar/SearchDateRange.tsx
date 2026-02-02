@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { notifyError } from "../Toast";
-import { Icon } from "@iconify/react";
 import { LuSearch } from "react-icons/lu";
 
 export default function SearchDateRange({ onChange }: any) {
@@ -38,12 +37,15 @@ export default function SearchDateRange({ onChange }: any) {
   const selected = range.start && range.end;
 
   return (
-    <div className="w-full relative flex items-center" ref={divRef}>
+    <div
+      className="w-full md:w-[250px] relative flex items-center"
+      ref={divRef}
+    >
       <p className="bg-secondary font-medium px-1 text-sm text-[#131313]">
         Date:
       </p>
       <div
-        className="flex items-center w-[200px] h-10 gap-2 bg-secondary px-2 py-2 border-[0.5px] border-[#0755E9] rounded-md cursor-pointer"
+        className="flex items-center w-full md:w-[200px] h-10 gap-2 bg-secondary px-2 py-2 border-[0.5px] border-[#0755E9] rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <LuSearch className="text-[#7d7d7d]" size={16} />

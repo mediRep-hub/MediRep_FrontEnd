@@ -173,14 +173,14 @@ export default function Group() {
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
             Group
           </p>
-          <div className="flex flex-wrap w-auto md:w-full lg:w-auto items-center gap-3">
-            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] w-full">
+          <div className="flex flex-wrap lg:flex-nowrap w-auto md:w-full lg:w-auto items-center gap-3">
+            <div className="md:w-[250px] w-full">
               <SearchSelection />
             </div>{" "}
-            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
+            <div className="md:w-[250px] w-full">
               <SearchSelection placeholder="Select Area" />
             </div>{" "}
-            <div className="lg:w-[200px] 2xl:w-[300px] md:w-[calc(33%-8px)] md:mt-0 mt-2 w-full">
+            <div className="md:w-[250px] w-full">
               <SearchDateRange />
             </div>
           </div>

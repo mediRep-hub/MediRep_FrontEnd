@@ -35,7 +35,7 @@ export default function Orders() {
     document.title = "MediRep | Orders";
   }, []);
   const [checkedOrders, setCheckedOrders] = useState<{ [key: string]: any }>(
-    {}
+    {},
   );
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<{
@@ -70,7 +70,7 @@ export default function Orders() {
         selectedMR,
         selectedDate.start || undefined,
         selectedDate.end || undefined,
-        "approved"
+        "approved",
       ),
     staleTime: 5 * 60 * 1000,
   });
@@ -88,7 +88,7 @@ export default function Orders() {
   const handleCheckboxChange = (
     orderId: string,
     order: any,
-    checked: boolean
+    checked: boolean,
   ) => {
     setCheckedOrders((prev) => ({
       ...prev,
@@ -133,7 +133,7 @@ export default function Orders() {
             }</p>
             <p><strong>Address:</strong> ${order.address || "-"}</p>
             <p><strong>Order Date:</strong> ${dayjs(order.createdAt).format(
-              "DD MMM, YYYY"
+              "DD MMM, YYYY",
             )}</p>
             <p><strong>MR Name:</strong> ${order.mrName}</p>
           </div>
@@ -161,7 +161,7 @@ export default function Orders() {
                   m?.medicineId?.amount * m?.quantity
                 }</td>
               </tr>
-            `
+            `,
               )
               .join("")}
           </table>
@@ -174,8 +174,8 @@ export default function Orders() {
   <p class="font-medium">Discount:</p>
   <p style="width: 150px; text-align: start;"">
     Rs. ${(order.subtotal * (order.discount / 100)).toLocaleString()} (${
-        order.discount
-      }%)
+      order.discount
+    }%)
   </p>
 </div>
             <div style="border-top:0.5px solid #000;margin-top:20px;">
@@ -237,7 +237,7 @@ export default function Orders() {
         <p>{order.orderId}</p>
       </div>,
       order.createdAt ? dayjs(order.createdAt).format("DD MMM, YYYY") : "-",
-      order.pharmacyId.name,
+      order.pharmacyId?.name ?? "N/A",
       order.distributorName,
       order.mrName,
       <p key={`amount-${order.orderId}`} className="text-[12px]">
@@ -263,13 +263,13 @@ export default function Orders() {
           Orders
         </p>
         <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
-          <div className="w-full md:w-[300px]">
+          <div className="w-full md:w-[250px]">
             <SearchSelection
               placeholder="Select MR"
               options={[
                 "All",
                 ...AllMR.filter(
-                  (mr: any) => mr?.position === "MedicalRep(MR)"
+                  (mr: any) => mr?.position === "MedicalRep(MR)",
                 ).map((mr: any) => mr?.name),
               ]}
               value={selectedMR}
@@ -279,30 +279,30 @@ export default function Orders() {
               }}
             />
           </div>{" "}
-          <div className="w-full md:w-[300px] md:mt-0 mt-2">
+          <div className="w-full md:w-[250px] md:mt-0 mt-2">
             <SearchDateRange
               onChange={(range: { start: string; end: string }) => {
                 setSelectedDate(range);
               }}
             />
-          </div>
+          </div>{" "}
+          <button
+            onClick={handleDownloadSelectedPDF}
+            disabled={loading}
+            className="h-[55px] w-full md:w-[150px] lg:w-[180px] flex items-center justify-center gap-3 rounded-[6px] bg-[#E5EBF7]"
+          >
+            {loading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <>
+                <LuDownload size={20} className="text-primary" />
+                <p className="text-primary text-base font-medium ml-2">
+                  Download
+                </p>
+              </>
+            )}
+          </button>
         </div>
-        <button
-          onClick={handleDownloadSelectedPDF}
-          disabled={loading}
-          className="h-[55px] w-full md:w-[180px] flex items-center justify-center gap-3 rounded-[6px] bg-[#E5EBF7]"
-        >
-          {loading ? (
-            <Spin indicator={antIcon} />
-          ) : (
-            <>
-              <LuDownload size={20} className="text-primary" />
-              <p className="text-primary text-base font-medium ml-2">
-                Download
-              </p>
-            </>
-          )}
-        </button>
       </div>
 
       <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] xl:h-[calc(64vh-0px)] h-auto">

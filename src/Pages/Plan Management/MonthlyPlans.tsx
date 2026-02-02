@@ -73,7 +73,7 @@ export default function MonthlyPlans() {
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
       <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-start">
         <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
-          <p className="text-heading w-full lg:w-[240px] font-medium text-[22px] sm:text-[24px]">
+          <p className="text-heading w-full lg:w-[250px] font-medium text-[22px] sm:text-[24px]">
             Monthly Plans
           </p>
           <div className="w-full">
@@ -81,7 +81,7 @@ export default function MonthlyPlans() {
           </div>
         </div>
         <div className="flex w-full md:w-auto flex-wrap md:flex-nowrap items-center gap-4">
-          <button className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          <button className="h-[55px] w-full md:w-[140px] lg:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="solar:download-broken"
               height="24"
@@ -90,7 +90,7 @@ export default function MonthlyPlans() {
             />
             <p className="text-primary text-base font-medium">Download</p>
           </button>{" "}
-          <button className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
+          <button className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="mingcute:add-fill"
               height="20"

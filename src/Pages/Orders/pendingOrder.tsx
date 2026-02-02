@@ -8,6 +8,7 @@ import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import { getAllAccounts } from "../../api/adminServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Icon } from "@iconify/react";
+import CustomInput from "../../Components/CustomInput";
 
 const titles = [
   "Order ID",
@@ -126,7 +127,7 @@ export default function PendingOrders() {
           Pending Orders
         </p>
         <div className="flex flex-wrap w-full lg:w-auto items-center gap-3">
-          <div className="w-full md:w-[300px]">
+          <div className="w-full md:w-[250px]">
             <SearchSelection
               placeholder="Select MR"
               options={[
@@ -139,7 +140,7 @@ export default function PendingOrders() {
               onChange={(val) => setSelectedMR(val === "All" ? "" : val)}
             />
           </div>
-          <div className="w-full md:w-[300px] md:mt-0 mt-2">
+          <div className="w-full md:w-[250px] md:mt-0 mt-2">
             <SearchDateRange
               onChange={(range: { start: string; end: string }) =>
                 setSelectedDate(range)
@@ -229,10 +230,19 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
 
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl w-[400px] p-6">
-            <p className="text-lg font-medium mb-4">Set Duration & Discount</p>
-            <div className="flex flex-col gap-3 mb-4">
-              <label>
+          <div className="bg-white rounded-xl w-[400px] ">
+            <div className="bg-[#E5EBF7] rounded-t-xl p-4">
+              <p className="text-lg font-medium">Set Duration & Discount</p>
+            </div>
+            <div className="flex flex-col gap-3 p-4">
+              <CustomInput
+                placeholder="Enter Duration  (Days)"
+                label="Duration"
+                type="number"
+                value={duration}
+                onChange={(e) => setDuration(Number(e.target.value))}
+              />
+              {/* <label>
                 Duration (Days)
                 <input
                   type="number"
@@ -240,8 +250,15 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
                   onChange={(e) => setDuration(Number(e.target.value))}
                   className="w-full border p-2 rounded mt-1"
                 />
-              </label>
-              <label>
+              </label> */}
+              <CustomInput
+                type="number"
+                value={discount}
+                disabled
+                placeholder="Enter Discount"
+                label="Discount (%)"
+              />
+              {/* <label>
                 Discount (%)
                 <input
                   type="number"
@@ -249,20 +266,20 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
                   disabled
                   className="w-full border p-2 rounded mt-1"
                 />
-              </label>
+              </label> */}
             </div>
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-between gap-3 p-4">
               <button
                 onClick={() => setModalOpen(false)}
-                className="px-4 py-2 rounded border"
+                className="px-8 bg-secondary h-[48px] py-2 rounded"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="px-4 py-2 rounded bg-green-600 text-white"
+                className="px-8 h-[48px] py-2 rounded bg-primary text-white"
               >
-                Save
+                Continue
               </button>
             </div>
           </div>

@@ -66,7 +66,7 @@ export default function SideBar({ link }: any) {
       {isOpen ? (
         <button
           style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}
-          className="xl:hidden fixed top-7 rounded-full bg-white p-3 right-8 z-50 text-2xl text-primary"
+          className="xl:hidden fixed top-7 rounded-full bg-white p-3 right-8 z-10 text-2xl text-primary"
           onClick={() => setIsOpen(!isOpen)}
         >
           <FaTimes />

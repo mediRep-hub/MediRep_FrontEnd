@@ -14,6 +14,12 @@ import SalewiseTargetDetail from "../Pages/Targets/salewiseTargetDetail";
 import PlanSummary from "../Pages/Plan Management";
 import WeeklyPlans from "../Pages/Plan Management/WeeklyPlans";
 import MonthlyPlans from "../Pages/Plan Management/MonthlyPlans";
+import DoctorMeetingExpense from "../Pages/Expense Management/Doctor Meeting Expense";
+import MonthlyTEReport from "../Pages/Expense Management/Monthly T&E Report";
+import MRWiseExpense from "../Pages/Expense Management/MR-wise Expense";
+import RouteWiseExpense from "../Pages/Expense Management/Route-wise Expense";
+import CategoryWiseExpense from "../Pages/Expense Management/Category-wise Expense";
+import ProductWiseDistribution from "../Pages/Reports/Product Wise Distribution";
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
@@ -181,10 +187,22 @@ export default function MainRoutes() {
           path="/teamPerformanceReport"
           element={<TeamPerformanceReport />}
         />
+        <Route
+          path="/productWiseDistribution"
+          element={<ProductWiseDistribution />}
+        />
         <Route path="/geo-locationReport" element={<GeoLocationReport />} />
         <Route path="/PlanSummary" element={<PlanSummary />} />
         <Route path="/weeklyPlans" element={<WeeklyPlans />} />
         <Route path="/monthlyPlans" element={<MonthlyPlans />} />
+        <Route path="/mrWiseExpense" element={<MRWiseExpense />} />
+        <Route path="/categoryWiseExpense" element={<CategoryWiseExpense />} />
+        <Route path="/routeWiseExpense" element={<RouteWiseExpense />} />
+        <Route
+          path="/doctorMeetingExpense"
+          element={<DoctorMeetingExpense />}
+        />
+        <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
       </Routes>
     </Suspense>
   );

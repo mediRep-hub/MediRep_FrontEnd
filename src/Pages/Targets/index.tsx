@@ -148,7 +148,6 @@ export default function Targets() {
     "Sales Wise",
   );
 
-  const [asmFilter, setAsmFilter] = useState("");
   const [areaFilter, setAreaFilter] = useState("");
   const [brickFilter, setBrickFilter] = useState("");
   const [mrFilter, setMrFilter] = useState("");
@@ -176,7 +175,6 @@ export default function Targets() {
   const ProductData = data?.data?.data || [];
   const filteredSaleData = SaleData.filter((item) => {
     return (
-      item.asm.toLowerCase().includes(asmFilter.toLowerCase()) &&
       item.area.toLowerCase().includes(areaFilter.toLowerCase()) &&
       item.brick.toLowerCase().includes(brickFilter.toLowerCase()) &&
       item.mrName.toLowerCase().includes(mrFilter.toLowerCase())
@@ -253,18 +251,30 @@ export default function Targets() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {selectTab === "Sales Wise" ? (
               <>
                 {" "}
-                <div>
-                  <SearchByName name="MR Name:" />
+                <div className="w-full md:w-[220px]">
+                  <SearchByName
+                    name="MR Name:"
+                    value={mrFilter}
+                    onChange={(val) => setMrFilter(val)}
+                  />
                 </div>{" "}
-                <div>
-                  <SearchByName name="Brick Name:" />
+                <div className="w-full md:w-[220px]">
+                  <SearchByName
+                    name="Brick Name:"
+                    value={brickFilter}
+                    onChange={(val) => setBrickFilter(val)}
+                  />
                 </div>{" "}
-                <div>
-                  <SearchByName name="City:" />
+                <div className="w-full md:w-[220px]">
+                  <SearchByName
+                    name="City:"
+                    value={areaFilter}
+                    onChange={(val) => setAreaFilter(val)}
+                  />
                 </div>
               </>
             ) : (
@@ -280,7 +290,7 @@ export default function Targets() {
             )}
           </div>
         </div>
-        <div className="flex mt-4 justify-between">
+        <div className="flex mt-4 flex-wrap-reverse justify-between">
           <div className="mt-4 flex gap-2">
             {["Sales Wise", "Product Wise"].map((tab) => (
               <button
@@ -318,7 +328,7 @@ export default function Targets() {
           }`}
         >
           {" "}
-          <div className="flex justify-between items-center">
+          <div className="flex flex-wrap gap-3 justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
               {selectTab === "Sales Wise"
                 ? "Employee Wise Target List"

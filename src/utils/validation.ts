@@ -320,6 +320,37 @@ export const defaultLinks: SidebarLink[] = [
         name: "Geo-location Report",
         path: "/geo-locationReport",
       },
+      {
+        name: "Product Wise Distribution",
+        path: "/productWiseDistribution",
+      },
+    ],
+  },
+  {
+    name: "Expense Management",
+    icon: "icon-park-solid:plan",
+    path: "/mrWiseExpense",
+    children: [
+      {
+        name: "MR-wise Expense",
+        path: "/mrWiseExpense",
+      },
+      {
+        name: "Category-wise Expense",
+        path: "/categoryWiseExpense",
+      },
+      {
+        name: "Route-wise Expense",
+        path: "/routeWiseExpense",
+      },
+      {
+        name: "Doctor Meeting Expense",
+        path: "/doctorMeetingExpense",
+      },
+      {
+        name: "Monthly T&E Report",
+        path: "/monthlyTandEReport",
+      },
     ],
   },
 ];

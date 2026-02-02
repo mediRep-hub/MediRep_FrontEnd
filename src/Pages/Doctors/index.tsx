@@ -219,7 +219,7 @@ export default function Doctors() {
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <div className="md:w-[250px] w-full">
-              <SearchByName name="Dcotor Name:" />
+              <SearchByName name="Doctor Name:" />
             </div>
             <button
               onClick={() => setOpenModal(true)}
@@ -287,7 +287,7 @@ export default function Doctors() {
       </div>
 
       {addDoctor && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-40">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             style={{
               scrollbarWidth: "none",

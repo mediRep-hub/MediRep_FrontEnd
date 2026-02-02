@@ -8,6 +8,7 @@ import { LuSearch } from "react-icons/lu";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { SearchSelection } from "../../../Components/SearchBar/SearchSelection";
 
 const titles = [
   "MR Name",
@@ -325,58 +326,15 @@ export default function SecondarySale() {
               <MonthYearPicker />
             </div>
           </div>
-          <div className="flex flex-wrap md:flex-nowrap gap-4  items-center">
-            {" "}
-            <div className="flex items-center gap-2">
-              <p className="text-sm w-[80px] text-[#131313] font-medium">
-                Brick Name:
-              </p>
-              <div className="relative flex items-center">
-                <LuSearch
-                  className="absolute left-2 text-[#7d7d7d]"
-                  size={16}
-                />
-
-                <input
-                  placeholder="Search"
-                  type="text"
-                  className="h-[40px] bg-secondary w-full placeholder:text-base xl:w-[130px] md:w-[150px] 2xl:w-[200px] pl-[30px] pr-3 border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
-                />
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <p className="text-sm w-[45px] md:[30px] text-[#131313] font-medium">
-                City:
-              </p>
-              <div className="relative flex items-center">
-                <LuSearch
-                  className="absolute left-2 text-[#7d7d7d]"
-                  size={16}
-                />
-
-                <input
-                  placeholder="Search"
-                  type="text"
-                  className="h-[40px] bg-secondary placeholder:text-base pl-[30px] md:w-[150px] pr-3 xl:w-[130px] 2xl:w-[200px] border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
-                />
-              </div>
+          <div className="flex flex-wrap lg:flex-nowrap gap-4  items-center">
+            <div className="w-full md:w-[250px] lg:w-[250px]">
+              <SearchSelection placeholder="     Brick Name" />
             </div>{" "}
-            <div className="flex items-center gap-2">
-              <p className="text-sm w-[70px] text-[#131313] font-medium">
-                Sale Type:
-              </p>
-              <div className="relative flex items-center">
-                <LuSearch
-                  className="absolute left-2 text-[#7d7d7d]"
-                  size={16}
-                />
-
-                <input
-                  placeholder="Search"
-                  type="text"
-                  className="h-[40px] bg-secondary placeholder:text-base pl-[30px] pr-3 xl:w-[130px] md:w-[150px] 2xl:w-[200px] w-full border font-normal border-primary rounded-md text-xs text-heading focus:outline-none"
-                />
-              </div>
+            <div className="w-full md:w-[250px] lg:w-[250px]">
+              <SearchSelection placeholder="City" />
+            </div>{" "}
+            <div className="w-full md:w-[250px] lg:w-[250px]">
+              <SearchSelection placeholder="Sale Type" />
             </div>
           </div>
         </div>
