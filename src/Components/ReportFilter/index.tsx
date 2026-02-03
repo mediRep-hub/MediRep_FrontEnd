@@ -45,19 +45,28 @@ export default function ReportFilterModalStatic({ close }: any) {
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-end items-center z-50">
       <div
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        className={`bg-white rounded-t-xl rounded-b-xl md:rounded-tl-xl md:rounded-bl-xl xl:mx-0 mx-5 w-[500px] h-[90vh] md:h-[100vh] overflow-y-auto xl:p-6 p-4 shadow-xl relative
+        className={`bg-white
+          rounded-xl md:rounded-tl-xl md:rounded-bl-xl md:rounded-tr-none md:rounded-br-none
+          xl:mx-0 mx-5 md:mx-0
+          w-[500px] h-[90vh] md:h-[100vh] overflow-y-auto
+          xl:p-6 p-4 shadow-xl relative
           transform transition-transform duration-500 ease-in-out
-          ${animate ? "translate-x-0" : "translate-x-full"}`}
+          ${animate ? "translate-x-0" : "translate-x-full"}
+        `}
       >
         <div className="flex items-center justify-between">
           <p className="text-[24px] text-heading capitalize font-semibold">
             Select Report Type
           </p>
-          <IoMdCloseCircle
-            size={24}
-            onClick={close}
-            className="cursor-pointer text-primary"
-          />
+          <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+            <div className="group-hover:bg-white">
+              <IoMdCloseCircle
+                size={24}
+                onClick={close}
+                className="cursor-pointer text-primary"
+              />
+            </div>
+          </div>
         </div>
         <form onSubmit={formik.handleSubmit} className="mt-5">
           <div className="mt-3">

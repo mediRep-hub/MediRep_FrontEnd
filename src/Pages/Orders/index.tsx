@@ -5,8 +5,6 @@ import dayjs from "dayjs";
 import { Checkbox, Spin } from "antd";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-
-import { LuDownload } from "react-icons/lu";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 
 import CustomTable from "../../Components/CustomTable";
@@ -295,7 +293,12 @@ export default function Orders() {
               <Spin indicator={antIcon} />
             ) : (
               <>
-                <LuDownload size={20} className="text-primary" />
+                <Icon
+                  icon="solar:download-broken"
+                  height="24"
+                  width="24"
+                  color="#0755E9"
+                />
                 <p className="text-primary text-base font-medium ml-2">
                   Download
                 </p>

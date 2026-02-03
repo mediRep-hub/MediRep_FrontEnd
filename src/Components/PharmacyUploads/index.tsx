@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { IoMdCloseCircle } from "react-icons/io";
-import { MdFileUpload } from "react-icons/md";
-import { FaFileAlt, FaTrash } from "react-icons/fa";
 import { notifyError, notifySuccess } from "../Toast";
 import { uploadCSVPharmacy } from "../../api/pharmacyServices";
+import { Icon } from "@iconify/react";
 
 export default function PharmacyUploads({ closeModle, refetch }: any) {
   const [file, setFile] = useState<File | null>(null);
@@ -69,23 +67,24 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-      <div className="bg-white rounded-xl xl:mx-0 mx-5 xl:w-[600px] w-full xl:h-auto shadow-xl relative overflow-hidden">
-        <div className="flex xl:p-6 p-4 bg-[#E5EBF7] items-center justify-between">
-          <p className="text-[20px] text-heading font-medium">
+      <div className="bg-white rounded-xl xl:mx-0 mx-5 xl:w-[450px] w-full xl:h-auto shadow-xl relative overflow-hidden">
+        <div className="flex p-4 bg-[#E5EBF7] items-center justify-between">
+          <p className="text-[16px] leading-[100%] text-heading font-medium">
             Bulk Upload Pharmacies
           </p>
-          <IoMdCloseCircle
-            size={22}
-            onClick={() => closeModle(false)}
-            className="cursor-pointer text-primary"
-          />
         </div>
-        <div className="flex xl:p-6 p-4 flex-col items-center justify-center mt-10">
+        <div className="flex relative p-4 flex-col items-center justify-center">
           <label
             htmlFor="fileUpload"
-            className="flex flex-col items-center justify-center border-2 w-full rounded-md p-10 border-dashed border-[#7D7D7D] hover:bg-[#E5EBF7] cursor-pointer transition"
+            className={`flex flex-col items-center justify-center w-full rounded-md border-[1px] p-10 border-dashed border-[#7d7d7d] cursor-pointer transition
+    ${file ? "bg-[#E5EBF7]" : "hover:bg-[#E5EBF7]"}`}
           >
-            <MdFileUpload size={50} className="text-primary mb-3" />
+            <Icon
+              icon="hugeicons:upload-03"
+              width={22}
+              height={22}
+              className="text-[#7d7d7d] mb-3 mt-5"
+            />
             <p className="text-xl text-center text-heading font-normal">
               Drag and Drop or{" "}
               <span className="text-primary">Click to upload</span>
@@ -100,20 +99,26 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
             accept=".csv"
             onChange={handleFileChange}
             className="hidden"
-          />
-        </div>
-        {file && (
-          <div className="mt-6 xl:mx-6 mx-4 flex items-center justify-between border p-3 rounded-md bg-[#F9FAFB]">
-            <div className="flex items-center gap-2">
-              <FaFileAlt className="text-primary" />
-              <p className="text-sm font-medium">{file.name}</p>
+          />{" "}
+          {file && (
+            <div className="absolute z-10  bg-primary top-10 gap-4 left-10  flex items-center justify-between border px-3 py-2 rounded-md">
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-white font-medium">{file.name}</p>
+              </div>
+              <div
+                style={{ boxShadow: " 0.67px 0.67px 2.67px 1.33px #00000040" }}
+                className="absolute top-[-15px] right-[-15px] z-50 bg-white p-1 rounded-full"
+              >
+                <Icon
+                  icon="material-symbols:close-rounded"
+                  className="text-[#131313] cursor-pointer"
+                  onClick={handleDelete}
+                />
+              </div>
             </div>
-            <FaTrash
-              className="text-red-500 cursor-pointer hover:text-red-700"
-              onClick={handleDelete}
-            />
-          </div>
-        )}
+          )}
+        </div>
+
         {file && progress > 0 && (
           <div className="mt-4 xl:mx-6 mx-4">
             <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
@@ -125,7 +130,7 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
             <p className="text-sm mt-1 text-[#7D7D7D]">{progress}%</p>
           </div>
         )}
-        <div className="flex justify-end gap-4 mt-6 xl:p-6 p-4">
+        <div className="flex justify-end gap-4 pt-0 p-4">
           <button
             className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] transition-all"
             onClick={() => closeModle(false)}
@@ -133,13 +138,13 @@ export default function PharmacyUploads({ closeModle, refetch }: any) {
             Cancel
           </button>
           <button
-            className={`h-[45px] px-6 bg-primary text-white rounded-[6px] transition-all ${
+            className={`h-[48px] px-6 bg-primary text-white rounded-[6px] transition-all ${
               loading ? "opacity-60 cursor-not-allowed" : "hover:bg-primary/90"
             }`}
             onClick={handleUpload}
             disabled={loading}
           >
-            {loading ? "Uploading..." : "Upload"}
+            {loading ? "Uploading..." : "Continue"}
           </button>
         </div>
       </div>

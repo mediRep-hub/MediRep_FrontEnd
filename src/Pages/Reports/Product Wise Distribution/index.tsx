@@ -94,7 +94,7 @@ export default function ProductWiseDistribution() {
             <MonthYearPicker />
           </div>
         </div>
-        <div className="flex w-full md:w-auto flex-wrap md:flex-nowrap items-center gap-4">
+        <div className="flex w-full md:w-auto flex-wrap md:flex-nowrap items-center gap-3">
           <button className="h-[55px] w-full md:w-[140px] lg:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
             <Icon
               icon="solar:download-broken"

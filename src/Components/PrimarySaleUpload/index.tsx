@@ -74,11 +74,15 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
           <p className="text-[20px] text-heading font-medium">
             Bulk Upload File
           </p>
-          <IoMdCloseCircle
-            size={22}
-            onClick={() => closeModle(false)}
-            className="cursor-pointer text-primary"
-          />
+          <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+            <div className="group-hover:bg-white">
+              <IoMdCloseCircle
+                size={24}
+                onClick={() => closeModle(false)}
+                className="cursor-pointer text-primary"
+              />
+            </div>
+          </div>
         </div>
         <div className="m-6">
           <CustomSelect

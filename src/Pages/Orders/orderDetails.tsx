@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import logo from "../../assets/medirep-logo.png";
-import { LuDownload } from "react-icons/lu";
 import { useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
+import { Icon } from "@iconify/react";
 export default function OrderDetails() {
   useEffect(() => {
     document.title = "MediRep | Orders Details";
@@ -88,7 +88,12 @@ export default function OrderDetails() {
               <Spin indicator={antIcon} />
             ) : (
               <>
-                <LuDownload size={20} className="text-white" />
+                <Icon
+                  icon="solar:download-broken"
+                  height="24"
+                  width="24"
+                  color="#fff"
+                />
                 <p className="text-white text-base font-medium">
                   {" "}
                   Download Invoice

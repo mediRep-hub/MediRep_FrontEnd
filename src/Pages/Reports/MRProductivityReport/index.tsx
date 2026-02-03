@@ -133,9 +133,9 @@ export default function MRProductivityReport() {
               className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
-                icon="solar:upload-linear"
-                height="20"
-                width="20"
+                icon="solar:download-broken"
+                height="24"
+                width="24"
                 color="#0755E9"
               />
               <p className="text-primary text-base font-medium">Download</p>
@@ -145,7 +145,7 @@ export default function MRProductivityReport() {
               onClick={() => {
                 setGenerateReport(true);
               }}
-              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"
@@ -193,11 +193,15 @@ export default function MRProductivityReport() {
                       className="cursor-pointer text-primary text-xl"
                     />
                   </div>{" "}
-                  <IoMdCloseCircle
-                    size={24}
-                    onClick={() => setOpenList(false)}
-                    className="cursor-pointer text-primary"
-                  />
+                  <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                    <div className="group-hover:bg-white">
+                      <IoMdCloseCircle
+                        size={24}
+                        onClick={() => setOpenList(false)}
+                        className="cursor-pointer text-primary"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
               {AllDoctor.map((item: any, index: number) => (

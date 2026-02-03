@@ -124,28 +124,29 @@ export default function PrimarySale() {
             </div>
             <div className="flex gap-3 items-center w-full">
               <button
-                onClick={handleDownloadExcel}
-                disabled={isDownloading}
-                className="h-[55px] bg-white min-w-[60px] rounded-[6px] gap-3 flex justify-center items-center"
-              >
-                <Icon
-                  icon="solar:download-linear"
-                  height="24"
-                  width="24"
-                  color="#131313"
-                />
-              </button>
-              <button
                 onClick={() => {
                   setOpenUpload(true);
                 }}
-                className="h-[55px] bg-primary min-w-[60px] cursor-pointer rounded-[6px] gap-3 flex justify-center items-center"
+                className="h-[55px] bg-white min-w-[60px] rounded-[6px] gap-3 flex justify-center items-center"
               >
                 <Icon
-                  icon="solar:upload-linear"
+                  icon="solar:download-broken"
                   height="24"
                   width="24"
-                  color="#fff"
+                  color="#131313"
+                  className="rotate-180"
+                />
+              </button>
+              <button
+                disabled={isDownloading}
+                onClick={handleDownloadExcel}
+                className="h-[55px] bg-[#E5EBF7] min-w-[60px] cursor-pointer rounded-[6px] gap-3 flex justify-center items-center"
+              >
+                <Icon
+                  icon="solar:download-broken"
+                  height="24"
+                  width="24"
+                  color="#0755E9"
                 />
               </button>
               <button className="h-[55px] sm:w-[170x] w-full md:w-[142px] min-w-[110px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">

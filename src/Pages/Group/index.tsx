@@ -1,10 +1,6 @@
 import { Icon } from "@iconify/react";
-import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
-import { Avatar, Input, Modal, Spin } from "antd";
-import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import Pagination from "../../Components/Pagination";
+import { Input, Modal } from "antd";
 import { IoMdCloseCircle } from "react-icons/io";
 import MultiSelect from "../../Components/MultiSelect";
 import CustomSelect from "../../Components/Select";
@@ -14,46 +10,21 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
 import { getAllProductsMR } from "../../api/productServices";
 import { getAllAccounts } from "../../api/adminServices";
-import { getAllGroups } from "../../api/groupBrickServices";
+import CustomTable from "../../Components/CustomTable";
+import { useEffect, useState } from "react";
+import { TbEdit } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const titles = [
   "Group ID",
   "Group Name",
-  "Total MR’s",
-  "Total Dr",
-  "Products",
-  "Status",
+  "City",
+  "No Of Mr",
+  "Area’s Name",
+  "Product",
+  "No Of Doctors",
+  "No Of Phaermacies",
   "Actions",
-];
-
-const doctorList = [
-  {
-    teamId: "GROUP-001",
-    teamName: "Lahore Central",
-    totalMRs: 5,
-    totalDoctors: 20,
-    products: ["Panadol", "Brufen"],
-    status: "Active",
-    view: "Details",
-  },
-  {
-    teamId: "GROUP-002",
-    teamName: "Karachi South",
-    totalMRs: 7,
-    totalDoctors: 28,
-    products: ["Calpol", "Arinac"],
-    view: "a",
-    status: "Inactive",
-  },
-  {
-    teamId: "GROUP-003",
-    teamName: "Islamabad North",
-    totalMRs: 4,
-    totalDoctors: 15,
-    products: ["Augmentin"],
-    status: "Active",
-    view: "Details",
-  },
 ];
 
 const selectRegionOptions = [
@@ -71,18 +42,108 @@ const activePeriodOptions = [
   "6 month",
 ];
 
+const tableData = [
+  [
+    "GR007",
+    "Cardio A",
+    "Lahore",
+    "08",
+    "Multan Road, DHA-EME, Behria, Izmir Town, Westwood, Muhafiz Town, ParkView...",
+    "Amoxicillin, Metformin, Ibuprofen, Naproxen, Acetaminophen, Lisinopril, Atorvastatin, Omeprazole, Sertraline, Escitalopram",
+    "19",
+    "18",
+    <div className="flex items-center gap-3">
+      <TbEdit size={18} className="cursor-pointer text-primary" />
+      <Icon
+        icon="mingcute:delete-line"
+        color="#E90761"
+        height="18"
+        width="20"
+        className="cursor-pointer"
+      />
+    </div>,
+  ],
+  [
+    "GR008",
+    "Neuro Plus",
+    "Karachi",
+    "12",
+    "Clifton, DHA Phase 2, PECHS, Gulshan-e-Iqbal, North Nazimabad, Bahadurabad...",
+    "Gabapentin, Pregabalin, Diazepam, Alprazolam, Fluoxetine, Paroxetine",
+    "22",
+    "20",
+    <div className="flex items-center gap-3">
+      <TbEdit size={18} className="cursor-pointer text-primary" />
+      <Icon
+        icon="mingcute:delete-line"
+        color="#E90761"
+        height="18"
+        width="20"
+        className="cursor-pointer"
+      />
+    </div>,
+  ],
+  [
+    "GR009",
+    "Ortho Care",
+    "Islamabad",
+    "05",
+    "Blue Area, G-9, G-10, F-8, F-10, I-8, I-10...",
+    "Diclofenac, Tramadol, Celecoxib, Etoricoxib, Calcium, Vitamin D",
+    "16",
+    "14",
+    <div className="flex items-center gap-3">
+      <TbEdit size={18} className="cursor-pointer text-primary" />
+      <Icon
+        icon="mingcute:delete-line"
+        color="#E90761"
+        height="18"
+        width="20"
+        className="cursor-pointer"
+      />
+    </div>,
+  ],
+  [
+    "GR010",
+    "General Med",
+    "Faisalabad",
+    "09",
+    "Peoples Colony, Madina Town, D-Ground, Jinnah Colony, Gulberg...",
+    "Azithromycin, Cefixime, Paracetamol, Montelukast, Cetirizine",
+    "25",
+    "23",
+    <div className="flex items-center gap-3">
+      <TbEdit size={18} className="cursor-pointer text-primary" />
+      <Icon
+        icon="mingcute:delete-line"
+        color="#E90761"
+        height="18"
+        width="20"
+        className="cursor-pointer"
+      />
+    </div>,
+  ],
+];
+
 const selectRouteOptions = ["Active", "Planning", "In-active"];
 const cityOptions = ["Lahore", "Islamabad", "BahawalPur", "Karachi"];
 export default function Group() {
-  const [selectedBrick, setSelectedBrick] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addGroupModel, setAddGroupModel] = useState(false);
   const [currentRowIndex, setCurrentRowIndex] = useState<number | null>(null);
   const [bonusValue, setBonusValue] = useState("");
   const [selectedArea, setSelectedArea] = useState<string>("");
+
   const [rows, setRows] = useState([
     { productName: "", quantity: 0, total: 0, bonus: "" },
   ]);
+
+  const navigate = useNavigate();
+  const handleRowClick = (row: any) => {
+    navigate("/group/groupDetails", {
+      state: { row },
+    });
+  };
 
   const addRow = () => {
     setRows([...rows, { productName: "", quantity: 0, total: 0, bonus: "" }]);
@@ -100,12 +161,12 @@ export default function Group() {
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
-  const { data: brickGroup, isFetching } = useQuery({
-    queryKey: ["getAllGroups"],
-    queryFn: () => getAllGroups(),
-    staleTime: 5 * 60 * 1000,
-  });
-  let allbrickGroup = brickGroup?.data?.data;
+  // const { data: brickGroup, isFetching } = useQuery({
+  //   queryKey: ["getAllGroups"],
+  //   queryFn: () => getAllGroups(),
+  //   staleTime: 5 * 60 * 1000,
+  // // });
+  // let allbrickGroup = brickGroup?.data?.data;
   const formik = useFormik({
     initialValues: {
       groupName: "",
@@ -126,12 +187,7 @@ export default function Group() {
   useEffect(() => {
     document.title = "MediRep | Groups";
   }, []);
-  const antIcon = (
-    <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
-  );
-  const antIcon22 = (
-    <Loading3QuartersOutlined style={{ fontSize: 50, color: "#0755E9" }} spin />
-  );
+
   useEffect(() => {
     setSelectedArea(formik.values.area || "");
   }, [formik.values.area]);
@@ -175,260 +231,65 @@ export default function Group() {
           </p>
           <div className="flex flex-wrap lg:flex-nowrap w-auto md:w-full lg:w-auto items-center gap-3">
             <div className="md:w-[250px] w-full">
-              <SearchSelection />
+              <SearchSelection placeholder="Group Name" />
             </div>{" "}
-            <div className="md:w-[250px] w-full">
-              <SearchSelection placeholder="Select Area" />
-            </div>{" "}
-            <div className="md:w-[250px] w-full">
-              <SearchDateRange />
-            </div>
-          </div>
-          <button
-            onClick={() => {
-              setAddGroupModel(true);
-            }}
-            className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
-          >
-            <Icon
-              icon="mingcute:add-fill"
-              height="20"
-              width="20"
-              color="#fff"
-            />
-            <p className="text-white text-base font-medium">Create Group</p>
-          </button>
-        </div>
-        <div className="bg-[#E5EBF7] flex-wrap flex gap-4 mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
-          <div className="lg:w-[calc(25%-8px)] w-full">
-            <div className="flex justify-between items-center">
-              <p className="text-[#7D7D7D] font-medium text-sm">Bricks List</p>
-              <Pagination />
-            </div>
-            {isFetching ? (
-              <div className="mt-5 flex justify-center">
-                <Spin indicator={antIcon22} />
-              </div>
-            ) : allbrickGroup && allbrickGroup.length > 0 ? (
-              <div
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                className="scroll-smooth 2xl:h-[calc(68vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
-              >
-                {allbrickGroup.map((mr: any, index: number) => (
-                  <div
-                    key={mr._id || index}
-                    className={`bg-white p-5 first:mt-0 mt-4 rounded-xl cursor-pointer ${
-                      selectedBrick?._id === mr._id
-                        ? "border-2 border-primary"
-                        : "border-2 border-white"
-                    }`}
-                    onClick={() => {
-                      setSelectedBrick(mr);
-                      // setDoctorPage(1);
-                    }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex -space-x-5">
-                        {mr.mr.map((img: any, index: number) => (
-                          <Avatar
-                            key={index}
-                            size={42}
-                            src={img.image}
-                            className="border-2 border-white"
-                          />
-                        ))}
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        {selectedBrick?._id === mr._id && (
-                          <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-primary">
-                            <Icon
-                              color="#0755E9"
-                              height="18"
-                              width="20"
-                              icon="icon-park-solid:doc-detail"
-                              // onClick={(e) => {
-                              //   SetViewdetails(true);
-                              //   e.stopPropagation();
-                              // }}
-                            />
-                          </div>
-                        )}
-
-                        <div className="flex h-9 w-9 rounded-[6px] items-center justify-center gap-2 border-[1px] border-[#E90761]">
-                          <Icon
-                            color="#E90761"
-                            height="18"
-                            width="20"
-                            icon="mingcute:delete-fill"
-                            // onClick={(e) => {
-                            //   e.stopPropagation();
-                            //   setDeleteConfirmation(true);
-                            //   setEditingProduct(mr);
-                            // }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-primary mt-5 text-sm ">
-                      GROUP ID: {mr?.groupId}
-                    </p>
-                    <p className="text-[#131313] text-sm ">
-                      Group Name:{" "}
-                      <span className="text-[#7d7d7d]">{mr.groupName}</span>
-                    </p>
-                    <p className="text-[#131313] text-sm ">
-                      Distributor Name{" "}
-                      <span className="text-primary">
-                        {mr?.distributorName}
-                      </span>{" "}
-                      <span className="text-[#7d7d7d]">
-                        {mr?.mrStatus?.totalCalls}
-                      </span>
-                    </p>{" "}
-                    <p className="text-[#131313] text-sm">
-                      MR’s/Doctor:{" "}
-                      <span className="text-[#7d7d7d]">
-                        <span className="text-primary">{mr?.mr.length}</span> /{" "}
-                        {mr?.doctors.length}
-                      </span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-5 text-center text-heading text-base">
-                No data found
-              </div>
-            )}
-          </div>
-          <div className="lg:w-[calc(75%-8px)] w-full">
-            <div className="flex justify-between items-center">
-              <p className="text-[#7D7D7D] font-medium text-sm">Call List</p>
-              <Pagination />
-            </div>
-
-            <div
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68vh-0px)] xl:h-[calc(53vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            <button
+              onClick={() => {
+                setAddGroupModel(true);
+              }}
+              className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
-              <table className="w-full border-collapse min-w-[700px]">
-                <thead className="sticky top-0 z-[1] h-[56px] bg-white">
-                  <tr>
-                    {titles?.map((title, index) => (
-                      <th
-                        key={index}
-                        className="border-b border-primary px-5 py-2 text-[12px] font-medium text-heading text-left bg-white"
-                      >
-                        {title}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {isFetching ? (
-                    <tr>
-                      <td
-                        colSpan={titles.length}
-                        className="py-5 text-center text-[#7d7d7d]"
-                      >
-                        <Spin indicator={antIcon} />
-                      </td>
-                    </tr>
-                  ) : doctorList.length > 0 ? (
-                    doctorList.map((doc: any, rowIndex: number) => (
-                      <tr
-                        key={rowIndex}
-                        className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
-                      >
-                        <td className="px-5 py-2 min-w-[120px]   border-b-[0.5px] text-[13px] border-primary">
-                          {doc.teamId}
-                        </td>
-                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
-                          {doc.teamName || "--"}
-                        </td>
-                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
-                          {doc.totalMRs}
-                        </td>
-                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
-                          {doc.totalDoctors || "--"}
-                        </td>
-                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                          {doc.products?.join(", ") || "--"}
-                        </td>
-                        <td className="px-5 py-2 min-w-[120px] border-b-[0.5px] text-[13px] border-primary">
-                          <p
-                            className={`inline-block px-2 py-0.5 capitalize  rounded-sm font-medium text-sm border ${
-                              doc.status === "pending"
-                                ? "text-[#E90761] border-[#E90761]"
-                                : doc.status === "close"
-                                  ? "text-[#0BA69C] border-[#0BA69C]"
-                                  : doc.status === "check In"
-                                    ? "text-[#FF9500] border-[#FF9500]"
-                                    : "text-heading border-heading"
-                            }`}
-                          >
-                            {doc.status}
-                          </p>
-                        </td>
-                        <td className="px-5 py-2 min-w-[150px] border-b-[0.5px] text-[13px] border-primary">
-                          <div
-                            className="flex gap-3 items-center"
-                            // onClick={() => handleGoTODetails(doc)}
-                          >
-                            <Icon
-                              icon="iconoir:notes"
-                              height="16"
-                              width="16"
-                              color="#7d7d7d"
-                            />
-                            Details
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan={titles.length}
-                        className="px-3 py-6 text-center text-heading"
-                      >
-                        No data found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+              <Icon
+                icon="mingcute:add-fill"
+                height="20"
+                width="20"
+                color="#fff"
+              />
+              <p className="text-white text-base font-medium">Create Group</p>
+            </button>
+          </div>
+        </div>
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+          <p className="text-[#7D7D7D] font-medium text-sm">Bricks List</p>{" "}
+          <div
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="scroll-smooth mt-4 bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
+          >
+            <CustomTable
+              titles={titles}
+              data={tableData}
+              handleGoToDetail={handleRowClick}
+            />
           </div>
         </div>
       </div>
       {addGroupModel && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto  shadow-xl relative"
           >
-            <div className="flex items-center justify-between ">
-              <p className="text-[24px] text-heading capitalize font-medium">
+            <div className="flex items-center justify-between bg-[#E5EBF7] xl:px-6 px-4 py-4">
+              <p className="text-[24px] text-heading capitalize font-normal">
                 Create Group
               </p>
               <IoMdCloseCircle
-                size={20}
+                size={24}
                 onClick={() => {
                   setAddGroupModel(false);
                 }}
                 className="cursor-pointer text-primary"
               />
             </div>
-            <p className="text-base font-normal text-[#979797]">
-              Define targeted visit strategies for your team
-            </p>
-            <form onSubmit={formik.handleSubmit}>
-              <div className="flex flex-wrap mt-5 gap-8">
+
+            <form onSubmit={formik.handleSubmit} className="xl:p-6 p-4">
+              <p className="text-base font-normal text-[#979797]">
+                Define targeted visit strategies for your team
+              </p>
+              <div className="flex flex-wrap gap-8">
                 <div className="md:w-[calc(50%-16px)] w-full">
                   <p className="text-base font-normal text-heading">
                     Brick Details
@@ -715,7 +576,15 @@ export default function Group() {
                   </Modal>
                 </div>
               </div>{" "}
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end mt-5 gap-4">
+                <button
+                  onClick={() => {
+                    setAddGroupModel(false);
+                  }}
+                  className="h-[55px] md:w-[100px] w-full bg-[#F2FAFD] text-[#131313] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"

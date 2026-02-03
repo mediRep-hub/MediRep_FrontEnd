@@ -609,13 +609,16 @@ export default function CallReporting() {
               <p className="text-[24px] text-heading capitalize font-medium">
                 {editingProduct === null ? "Create Plan" : "Update  Plan"}
               </p>
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => {
-                  setAddBrickModel(false);
-                }}
-                className="cursor-pointer text-primary"
-              />
+
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => setAddBrickModel(false)}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
             <p className="text-base font-normal text-[#979797]">
               Define targeted visit strategies for your medical representatives
@@ -819,13 +822,18 @@ export default function CallReporting() {
           >
             <div className="flex justify-between items-center">
               <p className="text-[24px] font-medium">Doctor List</p>
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => {
-                  SetViewdetails(false);
-                }}
-                className="cursor-pointer text-primary"
-              />
+
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => {
+                      SetViewdetails(false);
+                    }}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
             <div className="space-y-3">
               {doctorList.length > 0 ? (

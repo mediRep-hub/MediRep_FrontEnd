@@ -204,11 +204,16 @@ export default function CallReportingDetail() {
               <p className="text-[24px] text-heading capitalize font-semibold">
                 Check In Location
               </p>
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => setLoaction(false)}
-                className="cursor-pointer text-primary"
-              />
+
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => setLoaction(false)}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="mt-5">

@@ -282,10 +282,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Pending Discount",
         path: "/pendingOrders",
       },
-      // {
-      //   name: "Track Sale",
-      //   path: "/trackSale",
-      // },
+      {
+        name: "Track Sale",
+        path: "/trackSale",
+      },
     ],
   },
   {

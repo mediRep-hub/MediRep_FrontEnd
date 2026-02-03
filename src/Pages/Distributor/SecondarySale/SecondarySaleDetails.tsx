@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import logo from "../../../assets/medirep-logo.png";
-import { LuDownload } from "react-icons/lu";
 import { useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import SearchBar from "../../../Components/SearchBar";
+import { Icon } from "@iconify/react";
 export default function SecondarySaleDetailsDistributor() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -90,7 +90,10 @@ export default function SecondarySaleDetailsDistributor() {
               <Spin indicator={antIcon} />
             ) : (
               <>
-                <LuDownload size={20} className="text-white" />
+                <Icon
+                  icon="solar:download-broken"
+                  className="text-primary text-xl"
+                />
                 <p className="text-white text-base font-medium">
                   {" "}
                   Download Invoice

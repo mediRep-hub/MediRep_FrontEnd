@@ -6,7 +6,6 @@ import { Checkbox } from "antd";
 import { FiClock } from "react-icons/fi";
 import { useFormik } from "formik";
 import { reportSchema } from "../../utils/validation";
-import { LuDownload } from "react-icons/lu";
 import CustomTimePicker from "../../Components/TimeRangePicker";
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
@@ -141,7 +140,10 @@ export default function DataReporting() {
           </p>
           <div className="flex flex-wrap gap-5 md:w-auto w-full">
             <button className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
-              <LuDownload size={20} className="text-primary" />{" "}
+              <Icon
+                icon="solar:download-broken"
+                className="text-primary text-xl"
+              />
               <p className="text-primary text-base font-medium">Download</p>
             </button>{" "}
             <button
@@ -194,13 +196,18 @@ export default function DataReporting() {
               <p className="text-[24px] text-heading capitalize font-semibold">
                 Select Report Type
               </p>
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => {
-                  setOpenModel(false);
-                }}
-                className="cursor-pointer text-primary"
-              />
+
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => {
+                      setOpenModel(false);
+                    }}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
             <form onSubmit={formik.handleSubmit} className="mt-5">
               <div className="flex flex-wrap items-center gap-4">
@@ -306,8 +313,8 @@ export default function DataReporting() {
                           formik.setFieldValue(
                             "reports",
                             formik.values.reports.filter(
-                              (r: string) => r !== title
-                            )
+                              (r: string) => r !== title,
+                            ),
                           );
                         }
                       }}

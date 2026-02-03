@@ -177,7 +177,6 @@ export default function DailyCallReport() {
   };
   return (
     <>
-      {" "}
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between items-center">
           <div className="flex w-full md:w-auto items-center gap-3">
@@ -194,9 +193,9 @@ export default function DailyCallReport() {
               className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
-                icon="solar:download-linear"
-                height="20"
-                width="20"
+                icon="solar:download-broken"
+                height="24"
+                width="24"
                 color="#0755E9"
               />
               <p className="text-primary text-base font-medium">Download</p>
@@ -206,7 +205,7 @@ export default function DailyCallReport() {
               onClick={() => {
                 setGenerateReport(true);
               }}
-              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"

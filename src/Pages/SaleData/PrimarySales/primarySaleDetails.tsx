@@ -89,13 +89,13 @@ export default function PrimarySaleDetails() {
            "
             >
               {" "}
-              <p className="text-primary font-medium">Download</p>
               <Icon
-                icon="solar:download-linear"
+                icon="solar:download-broken"
                 height="24"
                 width="24"
                 color="#0755E9"
-              />
+              />{" "}
+              <p className="text-primary font-medium">Download</p>
             </button>
             <button className="h-[55px] w-full md:w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
               <Icon

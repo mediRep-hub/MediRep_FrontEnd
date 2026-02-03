@@ -103,7 +103,6 @@ export default function ManageAccount() {
   });
 
   const AllAccounts: Account[] = data?.data?.admins ?? [];
-
   const rowsByDivision: RowsByDivision = useMemo(() => {
     const buildRow = (v: Account) => {
       const baseRow = [
@@ -150,7 +149,6 @@ export default function ManageAccount() {
       ),
     };
   }, [AllAccounts]);
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -206,14 +204,12 @@ export default function ManageAccount() {
         .finally(() => setLoading(false));
     },
   });
-
   useEffect(() => {
     if (formik.values.division === "Distributor")
       formik.setFieldValue("position", "Distributor");
     else if (formik.values.position === "Distributor")
       formik.setFieldValue("position", "");
   }, [formik.values.division]);
-
   const handleDelete = () => {
     const id = editingAccount?._id;
     if (!id) return notifyError("Invalid account ID");
@@ -228,15 +224,12 @@ export default function ManageAccount() {
       .catch(() => notifyError("Failed to delete account"))
       .finally(() => setLoadingDelete(false));
   };
-
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
-
   useEffect(() => {
     document.title = "MediRep | Manage Accounts";
   }, []);
-
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -245,10 +238,10 @@ export default function ManageAccount() {
             Manage Accounts
           </p>
           <div className="flex flex-wrap md:flex-nowrap gap-4 items-center">
-            <div className="md:w-[250px] w-full">
+            <div className="md:w-[245px] lg:w-[250px] w-full">
               <SearchByName name="Employee Name:" />
             </div>
-            <div className="md:w-[250px] w-full">
+            <div className="md:w-[245px] lg:w-[250px] w-full">
               <SearchByName name="Brick Name:" />
             </div>
             <button
@@ -350,19 +343,27 @@ export default function ManageAccount() {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto  shadow-xl relative"
           >
-            <div className="flex items-center justify-between ">
-              <p className="text-[24px] text-heading capitalize font-medium">
+            <div className="flex items-center justify-between bg-[#E5EBF7] xl:px-6 px-4 py-4">
+              <p className="text-[24px] text-heading capitalize font-normal">
                 {isEdit === false ? "Add Account" : "Update Account"}
               </p>
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => setCreateAccount(false)}
-                className="cursor-pointer text-primary"
-              />
+
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => setCreateAccount(false)}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
-            <form className="mt-5" onSubmit={formik.handleSubmit}>
+            <form className="xl:p-6 p-4" onSubmit={formik.handleSubmit}>
+              <p className="text-base leading-[100%] text-[#131313] mb-2 font-normal">
+                Account Details
+              </p>
               <div className="flex flex-wrap  gap-8">
                 <div className="md:w-[calc(50%-16px)] w-full">
                   <div className="mt-3">
@@ -441,12 +442,17 @@ export default function ManageAccount() {
                             onClick={() => setPasswordVisible(!passwordVisible)}
                           >
                             {passwordVisible ? (
-                              <FiEye
+                              <Icon
+                                icon="mdi:eye"
                                 className="text-primary"
                                 style={{ fontSize: "20px" }}
                               />
                             ) : (
-                              <FiEyeOff style={{ fontSize: "20px" }} />
+                              <Icon
+                                icon="mdi:eye-off"
+                                className="text-primary"
+                                style={{ fontSize: "20px" }}
+                              />
                             )}
                           </span>
                         </div>
@@ -481,12 +487,17 @@ export default function ManageAccount() {
                             }
                           >
                             {passwordConfirmVisible ? (
-                              <FiEye
+                              <Icon
+                                icon="mdi:eye"
                                 className="text-primary"
                                 style={{ fontSize: "20px" }}
                               />
                             ) : (
-                              <FiEyeOff style={{ fontSize: "20px" }} />
+                              <Icon
+                                icon="mdi:eye-off"
+                                className="text-primary"
+                                style={{ fontSize: "20px" }}
+                              />
                             )}
                           </span>
                         </div>
@@ -545,24 +556,6 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
-
-                  <div className="mt-3">
-                    <CustomSelect
-                      value={formik.values.city}
-                      options={Arealist}
-                      onChange={(val: any) => formik.setFieldValue("city", val)}
-                      placeholder="City"
-                    />
-                    {formik.touched.city && formik.errors.city && (
-                      <div className="text-red-500 text-xs">
-                        *
-                        {typeof formik.errors.city === "string"
-                          ? formik.errors.city
-                          : ""}
-                      </div>
-                    )}
-                  </div>
-
                   <div className="mt-3">
                     {formik.values.division !== "Distributor" ? (
                       <CustomSelect
@@ -613,6 +606,23 @@ export default function ManageAccount() {
                         </div>
                       )}
                   </div>
+                  <div className="mt-3">
+                    <CustomSelect
+                      value={formik.values.city}
+                      options={Arealist}
+                      onChange={(val: any) => formik.setFieldValue("city", val)}
+                      placeholder="City"
+                    />
+                    {formik.touched.city && formik.errors.city && (
+                      <div className="text-red-500 text-xs">
+                        *
+                        {typeof formik.errors.city === "string"
+                          ? formik.errors.city
+                          : ""}
+                      </div>
+                    )}
+                  </div>
+
                   {formik.values.division !== "Distributor" && (
                     <div className="mt-3">
                       <CustomSelect
@@ -636,7 +646,13 @@ export default function ManageAccount() {
                 </div>
               </div>
 
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end mt-5 gap-4">
+                <button
+                  onClick={() => setCreateAccount(false)}
+                  className="h-[55px] md:w-[100px] w-full bg-[#F2FAFD] text-[#131313] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"

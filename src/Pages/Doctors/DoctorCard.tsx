@@ -36,6 +36,11 @@ export default function DoctorCard({
               <p className="leading-1 text-primary font-medium text-xs">
                 {doctor?.docId || doctor?.pharmacyId}
               </p>
+              {doctor?.PMDC && (
+                <p className="text-[#E90761] leading-[100%] text-xs font-normal">
+                  {doctor?.PMDC}
+                </p>
+              )}{" "}
             </div>
           </div>
           {doctor?.doctorClass && (
@@ -92,16 +97,6 @@ export default function DoctorCard({
           </div>
         </div>
         <div className="mt-4 space-y-2">
-          {doctor?.PMDC && (
-            <div className="flex gap-3 items-center">
-              <Icon
-                icon="material-symbols:license-rounded"
-                color="#7d7d7d"
-                className="min-w-[12px]"
-              />
-              <p className="text-heading text-xs font-normal">{doctor?.PMDC}</p>
-            </div>
-          )}{" "}
           {doctor?.DSL && (
             <div className="flex gap-3 items-center">
               <Icon

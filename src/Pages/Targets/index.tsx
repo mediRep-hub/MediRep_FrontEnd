@@ -207,6 +207,7 @@ export default function Targets() {
 
           return {
             ...oldData,
+
             data: {
               ...oldData.data,
               data: updatedProducts,
@@ -290,7 +291,7 @@ export default function Targets() {
           </div>
         </div>
         <div className="flex mt-4 flex-wrap-reverse justify-between">
-          <div className="mt-4 flex gap-2">
+          <div className="flex gap-2 w-full md:w-auto self-baseline">
             {["Sales Wise", "Product Wise"].map((tab) => (
               <button
                 key={tab}
@@ -310,7 +311,7 @@ export default function Targets() {
           </div>
           <button
             onClick={() => setOpenModal(true)}
-            className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+            className="h-[55px] mb-4 w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
           >
             <Icon
               icon="mingcute:add-fill"
@@ -322,11 +323,10 @@ export default function Targets() {
           </button>
         </div>
         <div
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
             selectTab === "Sales Wise" ? "rounded-tl-none" : "rounded-tl-[12px]"
           }`}
         >
-          {" "}
           <div className="flex flex-wrap gap-3 justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">
               {selectTab === "Sales Wise"
@@ -344,7 +344,7 @@ export default function Targets() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(62.6vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "Product Wise" ? (
               <>
@@ -512,7 +512,7 @@ export default function Targets() {
               <div className="w-full flex-1 overflow-x-auto">
                 <table className="w-full border-collapse min-w-[900px]">
                   <thead className="sticky top-0 z-[1] bg-white">
-                    <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
+                    <tr className="border-b h-[56px] border-primary text-left text-[13px] font-semibold text-heading">
                       <th className="px-4 font-medium py-3 text-[12px] w-[14.5%]">
                         Employees Name
                       </th>

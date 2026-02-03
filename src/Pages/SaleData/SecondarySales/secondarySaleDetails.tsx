@@ -286,9 +286,9 @@ export default function SecondarySaleDetails() {
                 className="h-[55px] w-full md:w-[192px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
               >
                 <Icon
-                  icon="solar:download-linear"
-                  height="20"
-                  width="20"
+                  icon="solar:download-broken"
+                  height="24"
+                  width="24"
                   color="#0755E9"
                 />
                 <p className="text-primary text-base font-medium">Download</p>

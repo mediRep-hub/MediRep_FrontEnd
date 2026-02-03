@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 interface MultiSelectProps {
-  options: string[];
+  options?: string[];
   value?: string[];
   onChange?: (value: string[]) => void;
   placeholder?: string;
@@ -62,7 +62,7 @@ export default function MultiSelect({
       </div>
       {isOpen && (
         <ul className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
-          {options.map((option, index) => (
+          {options?.map((option, index) => (
             <li
               key={index}
               className="px-4 py-2 text-sm flex items-center gap-2 text-gray-700 hover:bg-gray-100"

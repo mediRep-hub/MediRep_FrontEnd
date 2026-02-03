@@ -356,20 +356,27 @@ export default function SecondarySale() {
           <div className="flex  gap-3 mb-4 w-full md:w-auto">
             <button
               onClick={handleDownloadExcel}
-              className="h-[55px] min-w-[60px] bg-white rounded-[6px] flex items-center justify-center"
+              className="h-[55px] bg-white min-w-[60px] rounded-[6px] gap-3 flex justify-center items-center"
             >
-              <Icon icon="solar:download-linear" height="24" width="24" />
+              <Icon
+                icon="solar:download-broken"
+                height="24"
+                width="24"
+                color="#131313"
+                className="rotate-180"
+              />
             </button>
 
             <button
               onClick={() => setOpenUpload(true)}
-              className="h-[55px] min-w-[60px] bg-primary rounded-[6px] flex items-center justify-center"
+              className="h-[55px] min-w-[60px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
+              {" "}
               <Icon
-                icon="solar:upload-linear"
+                icon="solar:download-broken"
                 height="24"
                 width="24"
-                color="#fff"
+                color="#0755E9"
               />
             </button>
 

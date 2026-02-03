@@ -142,7 +142,7 @@ export default function ChannelWiseSale() {
             >
               {" "}
               <Icon
-                icon="solar:download-linear"
+                icon="solar:download-broken"
                 height="24"
                 width="24"
                 color="#0755E9"
