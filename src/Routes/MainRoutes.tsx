@@ -11,6 +11,7 @@ const CallReportingDetail = lazy(
 );
 import Brick from "../Pages/Brick";
 import SalewiseTargetDetail from "../Pages/Targets/salewiseTargetDetail";
+import AsmTarget from "../Pages/Targets/AsmTarget";
 import PlanSummary from "../Pages/Plan Management";
 import WeeklyPlans from "../Pages/Plan Management/WeeklyPlans";
 import MonthlyPlans from "../Pages/Plan Management/MonthlyPlans";
@@ -132,6 +133,7 @@ export default function MainRoutes() {
           path="/targets-achievements/Details"
           element={<SalewiseTargetDetail />}
         />
+        <Route path="/asm-target" element={<AsmTarget />} />
         <Route path="/products" element={<Products />} />
         <Route path="/pharmacies" element={<Pharmacy />} />
         <Route path="/requisitionsList" element={<Requisition />} />

@@ -279,10 +279,10 @@ export default function Targets() {
             ) : (
               <>
                 {" "}
-                <div>
+                <div className="w-full md:w-[220px]">
                   <SearchByName name="Product Name:" />
                 </div>{" "}
-                <div>
+                <div className="w-full md:w-[220px]">
                   <SearchByName name="Foam:" />
                 </div>
               </>
