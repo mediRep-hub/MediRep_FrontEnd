@@ -15,6 +15,13 @@ import { getAllAccounts } from "../../api/adminServices";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
 import { getAllProducts } from "../../api/productServices";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { createBrick } from "../../api/brickServices";
+import { getAllBricks } from "../../api/brickServices";
+import { deleteBrick } from "../../api/brickServices";
+import { updateBrick } from "../../api/brickServices";
 
 const aeraSelection = [
   "Johar Town",
@@ -56,11 +63,11 @@ export default function Brick() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [selectedMR, setSelectedMR] = useState("");
 
+  const [searchBrickName, setSearchBrickName] = useState("");
+
   const [bricksData, setBricksData] = useState(initialBricksData);
+  const [deletestore, setDeletestore] = useState<string | null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deletestore, setDeletestore] = useState<any>(null);
-  console.log("🚀 ~ Brick ~ deletestore:", deletestore);
-  const [isloadingDelete] = useState(false);
 
   const { data: Products } = useQuery({
     queryKey: ["AllProducts"],
@@ -72,10 +79,92 @@ export default function Brick() {
     queryFn: () => getAllPharmacies({ page: 1, limit: 100 }),
   });
 
+  // ---------------- GET BRICKS ----------------
+  const {
+    data: bricksApiData,
+    isLoading: bricksLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["bricks", searchBrickName],
+    queryFn: () => getAllBricks(searchBrickName),
+  });
+  const bricksData = bricksApiData?.data || [];
+
+  useEffect(() => {
+    if (bricksApiData?.data) {
+      setBricksData(
+        bricksApiData.data.map((b: any) => ({
+          ...b,
+          areaNames: Array.isArray(b.areaNames) ? b.areaNames : [],
+          Pharmacies: Array.isArray(b.Pharmacies) ? b.Pharmacies : [],
+        })),
+      );
+    }
+  }, [bricksApiData]);
+
+  useEffect(() => {
+    if (bricksApiData?.data) {
+      setBricksData(bricksApiData.data);
+    }
+  }, [bricksApiData]);
+
+  const brickSchema = Yup.object({
+    brickName: Yup.string().required("Brick Name is required"),
+    city: Yup.string().required("City is required"),
+    mrName: Yup.string().required("MR Name is required"),
+    areaNames: Yup.array().min(1, "Select at least one Area"),
+    Pharmacies: Yup.array().min(1, "Select at least one Pharmacy"),
+    doctors: Yup.array().min(1, "Select at least one Doctor"),
+    products: Yup.array().min(1, "Select at least one Product"),
+  });
+
+  const createBrickMutation = useMutation({
+    mutationFn: createBrick,
+    onSuccess: () => {
+      alert("Brick Created");
+      setOpenModel(false);
+      refetch();
+    },
+  });
+
   const { data: doctorss } = useQuery({
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctorsLIst(),
   });
+  const formik = useFormik({
+    initialValues: {
+      brickName: "",
+      city: "",
+      mrName: "",
+      areaNames: [],
+      Pharmacies: [],
+      doctors: [],
+      products: [],
+    },
+
+    enableReinitialize: true,
+
+    onSubmit: (values) => {
+      if (editingProduct) {
+        updateBrickMutation.mutate({
+          id: editingProduct.brickId,
+          values,
+        });
+      } else {
+        createBrickMutation.mutate(values);
+      }
+    },
+  });
+
+  const { data: bricksDataFromApi } = useQuery({
+    queryKey: ["bricks", formik.values.brickName],
+    queryFn: () => getAllBricks(formik.values.brickName),
+  });
+  useEffect(() => {
+    if (bricksDataFromApi?.data) {
+      setBricksData(bricksDataFromApi.data);
+    }
+  }, [bricksDataFromApi]);
 
   const { data: allMr } = useQuery({
     queryKey: ["AllAccount"],
@@ -99,25 +188,52 @@ export default function Brick() {
     document.title = "MediRep | Brick";
   }, []);
 
-  // ---------------- EDIT ----------------
   const handleEdit = (brick: any) => {
     setEditingProduct(brick);
-    setSelectedAreas(brick.areaNames || []);
-    setSelectedPharmacies(brick.Pharmacies || []);
-    setSelectedDoctors(brick.doctors || []);
-    setSelectedProducts(brick.products || []);
-    setSelectedMR(brick.mrName || "");
+
+    formik.setValues({
+      brickName: brick.brickName,
+      city: brick.city,
+      mrName: brick.mrName,
+      areaNames: brick.areaNames || [],
+      Pharmacies: brick.Pharmacies || [],
+      doctors: brick.doctors || [],
+      products: brick.products || [],
+    });
+
     setOpenModel(true);
   };
 
-  // ---------------- DELETE ----------------
-  const handleDelete = (brickId: any) => {
-    setBricksData(bricksData.filter((b) => b.brickId !== brickId));
-    setDeleteConfirmation(false);
-    setDeletestore(null);
+  const deleteBrickMutation = useMutation({
+    mutationFn: deleteBrick,
+    onSuccess: () => {
+      alert("Brick Deleted");
+      setDeleteConfirmation(false);
+      setDeletestore(null);
+      refetch();
+    },
+  });
+
+  const handleDelete = () => {
+    if (!deletestore) return;
+    deleteBrickMutation.mutate(deletestore);
   };
 
-  // ---------------- SAVE ----------------
+  const handleDeleteClick = (id: string) => {
+    setDeletestore(id);
+    setDeleteConfirmation(true);
+  };
+
+  const updateBrickMutation = useMutation({
+    mutationFn: ({ id, values }: any) => updateBrick(id, values),
+    onSuccess: () => {
+      alert("Brick Updated");
+      setEditingProduct(null);
+      setOpenModel(false);
+      refetch();
+    },
+  });
+
   const handleSave = () => {
     const brickPayload = {
       brickName: (
@@ -125,10 +241,10 @@ export default function Brick() {
       ).value,
       city: (document.getElementsByName("city")[0] as HTMLInputElement).value,
       mrName: selectedMR,
-      areaNames: selectedAreas,
-      Pharmacies: selectedPharmacies,
-      doctors: selectedDoctors,
-      products: selectedProducts,
+      areaNames: selectedAreas.length > 0 ? selectedAreas : [],
+      Pharmacies: selectedPharmacies.length > 0 ? selectedPharmacies : [],
+      doctors: selectedDoctors.length > 0 ? selectedDoctors : [],
+      products: selectedProducts.length > 0 ? selectedProducts : [],
     };
 
     if (!editingProduct) {
@@ -144,7 +260,6 @@ export default function Brick() {
       );
     }
 
-    // RESET
     setEditingProduct(null);
     setSelectedAreas([]);
     setSelectedPharmacies([]);
@@ -154,27 +269,21 @@ export default function Brick() {
     setOpenModel(false);
   };
 
-  // ---------------- TABLE ----------------
   const tableData = bricksData.map((brick: any) => [
     brick.brickId,
     brick.brickName,
     brick.city,
     brick.mrName,
-    brick.areaNames?.join(", ") || "-",
-    brick.products?.join(", ") || "-",
+    brick.areaNames?.join(", "),
+    brick.products?.join(", "),
     brick.Pharmacies?.length || 0,
     brick.doctors?.length || 0,
+
     <div className="flex gap-2">
-      <TbEdit
-        size={18}
-        className="cursor-pointer text-primary"
-        onClick={() => handleEdit(brick)}
-      />
+      <TbEdit className="cursor-pointer" onClick={() => handleEdit(brick)} />
+
       <Icon
         icon="mingcute:delete-line"
-        color="#E90761"
-        height="18"
-        width="20"
         className="cursor-pointer"
         onClick={() => {
           setDeletestore(brick.brickId);
@@ -188,6 +297,10 @@ export default function Brick() {
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
 
+  useEffect(() => {
+    document.title = "MediRep | Brick";
+  }, []);
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -197,11 +310,18 @@ export default function Brick() {
           </p>
           <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
             <div className="md:w-[250px] w-full">
-              <SearchByName name="Brick Name:" />
+              <SearchByName
+                name="Brick Name:"
+                onSearch={(value: string) => {
+                  setSearchBrickName(value);
+                  refetch();
+                }}
+              />
             </div>
             <button
               onClick={() => {
                 setEditingProduct(null);
+                formik.resetForm();
                 setSelectedAreas([]);
                 setSelectedPharmacies([]);
                 setOpenModel(true);
@@ -227,7 +347,11 @@ export default function Brick() {
             }}
             className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(72.4vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
           >
-            <CustomTable titles={titles} data={tableData} />
+            {bricksLoading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <CustomTable titles={titles} data={tableData} />
+            )}
           </div>
         </div>
       </div>
@@ -247,22 +371,38 @@ export default function Brick() {
 
             <div className="grid grid-cols-2 gap-6 mt-5">
               <div className="space-y-4">
-                <CustomInput
-                  label="Brick Name"
-                  placeholder="Enter Brick Name"
-                  name="brickName"
-                  defaultValue={editingProduct?.brickName || ""}
-                />
-                <CustomInput
-                  label="City"
-                  placeholder="Enter City"
-                  name="city"
-                  defaultValue={editingProduct?.city || ""}
-                />
+                <div>
+                  <CustomInput
+                    label="Brick Name"
+                    name="brickName"
+                    value={formik.values.brickName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+
+                  {formik.touched.brickName && formik.errors.brickName && (
+                    <p className="text-red-500 text-xs">
+                      {formik.errors.brickName}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <CustomInput
+                    label="City"
+                    name="city"
+                    value={formik.values.city}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+
+                  {formik.touched.city && formik.errors.city && (
+                    <p className="text-red-500 text-xs">{formik.errors.city}</p>
+                  )}
+                </div>
                 <CustomSelect
                   placeholder="Mr Name"
-                  value={selectedMR}
-                  onChange={setSelectedMR}
+                  value={formik.values.mrName}
+                  onChange={(value) => formik.setFieldValue("mrName", value)}
                   options={AllMR.map((mr: any) => mr.name)}
                 />
               </div>
@@ -271,36 +411,45 @@ export default function Brick() {
                 <MultiSelect
                   label="Areas"
                   options={aeraSelection}
-                  value={selectedAreas}
-                  onChange={setSelectedAreas}
+                  value={formik.values.areaNames}
+                  onChange={(value) => formik.setFieldValue("areaNames", value)}
                 />
                 <MultiSelect
                   label="Pharmacies"
                   options={pharmacyOptions}
-                  value={selectedPharmacies}
-                  onChange={setSelectedPharmacies}
+                  value={formik.values.Pharmacies}
+                  onChange={(value) =>
+                    formik.setFieldValue("Pharmacies", value)
+                  }
                 />
                 <MultiSelect
                   label="Doctors"
                   options={doctorOptions}
-                  value={selectedDoctors}
-                  onChange={setSelectedDoctors}
+                  value={formik.values.doctors}
+                  onChange={(value) => formik.setFieldValue("doctors", value)}
                 />
                 <MultiSelect
                   label="Products"
                   options={productOptions}
-                  value={selectedProducts}
-                  onChange={setSelectedProducts}
+                  value={formik.values.products}
+                  onChange={(value) => formik.setFieldValue("products", value)}
                 />
               </div>
             </div>
 
             <div className="flex justify-end mt-6">
               <button
-                onClick={handleSave}
-                className="bg-primary text-white w-[150px] h-[50px] px-6 py-2 rounded"
+                type="submit"
+                onClick={() => formik.handleSubmit()}
+                className="bg-primary text-white w-[150px] h-[50px] rounded"
               >
-                Save
+                {editingProduct
+                  ? updateBrickMutation.isPending
+                    ? "Updating..."
+                    : "Update"
+                  : createBrickMutation.isPending
+                    ? "Saving..."
+                    : "Save"}
               </button>
             </div>
           </div>
@@ -343,7 +492,11 @@ export default function Brick() {
                 onClick={handleDelete}
                 className="px-7 h-[48px] py-2 bg-[#E90761] font-medium text-white rounded-md"
               >
-                {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
+                {deleteBrickMutation.isPending ? (
+                  <Spin indicator={antIcon} />
+                ) : (
+                  "Delete"
+                )}
               </button>
             </div>
           </div>
@@ -352,82 +505,3 @@ export default function Brick() {
     </>
   );
 }
-
-// const CustomSelectMR = ({
-//   options = [],
-//   value,
-//   onChange,
-//   placeholder = "Select MR",
-//   firstSelected = false,
-// }: {
-//   options: { label: string; value: string }[];
-//   value?: string | null;
-//   onChange?: (value: string) => void;
-//   placeholder?: string;
-//   firstSelected?: boolean;
-// }) => {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const [selected, setSelected] = useState<string | null>(value || null);
-
-//   useEffect(() => {
-//     setSelected(value || null);
-//   }, [value]);
-
-//   useEffect(() => {
-//     if (firstSelected && options.length > 0 && !value) {
-//       setSelected(options[0].value);
-//       onChange?.(options[0].value);
-//     }
-//   }, [options, value, onChange, firstSelected]);
-
-//   const handleSelect = (option: { label: string; value: string }) => {
-//     setSelected(option.value);
-//     onChange?.(option.value);
-//     setIsOpen(false);
-//   };
-
-//   return (
-//     <div className="relative w-full">
-//       <label className="absolute -top-2 left-5 bg-white px-1 text-xs text-[#7d7d7d]">
-//         {placeholder}
-//       </label>
-//       <div
-//         className="flex items-center h-14 justify-between bg-white px-4 py-2 border-[0.5px] border-primary rounded-md cursor-pointer"
-//         onClick={() => setIsOpen(!isOpen)}
-//       >
-//         <span
-//           className={`text-sm ${selected ? "text-heading" : "text-[#7d7d7d]"}`}
-//         >
-//           {selected
-//             ? options.find((opt) => opt.value === selected)?.label
-//             : "Select the Options"}
-//         </span>
-//         <IoIosArrowDown
-//           className={`transition-transform duration-200 text-primary ${
-//             isOpen ? "rotate-180" : "rotate-0"
-//           }`}
-//         />
-//       </div>
-//       {isOpen && options.length > 0 && (
-//         <ul
-//           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-//           className="absolute mt-1 w-full bg-[#E5EBF7] border border-gray-200 rounded-md shadow-xl z-10 max-h-60 overflow-y-auto"
-//         >
-//           {options.map((option, index) => (
-//             <li
-//               key={index}
-//               className={`px-4 flex items-center h-[56px] text-sm cursor-pointer ${
-//                 selected === option.value
-//                   ? "bg-primary text-white"
-//                   : "text-heading hover:bg-gray-100"
-//               }`}
-//               onClick={() => handleSelect(option)}
-//             >
-//               {option.label}
-//             </li>
-//           ))}
-//         </ul>
-//       )}
-//     </div>
-//   );
-// };
