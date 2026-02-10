@@ -42,12 +42,12 @@ export default function SecondarySaleDistributor() {
     end?: string;
   }>({});
   const { user } = useSelector((state: any) => state.user);
+
   const { data: allAccounts } = useQuery({
-    queryKey: ["AllAccounts"],
-    queryFn: getAllAccounts,
+    queryKey: ["AllAccount"],
+    queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
-
   const AllMR =
     allAccounts?.data?.admins?.filter(
       (mr: any) => mr.position === "MedicalRep(MR)",

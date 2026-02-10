@@ -88,6 +88,7 @@ export default function Products() {
     document.title = "MediRep | Products";
   }, []);
   const [page, setPage] = useState(1);
+  console.log("🚀 ~ Products ~ setPage:", setPage);
   const [limit] = useState(10);
 
   const params = {
