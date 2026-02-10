@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { RiFolderUploadFill } from "react-icons/ri";
 import { uploadFile } from "../../api/uploadServices";
 import { Icon } from "@iconify/react";
 

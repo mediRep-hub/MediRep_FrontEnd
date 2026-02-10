@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaFileAlt, FaTrash } from "react-icons/fa";
 import { notifyError, notifySuccess } from "../Toast";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
