@@ -19,7 +19,7 @@ export default function GroupDetails() {
       <div className="flex items-center gap-3">
         <div
           onClick={handleBack}
-          className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
+          className="h-10 min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
         >
           <Icon
             icon="material-symbols:arrow-back-rounded"

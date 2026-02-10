@@ -32,7 +32,7 @@ export default function CallReportingDetail() {
         <div className="flex flex-wrap  gap-3 items-center">
           <div
             onClick={handleGOBack}
-            className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
+            className="h-10 min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
             <Icon
               icon="material-symbols:arrow-back-rounded"

@@ -35,7 +35,7 @@ export default function SalewiseTargetDetail() {
         <div className="flex flex-wrap  gap-3 items-center">
           <div
             onClick={handleGoToBack}
-            className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
+            className="h-10  min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
             <Icon
               icon="material-symbols:arrow-back-rounded"
@@ -51,13 +51,13 @@ export default function SalewiseTargetDetail() {
           <div className="md:w-[190px] w-full ">
             <MonthYearPicker />
           </div>
-          <div className="w-[220px]">
+          <div className="md:w-[220px] w-full">
             <SearchByName name="MR Name:" />
           </div>
-          <div className="w-[220px]">
+          <div className="md:w-[220px] w-full">
             <SearchByName name="Brick Name:" />
           </div>{" "}
-          <div className="w-[220px]">
+          <div className="md:w-[220px] w-full">
             <SearchByName name="City:" />
           </div>
         </div>

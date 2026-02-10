@@ -214,7 +214,7 @@ export default function RequisitionDetail() {
         <div className="flex flex-wrap gap-3 items-center">
           <div
             onClick={handleBack}
-            className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
+            className="h-10  min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
             <Icon
               icon="material-symbols:arrow-back-rounded"
@@ -401,16 +401,16 @@ export default function RequisitionDetail() {
                       <p className="text-[#131313] mt-3 font-medium text-sm">
                         Accept Requisition
                       </p>
-                      <div className="flex justify-between items-center pb-5 mt-5">
+                      <div className="flex flex-wrap md:flex-nowrap gap-3 justify-between items-center pb-5 mt-5">
                         <button
                           onClick={() => {
                             setDeleteConfirmation(true);
                           }}
-                          className="bg-[#F2FAFD] h-[56px] w-[100px] cursor-pointer rounded-md text-black"
+                          className="bg-[#F2FAFD] h-[56px] w-full md:w-[100px] cursor-pointer rounded-md text-black"
                         >
                           Delete
                         </button>
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-wrap md:flex-nowrap gap-3 w-full md:w-auto items-center">
                           <button
                             onClick={() =>
                               dataRequisitions?._id &&
@@ -420,7 +420,7 @@ export default function RequisitionDetail() {
                               dataRequisitions?.status === "accepted" ||
                               dataRequisitions?.status === "rejected"
                             }
-                            className={`h-[56px] w-[100px] rounded-md text-white  
+                            className={`h-[56px] w-full md:w-[100px] rounded-md text-white  
       ${
         dataRequisitions?.status === "rejected" || "accepted"
           ? "bg-red-400 cursor-not-allowed"
@@ -446,7 +446,7 @@ export default function RequisitionDetail() {
                               dataRequisitions?.status === "accepted" ||
                               dataRequisitions?.status === "rejected"
                             }
-                            className={`h-[56px] w-[100px] rounded-md text-white  
+                            className={`h-[56px] w-full md:w-[100px] rounded-md text-white  
       ${
         dataRequisitions?.status === "rejected" || "accepted"
           ? "bg-gray-400 cursor-not-allowed"
