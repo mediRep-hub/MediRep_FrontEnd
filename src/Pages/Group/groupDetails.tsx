@@ -37,11 +37,11 @@ export default function GroupDetails() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth mt-4 border border-primary flex bg-white rounded-xl 2xl:h-[calc(70vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
+          className="scroll-smooth mt-4 border border-primary flex flex-wrap md:flex-nowrap bg-white rounded-xl 2xl:h-[calc(70vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
         >
-          <div className="w-[60%] space-y-3 p-4 border-r border-primary">
+          <div className="w-full md:w-[60%]  space-y-3 p-4 md:border-r border-r-0 border-primary">
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Group ID:
               </p>
               <p className="font-normal text-[#131313] text-xs">
@@ -49,7 +49,7 @@ export default function GroupDetails() {
               </p>
             </div>{" "}
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Group Name:
               </p>
               <p className="font-normal text-[#131313] text-xs">
@@ -57,13 +57,13 @@ export default function GroupDetails() {
               </p>
             </div>{" "}
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Region:
               </p>
               <p className="font-normal text-[#131313] text-xs">{row.region}</p>
             </div>{" "}
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Area:
               </p>
               <p className="font-normal text-[#131313] text-xs">
@@ -71,7 +71,7 @@ export default function GroupDetails() {
               </p>
             </div>{" "}
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Distributor Name:
               </p>
               <p className="font-normal text-[#131313] text-xs">
@@ -79,13 +79,13 @@ export default function GroupDetails() {
               </p>
             </div>{" "}
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 City:
               </p>
               <p className="font-normal text-[#131313] text-xs">{row.city}</p>
             </div>
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Group Manager:
               </p>
               <p className="font-normal text-[#131313] text-xs">
@@ -93,7 +93,7 @@ export default function GroupDetails() {
               </p>
             </div>{" "}
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Group Lead:
               </p>
               <p className="font-normal text-[#131313] text-xs">
@@ -101,11 +101,11 @@ export default function GroupDetails() {
               </p>
             </div>{" "}
             <div className="flex items-start gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Mr Names:
               </p>
               <div>
-                <ul className="text-xs grid grid-cols-2 gap-x-5 list-disc list-inside">
+                <ul className="text-xs grid lg:grid-cols-2 grid-cols-1 gap-x-5 list-disc list-inside">
                   {Array.isArray(row?.mr) &&
                     row.mr.map((mr: string, index: number) => (
                       <li key={index}>{mr}</li>
@@ -114,11 +114,11 @@ export default function GroupDetails() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Doctor Names:
               </p>
               <div>
-                <ul className="text-xs grid grid-cols-2 gap-x-5 list-disc list-inside">
+                <ul className="text-xs grid  lg:grid-cols-2 grid-cols-1 gap-x-5 list-disc list-inside">
                   {Array.isArray(row?.mr) &&
                     row.doctorList.map((mr: string, index: number) => (
                       <li key={index}>{mr}</li>
@@ -127,7 +127,7 @@ export default function GroupDetails() {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <p className="font-medium w-[100px] text-[#131313] text-xs">
+              <p className="font-medium min-w-[100px] text-[#131313] text-xs">
                 Status:
               </p>
               <div className="text-primary border-primary border-[1px] px-2 py-0.5 rounded-sm">
@@ -146,10 +146,13 @@ export default function GroupDetails() {
               </p>
             </div> */}
           </div>
-          <div className="w-[40%]  ">
+          <div className="w-full md:w-[40%]  ">
             {row.products.map((p: any, index: number) => (
-              <div key={index} className="border-b-[1px] border-primary">
-                <div className="py-4 px-10 space-y-1.5">
+              <div
+                key={index}
+                className="border-t md:border-t-0 border-b-0 md:border-b border-primary"
+              >
+                <div className="py-4 md:px-10 px-4 space-y-1.5">
                   <div className="flex items-center gap-4">
                     <p className="font-medium w-[100px] text-[#131313] text-xs">
                       Product:

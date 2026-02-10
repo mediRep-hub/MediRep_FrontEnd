@@ -700,185 +700,199 @@ export default function Group() {
                 </div>
               </div>
 
-              <div className="w-full mt-5 rounded-md border-dashed border-[1px] border-primary pb-3">
-                <div className="border-b-[1px] border-primary w-full flex p-4">
-                  <p className="text-xs w-[40%] font-bold text-heading">
-                    Product Name
-                  </p>
-                  <p className="text-xs w-[20%] font-bold text-heading">
-                    Set Target
-                  </p>
-                  <p className="text-xs w-[20%] font-bold text-heading">
-                    Set Bonus
-                  </p>
-                  <p className="text-xs w-[20%] font-bold text-heading">
-                    Value
-                  </p>
-                  <p className="text-xs w-[20%] font-bold text-heading">
-                    Action
-                  </p>
-                </div>
+              <div className="w-full mt-5 rounded-md border-dashed border border-primary pb-3">
+                <div className="w-full overflow-x-auto md:overflow-visible">
+                  <div className="min-w-[700px] md:min-w-full">
+                    <div className="border-b-[1px] border-primary w-full flex p-4">
+                      <p className="text-xs w-[40%] font-bold text-heading">
+                        Product Name
+                      </p>
+                      <p className="text-xs w-[20%] font-bold text-heading">
+                        Set Target
+                      </p>
+                      <p className="text-xs w-[20%] font-bold text-heading">
+                        Set Bonus
+                      </p>
+                      <p className="text-xs w-[20%] font-bold text-heading">
+                        Value
+                      </p>
+                      <p className="text-xs w-[15%] font-bold text-heading">
+                        Action
+                      </p>
+                    </div>
 
-                {productsLoading ? (
-                  <div className="flex justify-center items-center py-8">
-                    <Spin size="small" />
-                    <span className="ml-2 text-sm text-gray-600">
-                      Loading products...
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    {formik.values.products.map((row, index) => {
-                      const product = findProductByName(row.name);
-                      const amount = product
-                        ? (product.amount || product.price || 0) *
-                          Number(row.target || 0)
-                        : 0;
+                    {productsLoading ? (
+                      <div className="flex  justify-center items-center py-8">
+                        <Spin size="small" />
+                        <span className="ml-2 text-sm text-gray-600">
+                          Loading products...
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        {formik.values.products.map((row, index) => {
+                          const product = findProductByName(row.name);
+                          const amount = product
+                            ? (product.amount || product.price || 0) *
+                              Number(row.target || 0)
+                            : 0;
 
-                      return (
-                        <div
-                          key={index}
-                          className="border-b-[1px] border-primary w-full flex items-center p-4"
-                        >
-                          <div className="text-xs w-[40%] font-bold text-heading">
-                            <select
-                              className="border-[1px] w-[80%] px-2 py-1 rounded-md border-[#7d7d7d]/50 focus:outline-none"
-                              value={row.name}
-                              onChange={(e) =>
-                                updateRow(index, "name", e.target.value)
-                              }
+                          return (
+                            <div
+                              key={index}
+                              className="border-b-[1px] border-primary w-full flex  items-center p-4"
                             >
-                              <option value="">Select Product</option>
-                              {productsData.map((p: any) => {
-                                const productName = getProductDisplayName(p);
-                                const productId = p._id || p.id || p.productId;
+                              <div className="text-xs w-[40%] font-bold text-heading">
+                                <select
+                                  className="border-[1px] w-[80%] px-2 py-1 rounded-md border-[#7d7d7d]/50 focus:outline-none"
+                                  value={row.name}
+                                  onChange={(e) =>
+                                    updateRow(index, "name", e.target.value)
+                                  }
+                                >
+                                  <option value="">Select Product</option>
+                                  {productsData.map((p: any) => {
+                                    const productName =
+                                      getProductDisplayName(p);
+                                    const productId =
+                                      p._id || p.id || p.productId;
 
-                                if (!productName) return null;
+                                    if (!productName) return null;
 
-                                return (
-                                  <option key={productId} value={productName}>
-                                    {productName}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                            {formik.touched.products &&
-                              formik.errors.products &&
-                              Array.isArray(formik.errors.products) &&
-                              formik.errors.products[index] &&
-                              typeof formik.errors.products[index] ===
-                                "object" &&
-                              !Array.isArray(formik.errors.products[index]) &&
-                              (
-                                formik.errors.products[index] as {
-                                  name?: string;
-                                }
-                              ).name && (
-                                <div className="text-red-500 text-xs mt-1">
-                                  *
-                                  {
-                                    (
-                                      formik.errors.products[index] as {
-                                        name: string;
+                                    return (
+                                      <option
+                                        key={productId}
+                                        value={productName}
+                                      >
+                                        {productName}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                                {formik.touched.products &&
+                                  formik.errors.products &&
+                                  Array.isArray(formik.errors.products) &&
+                                  formik.errors.products[index] &&
+                                  typeof formik.errors.products[index] ===
+                                    "object" &&
+                                  !Array.isArray(
+                                    formik.errors.products[index],
+                                  ) &&
+                                  (
+                                    formik.errors.products[index] as {
+                                      name?: string;
+                                    }
+                                  ).name && (
+                                    <div className="text-red-500 text-xs mt-1">
+                                      *
+                                      {
+                                        (
+                                          formik.errors.products[index] as {
+                                            name: string;
+                                          }
+                                        ).name
                                       }
-                                    ).name
-                                  }
-                                </div>
-                              )}
-                          </div>
-                          <div className="text-xs w-[20%] font-bold text-heading">
-                            <input
-                              type="number"
-                              min="0"
-                              className="border-[1px] px-2 py-1 rounded-md border-[#7d7d7d]/50 focus:outline-none w-[120px]"
-                              value={row.target}
-                              onChange={(e) =>
-                                updateRow(
-                                  index,
-                                  "target",
-                                  Number(e.target.value) || 0,
-                                )
-                              }
-                            />
-                            {formik.touched.products &&
-                              formik.errors.products &&
-                              Array.isArray(formik.errors.products) &&
-                              formik.errors.products[index] &&
-                              typeof formik.errors.products[index] ===
-                                "object" &&
-                              (formik.errors.products[index] as any)
-                                ?.target && (
-                                <div className="text-red-500 text-xs mt-1">
-                                  *
-                                  {
-                                    (formik.errors.products[index] as any)
-                                      .target
-                                  }
-                                </div>
-                              )}
-                          </div>
-                          <div className="text-xs w-[20%] font-bold text-heading">
-                            <p
-                              className="cursor-pointer font-medium text-primary underline"
-                              onClick={() => openBonusModal(index)}
-                            >
-                              {row.bonus > 0 ? `${row.bonus}` : "Add Bonus"}
-                            </p>
-                          </div>
-                          <p className="text-xs w-[20%] font-bold text-heading">
-                            {amount.toFixed(2)}
-                          </p>
-                          <div className="w-[20%] flex gap-2">
-                            {index === formik.values.products.length - 1 && (
-                              <div
-                                className="h-10 cursor-pointer w-10 border-primary flex items-center justify-center border-[1px] rounded-md"
-                                onClick={addRow}
-                              >
-                                <Icon
-                                  className="text-primary"
-                                  icon="basil:add-outline"
-                                  height="25"
-                                  width="25"
-                                />
+                                    </div>
+                                  )}
                               </div>
-                            )}
-                            {formik.values.products.length > 1 && (
-                              <div
-                                className="h-10 cursor-pointer w-10 border-red-500 flex items-center justify-center border-[1px] rounded-md"
-                                onClick={() => removeRow(index)}
-                              >
-                                <Icon
-                                  className="text-red-500"
-                                  icon="mingcute:close-fill"
-                                  height="20"
-                                  width="20"
+                              <div className="text-xs w-[20%] font-bold text-heading">
+                                <input
+                                  type="number"
+                                  min="0"
+                                  className="border-[1px] px-2 py-1 rounded-md border-[#7d7d7d]/50 focus:outline-none w-[100px] lg:w-[120px]"
+                                  value={row.target}
+                                  onChange={(e) =>
+                                    updateRow(
+                                      index,
+                                      "target",
+                                      Number(e.target.value) || 0,
+                                    )
+                                  }
                                 />
+                                {formik.touched.products &&
+                                  formik.errors.products &&
+                                  Array.isArray(formik.errors.products) &&
+                                  formik.errors.products[index] &&
+                                  typeof formik.errors.products[index] ===
+                                    "object" &&
+                                  (formik.errors.products[index] as any)
+                                    ?.target && (
+                                    <div className="text-red-500 text-xs mt-1">
+                                      *
+                                      {
+                                        (formik.errors.products[index] as any)
+                                          .target
+                                      }
+                                    </div>
+                                  )}
                               </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
+                              <div className="text-xs w-[20%] font-bold text-heading">
+                                <p
+                                  className="cursor-pointer font-medium text-primary underline"
+                                  onClick={() => openBonusModal(index)}
+                                >
+                                  {row.bonus > 0 ? `${row.bonus}` : "Add Bonus"}
+                                </p>
+                              </div>
+                              <p className="text-xs w-[20%] font-bold text-heading">
+                                {amount.toFixed(2)}
+                              </p>
+                              <div className="w-[15%] flex gap-2">
+                                {index ===
+                                  formik.values.products.length - 1 && (
+                                  <div
+                                    className="h-10 cursor-pointer w-10 border-primary flex items-center justify-center border-[1px] rounded-md"
+                                    onClick={addRow}
+                                  >
+                                    <Icon
+                                      className="text-primary"
+                                      icon="basil:add-outline"
+                                      height="25"
+                                      width="25"
+                                    />
+                                  </div>
+                                )}
+                                {formik.values.products.length > 1 && (
+                                  <div
+                                    className="h-10 cursor-pointer w-10 border-red-500 flex items-center justify-center border-[1px] rounded-md"
+                                    onClick={() => removeRow(index)}
+                                  >
+                                    <Icon
+                                      className="text-red-500"
+                                      icon="mingcute:close-fill"
+                                      height="20"
+                                      width="20"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
 
-                <Modal
-                  title="Add Bonus"
-                  open={isModalOpen}
-                  onOk={handleBonusSave}
-                  onCancel={() => setIsModalOpen(false)}
-                  okText="Save"
-                  cancelText="Cancel"
-                  className="mt-10"
-                >
-                  <Input
-                    type="number"
-                    min="0"
-                    value={bonusValue}
-                    onChange={(e) => setBonusValue(Number(e.target.value) || 0)}
-                    placeholder="Enter bonus amount"
-                  />
-                </Modal>
+                    <Modal
+                      title="Add Bonus"
+                      open={isModalOpen}
+                      onOk={handleBonusSave}
+                      onCancel={() => setIsModalOpen(false)}
+                      okText="Save"
+                      cancelText="Cancel"
+                      className="mt-10"
+                    >
+                      <Input
+                        type="number"
+                        min="0"
+                        value={bonusValue}
+                        onChange={(e) =>
+                          setBonusValue(Number(e.target.value) || 0)
+                        }
+                        placeholder="Enter bonus amount"
+                      />
+                    </Modal>
+                  </div>
+                </div>
               </div>
 
               <div className="flex justify-end mt-5 gap-4">
