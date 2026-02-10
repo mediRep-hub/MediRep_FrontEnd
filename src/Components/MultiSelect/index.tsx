@@ -65,12 +65,13 @@ export default function MultiSelect({
           {options?.map((option, index) => (
             <li
               key={index}
-              className="px-4 py-2 text-sm flex items-center gap-2 text-gray-700 hover:bg-gray-100"
+              className="px-4 py-2 text-sm flex items-center gap-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleSelect(option)}
             >
               <input
                 type="checkbox"
                 checked={value.includes(option)}
-                onChange={() => handleSelect(option)}
+                readOnly
                 className="cursor-pointer placeholder:text-[#7d7d7d] placeholder:text-sm placeholder:font-normal"
               />
               <span>{option}</span>

@@ -2,9 +2,9 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { Avatar } from "antd";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { Icon } from "@iconify/react";
 
 const dummyDoctor = {
   mrImage:
@@ -39,25 +39,30 @@ export default function CallDetails() {
   });
 
   if (loadError) return <div>Error loading Google Maps</div>;
-
+  useEffect(() => {
+    document.title = "MediRep | Daily Call Reporting Datails";
+  }, []);
   return (
     <div>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 items-center">
+        <div className="flex flex-wrap gap-3 items-center">
           <div
             onClick={handleGoBack}
-            className="h-11 w-11 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center"
+            className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
-            <FaArrowLeft size={16} color="#000" />
+            <Icon
+              icon="material-symbols:arrow-back-rounded"
+              className="text-xl text-heading"
+            />
           </div>
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Daily Call Details
           </p>
         </div>
 
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[76.8vh] lg:h-[66vh] h-auto">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[76.8vh] lg:h-[67vh] h-auto">
           <div
-            className="scroll-smooth p-6 gap-5 2xl:h-[73.5vh] lg:h-[61vh] md:gap-0 bg-white border border-primary rounded-lg overflow-y-auto"
+            className="scroll-smooth p-6 gap-5 2xl:h-[73.5vh] lg:h-[62vh] md:gap-0 bg-white border border-primary rounded-lg overflow-y-auto"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             <div className="flex justify-between flex-wrap gap-5">
@@ -142,7 +147,6 @@ export default function CallDetails() {
         </div>
       </div>
 
-      {/* Location Modal */}
       {isLocation && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-[1000px] max-h-[90vh] shadow-xl overflow-hidden relative">

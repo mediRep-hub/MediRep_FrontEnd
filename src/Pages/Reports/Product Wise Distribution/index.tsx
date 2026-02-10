@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import CustomTable from "../../../Components/CustomTable";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import { Icon } from "@iconify/react";
@@ -83,11 +84,15 @@ const Data = [
 ];
 
 export default function ProductWiseDistribution() {
+  useEffect(() => {
+    document.title = "MediRep | Product Wise Distribution";
+  }, []);
+
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
       <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-center">
         <div className="flex flex-wrap md:flex-nowrap w-full items-center gap-4">
-          <p className="text-heading w-full lg:w-[370px] font-medium text-[22px] sm:text-[24px]">
+          <p className="text-heading w-full lg:w-[290px] font-medium text-[22px] sm:text-[24px]">
             Product Wise Distribution
           </p>
           <div className="w-full">
@@ -122,7 +127,7 @@ export default function ProductWiseDistribution() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(53vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(54.5vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
         >
           <CustomTable titles={titles} data={Data} />
         </div>

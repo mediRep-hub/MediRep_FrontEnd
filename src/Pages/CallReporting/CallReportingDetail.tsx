@@ -1,9 +1,9 @@
 import { Loading3QuartersOutlined } from "@ant-design/icons";
+import { Icon } from "@iconify/react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { Avatar, Spin } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -29,12 +29,15 @@ export default function CallReportingDetail() {
     <div>
       {" "}
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap  gap-4 items-center">
+        <div className="flex flex-wrap  gap-3 items-center">
           <div
             onClick={handleGOBack}
-            className="h-11 w-11 cursor-pointer rounded-lg border-[#D2D2D2] border-[1px] flex justify-center items-center"
+            className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
-            <FaArrowLeft size={16} color="#000000" />
+            <Icon
+              icon="material-symbols:arrow-back-rounded"
+              className="text-xl text-heading"
+            />
           </div>
 
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">

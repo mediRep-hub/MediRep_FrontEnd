@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import { DateRange } from "react-date-range";
 import type { Range, RangeKeyDict } from "react-date-range";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -18,33 +18,37 @@ export const MonthYearPicker: React.FC<DateRangePickerProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const isMobile = window.innerWidth < 768;
-
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [range, setRange] = useState<Range>({
     startDate: value?.startDate ?? new Date(),
-    endDate: value?.endDate ?? addDays(new Date(), 7),
+    endDate: value?.endDate ?? new Date(),
     key: "selection",
   });
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [hasSelection, setHasSelection] = useState<boolean>(
+    !!value?.startDate && !!value?.endDate,
+  );
 
   const handleSelect = (ranges: RangeKeyDict) => {
     const selection = ranges.selection;
+    if (!selection.startDate || !selection.endDate) return;
+
     setRange(selection);
+    setHasSelection(true);
+
     onChange?.({
-      startDate: selection.startDate!,
-      endDate: selection.endDate!,
+      startDate: selection.startDate,
+      endDate: selection.endDate,
     });
   };
 
   useEffect(() => {
-    if (open && isMobile) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (open && isMobile) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [open, isMobile]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -54,16 +58,12 @@ export const MonthYearPicker: React.FC<DateRangePickerProps> = ({
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div ref={wrapperRef} className="relative w-full lg:w-[190px]">
+    <div ref={wrapperRef} className="relative w-full lg:w-[200px]">
       <div
         className="flex items-center justify-between px-3 py-2 text-sm border border-[#0755E9] rounded-lg cursor-pointer bg-secondary"
         onClick={() => setOpen((prev) => !prev)}
@@ -75,10 +75,14 @@ export const MonthYearPicker: React.FC<DateRangePickerProps> = ({
             height={20}
             color="#0755E9"
           />
-          <span className="text-[#131313]">
-            {format(range.startDate!, "MMM-dd")} →{" "}
-            {format(range.endDate!, "MMM-dd")}
-          </span>
+          {hasSelection ? (
+            <span className="text-[#131313]">
+              {format(range.startDate!, "MMM-dd")} →{" "}
+              {format(range.endDate!, "MMM-dd")}
+            </span>
+          ) : (
+            <span className="text-gray-400">Select date range</span>
+          )}
         </div>
 
         <Icon
@@ -88,6 +92,7 @@ export const MonthYearPicker: React.FC<DateRangePickerProps> = ({
           color="#0755E9"
         />
       </div>
+
       {open && isMobile && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-end">
           <div className="bg-white w-full rounded-t-xl p-3 max-h-[90vh] overflow-y-auto">
@@ -111,6 +116,7 @@ export const MonthYearPicker: React.FC<DateRangePickerProps> = ({
           </div>
         </div>
       )}
+
       {open && !isMobile && (
         <div className="absolute z-50 mt-2 shadow-xl rounded-lg overflow-hidden">
           <DateRange

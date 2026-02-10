@@ -43,7 +43,6 @@ export const DoctorSchema = Yup.object().shape({
     lng: Yup.number().required(),
   }),
 });
-
 export const MRSchema = Yup.object().shape({
   mrName: Yup.string().required("MR Name is required"),
   phoneNo: Yup.string()
@@ -158,6 +157,31 @@ export const AccountSchema = (isEdit: boolean) =>
       otherwise: (schema) => schema.notRequired(),
     }),
   });
+
+export const GroupSchema = Yup.object().shape({
+  groupName: Yup.string().required("Group Name is required"),
+  groupType: Yup.string().required("Group Type is required"),
+  region: Yup.string().required("Region is required"),
+  city: Yup.string().required("City is required"),
+  area: Yup.array().min(1, "At least one area is required"),
+  mrName: Yup.array().min(1, "At least one MR is required"),
+  doctorList: Yup.array().min(1, "At least one doctor is required"),
+  manager: Yup.string().required("Manager is required"),
+  teamLead: Yup.string().required("Team Lead is required"),
+  activePeriod: Yup.string().required("Active Period is required"),
+  distributor: Yup.string().required("Distributor is required"),
+  products: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Product Name is required"),
+        target: Yup.number().required("Quantity is required"),
+        bonus: Yup.string(),
+        total: Yup.number(),
+      }),
+    )
+    .min(1, "At least one product is required"),
+  pharmacies: Yup.array().min(1, "At least one pharmacy is required"),
+});
 
 export interface SidebarLink {
   name: string;

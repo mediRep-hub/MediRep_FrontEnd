@@ -43,7 +43,7 @@ export default function AccountDetails() {
           >
             <Icon
               icon="material-symbols:arrow-back-rounded"
-              className="text-xl"
+              className="text-xl text-heading"
             />
           </div>
           <p className="text-2xl font-medium">Account Details</p>

@@ -44,7 +44,7 @@ export default function Brick() {
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
             Brick
           </p>
-          <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
+          <div className="flex w-full lg:w-auto  flex-wrap md:flex-nowrap items-center gap-4">
             <div className="md:w-[250px] w-full">
               <SearchByName name="Brick Name:" />
             </div>

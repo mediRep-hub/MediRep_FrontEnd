@@ -23,12 +23,12 @@ import PharmacyUploads from "../../Components/PharmacyUploads";
 import { Icon } from "@iconify/react";
 import { bricksData } from "../../utils/brick";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import { useDebounce } from "../../Components/Debounce";
 interface Pharmacy {
   _id?: string;
   name: string;
   DSL: string;
   email: string;
-
   phone: string;
   affiliation: string;
   image?: string | null;
@@ -61,13 +61,15 @@ export default function Pharmacies() {
   const [isLoadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-
+  const [searchName, setSearchName] = useState("");
+  const debouncedName = useDebounce(searchName, 500);
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllPharmacies", currentPage],
+    queryKey: ["AllPharmacies", currentPage, debouncedName],
     queryFn: () =>
       getAllPharmacies({
         page: currentPage,
         limit: itemsPerPage,
+        name: debouncedName || undefined,
       }),
     placeholderData: (previous) => previous,
   });
@@ -106,7 +108,6 @@ export default function Pharmacies() {
     initialValues: {
       name: editingPharmacy?.name || "",
       email: editingPharmacy?.email || "",
-
       DSL: editingPharmacy?.DSL || "",
       phone: editingPharmacy?.phone || "",
       startTime: editingPharmacy?.startTime || "",
@@ -206,7 +207,14 @@ export default function Pharmacies() {
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <div className="md:w-[250px] w-full">
-              <SearchByName name="Pharmacy Name:" />
+              <SearchByName
+                name="Pharmacy Name:"
+                value={searchName}
+                onChange={(val) => {
+                  setSearchName(val);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
             <button
               onClick={() => setOpenModal(true)}
@@ -237,7 +245,7 @@ export default function Pharmacies() {
 
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 h-[calc(100vh-230px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex flex-wrap gap-2 justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">Pharmacy List</p>

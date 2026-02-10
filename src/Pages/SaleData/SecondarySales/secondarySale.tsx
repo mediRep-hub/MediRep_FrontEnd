@@ -402,7 +402,7 @@ export default function SecondarySale() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(55vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(50vh-0px)] h-auto ${
             selectTab === "Individual Sale"
               ? "rounded-tl-none"
               : "rounded-tl-[12px]"
@@ -416,7 +416,7 @@ export default function SecondarySale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(44.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(40.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={selectTab == "Individual Sale" ? titles : titles22}

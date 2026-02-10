@@ -5,10 +5,22 @@ export const addPharmacypost = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.Pharmacy_ADD_Pharmacy, values);
 };
 
-export const getAllPharmacies = ({ page = 1, limit = 6 }) => {
-  return HTTP_CLIENT.get(
-    `${ENDPOINTS.Pharmacy_GET_ALL}?page=${page}&limit=${limit}`
-  );
+export const getAllPharmacies = ({
+  page = 1,
+  limit = 6,
+  name,
+}: {
+  page?: number;
+  limit?: number;
+  name?: string;
+} = {}) => {
+  return HTTP_CLIENT.get(ENDPOINTS.Pharmacy_GET_ALL, {
+    params: {
+      page,
+      limit,
+      name,
+    },
+  });
 };
 
 export const getAllPharmaciesLIst = () => {

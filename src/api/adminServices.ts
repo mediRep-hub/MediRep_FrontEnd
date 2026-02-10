@@ -25,9 +25,17 @@ export const addAccount = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.ACCOUNTS_ADD, values);
 };
 
-export const getAllAccounts = () => {
-  return HTTP_CLIENT.get(ENDPOINTS.ACCOUNTS_GETALL);
+export const getAllAccounts = (params?: {
+  name?: string;
+  brickName?: string;
+  page?: number;
+  limit?: number;
+}) => {
+  return HTTP_CLIENT.get(ENDPOINTS.ACCOUNTS_GETALL, {
+    params,
+  });
 };
+
 export const updateAccount = (id: string, values: any) => {
   return HTTP_CLIENT.put(`${ENDPOINTS.ACCOUNTS_UPDATE}/${id}`, values);
 };

@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { MonthYearPicker } from "../../Components/FilterMonthYear";
 import CustomTable from "../../Components/CustomTable";
 import ReportFilterModalStatic from "../../Components/ReportFilter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Titles = [
   "Plan ID",
@@ -75,6 +75,9 @@ export default function MonthlyPlans() {
   const handleClose = () => {
     setGenerateReport(false);
   };
+  useEffect(() => {
+    document.title = "MediRep | Monthly Plans";
+  }, []);
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -115,14 +118,14 @@ export default function MonthlyPlans() {
             </button>
           </div>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(66vh-0px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">Plan Summary</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(53vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(56vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             {" "}
             <CustomTable titles={Titles} data={Data} />

@@ -18,6 +18,7 @@ export const ENDPOINTS = {
   DOCTOR_UPDATE: "/doctor/updateDoctor",
   DOCTOR_DELETE: "/doctor/deleteDoctor",
   DOCTOR_uploadCSVDOCTOR: "/doctor/uploadDoctorsCSV",
+
   //   -----------Pharmacy-------------
   Pharmacy_GET_ALL: "/pharmacy/getAllPharmacies",
   Pharmacy_GET_ALL_LIST: "/pharmacy/getAllPharmaciesList",
@@ -41,10 +42,12 @@ export const ENDPOINTS = {
   REPORTING_UPDATE_REPORT: "/brick/updateBrick",
   REPORTING_DELETE_REPORT: "/brick/deleteBrick",
   REPORTING_REORDER_REPORT: "/brick/reorderDoctorList",
-  //   -----------Bricks Group-------------
-  GROUP_GET_ALL_BRICK: "/group/getAllSalesGroups",
-  GROUP_ADD_BRICK: "/group/createSalesGroup",
-  GROUP_DELETE_BRICK: "/group/updateSalesGroup",
+
+  //   ----------- Group-------------
+  GROUP_GET_ALL_BRICK: "/group/getAllGroups",
+  GROUP_ADD_BRICK: "/group/createGroup",
+  GROUP_DELETE_BRICK: "/group/deleteGroup",
+  GROUP_Update_BRICK: "/group/updateGroup",
 
   //   -----------Manage MR-------------
   MR_ADD_MR: "/manageMr/addMR",
@@ -59,6 +62,7 @@ export const ENDPOINTS = {
   REQUISITIONS_DELETE: "/requisition/deleteRequisition",
   REQUISITIONS_GET_SINGLE: "/requisition/getSingleRequisition",
   REQUISITIONS_UPDATEACCEPTED: "/requisition/updateStatus",
+
   // ----------------- Orders -----------------
   ORDER_ADD: "/orders/addOrder",
   ORDER_GET_ALL: "/orders/getAllOrders",
@@ -66,17 +70,18 @@ export const ENDPOINTS = {
   ORDER_UPDATE: "/orders/updateOrder",
   ORDER_ACCEPT: "/orders/acceptOrder",
   ORDER_DELETE: "/orders/deleteOrder",
+
   //   -----------Secondary Sales-------------
   SECONDARY_SALE_ADD: "/secondarySale/createSecondarySale",
   SECONDARY_SALE_GET_ALL: "/secondarySale/getAllSecondarySales",
   SECONDARY_SALE_UPDATE: "/secondarySale/updateSecondarySale",
   SECONDARY_SALE_DELETE: "/secondarySale/deleteSecondarySale",
   SECONDARY_SALE_BULK_UPLOAD: "/secondarySale/uploadBulkSecondarySales",
+
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
 
   //   ---------------Attendance----------
-
   ATTENDANCE_GETALL: "/attendance/getAllAttendance",
   ATTENDANCE_UPDATE: "/attendance/UpdateAttendance",
   ATTENDANCE_SUMMARY: "/attendance/getAttendanceSummary",
@@ -94,7 +99,6 @@ export const ENDPOINTS = {
   LEAVES_APPROVE: "/leave/updateLeaveStatus",
 
   //   -----------PAYROLL-------------
-
   GENERATE_PAYROLL: "/payroll/generatePayroll",
   APPROVE_PAYROLL: "/payroll/approve/:id",
   UPDATE_PAYROLL: "/payroll/updatePayroll",

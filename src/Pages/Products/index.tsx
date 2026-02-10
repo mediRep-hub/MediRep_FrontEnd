@@ -21,6 +21,7 @@ import { TbEdit } from "react-icons/tb";
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import { useDebounce } from "../../Components/Debounce";
 
 const titles = [
   "Product SKU",
@@ -76,16 +77,31 @@ export default function Products() {
   const [isloading, setLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [viewImage, setViewImage] = useState<any>(null);
+  const [searchName, setSearchName] = useState("");
+
   const [openImage, setOpenImage] = useState(false);
+
+  const debouncedName = useDebounce(searchName, 500);
+
   const [isloadingDelete, setLoadingDelete] = useState(false);
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+
+  const params = {
+    productName: debouncedName,
+    page,
+    limit,
+  };
+
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllProducts"],
-    queryFn: () => getAllProducts(),
+    queryKey: ["AllProducts", params],
+    queryFn: () => getAllProducts(params),
     staleTime: 5 * 60 * 1000,
   });
+
   let ProductData = data?.data?.data;
 
   let tableData: any = [];
@@ -213,12 +229,17 @@ export default function Products() {
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
       <div className="flex flex-wrap gap-4 items-start justify-between">
-        <p className="text-heading font-medium text-[22px] sm:text-[24px]">
+        <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
           Products
         </p>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex w-full lg:w-auto  flex-wrap items-center gap-4">
           <div className="md:w-[250px] w-full">
-            <SearchByName name="Product Name:" />
+            <SearchByName
+              name="Product Name:"
+              onChange={(val) => {
+                setSearchName(val);
+              }}
+            />
           </div>
 
           <button

@@ -5,21 +5,26 @@ export const addProduct = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.PRODUCT_ADD_PRODUCT, values);
 };
 
-export const getAllProducts = (
-  sku?: string,
-  productName?: string,
-  page: number = 1,
-  limit: number = 10
-) => {
+export const getAllProducts = ({
+  sku,
+  productName,
+  page = 1,
+  limit = 10,
+}: {
+  sku?: string;
+  productName?: string;
+  page?: number;
+  limit?: number;
+}) => {
   const params = new URLSearchParams();
   if (sku) params.append("sku", sku);
   if (productName) params.append("productName", productName);
   params.append("page", page.toString());
   params.append("limit", limit.toString());
 
-  const query = `?${params.toString()}`;
-  return HTTP_CLIENT.get(`${ENDPOINTS.PRODUCT_GET_ALL}${query}`);
+  return HTTP_CLIENT.get(`${ENDPOINTS.PRODUCT_GET_ALL}?${params.toString()}`);
 };
+
 export const getAllProductsMR = async () => {
   return HTTP_CLIENT.get(`${ENDPOINTS.PRODUCT_GET_ALL_MR}`);
 };
@@ -36,7 +41,7 @@ export const uploadCSVTarget = (data: any[]) => {
     { data },
     {
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
 };
 

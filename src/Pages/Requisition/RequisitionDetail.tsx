@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import {
@@ -211,12 +211,15 @@ export default function RequisitionDetail() {
   return (
     <>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 ">
+        <div className="flex flex-wrap gap-3 items-center">
           <div
             onClick={handleBack}
-            className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+            className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
-            <FaArrowLeft size={16} color="#000000" />
+            <Icon
+              icon="material-symbols:arrow-back-rounded"
+              className="text-xl text-heading"
+            />
           </div>
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Requisition Details

@@ -150,7 +150,7 @@ export default function PendingOrders() {
         </div>
       </div>
 
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.5vh-0px)] xl:h-[calc(65vh-0px)] h-auto">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76.5vh-0px)] xl:h-[calc(68vh-0px)] h-auto">
         <div className="flex justify-between items-center">
           <p className="text-[#7D7D7D] font-medium text-sm">Orders List</p>
           <Pagination
@@ -160,7 +160,7 @@ export default function PendingOrders() {
             onPageChange={handlePageChange}
           />
         </div>
-        <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)]">
+        <div className="scroll-smooth bg-white rounded-xl mt-4 overflow-y-auto scrollbar-none 2xl:h-[calc(69vh-0px)] xl:h-[calc(57vh-0px)]">
           <CustomTable
             titles={titles}
             data={tableData}

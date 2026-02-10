@@ -147,11 +147,9 @@ export default function Targets() {
   const [selectTab, setSelectTab] = useState<"Sales Wise" | "Product Wise">(
     "Sales Wise",
   );
-
   const [areaFilter, setAreaFilter] = useState("");
   const [brickFilter, setBrickFilter] = useState("");
   const [mrFilter, setMrFilter] = useState("");
-
   const [openModal, setOpenModal] = useState(false);
   const [notifiedModel, setNotifiedModel] = useState(false);
   const [SkuNo, setSkuNo] = useState("");
@@ -168,7 +166,11 @@ export default function Targets() {
 
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["AllProducts", debouncedSku, debouncedProductName],
-    queryFn: () => getAllProducts(debouncedSku, debouncedProductName),
+    queryFn: () =>
+      getAllProducts({
+        sku: debouncedSku,
+        productName: debouncedProductName,
+      }),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -240,10 +242,10 @@ export default function Targets() {
   };
 
   return (
-    <div>
+    <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap gap-4 items-start justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap xl:flex-nowrap gap-4 items-start justify-between">
+          <div className="flex w-full lg:w-auto  items-center gap-3">
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
               Targets
             </p>
@@ -252,24 +254,24 @@ export default function Targets() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap lg:flex-nowrap  items-center gap-3">
             {selectTab === "Sales Wise" ? (
               <>
-                <div className="w-full md:w-[220px]">
+                <div className="w-full md:w-[210px]">
                   <SearchByName
                     name="MR Name:"
                     value={mrFilter}
                     onChange={(val) => setMrFilter(val)}
                   />
                 </div>{" "}
-                <div className="w-full md:w-[220px]">
+                <div className="w-full md:w-[210px]">
                   <SearchByName
                     name="Brick Name:"
                     value={brickFilter}
                     onChange={(val) => setBrickFilter(val)}
                   />
                 </div>{" "}
-                <div className="w-full md:w-[220px]">
+                <div className="w-full md:w-[210px]">
                   <SearchByName
                     name="City:"
                     value={areaFilter}
@@ -323,7 +325,7 @@ export default function Targets() {
           </button>
         </div>
         <div
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 h-[calc(100vh-287px)] ${
             selectTab === "Sales Wise" ? "rounded-tl-none" : "rounded-tl-[12px]"
           }`}
         >
@@ -331,7 +333,7 @@ export default function Targets() {
             <p className="text-[#7D7D7D] font-medium text-sm">
               {selectTab === "Sales Wise"
                 ? "Employee Wise Target List"
-                : "  Products Wise Target List"}
+                : "Products Wise Target List"}
             </p>
             <Pagination
               currentPage={data?.data?.pagination?.currentPage}
@@ -344,170 +346,168 @@ export default function Targets() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(62.6vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(62.6vh-0px)] xl:h-[calc(47vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "Product Wise" ? (
-              <>
-                <div className="w-full flex-1 overflow-x-auto">
-                  <table className="w-full border-collapse min-w-[900px]">
-                    <thead className="sticky top-0 z-[1] bg-white">
-                      <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
-                        <th className="px-4 py-3 text-[12px] w-[14.5%]">
-                          <div className="relative flex items-center">
-                            <LuSearch
-                              className="absolute left-2 text-[#7d7d7d]"
-                              size={14}
-                            />
+              <div className="w-full flex-1 overflow-x-auto">
+                <table className="w-full border-collapse min-w-[900px]">
+                  <thead className="sticky top-0 z-[1] bg-white">
+                    <tr className="border-b border-primary text-left text-[13px] font-semibold text-heading">
+                      <th className="px-4 py-3 text-[12px] w-[14.5%]">
+                        <div className="relative flex items-center">
+                          <LuSearch
+                            className="absolute left-2 text-[#7d7d7d]"
+                            size={14}
+                          />
 
-                            <input
-                              placeholder="SKU"
-                              value={SkuNo}
-                              onChange={(e) => setSkuNo(e.target.value)}
-                              type="text"
-                              className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
-                            />
-                          </div>
-                        </th>
-                        <th className="px-4 py-3 w-[14.5%]">
-                          <div className="relative flex items-center">
-                            <LuSearch
-                              className="absolute left-2 text-[#7d7d7d]"
-                              size={14}
-                            />
+                          <input
+                            placeholder="SKU"
+                            value={SkuNo}
+                            onChange={(e) => setSkuNo(e.target.value)}
+                            type="text"
+                            className="h-8 pl-[30px] pr-3 w-full border font-normal border-gray-400 rounded-md text-xs text-heading focus:outline-none"
+                          />
+                        </div>
+                      </th>
+                      <th className="px-4 py-3 w-[14.5%]">
+                        <div className="relative flex items-center">
+                          <LuSearch
+                            className="absolute left-2 text-[#7d7d7d]"
+                            size={14}
+                          />
 
-                            <input
-                              placeholder="Product Name"
-                              value={productName}
-                              onChange={(e) => setProductName(e.target.value)}
-                              type="text"
-                              className="h-8 pl-[30px] pr-3 w-full border border-gray-400 rounded-md text-sm text-heading font-normal focus:outline-none"
-                            />
-                          </div>
-                        </th>
-                        <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
-                          Form
-                        </th>
-                        <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
-                          Status
-                        </th>
-                        <th className="px-4 font-medium py-3 text-[12px] w-[18%]">
-                          Target
-                        </th>
-                        <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
-                          Achievement
-                        </th>
-                        <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
-                          Action
-                        </th>
+                          <input
+                            placeholder="Product Name"
+                            value={productName}
+                            onChange={(e) => setProductName(e.target.value)}
+                            type="text"
+                            className="h-8 pl-[30px] pr-3 w-full border border-gray-400 rounded-md text-sm text-heading font-normal focus:outline-none"
+                          />
+                        </div>
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
+                        Form
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                        Status
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[18%]">
+                        Target
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[14%]">
+                        Achievement
+                      </th>
+                      <th className="px-4 font-medium py-3 text-[12px] w-[10%]">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {isFetching ? (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="py-5 text-center text-[#7d7d7d]"
+                        >
+                          <Spin indicator={antIcon} />
+                        </td>
                       </tr>
-                    </thead>
-
-                    <tbody>
-                      {isFetching ? (
-                        <tr>
-                          <td
-                            colSpan={7}
-                            className="py-5 text-center text-[#7d7d7d]"
-                          >
-                            <Spin indicator={antIcon} />
+                    ) : ProductData.length > 0 ? (
+                      ProductData.map((row: any, rowIndex: number) => (
+                        <tr
+                          key={rowIndex}
+                          className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
+                        >
+                          <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            {row.sku}
                           </td>
-                        </tr>
-                      ) : ProductData.length > 0 ? (
-                        ProductData.map((row: any, rowIndex: number) => (
-                          <tr
-                            key={rowIndex}
-                            className="hover:bg-[#E5EBF7] h-[56px] hover:text-black cursor-pointer"
-                          >
-                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              {row.sku}
-                            </td>
-                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              {row.productName}
-                            </td>
-                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              {row.isfrom}
-                            </td>
-                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              <p
-                                className={`px-2 py-0.5 w-max rounded-sm ${
-                                  row.isStatus === "Active"
-                                    ? "text-primary border border-primary"
-                                    : row.isStatus === "Discontinued"
-                                      ? "text-[#E90761] border border-[#E90761]"
-                                      : "text-heading border border-gray-300"
+                          <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            {row.productName}
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            {row.isfrom}
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            <p
+                              className={`px-2 py-0.5 w-max rounded-sm ${
+                                row.isStatus === "Active"
+                                  ? "text-primary border border-primary"
+                                  : row.isStatus === "Discontinued"
+                                    ? "text-[#E90761] border border-[#E90761]"
+                                    : "text-heading border border-gray-300"
+                              }`}
+                            >
+                              {" "}
+                              {row.isStatus}
+                            </p>{" "}
+                          </td>
+                          <td className="px-5 py-2 w-[90px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            {editIndex === rowIndex ? (
+                              <input
+                                type="number"
+                                value={editData.target ?? row.target}
+                                onChange={(e) =>
+                                  setEditData({
+                                    ...editData,
+                                    _id: row._id,
+                                    target: Number(e.target.value),
+                                  })
+                                }
+                                className="border border-gray-400 rounded-md px-2 py-1 w-[90px] text-sm text-heading focus:outline-none"
+                              />
+                            ) : (
+                              <span>{row.target}</span>
+                            )}
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            {row.achievement}
+                          </td>
+                          <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
+                            <div className="flex gap-5 items-center">
+                              <TbEdit
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditIndex(
+                                    editIndex === rowIndex ? null : rowIndex,
+                                  );
+                                  setEditData({
+                                    _id: row._id,
+                                    target: row.target,
+                                  });
+                                }}
+                                size={18}
+                                className={`cursor-pointer ${
+                                  editIndex === rowIndex
+                                    ? "text-primary"
+                                    : "text-[#7d7d7d]"
                                 }`}
-                              >
-                                {" "}
-                                {row.isStatus}
-                              </p>{" "}
-                            </td>
-                            <td className="px-5 py-2 w-[90px] border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              {editIndex === rowIndex ? (
-                                <input
-                                  type="number"
-                                  value={editData.target ?? row.target}
-                                  onChange={(e) =>
-                                    setEditData({
-                                      ...editData,
-                                      _id: row._id,
-                                      target: Number(e.target.value),
-                                    })
-                                  }
-                                  className="border border-gray-400 rounded-md px-2 py-1 w-[90px] text-sm text-heading focus:outline-none"
-                                />
-                              ) : (
-                                <span>{row.target}</span>
-                              )}
-                            </td>
-                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              {row.achievement}
-                            </td>
-                            <td className="px-5 py-2 border-b-[0.5px] border-primary text-[13px] font-normal text-heading break-words">
-                              <div className="flex gap-5 items-center">
-                                <TbEdit
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditIndex(
-                                      editIndex === rowIndex ? null : rowIndex,
-                                    );
-                                    setEditData({
-                                      _id: row._id,
-                                      target: row.target,
-                                    });
-                                  }}
-                                  size={18}
-                                  className={`cursor-pointer ${
-                                    editIndex === rowIndex
-                                      ? "text-primary"
-                                      : "text-[#7d7d7d]"
-                                  }`}
-                                />
-                                <FaCheckCircle
-                                  size={18}
-                                  onClick={(e: any) => {
-                                    e.stopPropagation();
-                                    handleEdit(editData);
-                                  }}
-                                  className="cursor-pointer text-primary"
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={7}
-                            className="px-3 py-6 text-center text-heading"
-                          >
-                            No data found
+                              />
+                              <FaCheckCircle
+                                size={18}
+                                onClick={(e: any) => {
+                                  e.stopPropagation();
+                                  handleEdit(editData);
+                                }}
+                                className="cursor-pointer text-primary"
+                              />
+                            </div>
                           </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="px-3 py-6 text-center text-heading"
+                        >
+                          No data found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             ) : (
               <div className="w-full flex-1 overflow-x-auto">
                 <table className="w-full border-collapse min-w-[900px]">
@@ -594,7 +594,6 @@ export default function Targets() {
           </div>
         </div>
       </div>
-
       {notifiedModel && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[400px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
@@ -616,10 +615,9 @@ export default function Targets() {
           </div>
         </div>
       )}
-
       {openModal && (
         <TargetsUploadFile closeModle={setOpenModal} refetch={refetch} />
       )}
-    </div>
+    </>
   );
 }

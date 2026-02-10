@@ -1,4 +1,3 @@
-import { FaArrowLeft } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
@@ -71,12 +70,15 @@ export default function SecondarySaleDetailsDistributor() {
       </div>
       <div className="mt-4 bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
         <div className="flex flex-wrap gap-5 justify-between items-start">
-          <div className="flex flex-wrap items-center gap-4 ">
+          <div className="flex flex-wrap items-center gap-3 ">
             <div
               onClick={handleBack}
-              className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+              className="h-10 w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
             >
-              <FaArrowLeft size={16} color="#000000" />
+              <Icon
+                icon="material-symbols:arrow-back-rounded"
+                className="text-xl text-heading"
+              />
             </div>
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
               Secondary Sale Details

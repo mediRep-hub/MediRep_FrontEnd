@@ -23,6 +23,7 @@ import LocationPicker from "../../Components/LocationPicker";
 import { Icon } from "@iconify/react";
 import { bricksData } from "../../utils/brick";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import { useDebounce } from "../../Components/Debounce";
 
 interface Doctor {
   _id?: string;
@@ -62,14 +63,20 @@ export default function Doctors() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deleteID, setdeleteID] = useState<any>(null);
   const [isloading, setLoading] = useState(false);
+  const [searchName, setSearchName] = useState("");
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllDoctors", currentPage],
-    queryFn: () => getAllDoctors({ page: currentPage, limit: itemsPerPage }),
-    placeholderData: (previous) => previous,
+  const debouncedName = useDebounce(searchName, 500);
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["AllDoctors", currentPage, debouncedName],
+    queryFn: () =>
+      getAllDoctors({
+        page: currentPage,
+        limit: itemsPerPage,
+        name: debouncedName || undefined,
+      }),
   });
 
   const doctorsList: Doctor[] = data?.data?.data || [];
@@ -218,7 +225,14 @@ export default function Doctors() {
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <div className="md:w-[250px] w-full">
-              <SearchByName name="Doctor Name:" />
+              <SearchByName
+                name="Doctor Name:"
+                value={searchName}
+                onChange={(val) => {
+                  setSearchName(val);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
             <button
               onClick={() => setOpenModal(true)}
@@ -249,7 +263,7 @@ export default function Doctors() {
 
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 h-[calc(100vh-230px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex flex-wrap justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">

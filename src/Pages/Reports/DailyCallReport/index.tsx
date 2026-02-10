@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -175,6 +175,9 @@ export default function DailyCallReport() {
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(data, "DailyCallReport.xlsx");
   };
+  useEffect(() => {
+    document.title = "MediRep | Daily Call Reporting";
+  }, []);
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -220,14 +223,14 @@ export default function DailyCallReport() {
           </div>
         </div>
 
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(66vh-0px)] h-auto ">
           <p className="text-sm text-[#7d7d7d]">Daily Call Report (DCR)</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white mt-3 rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white mt-3 rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(57vh-0px)]  overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={title} data={Data} />
           </div>

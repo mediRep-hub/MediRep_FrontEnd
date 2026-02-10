@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { TbEdit } from "react-icons/tb";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { Icon } from "@iconify/react";
@@ -24,6 +23,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import SearchByName from "../../Components/SearchBar/searchByName";
 import { bricksData } from "../../utils/brick";
+import { useDebounce } from "../../Components/Debounce";
 
 const Positionlist = [
   "Director Sales",
@@ -67,12 +67,14 @@ export default function ManageAccount() {
     "sales" | "marketing" | "distributor"
   >("sales");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [isloadingDelete, setLoadingDelete] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
-  const [isloadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchName, setSearchName] = useState("");
+  const [searchBrick, setSearchBrick] = useState("");
   const itemsPerPage = 10;
   const navigate = useNavigate();
 
@@ -95,11 +97,17 @@ export default function ManageAccount() {
       state: { row: account },
     });
   };
-
-  const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllAccount"],
-    queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+  const debouncedName = useDebounce(searchName, 500);
+  const debouncedBrick = useDebounce(searchBrick, 500);
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["AllAccount", debouncedName, debouncedBrick, currentPage],
+    queryFn: () =>
+      getAllAccounts({
+        name: debouncedName || undefined,
+        brickName: debouncedBrick || undefined,
+        page: currentPage,
+        limit: itemsPerPage,
+      }),
   });
 
   const AllAccounts: Account[] = data?.data?.admins ?? [];
@@ -231,7 +239,7 @@ export default function ManageAccount() {
     document.title = "MediRep | Manage Accounts";
   }, []);
   return (
-    <div>
+    <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between items-start">
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
@@ -239,10 +247,24 @@ export default function ManageAccount() {
           </p>
           <div className="flex flex-wrap md:flex-nowrap gap-4 items-center">
             <div className="md:w-[245px] lg:w-[250px] w-full">
-              <SearchByName name="Employee Name:" />
+              <SearchByName
+                name="Employee Name:"
+                value={searchName}
+                onChange={(val) => {
+                  setSearchName(val);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
             <div className="md:w-[245px] lg:w-[250px] w-full">
-              <SearchByName name="Brick Name:" />
+              <SearchByName
+                name="Brick Name:"
+                value={searchBrick}
+                onChange={(val) => {
+                  setSearchBrick(val);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
             <button
               onClick={() => {
@@ -283,7 +305,7 @@ export default function ManageAccount() {
         </div>
 
         <div
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(59vh-0px)] h-auto ${
             selectTab === "marketing" || selectTab === "distributor"
               ? "rounded-tl-[12px]"
               : "rounded-tl-none"
@@ -310,7 +332,7 @@ export default function ManageAccount() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(45vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(48.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={
@@ -712,6 +734,6 @@ export default function ManageAccount() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
