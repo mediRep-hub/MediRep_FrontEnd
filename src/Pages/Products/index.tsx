@@ -308,8 +308,8 @@ export default function Products() {
               <p className="text-base font-normal text-[#979797]">
                 Define Products accordingly
               </p>{" "}
-              <div className="flex flex-wrap  gap-8">
-                <div className="md:w-[calc(50%-16px)] w-full">
+              <div className="flex flex-wrap gap-4">
+                <div className="md:w-[calc(50%-8px)] w-full">
                   <p className="text-base font-normal text-heading">
                     Products Details
                   </p>

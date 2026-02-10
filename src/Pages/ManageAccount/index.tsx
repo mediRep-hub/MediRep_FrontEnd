@@ -305,7 +305,7 @@ export default function ManageAccount() {
         </div>
 
         <div
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(59vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70.7vh-0px)] xl:h-[calc(56.5vh-0px)] h-auto ${
             selectTab === "marketing" || selectTab === "distributor"
               ? "rounded-tl-[12px]"
               : "rounded-tl-none"
@@ -332,7 +332,7 @@ export default function ManageAccount() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(48.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63.2vh-0px)] xl:h-[calc(45.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={
@@ -386,8 +386,8 @@ export default function ManageAccount() {
               <p className="text-base leading-[100%] text-[#131313] mb-2 font-normal">
                 Account Details
               </p>
-              <div className="flex flex-wrap  gap-8">
-                <div className="md:w-[calc(50%-16px)] w-full">
+              <div className="flex flex-wrap  gap-0 md:gap-4">
+                <div className="md:w-[calc(50%-8px)] w-full">
                   <div className="mt-3">
                     <CustomInput
                       name="name"
@@ -558,7 +558,7 @@ export default function ManageAccount() {
                   </div>
                 </div>
 
-                <div className="md:w-[calc(50%-16px)] w-full">
+                <div className="md:w-[calc(50%-8px)] w-full">
                   <div className="mt-3">
                     <CustomSelect
                       options={Divisionlist as unknown as string[]}

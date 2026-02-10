@@ -302,7 +302,7 @@ export default function RequisitionDetail() {
                     <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
                       {" "}
                       <div className="xl:w-[calc(50%-10px)] w-full">
-                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                        <p className="text-[#131313] font-medium text-sm">
                           Details
                         </p>
                         <p className="text-[#131313] mt-3 font-medium text-sm">
@@ -321,7 +321,7 @@ export default function RequisitionDetail() {
                         )}
                       </div>
                       <div className="xl:w-[calc(50%-10px)] w-full">
-                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                        <p className="text-[#131313]  font-normal text-sm">
                           {dataRequisitions?.details}
                         </p>
                         <p className="text-[#131313] mt-3 font-normal text-sm">
@@ -557,69 +557,66 @@ export default function RequisitionDetail() {
 
         {changeRequisition && selectedProduct && dataRequisitions && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg w-[600px] shadow-lg">
-              <div className="flex justify-between items-center mb-5">
-                <p className="text-[24px] text-heading capitalize font-semibold">
+            <div className="bg-white  rounded-lg w-[450px] shadow-lg">
+              <div className="flex p-4 rounded-t-lg bg-[#E5EBF7] items-center justify-between">
+                <p className="text-[16px] leading-[100%] text-heading font-medium">
                   Update Requisition
                 </p>
-
-                <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
-                  <div className="group-hover:bg-white">
-                    <IoMdCloseCircle
-                      size={24}
-                      onClick={() => setChangeRequisition(false)}
-                      className="cursor-pointer text-primary"
-                    />
-                  </div>
-                </div>
               </div>
+              <div className="p-4">
+                <CustomSelect
+                  placeholder="Requisition Type"
+                  value={requisitionType}
+                  options={requisitionTypeOptions}
+                  onChange={(value) =>
+                    setRequisitionType(
+                      value as "cash" | "other" | "house" | "car" | "tour",
+                    )
+                  }
+                />
 
-              <CustomSelect
-                placeholder="Requisition Type"
-                value={requisitionType}
-                options={requisitionTypeOptions}
-                onChange={(value) =>
-                  setRequisitionType(
-                    value as "cash" | "other" | "house" | "car" | "tour",
-                  )
-                }
-              />
+                {requisitionType === "cash" && (
+                  <CustomInput
+                    label="Amount"
+                    type="number"
+                    className="mt-4"
+                    value={dataRequisitions.amount || 0}
+                    onChange={(e) =>
+                      setRequisitionsingle({
+                        ...dataRequisitions,
+                        amount: Number(e.target.value),
+                      })
+                    }
+                  />
+                )}
 
-              {requisitionType === "cash" && (
                 <CustomInput
-                  label="Amount"
+                  label="Quantity"
                   type="number"
                   className="mt-4"
-                  value={dataRequisitions.amount || 0}
+                  value={selectedProduct.quantity}
                   onChange={(e) =>
-                    setRequisitionsingle({
-                      ...dataRequisitions,
-                      amount: Number(e.target.value),
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      quantity: Number(e.target.value),
                     })
                   }
                 />
-              )}
 
-              <CustomInput
-                label="Quantity"
-                type="number"
-                className="mt-4"
-                value={selectedProduct.quantity}
-                onChange={(e) =>
-                  setSelectedProduct({
-                    ...selectedProduct,
-                    quantity: Number(e.target.value),
-                  })
-                }
-              />
-
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={handleUpdateProduct}
-                  className="bg-primary text-white px-7 py-3 rounded"
-                >
-                  {loadingUpdate ? <Spin indicator={antIcon} /> : "Save"}
-                </button>
+                <div className="flex justify-end gap-3 mt-6">
+                  <button
+                    className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] cursor-pointer"
+                    onClick={() => setChangeRequisition(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleUpdateProduct}
+                    className="bg-primary text-white px-7 py-3 rounded"
+                  >
+                    {loadingUpdate ? <Spin indicator={antIcon} /> : "Save"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

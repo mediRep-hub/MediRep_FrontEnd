@@ -494,8 +494,8 @@ export default function Group() {
                 Define targeted visit strategies for your team
               </p>
 
-              <div className="flex flex-wrap gap-8">
-                <div className="md:w-[calc(50%-16px)] w-full">
+              <div className="flex flex-wrap gap-4">
+                <div className="md:w-[calc(50%-8px)] w-full">
                   <p className="text-base font-normal text-heading">
                     Group Details
                   </p>
@@ -590,7 +590,7 @@ export default function Group() {
                   </div>
                 </div>
 
-                <div className="md:w-[calc(50%-16px)] w-full">
+                <div className="md:w-[calc(50%-8px)] w-full">
                   <p className="text-base font-normal text-heading">
                     Set Doctors & Management
                   </p>
@@ -871,26 +871,48 @@ export default function Group() {
                         })}
                       </div>
                     )}
-
-                    <Modal
-                      title="Add Bonus"
-                      open={isModalOpen}
-                      onOk={handleBonusSave}
-                      onCancel={() => setIsModalOpen(false)}
-                      okText="Save"
-                      cancelText="Cancel"
-                      className="mt-10"
-                    >
-                      <Input
-                        type="number"
-                        min="0"
-                        value={bonusValue}
-                        onChange={(e) =>
-                          setBonusValue(Number(e.target.value) || 0)
-                        }
-                        placeholder="Enter bonus amount"
-                      />
-                    </Modal>
+                    {isModalOpen && (
+                      <>
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                          <div className="bg-white  rounded-lg w-[450px] shadow-lg">
+                            <div className="flex p-4 rounded-t-lg bg-[#E5EBF7] items-center justify-between">
+                              <p className="text-[16px] leading-[100%] text-heading font-medium">
+                                Add Bouns
+                              </p>
+                            </div>
+                            <div className="p-4">
+                              {" "}
+                              <CustomInput
+                                type="number"
+                                label="Bouns"
+                                value={bonusValue}
+                                onChange={(e) =>
+                                  setBonusValue(Number(e.target.value) || 0)
+                                }
+                                placeholder="Enter bonus amount"
+                              />
+                            </div>
+                            <div className="flex justify-end gap-3 p-4">
+                              <button
+                                className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] cursor-pointer"
+                                onClick={() => setIsModalOpen(false)}
+                              >
+                                Cancel
+                              </button>
+                              <button className="bg-primary text-white px-7 py-3 rounded">
+                                {isLoading ? (
+                                  <Spin indicator={antIcon} />
+                                ) : editingGroup ? (
+                                  "Update Bouns"
+                                ) : (
+                                  "Add Bouns"
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

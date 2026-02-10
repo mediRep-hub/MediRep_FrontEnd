@@ -151,7 +151,7 @@ export default function ChannelWiseSale() {
             </button>
           </div>
         </div>{" "}
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] lg:h-[calc(66vh-0px)] h-auto ">
+        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
           <p className="text-sm text-[#7d7d7d] leading-[100%]">
             Chanel Wise Sale From Distributor
           </p>
@@ -160,7 +160,7 @@ export default function ChannelWiseSale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className=" scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(57vh-0px)] overflow-y-auto scrollbar-none"
+            className=" scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(54.4vh-0px)] overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableDataTitles} />
           </div>{" "}

@@ -322,7 +322,7 @@ export default function SecondarySaleDetails() {
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+              className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)] overflow-y-auto scrollbar-none"
             >
               <CustomTable
                 titles={selectTab == "Individual Sale" ? titles : titles22}

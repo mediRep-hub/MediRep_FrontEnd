@@ -30,14 +30,14 @@ export default function GroupDetails() {
           Group Details
         </p>
       </div>
-      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(77vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+      <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(77vh-0px)] xl:h-[calc(66vh-0px)] h-auto ">
         <p className="text-[#7D7D7D] font-medium text-sm">Team</p>{" "}
         <div
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth mt-4 border border-primary flex flex-wrap md:flex-nowrap bg-white rounded-xl 2xl:h-[calc(70vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
+          className="scroll-smooth mt-4 border border-primary flex flex-wrap md:flex-nowrap bg-white rounded-xl 2xl:h-[calc(70vh-0px)] xl:h-[calc(55.5vh-0px)]  overflow-y-auto scrollbar-none"
         >
           <div className="w-full md:w-[60%]  space-y-3 p-4 md:border-r border-r-0 border-primary">
             <div className="flex items-center gap-4">

@@ -166,7 +166,7 @@ export default function PrimarySale() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(66vh-0px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
         >
           <p className="text-[#7d7d7d] text-sm">
             Distributor Details Stock Report
@@ -176,7 +176,7 @@ export default function PrimarySale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(56vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(53.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={titles}

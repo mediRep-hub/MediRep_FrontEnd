@@ -62,7 +62,7 @@ export default function SalewiseTargetDetail() {
           </div>
         </div>
       </div>
-      <div className="mt-4 rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(76.7vh-0px)] xl:h-[calc(60vh-0px)] h-auto ">
+      <div className="mt-4 rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(76.7vh-0px)] xl:h-[calc(57.5vh-0px)] h-auto ">
         <p className="text-[#7D7D7D] font-medium text-sm">
           {rowData.mrName} {rowData.asm} Wise Target
         </p>
@@ -71,7 +71,7 @@ export default function SalewiseTargetDetail() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69.5vh-0px)] xl:h-[calc(50vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69.5vh-0px)] xl:h-[calc(47vh-0px)] mt-4 overflow-y-auto scrollbar-none"
         >
           <CustomTable titles={titles} data={tableData} />
         </div>

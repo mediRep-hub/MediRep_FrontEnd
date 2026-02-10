@@ -330,7 +330,7 @@ export default function Doctors() {
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Doctor Details</p>
 
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="name"
                       name="name"
@@ -345,7 +345,7 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={specialtyOptions}
                       value={formik.values.specialty}
@@ -358,7 +358,7 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="phone"
                       name="phone"
@@ -373,7 +373,7 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="PMDC"
                       name="PMDC"
@@ -388,7 +388,7 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="email"
                       name="email"
@@ -404,7 +404,7 @@ export default function Doctors() {
                     )}
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <ImagePicker
                       label="Upload Image"
                       placeholder="Upload Your Image"
@@ -422,7 +422,7 @@ export default function Doctors() {
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Profile</p>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={ClassOptions}
                       value={formik.values.doctorClass}
@@ -438,7 +438,7 @@ export default function Doctors() {
                         </div>
                       )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <LocationPicker
                       label="Address"
                       value={formik.values.location.address}
@@ -454,7 +454,7 @@ export default function Doctors() {
                         </div>
                       )}
                   </div>
-                  <div className="mt-4 flex gap-3">
+                  <div className="mt-3 flex gap-3">
                     <div className="w-full">
                       <CustomTimePicker
                         value={formik.values.startTime}
@@ -483,7 +483,7 @@ export default function Doctors() {
                       )}
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={areaOptions}
                       value={formik.values.city}
@@ -496,7 +496,7 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>{" "}
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={brickOptions}
                       value={formik.values.brick}
@@ -510,7 +510,7 @@ export default function Doctors() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="affiliation"
                       name="affiliation"

@@ -113,7 +113,7 @@ export default function MRWiseExpense() {
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-center">
           <div className="flex flex-wrap md:flex-nowrap w-full items-center gap-4">
-            <p className="text-heading leading-[100%] w-full lg:w-[270px] font-medium text-[22px] sm:text-[24px]">
+            <p className="text-heading leading-[100%] w-full lg:w-[300px] font-medium text-[22px] sm:text-[24px]">
               MR Wise Expense
             </p>
             <div className="w-full">
@@ -148,14 +148,14 @@ export default function MRWiseExpense() {
             </button>
           </div>
         </div>
-        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(66vh-0px)] h-auto ">
+        <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
           <p className="text-[#7D7D7D] font-medium text-sm">Plan Summary</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(56vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableData} />
           </div>

@@ -286,7 +286,7 @@ export default function Targets() {
                   <SearchByName name="Product Name:" />
                 </div>{" "}
                 <div>
-                  <SearchByName name="Foam:" />
+                  <SearchByName name="Form:" />
                 </div>
               </>
             )}
@@ -346,7 +346,7 @@ export default function Targets() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(62.6vh-0px)] xl:h-[calc(47vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(62.6vh-0px)] xl:h-[calc(44.5vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
           >
             {selectTab === "Product Wise" ? (
               <div className="w-full flex-1 overflow-x-auto">
