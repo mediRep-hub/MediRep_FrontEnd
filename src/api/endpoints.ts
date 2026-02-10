@@ -38,7 +38,7 @@ export const ENDPOINTS = {
 
   //   -----------Bricks-------------
   REPORTING_GET_ALL: "/brick/getAllBricks",
-  REPORTING_ADD_REPORT: "/brick/addBrick",
+  REPORTING_ADD_REPORT: "/brick/createBrick",
   REPORTING_UPDATE_REPORT: "/brick/updateBrick",
   REPORTING_DELETE_REPORT: "/brick/deleteBrick",
   REPORTING_REORDER_REPORT: "/brick/reorderDoctorList",

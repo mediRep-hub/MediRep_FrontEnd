@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
 import TrackSale from "../Pages/Orders/trackSale";
+import AsmTarget from "../Pages/Targets/AsmTarget";
 
 const Tragets = lazy(() => import("../Pages/Targets"));
 
@@ -153,6 +154,7 @@ export default function MainRoutes() {
           path="/targets-achievements/Details"
           element={<SalewiseTargetDetail />}
         />
+        <Route path="/asm-target" element={<AsmTarget />} />
         <Route path="/products" element={<Products />} />
         <Route path="/pharmacies" element={<Pharmacy />} />
         <Route path="/requisitionsList" element={<Requisition />} />
