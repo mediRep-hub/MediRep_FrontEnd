@@ -4,14 +4,12 @@ interface Props {
   value?: string;
   name?: string;
   onChange?: (value: string) => void;
-  onSearch: (value: string) => void;
 }
 
 export default function SearchByName({
   name,
   value,
   onChange = () => {},
-  onSearch,
 }: Props) {
   return (
     <div className="flex items-center w-full gap-2">
@@ -26,7 +24,6 @@ export default function SearchByName({
           value={value}
           onChange={(e) => {
             onChange(e.target.value);
-            onSearch(e.target.value);
           }}
           className="border bg-secondary pl-9 w-full border-[#0755E9] h-10 pr-4 rounded-lg focus:outline-none"
         />

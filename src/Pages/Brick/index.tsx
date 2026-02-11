@@ -56,17 +56,12 @@ const titles = [
 export default function Brick() {
   const [openModel, setOpenModel] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
-
-  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
-  const [selectedPharmacies, setSelectedPharmacies] = useState<string[]>([]);
-  const [selectedDoctors, setSelectedDoctors] = useState<string[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-  const [selectedMR, setSelectedMR] = useState("");
-
   const [searchBrickName, setSearchBrickName] = useState("");
-
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isloading, setLoading] = useState(false);
   const [bricksData, setBricksData] = useState(initialBricksData);
-  const [deletestore, setDeletestore] = useState<string | null>(null);
+  const [isloadingDelete, setLoadingDelete] = useState(false);
+  // const [deletestore, setDeletestore] = useState<string | null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   const { data: Products } = useQuery({
@@ -78,35 +73,27 @@ export default function Brick() {
     queryKey: ["pharmacies"],
     queryFn: () => getAllPharmacies({ page: 1, limit: 100 }),
   });
+  const { data: doctorss } = useQuery({
+    queryKey: ["AllDoctors"],
+    queryFn: () => getAllDoctorsLIst(),
+  });
+  const { data: allMr } = useQuery({
+    queryKey: ["AllAccount"],
+    queryFn: () => getAllAccounts(),
+    staleTime: 5 * 60 * 1000,
+  });
 
-  // ---------------- GET BRICKS ----------------
   const {
-    data: bricksApiData,
+    data,
     isLoading: bricksLoading,
     refetch,
   } = useQuery({
     queryKey: ["bricks", searchBrickName],
     queryFn: () => getAllBricks(searchBrickName),
   });
-  const bricksData = bricksApiData?.data || [];
-
   useEffect(() => {
-    if (bricksApiData?.data) {
-      setBricksData(
-        bricksApiData.data.map((b: any) => ({
-          ...b,
-          areaNames: Array.isArray(b.areaNames) ? b.areaNames : [],
-          Pharmacies: Array.isArray(b.Pharmacies) ? b.Pharmacies : [],
-        })),
-      );
-    }
-  }, [bricksApiData]);
-
-  useEffect(() => {
-    if (bricksApiData?.data) {
-      setBricksData(bricksApiData.data);
-    }
-  }, [bricksApiData]);
+    document.title = "MediRep | Brick";
+  }, []);
 
   const brickSchema = Yup.object({
     brickName: Yup.string().required("Brick Name is required"),
@@ -117,156 +104,145 @@ export default function Brick() {
     doctors: Yup.array().min(1, "Select at least one Doctor"),
     products: Yup.array().min(1, "Select at least one Product"),
   });
-
-  const createBrickMutation = useMutation({
-    mutationFn: createBrick,
-    onSuccess: () => {
-      alert("Brick Created");
-      setOpenModel(false);
-      refetch();
-    },
-  });
-
-  const { data: doctorss } = useQuery({
-    queryKey: ["AllDoctors"],
-    queryFn: () => getAllDoctorsLIst(),
-  });
   const formik = useFormik({
     initialValues: {
       brickName: "",
       city: "",
       mrName: "",
-      areaNames: [],
-      Pharmacies: [],
-      doctors: [],
-      products: [],
+      areaNames: [] as string[],
+      Pharmacies: [] as string[],
+      doctors: [] as string[],
+      products: [] as string[],
     },
-
     enableReinitialize: true,
-
-    onSubmit: (values) => {
-      if (editingProduct) {
-        updateBrickMutation.mutate({
-          id: editingProduct.brickId,
+    validationSchema: brickSchema,
+    onSubmit: async (values) => {
+      if (editingBrick) {
+        await updateBrickMutation.mutateAsync({
+          id: editingBrick.brickId,
           values,
         });
       } else {
-        createBrickMutation.mutate(values);
+        await createBrickMutation.mutateAsync(values);
       }
     },
-  });
-
-  const { data: bricksDataFromApi } = useQuery({
-    queryKey: ["bricks", formik.values.brickName],
-    queryFn: () => getAllBricks(formik.values.brickName),
-  });
-  useEffect(() => {
-    if (bricksDataFromApi?.data) {
-      setBricksData(bricksDataFromApi.data);
-    }
-  }, [bricksDataFromApi]);
-
-  const { data: allMr } = useQuery({
-    queryKey: ["AllAccount"],
-    queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
   });
 
   const productOptions =
     Products?.data?.data?.map((d: any) => d.productName) || [];
   const pharmacyOptions =
     pharmaciesData?.data?.data?.map((p: any) => p.name) || [];
-
   const doctorOptions = doctorss?.data?.data?.map((d: any) => d.name) || [];
-
   const AllMR =
     allMr?.data?.admins?.filter(
       (mr: any) => mr?.position === "MedicalRep(MR)",
     ) || [];
 
-  useEffect(() => {
-    document.title = "MediRep | Brick";
-  }, []);
+  const createBrickMutation = useMutation({
+    mutationFn: createBrick,
+    onSuccess: (newBrick: any) => {
+      alert("Brick Created Successfully");
+      setBricksData((prev) => [...prev, newBrick]);
+      setOpenModel(false);
+      formik.resetForm();
+      setSearchBrickName("");
+      refetch();
+    },
+  });
 
+  const deleteBrickMutation = useMutation({
+    mutationFn: (id: string) => deleteBrick(id),
+    onSuccess: (_, id) => {
+      alert("Brick Deleted Successfully");
+      setBricksData((prev) => prev.filter((brick) => brick.brickId !== id)); // Remove row
+      setDeleteConfirmation(false);
+      setDeleteId(null);
+    },
+  });
+
+  const updateBrickMutation = useMutation({
+    mutationFn: ({ id, values }: { id: string; values: any }) =>
+      updateBrick(id, values),
+
+    onSuccess: () => {
+      alert("Brick Updated Successfully");
+      formik.resetForm();
+      setEditingBrick(null);
+      setOpenModel(false);
+      refetch();
+    },
+
+    onError: (err) => {
+      console.error("Update failed:", err);
+      alert("Update Failed");
+    },
+  });
+  // ======= HANDLERS =======
   const handleEdit = (brick: any) => {
     setEditingProduct(brick);
-
     formik.setValues({
-      brickName: brick.brickName,
-      city: brick.city,
-      mrName: brick.mrName,
+      brickName: brick.brickName || "",
+      city: brick.city || "",
+      mrName: brick.mrName || "",
       areaNames: brick.areaNames || [],
       Pharmacies: brick.Pharmacies || [],
       doctors: brick.doctors || [],
       products: brick.products || [],
     });
-
+    setSelectedMR(brick.mrName || "");
+    setSelectedAreas(brick.areaNames || []);
+    setSelectedPharmacies(brick.Pharmacies || []);
+    setSelectedDoctors(brick.doctors || []);
+    setSelectedProducts(brick.products || []);
     setOpenModel(true);
   };
 
-  const deleteBrickMutation = useMutation({
-    mutationFn: deleteBrick,
-    onSuccess: () => {
-      alert("Brick Deleted");
-      setDeleteConfirmation(false);
-      setDeletestore(null);
-      refetch();
-    },
-  });
-
-  const handleDelete = () => {
-    if (!deletestore) return;
-    deleteBrickMutation.mutate(deletestore);
-  };
-
-  const handleDeleteClick = (id: string) => {
-    setDeletestore(id);
-    setDeleteConfirmation(true);
-  };
-
-  const updateBrickMutation = useMutation({
-    mutationFn: ({ id, values }: any) => updateBrick(id, values),
-    onSuccess: () => {
-      alert("Brick Updated");
-      setEditingProduct(null);
-      setOpenModel(false);
-      refetch();
-    },
-  });
-
-  const handleSave = () => {
-    const brickPayload = {
-      brickName: (
-        document.getElementsByName("brickName")[0] as HTMLInputElement
-      ).value,
-      city: (document.getElementsByName("city")[0] as HTMLInputElement).value,
-      mrName: selectedMR,
-      areaNames: selectedAreas.length > 0 ? selectedAreas : [],
-      Pharmacies: selectedPharmacies.length > 0 ? selectedPharmacies : [],
-      doctors: selectedDoctors.length > 0 ? selectedDoctors : [],
-      products: selectedProducts.length > 0 ? selectedProducts : [],
+  const handleSave = async () => {
+    const payload = {
+      brickName: formik.values.brickName,
+      city: formik.values.city,
+      mrName: selectedMR || formik.values.mrName,
+      areaNames: selectedAreas.length ? selectedAreas : formik.values.areaNames,
+      Pharmacies: selectedPharmacies.length
+        ? selectedPharmacies
+        : formik.values.Pharmacies,
+      doctors: selectedDoctors.length ? selectedDoctors : formik.values.doctors,
+      products: selectedProducts.length
+        ? selectedProducts
+        : formik.values.products,
     };
 
-    if (!editingProduct) {
-      setBricksData([
-        ...bricksData,
-        { brickId: Date.now().toString(), ...brickPayload },
-      ]);
+    if (editingProduct) {
+      await updateBrickMutation.mutateAsync({
+        id: editingProduct.brickId,
+        values: payload,
+      });
     } else {
-      setBricksData(
-        bricksData.map((b) =>
-          b.brickId === editingProduct.brickId ? { ...b, ...brickPayload } : b,
-        ),
-      );
+      await createBrickMutation.mutateAsync(payload);
     }
 
-    setEditingProduct(null);
+    // reset state
+    formik.resetForm();
+    setSelectedMR("");
     setSelectedAreas([]);
     setSelectedPharmacies([]);
     setSelectedDoctors([]);
     setSelectedProducts([]);
-    setSelectedMR("");
+    setEditingProduct(null);
     setOpenModel(false);
+  };
+  const handleDeleteClick = (id: string) => {
+    setDeleteId(id);
+    setDeleteConfirmation(true);
+  };
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setLoadingDelete(true);
+    try {
+      await deleteBrickMutation.mutateAsync(deleteId);
+    } finally {
+      setLoadingDelete(false);
+    }
   };
 
   const tableData = bricksData.map((brick: any) => [
@@ -274,19 +250,24 @@ export default function Brick() {
     brick.brickName,
     brick.city,
     brick.mrName,
-    brick.areaNames?.join(", "),
-    brick.products?.join(", "),
+    brick.areaNames?.join(", ") || "-",
+    brick.products?.join(", ") || "-",
     brick.Pharmacies?.length || 0,
     brick.doctors?.length || 0,
-
     <div className="flex gap-2">
-      <TbEdit className="cursor-pointer" onClick={() => handleEdit(brick)} />
-
+      <TbEdit
+        size={18}
+        className="cursor-pointer text-primary"
+        onClick={() => handleEdit(brick)}
+      />
       <Icon
         icon="mingcute:delete-line"
+        color="#E90761"
+        height="18"
+        width="20"
         className="cursor-pointer"
         onClick={() => {
-          setDeletestore(brick.brickId);
+          handleDeleteClick(brick.brickId);
           setDeleteConfirmation(true);
         }}
       />
@@ -296,10 +277,6 @@ export default function Brick() {
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
-
-  useEffect(() => {
-    document.title = "MediRep | Brick";
-  }, []);
 
   return (
     <>
@@ -402,7 +379,10 @@ export default function Brick() {
                 <CustomSelect
                   placeholder="Mr Name"
                   value={formik.values.mrName}
-                  onChange={(value) => formik.setFieldValue("mrName", value)}
+                  onChange={(value) => {
+                    formik.setFieldValue("mrName", value);
+                    setSelectedMR(value);
+                  }}
                   options={AllMR.map((mr: any) => mr.name)}
                 />
               </div>
@@ -439,8 +419,7 @@ export default function Brick() {
 
             <div className="flex justify-end mt-6">
               <button
-                type="submit"
-                onClick={() => formik.handleSubmit()}
+                onClick={handleSave}
                 className="bg-primary text-white w-[150px] h-[50px] rounded"
               >
                 {editingProduct
@@ -492,11 +471,7 @@ export default function Brick() {
                 onClick={handleDelete}
                 className="px-7 h-[48px] py-2 bg-[#E90761] font-medium text-white rounded-md"
               >
-                {deleteBrickMutation.isPending ? (
-                  <Spin indicator={antIcon} />
-                ) : (
-                  "Delete"
-                )}
+                {isloadingDelete ? <Spin indicator={antIcon} /> : "Delete"}
               </button>
             </div>
           </div>
