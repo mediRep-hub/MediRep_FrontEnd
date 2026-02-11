@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -175,9 +175,11 @@ export default function DailyCallReport() {
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(data, "DailyCallReport.xlsx");
   };
+  useEffect(() => {
+    document.title = "MediRep | Daily Call Reporting";
+  }, []);
   return (
     <>
-      {" "}
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between items-center">
           <div className="flex w-full md:w-auto items-center gap-3">
@@ -194,9 +196,9 @@ export default function DailyCallReport() {
               className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
-                icon="solar:download-linear"
-                height="20"
-                width="20"
+                icon="solar:download-broken"
+                height="24"
+                width="24"
                 color="#0755E9"
               />
               <p className="text-primary text-base font-medium">Download</p>
@@ -206,7 +208,7 @@ export default function DailyCallReport() {
               onClick={() => {
                 setGenerateReport(true);
               }}
-              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"
@@ -228,7 +230,7 @@ export default function DailyCallReport() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white mt-3 rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white mt-3 rounded-xl 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)]  overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={title} data={Data} />
           </div>

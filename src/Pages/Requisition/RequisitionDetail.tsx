@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import {
@@ -211,12 +211,15 @@ export default function RequisitionDetail() {
   return (
     <>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap items-center gap-4 ">
+        <div className="flex flex-wrap gap-3 items-center">
           <div
             onClick={handleBack}
-            className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+            className="h-10  min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
           >
-            <FaArrowLeft size={16} color="#000000" />
+            <Icon
+              icon="material-symbols:arrow-back-rounded"
+              className="text-xl text-heading"
+            />
           </div>
           <p className="text-heading font-medium text-[22px] sm:text-[24px]">
             Requisition Details
@@ -299,7 +302,7 @@ export default function RequisitionDetail() {
                     <div className="xl:w-[calc(50%-10px)] w-full flex gap-5">
                       {" "}
                       <div className="xl:w-[calc(50%-10px)] w-full">
-                        <p className="text-[#131313] mt-3 font-medium text-sm">
+                        <p className="text-[#131313] font-medium text-sm">
                           Details
                         </p>
                         <p className="text-[#131313] mt-3 font-medium text-sm">
@@ -318,7 +321,7 @@ export default function RequisitionDetail() {
                         )}
                       </div>
                       <div className="xl:w-[calc(50%-10px)] w-full">
-                        <p className="text-[#131313] mt-3 font-normal text-sm">
+                        <p className="text-[#131313]  font-normal text-sm">
                           {dataRequisitions?.details}
                         </p>
                         <p className="text-[#131313] mt-3 font-normal text-sm">
@@ -398,16 +401,16 @@ export default function RequisitionDetail() {
                       <p className="text-[#131313] mt-3 font-medium text-sm">
                         Accept Requisition
                       </p>
-                      <div className="flex justify-between items-center pb-5 mt-5">
+                      <div className="flex flex-wrap md:flex-nowrap gap-3 justify-between items-center pb-5 mt-5">
                         <button
                           onClick={() => {
                             setDeleteConfirmation(true);
                           }}
-                          className="bg-[#F2FAFD] h-[56px] w-[100px] cursor-pointer rounded-md text-black"
+                          className="bg-[#F2FAFD] h-[56px] w-full md:w-[100px] cursor-pointer rounded-md text-black"
                         >
                           Delete
                         </button>
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-wrap md:flex-nowrap gap-3 w-full md:w-auto items-center">
                           <button
                             onClick={() =>
                               dataRequisitions?._id &&
@@ -417,7 +420,7 @@ export default function RequisitionDetail() {
                               dataRequisitions?.status === "accepted" ||
                               dataRequisitions?.status === "rejected"
                             }
-                            className={`h-[56px] w-[100px] rounded-md text-white  
+                            className={`h-[56px] w-full md:w-[100px] rounded-md text-white  
       ${
         dataRequisitions?.status === "rejected" || "accepted"
           ? "bg-red-400 cursor-not-allowed"
@@ -443,7 +446,7 @@ export default function RequisitionDetail() {
                               dataRequisitions?.status === "accepted" ||
                               dataRequisitions?.status === "rejected"
                             }
-                            className={`h-[56px] w-[100px] rounded-md text-white  
+                            className={`h-[56px] w-full md:w-[100px] rounded-md text-white  
       ${
         dataRequisitions?.status === "rejected" || "accepted"
           ? "bg-gray-400 cursor-not-allowed"
@@ -554,64 +557,66 @@ export default function RequisitionDetail() {
 
         {changeRequisition && selectedProduct && dataRequisitions && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg w-[600px] shadow-lg">
-              <div className="flex justify-between items-center mb-5">
-                <p className="text-[24px] text-heading capitalize font-semibold">
+            <div className="bg-white  rounded-lg w-[450px] shadow-lg">
+              <div className="flex p-4 rounded-t-lg bg-[#E5EBF7] items-center justify-between">
+                <p className="text-[16px] leading-[100%] text-heading font-medium">
                   Update Requisition
                 </p>
-                <IoMdCloseCircle
-                  size={20}
-                  onClick={() => setChangeRequisition(false)}
-                  className="cursor-pointer text-primary"
-                />
               </div>
+              <div className="p-4">
+                <CustomSelect
+                  placeholder="Requisition Type"
+                  value={requisitionType}
+                  options={requisitionTypeOptions}
+                  onChange={(value) =>
+                    setRequisitionType(
+                      value as "cash" | "other" | "house" | "car" | "tour",
+                    )
+                  }
+                />
 
-              <CustomSelect
-                placeholder="Requisition Type"
-                value={requisitionType}
-                options={requisitionTypeOptions}
-                onChange={(value) =>
-                  setRequisitionType(
-                    value as "cash" | "other" | "house" | "car" | "tour",
-                  )
-                }
-              />
+                {requisitionType === "cash" && (
+                  <CustomInput
+                    label="Amount"
+                    type="number"
+                    className="mt-4"
+                    value={dataRequisitions.amount || 0}
+                    onChange={(e) =>
+                      setRequisitionsingle({
+                        ...dataRequisitions,
+                        amount: Number(e.target.value),
+                      })
+                    }
+                  />
+                )}
 
-              {requisitionType === "cash" && (
                 <CustomInput
-                  label="Amount"
+                  label="Quantity"
                   type="number"
                   className="mt-4"
-                  value={dataRequisitions.amount || 0}
+                  value={selectedProduct.quantity}
                   onChange={(e) =>
-                    setRequisitionsingle({
-                      ...dataRequisitions,
-                      amount: Number(e.target.value),
+                    setSelectedProduct({
+                      ...selectedProduct,
+                      quantity: Number(e.target.value),
                     })
                   }
                 />
-              )}
 
-              <CustomInput
-                label="Quantity"
-                type="number"
-                className="mt-4"
-                value={selectedProduct.quantity}
-                onChange={(e) =>
-                  setSelectedProduct({
-                    ...selectedProduct,
-                    quantity: Number(e.target.value),
-                  })
-                }
-              />
-
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={handleUpdateProduct}
-                  className="bg-primary text-white px-7 py-3 rounded"
-                >
-                  {loadingUpdate ? <Spin indicator={antIcon} /> : "Save"}
-                </button>
+                <div className="flex justify-end gap-3 mt-6">
+                  <button
+                    className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] cursor-pointer"
+                    onClick={() => setChangeRequisition(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleUpdateProduct}
+                    className="bg-primary text-white px-7 py-3 rounded"
+                  >
+                    {loadingUpdate ? <Spin indicator={antIcon} /> : "Save"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

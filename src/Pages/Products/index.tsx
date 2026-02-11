@@ -21,6 +21,7 @@ import { TbEdit } from "react-icons/tb";
 import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import { useDebounce } from "../../Components/Debounce";
 
 const titles = [
   "Product SKU",
@@ -76,16 +77,32 @@ export default function Products() {
   const [isloading, setLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [viewImage, setViewImage] = useState<any>(null);
+  const [searchName, setSearchName] = useState("");
+
   const [openImage, setOpenImage] = useState(false);
+
+  const debouncedName = useDebounce(searchName, 500);
+
   const [isloadingDelete, setLoadingDelete] = useState(false);
   useEffect(() => {
     document.title = "MediRep | Products";
   }, []);
+  const [page, setPage] = useState(1);
+  console.log("🚀 ~ Products ~ setPage:", setPage);
+  const [limit] = useState(10);
+
+  const params = {
+    productName: debouncedName,
+    page,
+    limit,
+  };
+
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllProducts"],
-    queryFn: () => getAllProducts(),
+    queryKey: ["AllProducts", params],
+    queryFn: () => getAllProducts(params),
     staleTime: 5 * 60 * 1000,
   });
+
   let ProductData = data?.data?.data;
 
   let tableData: any = [];
@@ -213,12 +230,17 @@ export default function Products() {
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
       <div className="flex flex-wrap gap-4 items-start justify-between">
-        <p className="text-heading font-medium text-[22px] sm:text-[24px]">
+        <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
           Products
         </p>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex w-full lg:w-auto  flex-wrap items-center gap-4">
           <div className="md:w-[250px] w-full">
-            <SearchByName name="Product Name:" />
+            <SearchByName
+              name="Product Name:"
+              onChange={(val) => {
+                setSearchName(val);
+              }}
+            />
           </div>
 
           <button
@@ -265,26 +287,29 @@ export default function Products() {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto  shadow-xl relative"
           >
-            <div className="flex items-center justify-between ">
-              <p className="text-[24px] text-heading capitalize font-medium">
-                <p className="text-[24px] text-heading capitalize font-semibold">
-                  {editingProduct ? "Edit Products" : "Upload Products"}
-                </p>
+            <div className="flex items-center justify-between bg-[#E5EBF7] xl:px-6 px-4 py-4">
+              <p className="text-[24px] text-heading leading-[100%] capitalize font-normal">
+                {editingProduct ? "Edit Products" : "Upload Products"}
               </p>
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => setOpenModel(false)}
-                className="cursor-pointer text-primary"
-              />
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => setOpenModel(false)}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
-            <p className="text-base font-normal text-[#979797]">
-              Define Products accordingly
-            </p>{" "}
-            <form onSubmit={formik.handleSubmit}>
-              <div className="flex flex-wrap mt-5 gap-8">
-                <div className="md:w-[calc(50%-16px)] w-full">
+
+            <form onSubmit={formik.handleSubmit} className="xl:p-6 p-4">
+              <p className="text-base font-normal text-[#979797]">
+                Define Products accordingly
+              </p>{" "}
+              <div className="flex flex-wrap gap-4">
+                <div className="md:w-[calc(50%-8px)] w-full">
                   <p className="text-base font-normal text-heading">
                     Products Details
                   </p>
@@ -442,7 +467,13 @@ export default function Products() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end mt-5 gap-4">
+                <button
+                  onClick={() => setOpenModel(false)}
+                  className="h-[55px] md:w-[100px] w-full bg-[#F2FAFD] text-[#131313] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
@@ -506,11 +537,15 @@ export default function Products() {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl xl:mx-0 mx-5 w-[300px] xl:h-auto max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative">
             <div className="flex justify-end cursor-pointer mb-2">
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => setOpenImage(false)}
-                className="cursor-pointer text-primary"
-              />
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => setOpenImage(false)}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
             {viewImage ? (
               <img
