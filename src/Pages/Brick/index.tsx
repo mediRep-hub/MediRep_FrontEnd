@@ -7,20 +7,19 @@ import CustomInput from "../../Components/CustomInput";
 import MultiSelect from "../../Components/MultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPharmacies } from "../../api/pharmacyServices";
-import { bricksData as initialBricksData } from "../../utils/brick";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import CustomSelect from "../../Components/Select";
 import { getAllAccounts } from "../../api/adminServices";
 import { getAllDoctorsLIst } from "../../api/doctorServices";
-import { getAllProducts } from "../../api/productServices";
 import SearchByName from "../../Components/SearchBar/searchByName";
-import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
+import { notifyError, notifySuccess } from "../../Components/Toast";
 import * as Yup from "yup";
 import { createBrick } from "../../api/brickServices";
 import { getAllBricks } from "../../api/brickServices";
 import { deleteBrick } from "../../api/brickServices";
+import { getAllProducts } from "../../api/productServices";
 import { updateBrick } from "../../api/brickServices";
 
 const aeraSelection = [
@@ -55,20 +54,13 @@ const titles = [
 
 export default function Brick() {
   const [openModel, setOpenModel] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [editingBrick, setEditingBrick] = useState<any>(null);
   const [searchBrickName, setSearchBrickName] = useState("");
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteID, setDeleteID] = useState<string | null>(null);
   const [isloading, setLoading] = useState(false);
-  const [bricksData, setBricksData] = useState(initialBricksData);
   const [isloadingDelete, setLoadingDelete] = useState(false);
-  // const [deletestore, setDeletestore] = useState<string | null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
-  const { data: Products } = useQuery({
-    queryKey: ["AllProducts"],
-    queryFn: () => getAllProducts(),
-    staleTime: 5 * 60 * 1000,
-  });
   const { data: pharmaciesData } = useQuery({
     queryKey: ["pharmacies"],
     queryFn: () => getAllPharmacies({ page: 1, limit: 100 }),
@@ -82,6 +74,11 @@ export default function Brick() {
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
+  const { data: Products } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: () => getAllProducts(),
+  });
+  console.log("Products Data:", Products);
 
   const {
     data,
@@ -91,39 +88,63 @@ export default function Brick() {
     queryKey: ["bricks", searchBrickName],
     queryFn: () => getAllBricks(searchBrickName),
   });
+
   useEffect(() => {
     document.title = "MediRep | Brick";
   }, []);
 
   const brickSchema = Yup.object({
+    // brickId: Yup.string().required("Brick ID is required"),
     brickName: Yup.string().required("Brick Name is required"),
     city: Yup.string().required("City is required"),
     mrName: Yup.string().required("MR Name is required"),
-    areaNames: Yup.array().min(1, "Select at least one Area"),
-    Pharmacies: Yup.array().min(1, "Select at least one Pharmacy"),
+    areas: Yup.array().min(1, "Select at least one Area"),
+    pharmacies: Yup.array().min(1, "Select at least one Pharmacy"),
     doctors: Yup.array().min(1, "Select at least one Doctor"),
     products: Yup.array().min(1, "Select at least one Product"),
   });
   const formik = useFormik({
-    initialValues: {
-      brickName: "",
-      city: "",
-      mrName: "",
-      areaNames: [] as string[],
-      Pharmacies: [] as string[],
-      doctors: [] as string[],
-      products: [] as string[],
-    },
     enableReinitialize: true,
+    initialValues: {
+      brickId: editingBrick?.brickId || "",
+      brickName: editingBrick?.brickName || "",
+      city: editingBrick?.city || "",
+      mrName: editingBrick?.mrName || "",
+      areas: editingBrick?.areas || [],
+      pharmacies: editingBrick?.pharmacies || [],
+      doctors: editingBrick?.doctors || [],
+      products: editingBrick?.products || [],
+    },
     validationSchema: brickSchema,
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
+      setLoading(true);
       if (editingBrick) {
-        await updateBrickMutation.mutateAsync({
-          id: editingBrick.brickId,
-          values,
-        });
+        updateBrick(editingBrick._id, values)
+          .then(() => {
+            notifySuccess("Brick updated successfully");
+            setOpenModel(false);
+            setEditingBrick(null);
+            formik.resetForm();
+            refetch();
+          })
+          .catch((error) => {
+            console.error(error);
+            notifyError("Failed to update brick.");
+          })
+          .finally(() => setLoading(false));
       } else {
-        await createBrickMutation.mutateAsync(values);
+        createBrick(values)
+          .then(() => {
+            notifySuccess("Brick added successfully");
+            setOpenModel(false);
+            formik.resetForm();
+            refetch();
+          })
+          .catch((error) => {
+            console.error(error);
+            notifyError("Failed to add brick.");
+          })
+          .finally(() => setLoading(false));
       }
     },
   });
@@ -138,127 +159,47 @@ export default function Brick() {
       (mr: any) => mr?.position === "MedicalRep(MR)",
     ) || [];
 
-  const createBrickMutation = useMutation({
-    mutationFn: createBrick,
-    onSuccess: (newBrick: any) => {
-      alert("Brick Created Successfully");
-      setBricksData((prev) => [...prev, newBrick]);
-      setOpenModel(false);
-      formik.resetForm();
-      setSearchBrickName("");
-      refetch();
-    },
-  });
-
-  const deleteBrickMutation = useMutation({
-    mutationFn: (id: string) => deleteBrick(id),
-    onSuccess: (_, id) => {
-      alert("Brick Deleted Successfully");
-      setBricksData((prev) => prev.filter((brick) => brick.brickId !== id)); // Remove row
-      setDeleteConfirmation(false);
-      setDeleteId(null);
-    },
-  });
-
-  const updateBrickMutation = useMutation({
-    mutationFn: ({ id, values }: { id: string; values: any }) =>
-      updateBrick(id, values),
-
-    onSuccess: () => {
-      alert("Brick Updated Successfully");
-      formik.resetForm();
-      setEditingBrick(null);
-      setOpenModel(false);
-      refetch();
-    },
-
-    onError: (err) => {
-      console.error("Update failed:", err);
-      alert("Update Failed");
-    },
-  });
-  // ======= HANDLERS =======
-  const handleEdit = (brick: any) => {
-    setEditingProduct(brick);
-    formik.setValues({
-      brickName: brick.brickName || "",
-      city: brick.city || "",
-      mrName: brick.mrName || "",
-      areaNames: brick.areaNames || [],
-      Pharmacies: brick.Pharmacies || [],
-      doctors: brick.doctors || [],
-      products: brick.products || [],
-    });
-    setSelectedMR(brick.mrName || "");
-    setSelectedAreas(brick.areaNames || []);
-    setSelectedPharmacies(brick.Pharmacies || []);
-    setSelectedDoctors(brick.doctors || []);
-    setSelectedProducts(brick.products || []);
-    setOpenModel(true);
-  };
-
-  const handleSave = async () => {
-    const payload = {
-      brickName: formik.values.brickName,
-      city: formik.values.city,
-      mrName: selectedMR || formik.values.mrName,
-      areaNames: selectedAreas.length ? selectedAreas : formik.values.areaNames,
-      Pharmacies: selectedPharmacies.length
-        ? selectedPharmacies
-        : formik.values.Pharmacies,
-      doctors: selectedDoctors.length ? selectedDoctors : formik.values.doctors,
-      products: selectedProducts.length
-        ? selectedProducts
-        : formik.values.products,
-    };
-
-    if (editingProduct) {
-      await updateBrickMutation.mutateAsync({
-        id: editingProduct.brickId,
-        values: payload,
+  const handleDelete = () => {
+    if (!deleteID) return;
+    setLoadingDelete(true);
+    deleteBrick(deleteID)
+      .then(() => {
+        notifySuccess("Product deleted successfully");
+        setDeleteConfirmation(false);
+        refetch();
+      })
+      .catch((error) => {
+        console.error("Failed to delete product:", error);
+        notifyError("Failed to delete product. Please try again.");
+      })
+      .finally(() => {
+        setLoadingDelete(false);
       });
-    } else {
-      await createBrickMutation.mutateAsync(payload);
-    }
-
-    // reset state
-    formik.resetForm();
-    setSelectedMR("");
-    setSelectedAreas([]);
-    setSelectedPharmacies([]);
-    setSelectedDoctors([]);
-    setSelectedProducts([]);
-    setEditingProduct(null);
-    setOpenModel(false);
   };
+
   const handleDeleteClick = (id: string) => {
-    setDeleteId(id);
+    setDeleteID(id);
     setDeleteConfirmation(true);
   };
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    setLoadingDelete(true);
-    try {
-      await deleteBrickMutation.mutateAsync(deleteId);
-    } finally {
-      setLoadingDelete(false);
-    }
-  };
 
-  const tableData = bricksData.map((brick: any) => [
+  const bricksList = Array.isArray(data?.data) ? data.data : [];
+  const tableData = bricksList.map((brick: any) => [
     brick.brickId,
     brick.brickName,
     brick.city,
     brick.mrName,
-    brick.areaNames?.join(", ") || "-",
-    brick.products?.join(", ") || "-",
-    brick.Pharmacies?.length || 0,
+    brick.areas?.join(", "),
+    brick.products?.join(", "),
+    brick.pharmacies?.length || 0,
     brick.doctors?.length || 0,
     <div className="flex gap-2">
       <TbEdit
         size={18}
         className="cursor-pointer text-primary"
-        onClick={() => handleEdit(brick)}
+        onClick={() => {
+          setEditingBrick(brick);
+          setOpenModel(true);
+        }}
       />
       <Icon
         icon="mingcute:delete-line"
@@ -266,10 +207,7 @@ export default function Brick() {
         height="18"
         width="20"
         className="cursor-pointer"
-        onClick={() => {
-          handleDeleteClick(brick.brickId);
-          setDeleteConfirmation(true);
-        }}
+        onClick={() => handleDeleteClick(brick._id)}
       />
     </div>,
   ]);
@@ -289,18 +227,13 @@ export default function Brick() {
             <div className="md:w-[250px] w-full">
               <SearchByName
                 name="Brick Name:"
-                onSearch={(value: string) => {
-                  setSearchBrickName(value);
-                  refetch();
-                }}
+                onSearch={(value) => setSearchBrickName(value)}
               />
             </div>
             <button
               onClick={() => {
-                setEditingProduct(null);
+                setEditingBrick(null);
                 formik.resetForm();
-                setSelectedAreas([]);
-                setSelectedPharmacies([]);
                 setOpenModel(true);
               }}
               className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
@@ -338,7 +271,7 @@ export default function Brick() {
           <div className="bg-white rounded-xl w-[1000px] max-h-[90vh] p-6">
             <div className="flex justify-between">
               <p className="text-xl font-semibold">
-                {editingProduct ? "Edit Brick" : "Add Brick"}
+                {editingBrick ? "Edit Brick" : "Add Brick"}
               </p>
               <IoMdCloseCircle
                 className="cursor-pointer text-primary"
@@ -381,7 +314,6 @@ export default function Brick() {
                   value={formik.values.mrName}
                   onChange={(value) => {
                     formik.setFieldValue("mrName", value);
-                    setSelectedMR(value);
                   }}
                   options={AllMR.map((mr: any) => mr.name)}
                 />
@@ -391,15 +323,15 @@ export default function Brick() {
                 <MultiSelect
                   label="Areas"
                   options={aeraSelection}
-                  value={formik.values.areaNames}
-                  onChange={(value) => formik.setFieldValue("areaNames", value)}
+                  value={formik.values.areas}
+                  onChange={(value) => formik.setFieldValue("areas", value)}
                 />
                 <MultiSelect
                   label="Pharmacies"
                   options={pharmacyOptions}
-                  value={formik.values.Pharmacies}
+                  value={formik.values.pharmacies}
                   onChange={(value) =>
-                    formik.setFieldValue("Pharmacies", value)
+                    formik.setFieldValue("pharmacies", value)
                   }
                 />
                 <MultiSelect
@@ -419,15 +351,16 @@ export default function Brick() {
 
             <div className="flex justify-end mt-6">
               <button
-                onClick={handleSave}
+                type="submit"
+                onClick={() => formik.handleSubmit()}
                 className="bg-primary text-white w-[150px] h-[50px] rounded"
               >
-                {editingProduct
-                  ? updateBrickMutation.isPending
+                {isloading
+                  ? editingBrick
                     ? "Updating..."
-                    : "Update"
-                  : createBrickMutation.isPending
-                    ? "Saving..."
+                    : "Saving..."
+                  : editingBrick
+                    ? "Update"
                     : "Save"}
               </button>
             </div>
