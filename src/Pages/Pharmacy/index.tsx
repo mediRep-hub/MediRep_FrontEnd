@@ -23,12 +23,12 @@ import PharmacyUploads from "../../Components/PharmacyUploads";
 import { Icon } from "@iconify/react";
 import { bricksData } from "../../utils/brick";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import { useDebounce } from "../../Components/Debounce";
 interface Pharmacy {
   _id?: string;
   name: string;
   DSL: string;
   email: string;
-
   phone: string;
   affiliation: string;
   image?: string | null;
@@ -61,13 +61,15 @@ export default function Pharmacies() {
   const [isLoadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-
+  const [searchName, setSearchName] = useState("");
+  const debouncedName = useDebounce(searchName, 500);
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["AllPharmacies", currentPage],
+    queryKey: ["AllPharmacies", currentPage, debouncedName],
     queryFn: () =>
       getAllPharmacies({
         page: currentPage,
         limit: itemsPerPage,
+        name: debouncedName || undefined,
       }),
     placeholderData: (previous) => previous,
   });
@@ -106,7 +108,6 @@ export default function Pharmacies() {
     initialValues: {
       name: editingPharmacy?.name || "",
       email: editingPharmacy?.email || "",
-
       DSL: editingPharmacy?.DSL || "",
       phone: editingPharmacy?.phone || "",
       startTime: editingPharmacy?.startTime || "",
@@ -200,20 +201,27 @@ export default function Pharmacies() {
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex flex-wrap md:flex-nowrap justify-between items-start gap-4">
+        <div className="flex flex-wrap lg:flex-nowrap justify-between items-start gap-4">
           <p className="text-heading font-medium text-[22px] lg:text-[24px]">
             Pharmacies
           </p>
           <div className="flex flex-wrap sm:flex-nowrap gap-4 items-center">
             <div className="md:w-[250px] w-full">
-              <SearchByName name="Pharmacy Name:" />
+              <SearchByName
+                name="Pharmacy Name:"
+                value={searchName}
+                onChange={(val) => {
+                  setSearchName(val);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
             <button
               onClick={() => setOpenModal(true)}
               className="h-[55px] w-full md:w-[180px] bg-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
-                icon="ic:round-upload"
+                icon="solar:upload-broken"
                 height="24"
                 width="24"
                 color="#7D7D7D"
@@ -237,7 +245,7 @@ export default function Pharmacies() {
 
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(76vh-0px)] xl:h-[calc(64vh-0px)] overflow-y-auto scrollbar-none"
+          className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 h-[calc(100vh-230px)] overflow-y-auto scrollbar-none"
         >
           <div className="flex flex-wrap gap-2 justify-between items-center">
             <p className="text-[#7D7D7D] font-medium text-sm">Pharmacy List</p>
@@ -274,33 +282,34 @@ export default function Pharmacies() {
       {addPharmacy && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-40">
           <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto xl:p-6 p-4 shadow-xl relative"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto  shadow-xl relative"
           >
-            <div className="flex items-center justify-between">
-              <p className="text-[24px] text-heading capitalize font-semibold">
+            <div className="flex items-center justify-between bg-[#E5EBF7] xl:px-6 px-4 py-4">
+              <p className="text-[24px] text-heading capitalize font-normal">
                 {editingPharmacy ? "Edit Pharmacy" : "Upload Pharmacy"}
               </p>
 
-              <IoMdCloseCircle
-                size={20}
-                onClick={() => {
-                  setAddPharmacy(false);
-                  setEditingPharmacy(null);
-                  formik.resetForm();
-                }}
-                className="cursor-pointer text-primary"
-              />
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => {
+                      setAddPharmacy(false);
+                      setEditingPharmacy(null);
+                      formik.resetForm();
+                    }}
+                    className="cursor-pointer text-primary"
+                  />
+                </div>
+              </div>
             </div>
 
-            <form onSubmit={formik.handleSubmit} className="mt-5">
+            <form onSubmit={formik.handleSubmit} className="xl:p-6 p-4">
               <div className="flex flex-wrap items-start gap-4">
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Pharmacy Details</p>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="name"
                       name="name"
@@ -315,7 +324,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>{" "}
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={channelOptions}
                       value={formik.values.channel}
@@ -328,7 +337,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="email"
                       name="email"
@@ -343,7 +352,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="phone"
                       name="phone"
@@ -358,7 +367,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <ImagePicker
                       label="Upload Image"
                       placeholder="Upload Your Image"
@@ -373,12 +382,12 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>{" "}
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="DSL"
                       name="DSL"
-                      label="DSL"
-                      placeholder="Write Your Drug Sale License (Optional)"
+                      label="DSL Number"
+                      placeholder="Write Your Drug Sale License"
                       height="128px"
                       value={formik.values.DSL}
                       onChange={formik.handleChange}
@@ -392,9 +401,9 @@ export default function Pharmacies() {
                 </div>
                 <div className="xl:w-[calc(50%-8px)] w-full">
                   <p className="text-heading text-base">Set Pharmacy Details</p>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <LocationPicker
-                      label="Pick Location"
+                      label="Address"
                       value={formik.values.location.address}
                       placeholder="Enter address"
                       onChange={(address, lat, lng) => {
@@ -408,7 +417,7 @@ export default function Pharmacies() {
                         </div>
                       )}
                   </div>
-                  <div className="mt-4 flex gap-3">
+                  <div className="mt-3 flex gap-3">
                     <div className="w-full">
                       <CustomTimePicker
                         value={formik.values.startTime}
@@ -437,12 +446,12 @@ export default function Pharmacies() {
                       )}
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={brickOptions}
                       value={formik.values.brick}
                       onChange={(val) => formik.setFieldValue("brick", val)}
-                      placeholder="Brick"
+                      placeholder="Brick Name"
                     />{" "}
                     {formik.touched.brick && formik.errors.brick && (
                       <div className="text-red-500 text-xs">
@@ -450,7 +459,7 @@ export default function Pharmacies() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomSelect
                       options={cityOptions}
                       value={formik.values.city}
@@ -464,7 +473,7 @@ export default function Pharmacies() {
                     )}
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <CustomInput
                       id="affiliation"
                       name="affiliation"
@@ -493,7 +502,16 @@ export default function Pharmacies() {
                     Delete
                   </button>
                 )}
-
+                <button
+                  onClick={() => {
+                    setAddPharmacy(false);
+                    setEditingPharmacy(null);
+                    formik.resetForm();
+                  }}
+                  className="h-[55px] md:w-[100px] w-full bg-[#F2FAFD] text-[#131313] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] flex justify-center items-center"

@@ -86,20 +86,13 @@ export const ProductSchema = Yup.object().shape({
 });
 
 export const BrickSchema = Yup.object().shape({
+  brickName: Yup.string().required("Brick Name is required"),
   city: Yup.string().required("City is required"),
-  brickName: Yup.string().required("Brick Name is required."),
-  planType: Yup.string().required("Plan Type is required"),
-  day: Yup.string().required("Please select a day."),
-  mrName: Yup.string().required("Please select the MR."),
-  doctorList: Yup.array().min(1, "Please select at least one doctor."),
-  products: Yup.array()
-    .of(
-      Yup.object().shape({
-        name: Yup.string().required("Product name is required"),
-      }),
-    )
-    .min(1, "Please select at least one product.")
-    .required("Products are required"),
+  mrName: Yup.string().required("MR Name is required"),
+  areaNames: Yup.array().min(1, "Select at least one Area"),
+  Pharmacies: Yup.array().min(1, "Select at least one Pharmacy"),
+  doctors: Yup.array().min(1, "Select at least one Doctor"),
+  products: Yup.array().min(1, "Select at least one Product"),
 });
 
 export const reportSchema = Yup.object().shape({
@@ -376,6 +369,11 @@ export const defaultLinks: SidebarLink[] = [
         path: "/monthlyTandEReport",
       },
     ],
+  },
+  {
+    name: "Testing",
+    icon: "icon-park-solid:plan",
+    path: "/testing",
   },
 ];
 

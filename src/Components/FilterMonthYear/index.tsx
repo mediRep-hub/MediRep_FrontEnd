@@ -1,47 +1,72 @@
+import { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { DateRange } from "react-date-range";
+import type { Range, RangeKeyDict } from "react-date-range";
+import { format } from "date-fns";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const currentYear = new Date().getFullYear();
-const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
-interface MonthYearPickerProps {
-  value?: { month: string; year: number };
-  onChange?: (val: { month: string; year: number }) => void;
+interface DateRangePickerProps {
+  value?: { startDate: Date; endDate: Date };
+  onChange?: (range: { startDate: Date; endDate: Date }) => void;
 }
 
-export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
-  value = { month: months[new Date().getMonth()], year: currentYear },
+export const MonthYearPicker: React.FC<DateRangePickerProps> = ({
+  value,
   onChange,
 }) => {
   const [open, setOpen] = useState(false);
+  const isMobile = window.innerWidth < 768;
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [range, setRange] = useState<Range>({
+    startDate: value?.startDate ?? new Date(),
+    endDate: value?.endDate ?? new Date(),
+    key: "selection",
+  });
+  const [hasSelection, setHasSelection] = useState<boolean>(
+    !!value?.startDate && !!value?.endDate,
+  );
 
-  const handleMonthChange = (month: string) => {
-    onChange?.({ ...value, month });
+  const handleSelect = (ranges: RangeKeyDict) => {
+    const selection = ranges.selection;
+    if (!selection.startDate || !selection.endDate) return;
+
+    setRange(selection);
+    setHasSelection(true);
+
+    onChange?.({
+      startDate: selection.startDate,
+      endDate: selection.endDate,
+    });
   };
 
-  const handleYearChange = (year: number) => {
-    onChange?.({ ...value, year });
-  };
+  useEffect(() => {
+    if (open && isMobile) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open, isMobile]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className="relative inline-block w-full h-10 lg:w-[200px]">
+    <div ref={wrapperRef} className="relative w-full lg:w-[200px]">
       <div
-        className="flex items-center justify-between px-3 py-2 text-sm text-[#131313] border border-[#0755E9] rounded-lg cursor-pointer"
-        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between px-3 py-2 text-sm border border-[#0755E9] rounded-lg cursor-pointer bg-secondary"
+        onClick={() => setOpen((prev) => !prev)}
       >
         <div className="flex items-center gap-2">
           <Icon
@@ -50,40 +75,58 @@ export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
             height={20}
             color="#0755E9"
           />
-          <span>{`${value.month}-${value.year}`}</span>
+          {hasSelection ? (
+            <span className="text-[#131313]">
+              {format(range.startDate!, "MMM-dd")} →{" "}
+              {format(range.endDate!, "MMM-dd")}
+            </span>
+          ) : (
+            <span className="text-gray-400">Select date range</span>
+          )}
         </div>
+
         <Icon
           icon={open ? "mdi:chevron-up" : "mdi:chevron-down"}
           width={20}
           height={20}
+          color="#0755E9"
         />
       </div>
 
-      {open && (
-        <div className="absolute z-50 flex w-full gap-2 p-3 mt-1 text-xs bg-[#E5EBF7] rounded shadow-lg">
-          <select
-            className="flex-1 p-1 border border-[#0755E9] rounded"
-            value={value.month}
-            onChange={(e) => handleMonthChange(e.target.value)}
-          >
-            {months.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
+      {open && isMobile && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-end">
+          <div className="bg-white w-full rounded-t-xl p-3 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-2">
+              <p className="font-medium text-sm">Select Date Range</p>
+              <Icon
+                icon="material-symbols:close-rounded"
+                className="cursor-pointer"
+                onClick={() => setOpen(false)}
+              />
+            </div>
 
-          <select
-            className="flex-1 p-1 border-[#0755E9] border rounded"
-            value={value.year}
-            onChange={(e) => handleYearChange(Number(e.target.value))}
-          >
-            {years.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
+            <DateRange
+              ranges={[range]}
+              onChange={handleSelect}
+              moveRangeOnFirstSelection={false}
+              months={1}
+              direction="vertical"
+              editableDateInputs={false}
+            />
+          </div>
+        </div>
+      )}
+
+      {open && !isMobile && (
+        <div className="absolute z-50 mt-2 shadow-xl rounded-lg overflow-hidden">
+          <DateRange
+            ranges={[range]}
+            onChange={handleSelect}
+            moveRangeOnFirstSelection={false}
+            months={2}
+            direction="horizontal"
+            editableDateInputs={false}
+          />
         </div>
       )}
     </div>

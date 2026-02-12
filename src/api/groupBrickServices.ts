@@ -8,6 +8,11 @@ export const addGroups = (values: any) => {
 export const getAllGroups = () => {
   return HTTP_CLIENT.get(ENDPOINTS.GROUP_GET_ALL_BRICK);
 };
-export const deleteGroups = (id: string, values: any) => {
-  return HTTP_CLIENT.put(`${ENDPOINTS.GROUP_DELETE_BRICK}/${id}`, values);
+
+export const deleteGroups = (id: string) => {
+  return HTTP_CLIENT.delete(`${ENDPOINTS.GROUP_DELETE_BRICK}/${id}`);
+};
+
+export const updateGroup = (id: string, values: any) => {
+  return HTTP_CLIENT.put(`${ENDPOINTS.GROUP_Update_BRICK}/${id}`, values);
 };

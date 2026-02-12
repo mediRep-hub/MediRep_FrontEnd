@@ -7,19 +7,15 @@ const ChatComponent = () => {
   const [messages, setMessages] = useState<string[]>([]);
 
   useEffect(() => {
-    // Update connection status
     const handleOpen = () => setConnected(true);
     const handleClose = () => setConnected(false);
 
     ws.addEventListener("open", handleOpen);
     ws.addEventListener("close", handleClose);
 
-    // ✅ If already open on mount
     if (ws.readyState === WebSocket.OPEN) {
       handleOpen();
     }
-
-    // Listen for incoming messages
     const handleMessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data);
       if (data.type === "chat") {

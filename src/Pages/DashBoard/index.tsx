@@ -16,10 +16,12 @@ import { getAllRequisition } from "../../api/requisitionServices";
 export default function DashBoard() {
   const { data, refetch } = useQuery({
     queryKey: ["AllProducts"],
-    queryFn: () => getAllProducts(),
+    queryFn: () => getAllProducts({}),
     staleTime: 5 * 60 * 1000,
   });
+
   let ProductData = data?.data?.totalSummary;
+  console.log("🚀 ~ DashBoard ~ ProductData:", ProductData);
 
   useEffect(() => {
     refetch;
@@ -35,7 +37,6 @@ export default function DashBoard() {
     staleTime: 5 * 60 * 1000,
   });
   let AllRequisition = Requisition?.data?.requisitions;
-  console.log("🚀 ~ DashBoard ~ AllRequisition:", AllRequisition);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeData = AllRequisition?.[activeIndex] || {};
@@ -65,7 +66,7 @@ export default function DashBoard() {
             </div>
           </div>
           <p className="xl:text-xl lg:text-lg  font-semibold mt-3">
-            {ProductData?.totalTarget}
+            {ProductData?.totalTarget || 0}
           </p>
         </div>
 
@@ -79,7 +80,7 @@ export default function DashBoard() {
           <div className="flex items-end gap-2 mt-3">
             <p className="xl:text-xl lg:text-lg  font-semibold ">
               {" "}
-              {ProductData?.totalAchievement}
+              {ProductData?.totalAchievement || 0}
             </p>
             <p className="text-sm font-normal">+0.03%</p>
             <MdOutlineTrendingUp color="#28A745" size={18} />
@@ -95,7 +96,7 @@ export default function DashBoard() {
           </div>{" "}
           <div className="flex items-end gap-2 mt-3">
             <p className="xl:text-xl lg:text-lg  font-semibold ">
-              {ProductData?.percentage?.toFixed(4)}%
+              {ProductData?.percentage?.toFixed(4) || 0}%
             </p>
             <p className="text-sm font-normal">-0.03%</p>
             <MdOutlineTrendingDown color="#C47301" size={18} />

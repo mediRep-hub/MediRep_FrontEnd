@@ -1,10 +1,9 @@
 import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
 import CustomTable from "../../Components/CustomTable";
-import { TbEdit } from "react-icons/tb";
 import { IoMdCloseCircle } from "react-icons/io";
 import CustomInput from "../../Components/CustomInput";
 import MultiSelect from "../../Components/MultiSelect";
+<<<<<<< HEAD
 import { useQuery } from "@tanstack/react-query";
 import { getAllPharmacies } from "../../api/pharmacyServices";
 import { Spin } from "antd";
@@ -16,11 +15,28 @@ import SearchByName from "../../Components/SearchBar/searchByName";
 import { useFormik } from "formik";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import * as Yup from "yup";
+=======
+import { Spin } from "antd";
+import { Loading3QuartersOutlined } from "@ant-design/icons";
+import CustomSelect from "../../Components/Select";
+import SearchByName from "../../Components/SearchBar/searchByName";
+import { useQuery } from "@tanstack/react-query";
+import { useFormik } from "formik";
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
 import { createBrick } from "../../api/brickServices";
 import { getAllBricks } from "../../api/brickServices";
 import { deleteBrick } from "../../api/brickServices";
 import { getAllProducts } from "../../api/productServices";
 import { updateBrick } from "../../api/brickServices";
+import { useEffect, useState } from "react";
+import { getAllProductsMR } from "../../api/productServices";
+import { getAllDoctorsLIst } from "../../api/doctorServices";
+import { getAllAccounts } from "../../api/adminServices";
+import { TbEdit } from "react-icons/tb";
+import { getAllPharmacies } from "../../api/pharmacyServices";
+import { notifyError, notifySuccess } from "../../Components/Toast";
+import { BrickSchema } from "../../utils/validation";
+import { useDebounce } from "../../Components/Debounce";
 
 const aeraSelection = [
   "Johar Town",
@@ -51,9 +67,19 @@ const titles = [
   "No of Doctors",
   "Action",
 ];
-
+export interface Brick {
+  _id: string;
+  brickName: string;
+  city: string;
+  mrName: string;
+  areas: string[];
+  pharmacies: string[];
+  doctors: string[];
+  products: string[];
+}
 export default function Brick() {
   const [openModel, setOpenModel] = useState(false);
+<<<<<<< HEAD
 <<<<<<< HEAD
   const [editingBrick, setEditingBrick] = useState<any>(null);
   const [searchBrickName, setSearchBrickName] = useState("");
@@ -74,8 +100,16 @@ export default function Brick() {
   const [isloadingDelete, setLoadingDelete] = useState(false);
   // const [deletestore, setDeletestore] = useState<string | null>(null);
 >>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
+=======
+  const [editingBrick, setEditingBrick] = useState<Brick | null>(null);
+  const [loading, setloading] = useState(false);
+  const [isloadingDelete, setLoadingDelete] = useState(false);
+  const [searchBrickName, setSearchBrickName] = useState("");
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const debouncedBrickName = useDebounce(searchBrickName, 500);
 
+<<<<<<< HEAD
   const { data: pharmaciesData } = useQuery({
     queryKey: ["pharmacies"],
     queryFn: () => getAllPharmacies({ page: 1, limit: 100 }),
@@ -84,11 +118,14 @@ export default function Brick() {
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctorsLIst(),
   });
+=======
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
   const { data: allMr } = useQuery({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,
   });
+<<<<<<< HEAD
 <<<<<<< HEAD
   const { data: Products } = useQuery({
     queryKey: ["allProducts"],
@@ -97,23 +134,47 @@ export default function Brick() {
   console.log("Products Data:", Products);
 =======
 >>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
+=======
+  let limit = 100;
+
+  const { data: pharmacies } = useQuery({
+    queryKey: ["pharmacies", limit],
+    queryFn: () => getAllPharmacies({ limit }),
+  });
+
+  const { data: doctorss } = useQuery({
+    queryKey: ["AllDoctors"],
+    queryFn: () => getAllDoctorsLIst(),
+  });
+
+  const { data: Products } = useQuery({
+    queryKey: ["getAllProductsMR"],
+    queryFn: () => getAllProductsMR(),
+    staleTime: 5 * 60 * 1000,
+  });
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
 
   const {
-    data,
-    isLoading: bricksLoading,
+    data: BrickData,
+    isFetching,
     refetch,
   } = useQuery({
-    queryKey: ["bricks", searchBrickName],
-    queryFn: () => getAllBricks(searchBrickName),
+    queryKey: ["bricks", debouncedBrickName],
+    queryFn: () => getAllBricks(debouncedBrickName),
   });
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
 >>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
+=======
+
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
   useEffect(() => {
     document.title = "MediRep | Brick";
   }, []);
 
+<<<<<<< HEAD
   const brickSchema = Yup.object({
     // brickId: Yup.string().required("Brick ID is required"),
     brickName: Yup.string().required("Brick Name is required"),
@@ -143,6 +204,26 @@ export default function Brick() {
         updateBrick(editingBrick._id, values)
           .then(() => {
             notifySuccess("Brick updated successfully");
+=======
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      brickName: editingBrick?.brickName ?? "",
+      city: editingBrick?.city ?? "",
+      mrName: editingBrick?.mrName ?? "",
+      areas: editingBrick?.areas ?? [],
+      pharmacies: editingBrick?.pharmacies ?? [],
+      doctors: editingBrick?.doctors ?? [],
+      products: editingBrick?.products ?? [],
+    },
+    validationSchema: BrickSchema,
+    onSubmit: (values) => {
+      setloading(true);
+      if (editingBrick) {
+        updateBrick(editingBrick._id, values)
+          .then(() => {
+            notifySuccess("Brick Updated Successfully");
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
             setOpenModel(false);
             setEditingBrick(null);
             formik.resetForm();
@@ -150,6 +231,7 @@ export default function Brick() {
           })
           .catch((error) => {
             console.error(error);
+<<<<<<< HEAD
             notifyError("Failed to update brick.");
           })
           .finally(() => setLoading(false));
@@ -157,29 +239,43 @@ export default function Brick() {
         createBrick(values)
           .then(() => {
             notifySuccess("Brick added successfully");
+=======
+            notifyError("Failed to Update Brick.");
+          })
+          .finally(() => setloading(false));
+      } else {
+        createBrick(values)
+          .then(() => {
+            notifySuccess("Brick Added Successfully");
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
             setOpenModel(false);
             formik.resetForm();
             refetch();
           })
           .catch((error) => {
             console.error(error);
+<<<<<<< HEAD
             notifyError("Failed to add brick.");
           })
           .finally(() => setLoading(false));
+=======
+            notifyError("Failed to Add Brick.");
+          })
+          .finally(() => setloading(false));
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
       }
     },
   });
-
   const productOptions =
     Products?.data?.data?.map((d: any) => d.productName) || [];
-  const pharmacyOptions =
-    pharmaciesData?.data?.data?.map((p: any) => p.name) || [];
+  const pharmacyOptions = pharmacies?.data?.data?.map((p: any) => p.name) || [];
   const doctorOptions = doctorss?.data?.data?.map((d: any) => d.name) || [];
   const AllMR =
     allMr?.data?.admins?.filter(
       (mr: any) => mr?.position === "MedicalRep(MR)",
     ) || [];
 
+<<<<<<< HEAD
   const handleDelete = () => {
     if (!deleteID) return;
     setLoadingDelete(true);
@@ -205,22 +301,37 @@ export default function Brick() {
 
   const bricksList = Array.isArray(data?.data) ? data.data : [];
   const tableData = bricksList.map((brick: any) => [
+=======
+  const tableData = BrickData?.data?.map((brick: any) => [
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
     brick.brickId,
     brick.brickName,
     brick.city,
     brick.mrName,
+<<<<<<< HEAD
     brick.areas?.join(", "),
     brick.products?.join(", "),
+=======
+    brick.areas?.join(", ") || "-",
+    brick.products?.join(", ") || "-",
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
     brick.pharmacies?.length || 0,
     brick.doctors?.length || 0,
     <div className="flex gap-2">
       <TbEdit
-        size={18}
-        className="cursor-pointer text-primary"
         onClick={() => {
           setEditingBrick(brick);
           setOpenModel(true);
         }}
+        size={18}
+        className="cursor-pointer text-primary"
+<<<<<<< HEAD
+        onClick={() => {
+          setEditingBrick(brick);
+          setOpenModel(true);
+        }}
+=======
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
       />
       <Icon
         icon="mingcute:delete-line"
@@ -228,7 +339,14 @@ export default function Brick() {
         height="18"
         width="20"
         className="cursor-pointer"
+<<<<<<< HEAD
         onClick={() => handleDeleteClick(brick._id)}
+=======
+        onClick={() => {
+          setEditingBrick(brick);
+          setDeleteConfirmation(true);
+        }}
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
       />
     </div>,
   ]);
@@ -236,7 +354,20 @@ export default function Brick() {
   const antIcon = (
     <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
   );
+  const handleDelete = () => {
+    const id = editingBrick?._id;
+    if (!id) return notifyError("Invalid Brick ID");
 
+    setLoadingDelete(true);
+    deleteBrick(id)
+      .then(() => {
+        notifySuccess("Brick Deleted Successfully");
+        setDeleteConfirmation(false);
+        refetch();
+      })
+      .catch(() => notifyError("Failed to Delete Brick"))
+      .finally(() => setLoadingDelete(false));
+  };
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -244,18 +375,28 @@ export default function Brick() {
           <p className="text-heading w-full lg:w-auto font-medium text-[22px] sm:text-[24px]">
             Brick
           </p>
-          <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
+          <div className="flex w-full lg:w-auto flex-wrap md:flex-nowrap items-center gap-4">
             <div className="md:w-[250px] w-full">
               <SearchByName
                 name="Brick Name:"
+<<<<<<< HEAD
                 onSearch={(value) => setSearchBrickName(value)}
+=======
+                onChange={(val) => {
+                  setSearchBrickName(val);
+                }}
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
               />
             </div>
             <button
               onClick={() => {
+<<<<<<< HEAD
                 setEditingBrick(null);
                 formik.resetForm();
+=======
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
                 setOpenModel(true);
+                setEditingBrick(null);
               }}
               className="h-[55px] w-full md:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
@@ -271,52 +412,50 @@ export default function Brick() {
         </div>
 
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(75.7vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
+          <p className="text-[#7D7D7D] font-medium text-sm">Brick List</p>
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(72.4vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white mt-4 rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
           >
-            {bricksLoading ? (
-              <Spin indicator={antIcon} />
-            ) : (
-              <CustomTable titles={titles} data={tableData} />
-            )}
+            <CustomTable
+              titles={titles}
+              data={tableData}
+              isFetching={isFetching}
+            />
           </div>
         </div>
       </div>
 
       {openModel && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+<<<<<<< HEAD
           <div className="bg-white rounded-xl w-[1000px] max-h-[90vh] p-6">
             <div className="flex justify-between">
               <p className="text-xl font-semibold">
                 {editingBrick ? "Edit Brick" : "Add Brick"}
+=======
+          <div
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="bg-white rounded-xl xl:mx-0 mx-5 w-[1000px] max-h-[90vh] overflow-x-auto  shadow-xl relative"
+          >
+            <div className="flex items-center justify-between bg-[#E5EBF7] xl:px-6 px-4 py-4">
+              <p className="text-[24px] text-heading capitalize font-normal">
+                {editingBrick ? "Update Brick" : "Add Brick"}
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
               </p>
-              <IoMdCloseCircle
-                className="cursor-pointer text-primary"
-                onClick={() => setOpenModel(false)}
-              />
-            </div>
 
-            <div className="grid grid-cols-2 gap-6 mt-5">
-              <div className="space-y-4">
-                <div>
-                  <CustomInput
-                    label="Brick Name"
-                    name="brickName"
-                    value={formik.values.brickName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+              <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
+                <div className="group-hover:bg-white">
+                  <IoMdCloseCircle
+                    size={24}
+                    onClick={() => setOpenModel(false)}
+                    className="cursor-pointer text-primary"
                   />
-
-                  {formik.touched.brickName && formik.errors.brickName && (
-                    <p className="text-red-500 text-xs">
-                      {formik.errors.brickName}
-                    </p>
-                  )}
                 </div>
+<<<<<<< HEAD
                 <div>
                   <CustomInput
                     label="City"
@@ -367,9 +506,24 @@ export default function Brick() {
                   value={formik.values.products}
                   onChange={(value) => formik.setFieldValue("products", value)}
                 />
+=======
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
               </div>
             </div>
+            <form onSubmit={formik.handleSubmit} className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 ">
+                <div className="space-y-4">
+                  <div>
+                    <CustomInput
+                      label="Brick Name"
+                      placeholder="Enter Brick Name"
+                      name="brickName"
+                      value={formik.values.brickName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
 
+<<<<<<< HEAD
             <div className="flex justify-end mt-6">
               <button
                 onClick={handleSave}
@@ -384,6 +538,93 @@ export default function Brick() {
                     : "Save"}
               </button>
             </div>
+=======
+                    {formik.touched.brickName && formik.errors.brickName && (
+                      <p className="text-red-500 text-xs">
+                        {formik.errors.brickName}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <CustomInput
+                      label="City"
+                      placeholder="Enter City"
+                      name="city"
+                      value={formik.values.city}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+
+                    {formik.touched.city && formik.errors.city && (
+                      <p className="text-red-500 text-xs">
+                        {formik.errors.city}
+                      </p>
+                    )}
+                  </div>
+                  <CustomSelect
+                    placeholder="Mr Name"
+                    value={formik.values.mrName}
+                    onChange={(value) => {
+                      formik.setFieldValue("mrName", value);
+                    }}
+                    options={AllMR.map((mr: any) => mr.name)}
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <MultiSelect
+                    label="Areas"
+                    options={aeraSelection}
+                    value={formik.values.areas}
+                    onChange={(value) => formik.setFieldValue("areas", value)}
+                  />
+                  <MultiSelect
+                    label="Pharmacies"
+                    options={pharmacyOptions}
+                    value={formik.values.pharmacies}
+                    onChange={(value) =>
+                      formik.setFieldValue("pharmacies", value)
+                    }
+                  />
+                  <MultiSelect
+                    label="Doctors"
+                    options={doctorOptions}
+                    value={formik.values.doctors}
+                    onChange={(value) => formik.setFieldValue("doctors", value)}
+                  />
+                  <MultiSelect
+                    label="Products"
+                    options={productOptions}
+                    value={formik.values.products}
+                    onChange={(value) =>
+                      formik.setFieldValue("products", value)
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end mt-5 gap-4">
+                <button
+                  onClick={() => setOpenModel(false)}
+                  className="h-[55px] md:w-[100px] w-full bg-[#F2FAFD] text-[#131313] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="h-[55px] md:w-[200px] w-full bg-primary text-white rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+                >
+                  {loading ? (
+                    <Spin indicator={antIcon} />
+                  ) : editingBrick ? (
+                    "Update Brick"
+                  ) : (
+                    "Add Brick"
+                  )}
+                </button>
+              </div>
+            </form>
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
           </div>
         </div>
       )}

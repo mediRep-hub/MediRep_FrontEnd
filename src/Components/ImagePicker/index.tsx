@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { RiFolderUploadFill } from "react-icons/ri";
 import { uploadFile } from "../../api/uploadServices";
+import { Icon } from "@iconify/react";
 
 interface ImagePickerProps {
   label?: string;
@@ -128,7 +128,12 @@ export default function ImagePicker({
         </div>
 
         {!uploading && (
-          <RiFolderUploadFill size={22} className="text-primary" />
+          <Icon
+            icon="solar:upload-bold"
+            height={24}
+            width={24}
+            className="text-primary"
+          />
         )}
       </div>
 

@@ -1,13 +1,12 @@
-import { FaArrowLeft } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import logo from "../../assets/medirep-logo.png";
-import { LuDownload } from "react-icons/lu";
 import { useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
+import { Icon } from "@iconify/react";
 export default function OrderDetails() {
   useEffect(() => {
     document.title = "MediRep | Orders Details";
@@ -69,12 +68,15 @@ export default function OrderDetails() {
     <div>
       <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
         <div className="flex flex-wrap gap-5 justify-between items-start">
-          <div className="flex flex-wrap items-center gap-4 ">
+          <div className="flex flex-wrap items-center gap-3 ">
             <div
               onClick={handleBack}
-              className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+              className="h-10  min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
             >
-              <FaArrowLeft size={16} color="#000000" />
+              <Icon
+                icon="material-symbols:arrow-back-rounded"
+                className="text-xl text-heading"
+              />
             </div>
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
               Order Details
@@ -88,7 +90,12 @@ export default function OrderDetails() {
               <Spin indicator={antIcon} />
             ) : (
               <>
-                <LuDownload size={20} className="text-white" />
+                <Icon
+                  icon="solar:download-broken"
+                  height="24"
+                  width="24"
+                  color="#fff"
+                />
                 <p className="text-white text-base font-medium">
                   {" "}
                   Download Invoice
@@ -99,14 +106,14 @@ export default function OrderDetails() {
         </div>
         <div
           ref={invoiceRef}
-          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] lg:h-[calc(64vh-0px)] h-auto "
+          className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] lg:h-[calc(66vh-0px)] h-auto "
         >
           <div
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(72.2vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth p-4 md:gap-0 gap-5 bg-white border border-primary rounded-lg 2xl:h-[calc(72.2vh-0px)] xl:h-[calc(61vh-0px)] overflow-y-auto scrollbar-none"
           >
             <div className="flex flex-wrap items-center ">
               <div className="md:w-[40%] w-full flex items-center gap-3">

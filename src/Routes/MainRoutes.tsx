@@ -3,6 +3,11 @@ import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
 import TrackSale from "../Pages/Orders/trackSale";
+<<<<<<< HEAD
+=======
+import AsmTarget from "../Pages/Targets/AsmTarget";
+import Testing from "../Pages/testing";
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
 
 const Tragets = lazy(() => import("../Pages/Targets"));
 
@@ -10,6 +15,7 @@ const CallReporting = lazy(() => import("../Pages/CallReporting"));
 const CallReportingDetail = lazy(
   () => import("../Pages/CallReporting/CallReportingDetail"),
 );
+<<<<<<< HEAD
 <<<<<<< HEAD
 import Brick from "../Pages/Brick";
 import SalewiseTargetDetail from "../Pages/Targets/salewiseTargetDetail";
@@ -24,6 +30,8 @@ import RouteWiseExpense from "../Pages/Expense Management/Route-wise Expense";
 import CategoryWiseExpense from "../Pages/Expense Management/Category-wise Expense";
 import ProductWiseDistribution from "../Pages/Reports/Product Wise Distribution";
 =======
+=======
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
 const Brick = lazy(() => import("../Pages/Brick"));
 const SalewiseTargetDetail = lazy(
   () => import("../Pages/Targets/salewiseTargetDetail"),
@@ -55,7 +63,10 @@ const ProductWiseDistribution = lazy(
 );
 
 const GroupDetails = lazy(() => import("../Pages/Group/groupDetails"));
+<<<<<<< HEAD
 >>>>>>> 3257fa3b8eebff788dd31a32a9650363a6b9c7b4
+=======
+>>>>>>> 37a9d38a7a3e9d3afb2f0fb5d4e32b381c276b74
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
@@ -242,6 +253,7 @@ export default function MainRoutes() {
           element={<DoctorMeetingExpense />}
         />
         <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
+        <Route path="/testing" element={<Testing />} />
       </Routes>
     </Suspense>
   );

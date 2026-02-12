@@ -102,7 +102,7 @@ export default function SideBar({ link }: any) {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="flex xl:h-[70%] 2xl:h-[80%] overflow-y-auto flex-col gap-0 mt-4"
+          className="flex h-[65%] xl:h-[60%] 2xl:h-[80%] overflow-y-auto flex-col gap-0 mt-4"
         >
           {sidebarLinks.map((item: any, index: number) => {
             const hasChildren = item.children && item.children.length > 0;

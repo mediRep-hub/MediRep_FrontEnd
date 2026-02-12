@@ -8,7 +8,7 @@ const antIcon = (
 );
 
 interface CustomTableProps {
-  titles?: string[];
+  titles?: any[];
   data?: any[][];
   handleGoToDetail?: (row: any) => void;
   height?: string | number;
