@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react";
-import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CustomTable from "../../../Components/CustomTable";
 import { useEffect } from "react";
@@ -58,12 +57,15 @@ export default function PrimarySaleDetails() {
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap lg:flex-nowrap justify-between items-start gap-4">
-          <div className="flex flex-wrap items-center gap-4 ">
+          <div className="flex flex-wrap gap-3 items-center">
             <div
               onClick={handleGoToBack}
-              className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+              className="h-10  min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
             >
-              <FaArrowLeft size={16} color="#000000" />
+              <Icon
+                icon="material-symbols:arrow-back-rounded"
+                className="text-xl text-heading"
+              />
             </div>
             <p className="text-heading font-medium text-[22px] sm:text-[24px]">
               Primary Sale
@@ -89,13 +91,13 @@ export default function PrimarySaleDetails() {
            "
             >
               {" "}
-              <p className="text-primary font-medium">Download</p>
               <Icon
-                icon="solar:download-linear"
+                icon="solar:download-broken"
                 height="24"
                 width="24"
                 color="#0755E9"
-              />
+              />{" "}
+              <p className="text-primary font-medium">Download</p>
             </button>
             <button className="h-[55px] w-full md:w-[192px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center">
               <Icon
@@ -117,7 +119,7 @@ export default function PrimarySaleDetails() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(54.5vh-0px)] overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableDataTitles} />
           </div>{" "}

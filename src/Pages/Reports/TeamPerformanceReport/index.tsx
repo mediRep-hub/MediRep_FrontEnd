@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -123,6 +123,9 @@ export default function TeamPerformanceReport() {
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(data, "Team Performance Report.xlsx");
   };
+  useEffect(() => {
+    document.title = "MediRep | Team Performance Report";
+  }, []);
   return (
     <>
       {" "}
@@ -142,9 +145,9 @@ export default function TeamPerformanceReport() {
               className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
-                icon="solar:upload-linear"
-                height="20"
-                width="20"
+                icon="solar:download-broken"
+                height="24"
+                width="24"
                 color="#0755E9"
               />
               <p className="text-primary text-base font-medium">Download</p>
@@ -154,7 +157,7 @@ export default function TeamPerformanceReport() {
               onClick={() => {
                 setGenerateReport(true);
               }}
-              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"

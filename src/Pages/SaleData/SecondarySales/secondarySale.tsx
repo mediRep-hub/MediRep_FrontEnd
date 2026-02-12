@@ -356,20 +356,27 @@ export default function SecondarySale() {
           <div className="flex  gap-3 mb-4 w-full md:w-auto">
             <button
               onClick={handleDownloadExcel}
-              className="h-[55px] min-w-[60px] bg-white rounded-[6px] flex items-center justify-center"
+              className="h-[55px] bg-white min-w-[60px] rounded-[6px] gap-3 flex justify-center items-center"
             >
-              <Icon icon="solar:download-linear" height="24" width="24" />
+              <Icon
+                icon="solar:download-broken"
+                height="24"
+                width="24"
+                color="#131313"
+                className="rotate-180"
+              />
             </button>
 
             <button
               onClick={() => setOpenUpload(true)}
-              className="h-[55px] min-w-[60px] bg-primary rounded-[6px] flex items-center justify-center"
+              className="h-[55px] min-w-[60px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
+              {" "}
               <Icon
-                icon="solar:upload-linear"
+                icon="solar:download-broken"
                 height="24"
                 width="24"
-                color="#fff"
+                color="#0755E9"
               />
             </button>
 
@@ -395,7 +402,7 @@ export default function SecondarySale() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(55vh-0px)] h-auto ${
+          className={`rounded-[12px] bg-[#E5EBF7] p-4 2xl:h-[calc(70vh-0px)] xl:h-[calc(47.5vh-0px)] h-auto ${
             selectTab === "Individual Sale"
               ? "rounded-tl-none"
               : "rounded-tl-[12px]"
@@ -409,7 +416,7 @@ export default function SecondarySale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(44.5vh-0px)] mt-4 overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(63vh-0px)] xl:h-[calc(37vh-0px)] mt-4 overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={selectTab == "Individual Sale" ? titles : titles22}

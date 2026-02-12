@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import PrimarySaleUpload from "../../../Components/PrimarySaleUpload";
+import ReportFilterModalStatic from "../../../Components/ReportFilter";
 
 const titles = [
   "Distributor_Code",
@@ -76,7 +76,10 @@ const tableDataTitles = [
 ];
 
 export default function BrickWiseSale() {
-  const [openModelUpload, setOpenUpload] = useState(false);
+  const [generateReport, setGenerateReport] = useState(false);
+  const handleClose = () => {
+    setGenerateReport(false);
+  };
   useEffect(() => {
     document.title = "MediRep | Channel Wise Sale";
   }, []);
@@ -100,7 +103,9 @@ export default function BrickWiseSale() {
 
     saveAs(blob, "Brick_Wise_Sale_Report.xlsx");
   };
-
+  useEffect(() => {
+    document.title = "MediRep | Brick Wise Sale";
+  }, []);
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
@@ -121,7 +126,7 @@ export default function BrickWiseSale() {
             >
               {" "}
               <Icon
-                icon="solar:download-linear"
+                icon="solar:download-broken"
                 height="24"
                 width="24"
                 color="#0755E9"
@@ -130,7 +135,7 @@ export default function BrickWiseSale() {
             </button>
             <button
               onClick={() => {
-                setOpenUpload(true);
+                setGenerateReport(true);
               }}
               className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
@@ -144,7 +149,7 @@ export default function BrickWiseSale() {
             </button>
           </div>
         </div>{" "}
-        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] lg:h-[calc(64vh-0px)] h-auto ">
+        <div className="bg-[#E5EBF7]  mt-4 rounded-[12px] p-4 2xl:h-[calc(75.5vh-0px)] xl:h-[calc(64vh-0px)] h-auto ">
           <p className="text-sm text-[#7d7d7d] leading-[100%]">
             Brick Wise Sale From Distributor
           </p>
@@ -153,19 +158,13 @@ export default function BrickWiseSale() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
-            className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+            className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(54.4vh-0px)]  overflow-y-auto scrollbar-none"
           >
             <CustomTable titles={titles} data={tableDataTitles} />
           </div>{" "}
         </div>
       </div>
-      {openModelUpload && (
-        <PrimarySaleUpload
-          closeModle={() => {
-            setOpenUpload(false);
-          }}
-        />
-      )}
+      {generateReport && <ReportFilterModalStatic close={handleClose} />}
     </>
   );
 }

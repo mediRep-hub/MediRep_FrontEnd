@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
+import TrackSale from "../Pages/Orders/trackSale";
 
 const Tragets = lazy(() => import("../Pages/Targets"));
 
@@ -9,6 +10,7 @@ const CallReporting = lazy(() => import("../Pages/CallReporting"));
 const CallReportingDetail = lazy(
   () => import("../Pages/CallReporting/CallReportingDetail"),
 );
+<<<<<<< HEAD
 import Brick from "../Pages/Brick";
 import SalewiseTargetDetail from "../Pages/Targets/salewiseTargetDetail";
 import AsmTarget from "../Pages/Targets/AsmTarget";
@@ -21,6 +23,39 @@ import MRWiseExpense from "../Pages/Expense Management/MR-wise Expense";
 import RouteWiseExpense from "../Pages/Expense Management/Route-wise Expense";
 import CategoryWiseExpense from "../Pages/Expense Management/Category-wise Expense";
 import ProductWiseDistribution from "../Pages/Reports/Product Wise Distribution";
+=======
+const Brick = lazy(() => import("../Pages/Brick"));
+const SalewiseTargetDetail = lazy(
+  () => import("../Pages/Targets/salewiseTargetDetail"),
+);
+const PlanSummary = lazy(() => import("../Pages/Plan Management"));
+const WeeklyPlans = lazy(() => import("../Pages/Plan Management/WeeklyPlans"));
+const MonthlyPlans = lazy(
+  () => import("../Pages/Plan Management/MonthlyPlans"),
+);
+
+const DoctorMeetingExpense = lazy(
+  () => import("../Pages/Expense Management/Doctor Meeting Expense"),
+);
+const MonthlyTEReport = lazy(
+  () => import("../Pages/Expense Management/Monthly T&E Report"),
+);
+const MRWiseExpense = lazy(
+  () => import("../Pages/Expense Management/MR-wise Expense"),
+);
+const RouteWiseExpense = lazy(
+  () => import("../Pages/Expense Management/Route-wise Expense"),
+);
+const CategoryWiseExpense = lazy(
+  () => import("../Pages/Expense Management/Category-wise Expense"),
+);
+
+const ProductWiseDistribution = lazy(
+  () => import("../Pages/Reports/Product Wise Distribution"),
+);
+
+const GroupDetails = lazy(() => import("../Pages/Group/groupDetails"));
+>>>>>>> 3257fa3b8eebff788dd31a32a9650363a6b9c7b4
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
@@ -143,6 +178,7 @@ export default function MainRoutes() {
         />{" "}
         <Route path="/trackRequisition" element={<TrackRequisition />} />
         <Route path="/group" element={<Group />} />
+        <Route path="/group/groupDetails" element={<GroupDetails />} />
         <Route path="/callReporting" element={<CallReporting />} />
         <Route
           path="/callReporting/details"
@@ -151,6 +187,7 @@ export default function MainRoutes() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/pendingOrders" element={<PendingOrders />} />
         <Route path="/orders/orderDetails" element={<OrderDetails />} />
+        <Route path="/trackSale" element={<TrackSale />} />
         <Route path="/primarySale" element={<PrimarySale />} />
         <Route
           path="/primarySale/PrimarySaleDetails"

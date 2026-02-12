@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
 import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
@@ -269,12 +268,15 @@ export default function SecondarySaleDetails() {
       <div>
         <div className="bg-secondary lg:h-[calc(100vh-129px)] h-auto rounded-[12px] py-4 px-4">
           <div className="flex flex-wrap gap-5 justify-between items-start">
-            <div className="flex flex-wrap items-center gap-4 ">
+            <div className="flex flex-wrap gap-3 items-center">
               <div
                 onClick={handleGoToBack}
-                className="w-10 h-10 border-[#7d7d7d] border-[1px] rounded-lg cursor-pointer flex justify-center items-center"
+                className="h-10  min-w-10 cursor-pointer rounded-lg border border-[#D2D2D2] flex justify-center items-center bg-white"
               >
-                <FaArrowLeft size={16} color="#000000" />
+                <Icon
+                  icon="material-symbols:arrow-back-rounded"
+                  className="text-xl text-heading"
+                />
               </div>
               <p className="text-heading font-medium text-[22px] sm:text-[24px]">
                 Secondary Sale
@@ -286,9 +288,9 @@ export default function SecondarySaleDetails() {
                 className="h-[55px] w-full md:w-[192px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
               >
                 <Icon
-                  icon="solar:download-linear"
-                  height="20"
-                  width="20"
+                  icon="solar:download-broken"
+                  height="24"
+                  width="24"
                   color="#0755E9"
                 />
                 <p className="text-primary text-base font-medium">Download</p>
@@ -320,7 +322,7 @@ export default function SecondarySaleDetails() {
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(59vh-0px)] overflow-y-auto scrollbar-none"
+              className="scroll-smooth mt-4 md:gap-0 gap-5 bg-white rounded-lg 2xl:h-[calc(69vh-0px)] xl:h-[calc(54vh-0px)] overflow-y-auto scrollbar-none"
             >
               <CustomTable
                 titles={selectTab == "Individual Sale" ? titles : titles22}

@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import CustomTable from "../../../Components/CustomTable";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -15,6 +15,11 @@ const title = [
 ];
 
 export default function SampleDistributionReport() {
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
   const Data = [
     ["Sep 20,2025", "Omar Rosser", "Jaydon Carder", "Synflex", "02"],
 
@@ -67,10 +72,123 @@ export default function SampleDistributionReport() {
     });
     saveAs(dataBlob, "Sample Distribution Report.xlsx");
   };
+  useEffect(() => {
+    document.title = "MediRep | Sample Distribution Report";
+  }, []);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setErrorMsg("");
+    setSuccessMsg("");
+    setLoading(true);
+    setProgress(10);
+
+    const fileType = file.type;
+
+    try {
+      // 🟢 EXCEL FILE
+      if (
+        fileType ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        fileType === "application/vnd.ms-excel"
+      ) {
+        const reader = new FileReader();
+
+        reader.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            setProgress(percent);
+          }
+        };
+
+        reader.onload = (evt: any) => {
+          const data = evt.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const json = XLSX.utils.sheet_to_json(sheet);
+
+          console.log("📊 Excel Data:", json);
+
+          setProgress(100);
+          setSuccessMsg("Excel file uploaded successfully ✅");
+          setTimeout(() => setSuccessMsg(""), 3000);
+          setLoading(false);
+        };
+
+        reader.onerror = () => {
+          throw new Error("Failed to read Excel file");
+        };
+
+        reader.readAsBinaryString(file);
+      }
+
+      // 🔵 PDF FILE
+      else if (fileType === "application/pdf") {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch("http://localhost:5000/upload-pdf", {
+          method: "POST",
+          body: formData,
+        });
+
+        setProgress(70);
+
+        if (!response.ok) {
+          throw new Error("PDF upload failed");
+        }
+
+        const data = await response.json();
+        console.log("📄 PDF Extracted Data:", data.text);
+
+        setProgress(100);
+        setSuccessMsg("PDF uploaded & parsed successfully ✅");
+        setTimeout(() => setSuccessMsg(""), 3000);
+        setLoading(false);
+      } else {
+        throw new Error("Unsupported file format");
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorMsg(error.message || "Upload failed ❌");
+      setTimeout(() => setErrorMsg(""), 3000);
+      setLoading(false);
+    }
+
+    e.target.value = "";
+  };
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
-      {" "}
+      {loading && (
+        <div className="fixed top-4 right-4 bg-white shadow-lg rounded-lg p-4 w-[260px] z-50">
+          <p className="text-sm font-medium mb-2">Uploading...</p>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="text-xs mt-1 text-right">{progress}%</p>
+        </div>
+      )}
+      {successMsg && (
+        <div className="fixed top-4 right-4 bg-green-100 text-green-700 px-4 py-2 rounded-lg shadow z-50">
+          {successMsg}
+        </div>
+      )}
+
+      {errorMsg && (
+        <div className="fixed top-4 right-4 bg-red-100 text-red-700 px-4 py-2 rounded-lg shadow z-50">
+          {errorMsg}
+        </div>
+      )}
+
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
         <div className="flex flex-wrap gap-4 justify-between items-center">
           <div className="flex w-full md:w-auto items-center gap-3">
@@ -81,25 +199,45 @@ export default function SampleDistributionReport() {
               <MonthYearPicker />
             </div>
           </div>
+
           <div className="flex flex-wrap w-full md:w-auto items-center gap-3">
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+            >
+              <Icon
+                icon="solar:download-broken"
+                height="24"
+                width="24"
+                color="#131313"
+                className="rotate-180"
+              />
+              <p className="text-heading text-base font-medium">Upload</p>
+            </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept=".pdf,.xlsx,.xls"
+              hidden
+              onChange={handleUpload}
+            />
             <button
               onClick={handleDownloadExcel}
               className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
-                icon="solar:upload-linear"
-                height="20"
-                width="20"
+                icon="solar:download-broken"
+                height="24"
+                width="24"
                 color="#0755E9"
               />
               <p className="text-primary text-base font-medium">Download</p>
             </button>
-
             <button
               onClick={() => {
                 setGenerateReport(true);
               }}
-              className="h-[55px] w-full md:w-[180px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[170px] lg:w-[200px] bg-primary rounded-[6px] gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"
