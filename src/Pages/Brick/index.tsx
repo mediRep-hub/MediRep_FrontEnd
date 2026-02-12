@@ -180,7 +180,6 @@ export default function Brick() {
       (mr: any) => mr?.position === "MedicalRep(MR)",
     ) || [];
 
-<<<<<<< HEAD
   const handleDelete = () => {
     if (!deleteID) return;
     setLoadingDelete(true);
@@ -206,142 +205,22 @@ export default function Brick() {
 
   const bricksList = Array.isArray(data?.data) ? data.data : [];
   const tableData = bricksList.map((brick: any) => [
-=======
-  const createBrickMutation = useMutation({
-    mutationFn: createBrick,
-    onSuccess: (newBrick: any) => {
-      alert("Brick Created Successfully");
-      setBricksData((prev) => [...prev, newBrick]);
-      setOpenModel(false);
-      formik.resetForm();
-      setSearchBrickName("");
-      refetch();
-    },
-  });
-
-  const deleteBrickMutation = useMutation({
-    mutationFn: (id: string) => deleteBrick(id),
-    onSuccess: (_, id) => {
-      alert("Brick Deleted Successfully");
-      setBricksData((prev) => prev.filter((brick) => brick.brickId !== id)); // Remove row
-      setDeleteConfirmation(false);
-      setDeleteId(null);
-    },
-  });
-
-  const updateBrickMutation = useMutation({
-    mutationFn: ({ id, values }: { id: string; values: any }) =>
-      updateBrick(id, values),
-
-    onSuccess: () => {
-      alert("Brick Updated Successfully");
-      formik.resetForm();
-      setEditingBrick(null);
-      setOpenModel(false);
-      refetch();
-    },
-
-    onError: (err) => {
-      console.error("Update failed:", err);
-      alert("Update Failed");
-    },
-  });
-  // ======= HANDLERS =======
-  const handleEdit = (brick: any) => {
-    setEditingProduct(brick);
-    formik.setValues({
-      brickName: brick.brickName || "",
-      city: brick.city || "",
-      mrName: brick.mrName || "",
-      areaNames: brick.areaNames || [],
-      Pharmacies: brick.Pharmacies || [],
-      doctors: brick.doctors || [],
-      products: brick.products || [],
-    });
-    setSelectedMR(brick.mrName || "");
-    setSelectedAreas(brick.areaNames || []);
-    setSelectedPharmacies(brick.Pharmacies || []);
-    setSelectedDoctors(brick.doctors || []);
-    setSelectedProducts(brick.products || []);
-    setOpenModel(true);
-  };
-
-  const handleSave = async () => {
-    const payload = {
-      brickName: formik.values.brickName,
-      city: formik.values.city,
-      mrName: selectedMR || formik.values.mrName,
-      areaNames: selectedAreas.length ? selectedAreas : formik.values.areaNames,
-      Pharmacies: selectedPharmacies.length
-        ? selectedPharmacies
-        : formik.values.Pharmacies,
-      doctors: selectedDoctors.length ? selectedDoctors : formik.values.doctors,
-      products: selectedProducts.length
-        ? selectedProducts
-        : formik.values.products,
-    };
-
-    if (editingProduct) {
-      await updateBrickMutation.mutateAsync({
-        id: editingProduct.brickId,
-        values: payload,
-      });
-    } else {
-      await createBrickMutation.mutateAsync(payload);
-    }
-
-    // reset state
-    formik.resetForm();
-    setSelectedMR("");
-    setSelectedAreas([]);
-    setSelectedPharmacies([]);
-    setSelectedDoctors([]);
-    setSelectedProducts([]);
-    setEditingProduct(null);
-    setOpenModel(false);
-  };
-  const handleDeleteClick = (id: string) => {
-    setDeleteId(id);
-    setDeleteConfirmation(true);
-  };
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    setLoadingDelete(true);
-    try {
-      await deleteBrickMutation.mutateAsync(deleteId);
-    } finally {
-      setLoadingDelete(false);
-    }
-  };
-
-  const tableData = bricksData.map((brick: any) => [
->>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
     brick.brickId,
     brick.brickName,
     brick.city,
     brick.mrName,
-<<<<<<< HEAD
     brick.areas?.join(", "),
     brick.products?.join(", "),
     brick.pharmacies?.length || 0,
-=======
-    brick.areaNames?.join(", ") || "-",
-    brick.products?.join(", ") || "-",
-    brick.Pharmacies?.length || 0,
->>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
     brick.doctors?.length || 0,
     <div className="flex gap-2">
       <TbEdit
         size={18}
         className="cursor-pointer text-primary"
-<<<<<<< HEAD
         onClick={() => {
           setEditingBrick(brick);
           setOpenModel(true);
         }}
-=======
-        onClick={() => handleEdit(brick)}
->>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
       />
       <Icon
         icon="mingcute:delete-line"
@@ -349,14 +228,7 @@ export default function Brick() {
         height="18"
         width="20"
         className="cursor-pointer"
-<<<<<<< HEAD
         onClick={() => handleDeleteClick(brick._id)}
-=======
-        onClick={() => {
-          handleDeleteClick(brick.brickId);
-          setDeleteConfirmation(true);
-        }}
->>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
       />
     </div>,
   ]);
@@ -463,10 +335,6 @@ export default function Brick() {
                   value={formik.values.mrName}
                   onChange={(value) => {
                     formik.setFieldValue("mrName", value);
-<<<<<<< HEAD
-=======
-                    setSelectedMR(value);
->>>>>>> e8cb3959cd46869330e75c23f2e638375c4bcd70
                   }}
                   options={AllMR.map((mr: any) => mr.name)}
                 />
