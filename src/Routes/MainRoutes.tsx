@@ -4,6 +4,7 @@ import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
 import TrackSale from "../Pages/Orders/trackSale";
 import AsmTarget from "../Pages/Targets/AsmTarget";
+import Testing from "../Pages/testing";
 
 const Tragets = lazy(() => import("../Pages/Targets"));
 
@@ -228,6 +229,7 @@ export default function MainRoutes() {
           element={<DoctorMeetingExpense />}
         />
         <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
+        <Route path="/testing" element={<Testing />} />
       </Routes>
     </Suspense>
   );

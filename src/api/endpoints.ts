@@ -1,5 +1,5 @@
-export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-// export const BASE_URL = "http://localhost:5001";
+// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -106,4 +106,8 @@ export const ENDPOINTS = {
   GET_EMPLOYEE_PAYROLLS: "/payroll/employee",
   GENERATE_SALARY_SLIP: "/payroll/generateSalarySlip",
   DOWNLOAD_SALARY_SLIP: "/payroll/salarySlip",
+
+  // -------------------stock -----------------
+  STOCK_GETALLSTOCK: "/stock/getAllStockReports",
+  UPLOAD_STOCK: "/stock/uploadStockCSV",
 };

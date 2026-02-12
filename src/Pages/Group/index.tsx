@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
-import { Input, Modal, Spin } from "antd";
+import { Spin } from "antd";
 import { IoMdCloseCircle } from "react-icons/io";
 import MultiSelect from "../../Components/MultiSelect";
 import CustomSelect from "../../Components/Select";
@@ -899,7 +899,10 @@ export default function Group() {
                               >
                                 Cancel
                               </button>
-                              <button className="bg-primary text-white px-7 py-3 rounded">
+                              <button
+                                onClick={handleBonusSave}
+                                className="bg-primary text-white px-7 py-3 rounded"
+                              >
                                 {isLoading ? (
                                   <Spin indicator={antIcon} />
                                 ) : editingGroup ? (
