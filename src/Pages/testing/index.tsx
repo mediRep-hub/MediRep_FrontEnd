@@ -1,272 +1,346 @@
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { notifyError, notifySuccess } from "../../Components/Toast";
-import { useQuery } from "@tanstack/react-query";
-import { getAllStocks, uploadCSVStock } from "../../api/stockServices";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
+import * as XLSX from "xlsx";
+
+// PDF (Vite Compatible)
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
+import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker?url";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+interface StockItem {
+  itemDescription: string;
+  rate: number;
+  openingBalance: number;
+  purchase: number;
+  purchaseReturn: number;
+  purchaseTotal: number;
+  sale: number;
+  saleReturn: number;
+  saleTotal: number;
+  value: number;
+  adjustment: number;
+  closingBalance: number;
+  closingValue: number;
+  todaySale: number;
+  todayReturn: number;
+}
 
 export default function Testing() {
   const [openModel, setOpenModel] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const { data: Stock, refetch } = useQuery({
-    queryKey: ["AllStocks"],
-    queryFn: () => getAllStocks(),
-  });
-  console.log("🚀 ~ Testing ~ Stock:", Stock);
+  const [tableData, setTableData] = useState<StockItem[]>([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      const allowed = ["csv", "pdf", "xls", "xlsx"];
-      const ext = selectedFile.name.split(".").pop()?.toLowerCase();
-      if (!ext || !allowed.includes(ext)) {
-        notifyError("Please upload CSV, PDF, or Excel file!");
-        return;
-      }
-      setFile(selectedFile);
-      setProgress(0);
+    if (!selectedFile) return;
+
+    const allowed = ["csv", "pdf", "xls", "xlsx"];
+    const ext = selectedFile.name.split(".").pop()?.toLowerCase();
+
+    if (!ext || !allowed.includes(ext)) {
+      notifyError("Please upload CSV, PDF, or Excel file!");
+      return;
     }
+
+    setFile(selectedFile);
+    setProgress(0);
     e.target.value = "";
   };
 
   const handleDelete = () => {
     setFile(null);
     setProgress(0);
-    const inputElement = document.getElementById(
-      "fileUpload",
-    ) as HTMLInputElement;
-    if (inputElement) inputElement.value = "";
   };
+  const cleanTableData = (rawData: any[][]) => {
+    const skipKeywords = [
+      "powered by",
+      "Item Description",
+      "print",
+      "page",
+      "version",
+      "company",
+      "date from",
+      "sale and stock report",
+      "www.",
+      "include blocked items",
+      "rate type",
+      "sort by",
+      "total for group",
+      "report total",
+    ];
 
+    return rawData.filter((row) => {
+      if (!row || row.length === 0) return false;
+
+      const rowString = row.join(" ").toLowerCase();
+
+      return !skipKeywords.some((keyword) => rowString.includes(keyword));
+    });
+  };
+  const extractPDFData = async (file: File) => {
+    const rawData: any[][] = [];
+
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const textContent = await page.getTextContent();
+
+      const items = textContent.items
+        .map((item: any) => ({
+          text: item.str.trim(),
+          x: item.transform[4],
+          y: item.transform[5],
+        }))
+        .filter((item: any) => item.text);
+
+      const rows: any[] = [];
+      const threshold = 5;
+
+      items.forEach((item: any) => {
+        let row = rows.find((r) => Math.abs(r.y - item.y) < threshold);
+
+        if (!row) {
+          row = { y: item.y, cells: [] };
+          rows.push(row);
+        }
+
+        row.cells.push(item);
+      });
+
+      rows.sort((a, b) => b.y - a.y);
+
+      rows.forEach((row) => {
+        row.cells.sort((a: any, b: any) => a.x - b.x);
+        rawData.push(row.cells.map((cell: any) => cell.text));
+      });
+    }
+
+    return rawData;
+  };
   const handleUpload = async () => {
     if (!file) return notifyError("Please select a file first!");
+
     setLoading(true);
     setProgress(10);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      let rawData: any[][] = [];
+      const ext = file.name.split(".").pop()?.toLowerCase();
 
-      const response = await uploadCSVStock(formData);
-      setProgress(70);
+      if (ext === "csv") {
+        const text = await file.text();
+        rawData = text.split("\n").map((line) => line.split(/,|\t/));
+      } else if (ext === "xls" || ext === "xlsx") {
+        const data = await file.arrayBuffer();
+        const workbook = XLSX.read(data);
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        rawData = XLSX.utils.sheet_to_json(sheet, {
+          header: 1,
+          defval: "",
+        });
+      } else if (ext === "pdf") {
+        rawData = await extractPDFData(file);
+      }
 
-      notifySuccess(response.data?.message || "Stock uploaded successfully!");
-      refetch();
+      setProgress(60);
+
+      const cleaned = cleanTableData(rawData);
+      const dataRows = cleaned.slice(1);
+
+      const structuredData: StockItem[] = dataRows.map((row) => ({
+        itemDescription: row[0] ?? "",
+        rate: Number(row[1] ?? 0),
+        openingBalance: Number(row[2] ?? 0),
+        purchase: Number(row[3] ?? 0),
+        purchaseReturn: Number(row[4] ?? 0),
+        purchaseTotal: Number(row[5] ?? 0),
+        sale: Number(row[6] ?? 0),
+        saleReturn: Number(row[7] ?? 0),
+        saleTotal: Number(row[8] ?? 0),
+        value: Number(row[9] ?? 0),
+        adjustment: Number(row[10] ?? 0),
+        closingBalance: Number(row[11] ?? 0),
+        closingValue: Number(row[12] ?? 0),
+        todaySale: Number(row[13] ?? 0),
+        todayReturn: Number(row[14] ?? 0),
+      }));
+
+      localStorage.setItem("stockData", JSON.stringify(structuredData));
+      setTableData(structuredData);
+
+      setProgress(100);
+      notifySuccess(
+        `File processed successfully! ${structuredData.length} rows found.`,
+      );
 
       setTimeout(() => {
-        setProgress(100);
-        setTimeout(() => {
-          setFile(null);
-          setProgress(0);
-          setOpenModel(false);
-        }, 800);
-      }, 500);
-    } catch (error: any) {
-      console.error("Upload Error:", error.response?.data || error.message);
-      notifyError(error.response?.data?.message || "Failed to upload file");
-      setProgress(0);
-      refetch();
+        setFile(null);
+        setOpenModel(false);
+        setProgress(0);
+      }, 800);
+    } catch (error) {
+      console.error(error);
+      notifyError("Failed to process file");
     } finally {
       setLoading(false);
     }
   };
-  const groupHeaders = (headers: string[]) => {
-    const groups: Record<string, string[]> = {};
 
-    headers.forEach((h) => {
-      const parts = h.split(" ");
+  useEffect(() => {
+    const stored = localStorage.getItem("stockData");
+    if (stored) setTableData(JSON.parse(stored));
+  }, []);
 
-      if (parts.length > 1) {
-        const parent = parts[0];
-        const child = parts.slice(1).join(" ");
+  const antIcon = <Loading3QuartersOutlined style={{ fontSize: 24 }} spin />;
 
-        if (!groups[parent]) groups[parent] = [];
-        groups[parent].push(child);
-      } else {
-        if (!groups[h]) groups[h] = [];
-      }
-    });
-
-    return groups;
-  };
-
-  const tableHeaders = Stock?.data?.titles || [];
-  const tableData = Stock?.data?.data || [];
-  const groupedHeaders = groupHeaders(tableHeaders);
-
-  const antIcon = (
-    <Loading3QuartersOutlined style={{ fontSize: 24, color: "white" }} spin />
-  );
-  console.log("HEADERS:", tableHeaders);
+  const headers = Object.keys({
+    itemDescription: "",
+    rate: 0,
+    openingBalance: 0,
+    purchase: 0,
+    purchaseReturn: 0,
+    purchaseTotal: 0,
+    sale: 0,
+    saleReturn: 0,
+    saleTotal: 0,
+    value: 0,
+    adjustment: 0,
+    closingBalance: 0,
+    closingValue: 0,
+    todaySale: 0,
+    todayReturn: 0,
+  });
 
   return (
     <>
-      <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">
-        <div className="flex justify-between items-center gap-3">
-          <p className="text-heading font-medium text-[22px] sm:text-[24px]">
-            Stock Reports
-          </p>
+      <div className="bg-secondary p-4 rounded-[12px]">
+        <div className="flex justify-between items-center">
+          <p className="text-[22px] font-medium">Stock Reports</p>
           <button
             onClick={() => setOpenModel(true)}
-            className="h-[55px] w-full md:w-[180px] bg-[#E5EBF7] rounded-[6px] gap-3 flex justify-center items-center"
+            className="bg-[#E5EBF7] px-6 py-3 rounded flex items-center gap-2"
           >
-            <Icon
-              icon="solar:download-broken"
-              height="24"
-              width="24"
-              color="#131313"
-              className="rotate-180"
-            />
-            <p className="text-heading text-base font-medium">Upload</p>
+            <Icon icon="solar:download-broken" className="rotate-180" />
+            Upload
           </button>
         </div>
 
-        <div className="rounded-[12px] mt-4 bg-[#E5EBF7] p-4 h-[calc(75.5vh-0px)] overflow-y-auto">
-          {" "}
-          <div
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(53vh-0px)] overflow-y-auto scrollbar-none"
-          >
-            <table className="min-w-full border-collapse">
-              <thead className="bg-gray-100 sticky top-0">
-                {/* FIRST HEADER ROW (PARENT) */}
-                <tr>
-                  {Object.entries(groupedHeaders).map(([parent, children]) => (
-                    <th
-                      key={parent}
-                      colSpan={children.length || 1}
-                      rowSpan={children.length ? 1 : 2}
-                      className="border px-3 py-2 text-center font-semibold"
-                    >
-                      {parent}
-                    </th>
+        <div
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(76vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+        >
+          <table className="min-w-full border-collapse">
+            <thead>
+              <tr>
+                {headers.map((h) => (
+                  <th key={h} className="border px-3 py-2 text-sm">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((row, i) => (
+                <tr key={i}>
+                  {headers.map((key) => (
+                    <td key={key} className="border px-3 py-2 text-sm">
+                      {(row as any)[key]}
+                    </td>
                   ))}
                 </tr>
-
-                {/* SECOND HEADER ROW (CHILD) */}
-                <tr>
-                  {Object.entries(groupedHeaders).flatMap(([_, children]) =>
-                    children.map((child, i) => (
-                      <th
-                        key={child + i}
-                        className="border px-3 py-2 text-sm font-semibold"
-                      >
-                        {child}
-                      </th>
-                    )),
-                  )}
-                </tr>
-              </thead>
-
-              <tbody>
-                {tableData.map((row: any, rowIndex: number) => (
-                  <tr key={rowIndex} className="hover:bg-gray-50">
-                    {(Array.isArray(row) ? row : Object.values(row)).map(
-                      (cell: any, cellIndex: number) => {
-                        const renderCell = () => {
-                          if (cell === null || cell === undefined) return "";
-
-                          if (typeof cell === "object") {
-                            const extracted = Object.values(cell)[0];
-                            return extracted ?? "";
-                          }
-
-                          return cell;
-                        };
-
-                        return (
-                          <td
-                            key={cellIndex}
-                            className="border px-3 py-2 text-sm"
-                          >
-                            {renderCell()}
-                          </td>
-                        );
-                      },
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-
       {openModel && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg w-[450px] shadow-lg">
-            <div className="flex p-4 rounded-t-lg bg-[#E5EBF7] justify-between items-center">
-              <p className="text-[16px] text-heading font-medium">
-                Upload Stock CSV
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white rounded-xl xl:mx-0 mx-5 xl:w-[450px] w-full xl:h-auto overflow-x-auto shadow-xl relative">
+            <div className="flex p-4 bg-[#E5EBF7] items-center justify-between">
+              <p className="text-[16px] leading-[100%] text-heading font-medium">
+                Upload Document
               </p>
             </div>
-            <div className="p-4 flex flex-col items-center justify-center">
+            <div className="flex relative p-4 flex-col items-center justify-center">
               <label
                 htmlFor="fileUpload"
-                className={`flex flex-col items-center justify-center w-full rounded-md border-[1px] p-10 border-dashed border-[#7d7d7d] cursor-pointer hover:bg-[#E5EBF7] ${file ? "bg-[#E5EBF7]" : ""}`}
+                className={`flex flex-col items-center justify-center w-full rounded-md border-[1px] p-10 border-dashed border-[#7d7d7d] cursor-pointer transition
+          ${file ? "bg-[#E5EBF7]" : "hover:bg-[#E5EBF7]"}`}
               >
                 <Icon
                   icon="hugeicons:upload-03"
                   width={22}
                   height={22}
-                  className="text-[#7d7d7d] mb-3 mt-10"
+                  className="text-[#7d7d7d] mb-3 mt-5"
                 />
-                <p className="text-xl text-center text-heading font-normal">
-                  Drag & Drop or{" "}
+                <p className="text-xl text-center text-heading font-medium">
+                  Drag and Drop or{" "}
                   <span className="text-primary">Click to upload</span>
                 </p>
-                <p className="text-base text-center font-normal text-[#7d7d7d]/60">
-                  Supported format: CSV
+                <p className="text-base text-center font-medium text-[#7d7d7d]/60">
+                  Supported format only: CSV
                 </p>
               </label>
               <input
                 id="fileUpload"
                 type="file"
-                accept=".csv, .pdf, .xls, .xlsx"
+                accept=".csv, .xlsx, .xls, .pdf"
                 onChange={handleFileChange}
                 className="hidden"
               />
-
               {file && (
-                <div className="mt-2 flex justify-between items-center w-full bg-primary text-white px-3 py-2 rounded-md">
-                  <p className="text-sm">{file.name}</p>
-                  <Icon
-                    icon="material-symbols:close-rounded"
-                    className="cursor-pointer"
-                    onClick={handleDelete}
-                  />
-                </div>
-              )}
-
-              {file && progress > 0 && (
-                <div className="mt-4 w-full">
-                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                    <div
-                      className="bg-primary h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${progress}%` }}
-                    ></div>
+                <div className="absolute z-10  bg-primary top-10 gap-4 left-10  flex items-center justify-between border px-3 py-2 rounded-md">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm text-white font-medium">
+                      {file.name}
+                    </p>
                   </div>
-                  <p className="text-sm mt-1 text-[#7D7D7D]">{progress}%</p>
+                  <div
+                    style={{
+                      boxShadow: " 0.67px 0.67px 2.67px 1.33px #00000040",
+                    }}
+                    className="absolute top-[-15px] right-[-15px] z-50 bg-white p-1 rounded-full"
+                  >
+                    <Icon
+                      icon="material-symbols:close-rounded"
+                      className="text-[#131313] cursor-pointer"
+                      onClick={handleDelete}
+                    />
+                  </div>
                 </div>
               )}
             </div>
-            <div className="p-4 flex justify-end gap-3">
-              <button
-                className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px]"
-                onClick={() => setOpenModel(false)}
-              >
-                Cancel
-              </button>
+
+            {file && progress > 0 && (
+              <div className="mt-4 xl:mx-6 mx-4">
+                <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div
+                    className="bg-primary h-3 rounded-full transition-all"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+                <p className="text-sm mt-1">{progress}%</p>
+              </div>
+            )}
+
+            {file && <p className="mb-2 text-sm">{file.name}</p>}
+
+            <div className="flex justify-end gap-3 p-4">
+              <button onClick={() => setOpenModel(false)}>Cancel</button>
               <button
                 onClick={handleUpload}
-                className="bg-primary text-white px-7 py-3 rounded"
+                className="bg-primary text-white px-4 py-2 rounded"
               >
                 {loading ? <Spin indicator={antIcon} /> : "Upload"}
               </button>

@@ -94,7 +94,6 @@ export default function MRWiseExpense() {
       order={{ _id: row.id, discount: 0 }}
       onStatusChange={(id, duration, discount) => {
         console.log("Status Changed:", id, duration, discount);
-        // Update state dynamically
         setData((prev) =>
           prev.map((r) => (r.id === id ? { ...r, status: true } : r)),
         );
