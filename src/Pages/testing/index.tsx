@@ -226,9 +226,12 @@ export default function Testing() {
           <p className="text-[22px] font-medium">Stock Reports</p>
           <button
             onClick={() => setOpenModel(true)}
-            className="bg-[#E5EBF7] px-6 py-3 rounded flex items-center gap-2"
+            className="h-[55px] w-full md:w-[180px] bg-[#fff] px-6 py-3 rounded flex items-center gap-3"
           >
-            <Icon icon="solar:download-broken" className="rotate-180" />
+            <Icon
+              icon="solar:download-broken"
+              className="rotate-180 text-2xl"
+            />
             Upload
           </button>
         </div>
@@ -238,13 +241,16 @@ export default function Testing() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(68.5vh-0px)] xl:h-[calc(76vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(75.5vh-0px)] xl:h-[calc(76vh-0px)]  mt-4 overflow-y-auto scrollbar-none"
         >
-          <table className="min-w-full border-collapse">
-            <thead>
+          <table className="w-full border-collapse table-auto">
+            <thead className="sticky top-0 bg-white z-10 h-14">
               <tr>
                 {headers.map((h) => (
-                  <th key={h} className="border px-3 py-2 text-sm">
+                  <th
+                    key={h}
+                    className="border-b border-[#0755E9] capitalize px-5 py-2 text-[12px] font-medium text-[#131313] text-left break-words"
+                  >
                     {h}
                   </th>
                 ))}
@@ -252,9 +258,15 @@ export default function Testing() {
             </thead>
             <tbody>
               {tableData.map((row, i) => (
-                <tr key={i}>
+                <tr
+                  key={i}
+                  className="hover:bg-[#E5EBF7] h-14 hover:text-black cursor-pointer"
+                >
                   {headers.map((key) => (
-                    <td key={key} className="border px-3 py-2 text-sm">
+                    <td
+                      key={key}
+                      className="px-5 py-2 border-b-[0.5px] border-[#0755E9] min-w-max  text-[13px] font-normal text-[#131313] break-words"
+                    >
                       {(row as any)[key]}
                     </td>
                   ))}
@@ -276,7 +288,7 @@ export default function Testing() {
               <label
                 htmlFor="fileUpload"
                 className={`flex flex-col items-center justify-center w-full rounded-md border-[1px] p-10 border-dashed border-[#7d7d7d] cursor-pointer transition
-          ${file ? "bg-[#E5EBF7]" : "hover:bg-[#E5EBF7]"}`}
+                ${file ? "bg-[#E5EBF7]" : "hover:bg-[#E5EBF7]"}`}
               >
                 <Icon
                   icon="hugeicons:upload-03"
