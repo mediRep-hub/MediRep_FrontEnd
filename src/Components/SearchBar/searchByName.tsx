@@ -13,7 +13,7 @@ export default function SearchByName({
 }: Props) {
   return (
     <div className="flex items-center w-full gap-2">
-      <p className="text-[#131313] text-sm font-medium w-auto">
+      <p className="text-[#131313] text-sm font-medium w-[55px]">
         {name || "Name :"}
       </p>
 

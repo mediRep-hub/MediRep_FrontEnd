@@ -24,13 +24,19 @@ export default function DatePicker({
       <AntDatePicker
         {...props}
         placeholder={placeholder}
-        className={`rounded-md w-full h-14 px-3 py-2 text-sm border-primary border-[0.5px] ${className}`}
-        style={{ height: "56px", width: "100%" }}
+        getPopupContainer={(triggerNode) => triggerNode.parentElement!}
+        className="w-full px-3 py-2 text-sm rounded-md custom-datepicker h-14"
+        style={{
+          height: "56px",
+          width: "100%",
+          border: "0.5px solid #0755E9",
+          boxShadow: "none",
+        }}
         format="YYYY-MM-DD"
         defaultValue={dayjs()}
         suffixIcon={
           <FaCalendar
-            className="text-primary"
+            className="text-[#0755E9]"
             style={{ fontSize: "22px", cursor: "pointer" }}
           />
         }

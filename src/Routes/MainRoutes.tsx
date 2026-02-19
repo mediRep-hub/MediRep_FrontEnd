@@ -5,6 +5,13 @@ import { useSelector } from "react-redux";
 import TrackSale from "../Pages/Orders/trackSale";
 import AsmTarget from "../Pages/Targets/AsmTarget";
 import Testing from "../Pages/testing";
+import Attendence from "../Pages/Attendence";
+import Events from "../Pages/Events";
+import Leaves from "../Pages/Leaves";
+import Payroll from "../Pages/Payroll";
+import PayrollDetails from "../Pages/Payroll/payRollDetails";
+import Setting from "../Pages/Setting";
+// import Setting from "../Pages/Setting";
 
 const Tragets = lazy(() => import("../Pages/Targets"));
 
@@ -150,6 +157,12 @@ export default function MainRoutes() {
             )
           }
         />{" "}
+        <Route path="/attendance" element={<Attendence />} />
+        <Route path="/leaves" element={<Leaves />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/payroll" element={<Payroll />} />
+        <Route path="/payroll/payrollDetails" element={<PayrollDetails />} />
+        <Route path="/setting" element={<Setting />} />
         <Route path="/targets-achievements" element={<Tragets />} />
         <Route
           path="/targets-achievements/Details"

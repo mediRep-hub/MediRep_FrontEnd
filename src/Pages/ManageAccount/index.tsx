@@ -24,7 +24,22 @@ import { useNavigate } from "react-router-dom";
 import SearchByName from "../../Components/SearchBar/searchByName";
 import { bricksData } from "../../utils/brick";
 import { useDebounce } from "../../Components/Debounce";
+import DatePicker from "../../Components/DatePicker";
+import dayjs from "dayjs";
+import MultiSelect from "../../Components/MultiSelect";
+import MultiSelectNew from "../../Components/MultiSelectNew";
 
+const leaveOptions = [
+  "Casual Leave",
+  "Sick Leave",
+  "Annual Leave",
+  "Maternity Leave",
+  "Paternity Leave",
+];
+export interface SelectedOption {
+  label: string;
+  amount: number;
+}
 const Positionlist = [
   "Director Sales",
   "National Sales Manger (NSM)",
@@ -33,7 +48,7 @@ const Positionlist = [
   "MedicalRep(MR)",
 ];
 const Arealist = ["Lahore", "Islamabad", "Bahawalpur", "Karachi"];
-const Divisionlist = ["Sales", "Marketing", "Distributor"] as const;
+const Divisionlist = ["Sales", "marketing", "Distributor"] as const;
 
 export interface SelectedOption {
   label: string;
@@ -52,6 +67,7 @@ export interface Account {
   city?: string;
   ownerName?: string;
   image?: string;
+  DOB: Date;
 }
 
 interface RowsByDivision {
@@ -59,7 +75,13 @@ interface RowsByDivision {
   marketing: any[];
   distributor: any[];
 }
-
+const leaveLabelMap: any = {
+  "Casual Leave": "casualLeave",
+  "Sick Leave": "sickLeave",
+  "Annual Leave": "annualLeave",
+  "Maternity Leave": "maternityLeave",
+  "Paternity Leave": "paternityLeave",
+};
 export default function ManageAccount() {
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isLoading, setLoading] = useState(false);
@@ -69,7 +91,7 @@ export default function ManageAccount() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
-  const [editingAccount, setEditingAccount] = useState<Account | null>(null);
+  const [editingAccount, setEditingAccount] = useState<any | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -109,6 +131,32 @@ export default function ManageAccount() {
         limit: itemsPerPage,
       }),
   });
+  const objectToMultiSelect = (leave: any) =>
+    Object.keys(leaveLabelMap)
+      .map((label) => ({
+        label,
+        amount: leave?.[leaveLabelMap[label]]?.total || 0, // total amount
+      }))
+      .filter((v) => v.amount > 0);
+
+  const multiSelectToObject = (arr: SelectedOption[]) => {
+    const result: any = {
+      casualLeave: { total: 0, consumed: 0 },
+      sickLeave: { total: 0, consumed: 0 },
+      annualLeave: { total: 0, consumed: 0 },
+      maternityLeave: { total: 0, consumed: 0 },
+      paternityLeave: { total: 0, consumed: 0 },
+    };
+
+    arr.forEach((item) => {
+      result[leaveLabelMap[item.label]] = {
+        total: Number(item.amount),
+        consumed: 0, // start with 0 consumed
+      };
+    });
+
+    return result;
+  };
 
   const AllAccounts: Account[] = data?.data?.admins ?? [];
   const rowsByDivision: RowsByDivision = useMemo(() => {
@@ -149,7 +197,7 @@ export default function ManageAccount() {
 
     return {
       sales: AllAccounts.filter((a) => a.division === "Sales").map(buildRow),
-      marketing: AllAccounts.filter((a) => a.division === "Marketing").map(
+      marketing: AllAccounts.filter((a) => a.division === "marketing").map(
         buildRow,
       ),
       distributor: AllAccounts.filter((a) => a.division === "Distributor").map(
@@ -165,12 +213,42 @@ export default function ManageAccount() {
       email: editingAccount?.email ?? "",
       password: "",
       confirmPassword: "",
+      DOB: editingAccount?.DOB ? dayjs(editingAccount.DOB) : null,
+
       image: editingAccount?.image ?? "",
       division: editingAccount?.division ?? "",
       city: editingAccount?.city ?? "",
       brickName: editingAccount?.brickName ?? "",
       position: editingAccount?.position ?? "",
       ownerName: editingAccount?.ownerName ?? "",
+      joiningDate: editingAccount?.joiningDate
+        ? dayjs(editingAccount.joiningDate)
+        : null,
+      salaryStructure: {
+        basic: editingAccount?.salaryStructure?.basic || 0,
+        incentive: {
+          flue: editingAccount?.salaryStructure?.incentive?.flue || 0,
+          medical: editingAccount?.salaryStructure?.incentive?.medical || 0,
+          others: editingAccount?.salaryStructure?.incentive?.others || 0,
+          deductions:
+            editingAccount?.salaryStructure?.incentive?.deductions || 0,
+        },
+        tax: editingAccount?.salaryStructure?.tax || 0,
+      },
+      loanPF: {
+        loan: editingAccount?.loanPF?.loan || 0,
+        pf: editingAccount?.loanPF?.pf || 0,
+      },
+      leaveMultiSelect: editingAccount
+        ? objectToMultiSelect(editingAccount.leaveEntitlements)
+        : [], // empty array for new
+      leaveEntitlements: editingAccount?.leaveEntitlements || {
+        casualLeave: 0,
+        sickLeave: 0,
+        annualLeave: 0,
+        maternityLeave: 0,
+        paternityLeave: 0,
+      },
     },
     validationSchema: AccountSchema(isEdit),
     onSubmit: (values) => {
@@ -185,9 +263,14 @@ export default function ManageAccount() {
         confirmPassword: values.confirmPassword,
         division: values.division,
         city: values.city,
+        DOB: values.DOB,
         brickName: values.brickName,
         position: values.position,
         ownerName: values.ownerName,
+        joiningDate: values.joiningDate,
+        salaryStructure: values.salaryStructure,
+        loanPF: values.loanPF,
+        leaveEntitlements: multiSelectToObject(values.leaveMultiSelect),
       };
 
       const action = editingAccount
@@ -556,6 +639,36 @@ export default function ManageAccount() {
                       </div>
                     )}
                   </div>
+                  <div className="mt-3">
+                    <DatePicker
+                      label="Joining Date"
+                      value={formik.values.joiningDate}
+                      onChange={(date) =>
+                        formik.setFieldValue("joiningDate", date)
+                      }
+                    />
+                    {formik.touched.joiningDate &&
+                      formik.errors.joiningDate &&
+                      typeof formik.errors.joiningDate === "string" && (
+                        <div className="text-xs text-red-500">
+                          * {formik.errors.joiningDate}
+                        </div>
+                      )}
+                  </div>
+                  <div className="mt-3">
+                    <MultiSelectNew
+                      placeholder="Select leave"
+                      options={leaveOptions}
+                      value={formik.values.leaveMultiSelect}
+                      onChange={(val: SelectedOption[]) => {
+                        formik.setFieldValue("leaveMultiSelect", val);
+                        formik.setFieldValue(
+                          "leaveEntitlements",
+                          multiSelectToObject(val),
+                        );
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className="md:w-[calc(50%-8px)] w-full">
@@ -665,6 +778,177 @@ export default function ManageAccount() {
                       )}
                     </div>
                   )}
+                  <div className="mt-3">
+                    <DatePicker
+                      label="DOB"
+                      value={formik.values.DOB}
+                      onChange={(date) => formik.setFieldValue("DOB", date)}
+                    />
+                    {formik.touched.DOB &&
+                      formik.errors.DOB &&
+                      typeof formik.errors.DOB === "string" && (
+                        <div className="text-xs text-red-500">
+                          * {formik.errors.DOB}
+                        </div>
+                      )}
+                  </div>
+                  <div className="flex-1 space-y-3 mt-3 ">
+                    <div>
+                      <CustomInput
+                        label="Basic Salary"
+                        type="number"
+                        value={formik.values.salaryStructure.basic}
+                        onChange={(e) =>
+                          formik.setFieldValue(
+                            "salaryStructure.basic",
+                            Number(e.target.value),
+                          )
+                        }
+                      />
+                      {formik.touched.salaryStructure &&
+                        formik.errors.salaryStructure &&
+                        typeof formik.errors.salaryStructure === "string" && (
+                          <div className="text-xs text-red-500">
+                            * {formik.errors.salaryStructure}
+                          </div>
+                        )}
+                    </div>
+                    <CustomInput
+                      label="Fuel"
+                      type="number"
+                      value={formik.values.salaryStructure.incentive.flue}
+                      onChange={(e) =>
+                        formik.setFieldValue(
+                          "salaryStructure.incentive.flue",
+                          Number(e.target.value),
+                        )
+                      }
+                      onBlur={() =>
+                        formik.setFieldTouched(
+                          "salaryStructure.incentive.flue",
+                          true,
+                        )
+                      }
+                    />
+                    {formik.errors.salaryStructure?.incentive?.flue && (
+                      <div className="text-xs text-red-500">
+                        * {String(formik.errors.salaryStructure.incentive.flue)}
+                      </div>
+                    )}
+
+                    <div>
+                      <CustomInput
+                        label="Incentive - Medical"
+                        type="number"
+                        value={formik.values.salaryStructure.incentive.medical}
+                        onChange={(e) =>
+                          formik.setFieldValue(
+                            "salaryStructure.incentive.medical",
+                            Number(e.target.value),
+                          )
+                        }
+                      />
+                      {formik.touched.salaryStructure &&
+                        formik.errors.salaryStructure &&
+                        typeof formik.errors.salaryStructure === "string" && (
+                          <div className="text-xs text-red-500">
+                            * {formik.errors.salaryStructure}
+                          </div>
+                        )}
+                    </div>
+                    <div>
+                      <CustomInput
+                        label="Incentive - Others"
+                        type="number"
+                        value={formik.values.salaryStructure.incentive.others}
+                        onChange={(e) =>
+                          formik.setFieldValue(
+                            "salaryStructure.incentive.others",
+                            Number(e.target.value),
+                          )
+                        }
+                      />
+                      {formik.touched.salaryStructure &&
+                        formik.errors.salaryStructure &&
+                        typeof formik.errors.salaryStructure === "string" && (
+                          <div className="text-xs text-red-500">
+                            * {formik.errors.salaryStructure}
+                          </div>
+                        )}
+                    </div>
+
+                    <div>
+                      <div>
+                        <CustomInput
+                          label="Deductions"
+                          type="number"
+                          value={
+                            formik.values.salaryStructure.incentive.deductions
+                          }
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              "salaryStructure.incentive.deductions",
+                              Number(e.target.value),
+                            )
+                          }
+                        />
+                        {formik.touched.salaryStructure &&
+                          formik.errors.salaryStructure &&
+                          typeof formik.errors.salaryStructure === "string" && (
+                            <div className="text-xs text-red-500">
+                              * {formik.errors.salaryStructure}
+                            </div>
+                          )}
+                      </div>
+                      {formik.touched.salaryStructure &&
+                        formik.errors.salaryStructure &&
+                        typeof formik.errors.salaryStructure === "string" && (
+                          <div className="text-xs text-red-500">
+                            * {formik.errors.salaryStructure}
+                          </div>
+                        )}
+                    </div>
+                    <div>
+                      <CustomInput
+                        label="Tax"
+                        type="number"
+                        value={formik.values.salaryStructure.tax}
+                        onChange={(e) =>
+                          formik.setFieldValue(
+                            "salaryStructure.tax",
+                            Number(e.target.value),
+                          )
+                        }
+                      />
+                      {formik.touched.salaryStructure &&
+                        formik.errors.salaryStructure &&
+                        typeof formik.errors.salaryStructure === "string" && (
+                          <div className="text-xs text-red-500">
+                            * {formik.errors.salaryStructure}
+                          </div>
+                        )}
+                    </div>
+                    <div>
+                      <CustomInput
+                        label="PF"
+                        type="number"
+                        value={formik.values.loanPF.pf}
+                        onChange={(e) =>
+                          formik.setFieldValue(
+                            "loanPF.pf",
+                            Number(e.target.value),
+                          )
+                        }
+                      />
+                      {formik.touched.loanPF &&
+                        formik.errors.loanPF &&
+                        typeof formik.errors.loanPF === "string" && (
+                          <div className="text-xs text-red-500">
+                            * {formik.errors.loanPF}
+                          </div>
+                        )}
+                    </div>
+                  </div>
                 </div>
               </div>
 

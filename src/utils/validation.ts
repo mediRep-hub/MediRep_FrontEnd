@@ -1,11 +1,15 @@
 import * as Yup from "yup";
 
-export const LoginSchema = Yup.object({
-  email: Yup.string().email("Invalid email").required("Email is required"),
+export const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
+  fcmToken: Yup.string().optional(), // ✅ optional FCM token
 });
+
 export const PharmacySchema = Yup.object().shape({
   name: Yup.string().required("Doctor name is required"),
   email: Yup.string().email().required("Email is required"),
@@ -138,6 +142,7 @@ export const AccountSchema = (isEdit: boolean) =>
 
     image: Yup.string().optional().required("Image is required"),
     division: Yup.string().required("Division is required"),
+    DOB: Yup.string().required("Date of brith is required"),
     city: Yup.string().required("city is required"),
     position: Yup.string().required("Position is required"),
 
@@ -149,6 +154,10 @@ export const AccountSchema = (isEdit: boolean) =>
           .min(1, "Owner Name cannot be empty"),
       otherwise: (schema) => schema.notRequired(),
     }),
+    joiningDate: Yup.mixed().required("Joining date is required"),
+    leaveMultiSelect: Yup.array()
+      .min(1, "At least one leave must be selected")
+      .required("At least one leave must be selected"),
   });
 
 export const GroupSchema = Yup.object().shape({
@@ -175,7 +184,56 @@ export const GroupSchema = Yup.object().shape({
     .min(1, "At least one product is required"),
   pharmacies: Yup.array().min(1, "At least one pharmacy is required"),
 });
+export const payrollSchema = Yup.object({
+  employeeId: Yup.string().required("Employee ID is required"),
+  employeeName: Yup.string().required("Employee Name is required"),
+  position: Yup.string().required("Position Name is required"),
+  month: Yup.string().required("Month is required"),
+  year: Yup.number().required("Year is required"),
+  approvedLeaves: Yup.number().required("Approved Leaves is required"),
+  presentDays: Yup.number().required("Present Days is required"),
+  basicSalary: Yup.number().required("Basic Salary is required"),
+  totalWorkingDays: Yup.number().required("Total Working Days is required"),
+  allowances: Yup.object({
+    medical: Yup.number().required("Medical Allowance is required"),
+    transport: Yup.number().required("Transport Allowance is required"),
+    others: Yup.number().required("Other Allowance is required"),
+  }),
+  deductions: Yup.object({
+    pf: Yup.number().required("PF is required"),
+    loan: Yup.number().required("Loan is required"),
+    advanceSalary: Yup.number().required("Advance Salary is required"),
+    tax: Yup.number().required("Tax is required"),
+    others: Yup.number().required("others deduction is required"),
+  }),
+});
 
+export const EventSchema = Yup.object().shape({
+  coverImage: Yup.string()
+    .required("Cover image is required")
+    .url("Cover image must be a valid URL"),
+  date: Yup.date()
+    .required("Date is required")
+    .typeError("Please select a valid date"),
+  heading: Yup.string()
+    .required("Heading is required")
+    .min(5, "Heading must be at least 5 characters")
+    .max(100, "Heading can't exceed 100 characters"),
+  overview: Yup.string().required("Overview is required"),
+  category: Yup.string().required("Category is required"),
+});
+
+export const LeaveSchema = Yup.object().shape({
+  employeeId: Yup.string().required("Employee ID is required"),
+
+  employeeName: Yup.string().required("Employee name is required"),
+
+  leaveType: Yup.string().required("Leave type is required"),
+
+  endDate: Yup.date().required("End date is required"),
+
+  reason: Yup.string().required("Reason is required"),
+});
 export interface SidebarLink {
   name: string;
   path?: string;
@@ -414,41 +472,6 @@ export const DistributorLinks: SidebarLink[] = [
     icon: "academicons:open-data",
   },
 ];
-
-export const payrollSchema = Yup.object({
-  employeeId: Yup.string().required("Employee ID is required"),
-  employeeName: Yup.string().required("Employee Name is required"),
-  position: Yup.string().required("Position Name is required"),
-  month: Yup.string().required("Month is required"),
-  year: Yup.number().required("Year is required"),
-  approvedLeaves: Yup.number().required("Approved Leaves is required"),
-  presentDays: Yup.number().required("Present Days is required"),
-  basicSalary: Yup.number().required("Basic Salary is required"),
-  totalWorkingDays: Yup.number().required("Total Working Days is required"),
-  allowances: Yup.object({
-    medical: Yup.number().required("Medical Allowance is required"),
-    transport: Yup.number().required("Transport Allowance is required"),
-    others: Yup.number().required("Other Allowance is required"),
-  }),
-  deductions: Yup.object({
-    pf: Yup.number().required("PF is required"),
-    loan: Yup.number().required("Loan is required"),
-    advanceSalary: Yup.number().required("Advance Salary is required"),
-    tax: Yup.number().required("Tax is required"),
-    others: Yup.number().required("others deduction is required"),
-  }),
-});
-export const LeaveSchema = Yup.object().shape({
-  employeeId: Yup.string().required("Employee ID is required"),
-
-  employeeName: Yup.string().required("Employee name is required"),
-
-  leaveType: Yup.string().required("Leave type is required"),
-
-  endDate: Yup.date().required("End date is required"),
-
-  reason: Yup.string().required("Reason is required"),
-});
 
 export const logo_medi: string = `
 

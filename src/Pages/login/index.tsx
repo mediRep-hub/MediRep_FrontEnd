@@ -25,15 +25,11 @@ const Login = () => {
       await handleLogin(values);
     },
   });
-
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
-
     try {
       const response = await adminLogin(values);
       const data = response.data ?? response;
-
-      console.log("FINAL DATA 👉", data);
 
       dispatch(
         setUser({
@@ -46,11 +42,6 @@ const Login = () => {
 
       notifySuccess("Successfully Logged In");
     } catch (error: any) {
-      console.log(
-        `🚀 ~ handleLogin ~    error.response?.data?.message`,
-        error.response?.data?.message,
-      );
-
       notifyError(
         error.response?.data?.message ||
           error.message ||

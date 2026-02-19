@@ -33,6 +33,32 @@ export default function SideBar({ link }: any) {
         name: "Manage Accounts",
         path: "/manageAccounts",
         icon: "material-symbols:manage-accounts",
+        children: [
+          {
+            name: "Create Accounts",
+            path: "/manageAccounts",
+          },
+          {
+            name: "Attendance",
+            path: "/attendance",
+          },
+          {
+            name: "Leaves",
+            path: "/leaves",
+          },
+          {
+            name: "Events",
+            path: "/events",
+          },
+          {
+            name: "Payroll",
+            path: "/payroll",
+          },
+          {
+            name: "Setting",
+            path: "/setting",
+          },
+        ],
       });
     }
 

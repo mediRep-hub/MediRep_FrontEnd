@@ -1,4 +1,5 @@
 import { HTTP_CLIENT } from "../utils/httpClient";
+import { getFCMToken } from "../utils/notifications";
 import { ENDPOINTS } from "./endpoints";
 
 export const adminLogin = async (values: {
@@ -6,8 +7,10 @@ export const adminLogin = async (values: {
   password: string;
 }) => {
   try {
+    const fcmToken = await getFCMToken();
     const response = await HTTP_CLIENT.post(ENDPOINTS.ACCOUNTS_LOGIN, {
       ...values,
+      fcmToken,
     });
 
     console.log("Login response:", response.data);
@@ -24,7 +27,9 @@ export const adminLogout = () => {
 export const addAccount = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.ACCOUNTS_ADD, values);
 };
-
+export const getBirthday = () => {
+  return HTTP_CLIENT.get(ENDPOINTS.ACCOUNTS_BIRTHDAY);
+};
 export const getAllAccounts = (params?: {
   name?: string;
   brickName?: string;

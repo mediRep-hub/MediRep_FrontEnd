@@ -10,7 +10,7 @@ export const ENDPOINTS = {
   ACCOUNTS_DELETE: "/admin/deleteAccount",
   ACCOUNTS_ADD: "/admin/register",
   ACCOUNTS_UPDATEPASSWORD: "/admin/updatePassword",
-
+  ACCOUNTS_BIRTHDAY: "/admin/birthdays",
   //   -----------Doctor-------------
   DOCTOR_GET_ALL: "/doctor/getAllDoctor",
   DOCTOR_GET_ALL_LIST: "/doctor/getAllDoctorslist",
@@ -80,24 +80,18 @@ export const ENDPOINTS = {
 
   //   -----------UploadFIle-------------
   UPLOAD_FILE: "/upload/uploadFile",
-
-  //   ---------------Attendance----------
-  ATTENDANCE_GETALL: "/attendance/getAllAttendance",
-  ATTENDANCE_UPDATE: "/attendance/UpdateAttendance",
-  ATTENDANCE_SUMMARY: "/attendance/getAttendanceSummary",
-  ATTENDANCE_UpdateAttendanceAdmin: "/attendance/updateAttendanceAdmin",
-  ATTENDANCE_DAILYATTENDENCE: "/attendance/createDailyAttendance",
-  ATTENDANCE_GETATTENDANCEGRAPH: "/attendance/getMonthlyAttendanceGraph",
-  ATTENDANCE_UPDATECOMPANYTIMING: "/attendance/setCompanyTiming",
-  ATTENDANCE_COMPANYTIMING: "/attendance/getCompanyTiming",
-
   //   -----------Leaves-------------
   LEAVES_UPDATE: "/leave/updateLeave",
   LEAVES_DELETE: "/leave/deleteLeave",
   LEAVES_APPLY: "/leave/apply",
   LEAVES_GET_ALL: "/leave/getAllLeaves",
   LEAVES_APPROVE: "/leave/updateLeaveStatus",
-
+  //   -----------Event-------------
+  EVENTS_CREATE: "/events/createEvent",
+  EVENTS_GET_ALL: "/events/getAllEvents",
+  EVENTS_GET_SINGLE: "/events/getEventById",
+  EVENTS_UPDATE: "/events/updateEvent",
+  EVENTS_DELETE: "/events/deleteEvent",
   //   -----------PAYROLL-------------
   GENERATE_PAYROLL: "/payroll/generatePayroll",
   APPROVE_PAYROLL: "/payroll/approve/:id",
@@ -110,4 +104,14 @@ export const ENDPOINTS = {
   // -------------------stock -----------------
   STOCK_GETALLSTOCK: "/stock/getAllStockReports",
   UPLOAD_STOCK: "/stock/uploadStockCSV",
+  //   ---------------Attendance----------
+
+  ATTENDANCE_GETALL: "/attendance/getAllAttendance",
+  ATTENDANCE_UPDATE: "/attendance/UpdateAttendance",
+  ATTENDANCE_SUMMARY: "/attendance/getAttendanceSummary",
+  ATTENDANCE_UpdateAttendanceAdmin: "/attendance/updateAttendanceAdmin",
+  ATTENDANCE_DAILYATTENDENCE: "/attendance/createDailyAttendance",
+  ATTENDANCE_GETATTENDANCEGRAPH: "/attendance/getMonthlyAttendanceGraph",
+  ATTENDANCE_UPDATECOMPANYTIMING: "/attendance/setCompanyTiming",
+  ATTENDANCE_COMPANYTIMING: "/attendance/getCompanyTiming",
 };
