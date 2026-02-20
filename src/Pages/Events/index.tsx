@@ -111,7 +111,7 @@ export default function Events() {
               setOpenModel(true);
               setEditing(null);
             }}
-            className="h-10 w-full md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
+            className="h-[55px] w-full md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
           >
             <Icon
               icon="mingcute:add-fill"
@@ -124,7 +124,7 @@ export default function Events() {
         </div>
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="bg-[#E5EBF7] overflow-y-auto mt-4 p-4 rounded-lg 2xl:h-[calc(77.4vh-0px)] xl:h-[calc(67.4vh-0px)]"
+          className="bg-[#E5EBF7] overflow-y-auto mt-4 p-4 rounded-lg 2xl:h-[calc(75.4vh-0px)] xl:h-[calc(64vh-0px)]"
         >
           <p className="text-sm text-[#7d7d7d] leading-[100%]">Events List</p>
           <div className="flex flex-wrap items-center gap-4 mt-4">
@@ -136,7 +136,7 @@ export default function Events() {
               AllEvents.map((e: any, index: number) => (
                 <div
                   key={e._id || index}
-                  className="bg-white rounded-2xl drop-shadow-lg lg:w-[calc(50%-10px)] w-full group flex flex-col overflow-hidden"
+                  className="bg-white rounded-2xl group drop-shadow-lg lg:w-[calc(50%-10px)] w-full group flex flex-col overflow-hidden"
                 >
                   <div className="flex-1 p-4 ">
                     <p className="text-[#131313] md:text-[32px] text-[18px] font-medium lg:w-max w-auto border-b-2 border-[#0755E9]">
@@ -144,16 +144,16 @@ export default function Events() {
                     </p>
                     <div className="h-auto lg:h-30">
                       {" "}
-                      <p className="mt-5 text-sm md:text-base text-[#7d7d7d]">
+                      <p className="mt-5 text-sm md:text-base text-[#7d7d7d] line-clamp-3 h-[70px]">
                         {e.overview}
                       </p>
                     </div>
                   </div>
 
-                  <div className="relative overflow-hidden ">
+                  <div className="relative overflow-hidden h-[250px] border-[#7d7d7d]/10 border-t-[1px]">
                     <img
                       src={e.coverImage}
-                      className="object-cover w-full h-auto rounded-b-lg lg:h-100"
+                      className="object-cover w-full h-full"
                       alt={e.heading}
                     />
                     <div className="absolute inset-0 flex items-center justify-center gap-4 transition-opacity duration-300 opacity-50 md:opacity-0 bg-black/70 group-hover:opacity-100">
@@ -355,7 +355,7 @@ export default function Events() {
             </div>
             <div className="text-center">
               <p className="text-base font-normal text-[#131313] mt-5">
-                Are you sure to delete this account?
+                Are you sure to delete this event?
               </p>
               <p className="mb-6 text-[#7D7D7D]/40">
                 Once you delete it will not restored

@@ -24,7 +24,6 @@ export default function Setting() {
     staleTime: 5 * 60 * 1000,
   });
 
-  // Set default values when data is loaded
   useEffect(() => {
     if (data?.data?.timing) {
       setStartTime(dayjs(data.data?.timing.startTime, "HH:mm"));
@@ -64,7 +63,7 @@ export default function Setting() {
       <div className="bg-[#E5EBF7] p-4 rounded-xl h-auto">
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="scroll-smooth bg-white p-4 rounded-xl 2xl:h-[calc(82vh-0px)] xl:h-[calc(70vh-0px)] overflow-y-auto scrollbar-none"
+          className="scroll-smooth bg-white p-4 rounded-xl 2xl:h-[calc(80vh-0px)] xl:h-[calc(70vh-0px)] overflow-y-auto scrollbar-none"
         >
           <p className="mb-2 text-lg font-semibold">Office Timing</p>
 
@@ -91,7 +90,7 @@ export default function Setting() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="h-10 px-4 py-2 mt-4 text-white bg-blue-600 rounded cursor-pointer hover:bg-blue-700"
+            className="h-[55px] w-[180px] px-4 py-2 mt-4 text-white bg-blue-600 rounded cursor-pointer hover:bg-blue-700"
           >
             {loading ? "Saving..." : "Save Timing"}
           </button>

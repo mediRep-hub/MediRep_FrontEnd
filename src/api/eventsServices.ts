@@ -1,5 +1,5 @@
 import { HTTP_CLIENT } from "../utils/httpClient";
-import { ENDPOINTS } from "./endPoints";
+import { ENDPOINTS } from "./endpoints";
 
 export const updateEvents = (id: string, values: any) => {
   return HTTP_CLIENT.put(`${ENDPOINTS.EVENTS_UPDATE}/${id}`, values);

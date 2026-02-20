@@ -15,6 +15,10 @@ import { getAllRequisition } from "../../api/requisitionServices";
 import { getBirthday } from "../../api/adminServices";
 import birthday from "../../assets/Birthday Banner.png";
 import birthday2 from "../../assets/Birthday Banner2.png";
+import { getAttendanceSummary } from "../../api/attendanceServices";
+import { Icon } from "@iconify/react";
+import dayjs from "dayjs";
+import { getAllEvents } from "../../api/eventsServices";
 export default function DashBoard() {
   const { data, refetch } = useQuery({
     queryKey: ["AllProducts"],
@@ -42,6 +46,12 @@ export default function DashBoard() {
 
   const activeData = AllRequisition?.[activeIndex] || {};
 
+  const { data: summary } = useQuery({
+    queryKey: ["getAttendanceSummary"],
+    queryFn: getAttendanceSummary,
+    staleTime: 5 * 60 * 1000,
+  });
+
   const requisitions = Array.isArray(AllRequisition?.data)
     ? AllRequisition.data
     : Array.isArray(AllRequisition)
@@ -55,9 +65,22 @@ export default function DashBoard() {
     staleTime: 5 * 60 * 1000,
   });
   let birthdayData = Birthday?.data?.data;
+  const { data: Events } = useQuery({
+    queryKey: ["AllEvents"],
+    queryFn: () => getAllEvents(),
+    staleTime: 5 * 60 * 1000,
+  });
+  const AllEvents = Events?.data || [];
+
+  const today = new Date();
+
+  const upcomingEvent = AllEvents.filter(
+    (event: any) => new Date(event.date) >= today,
+  ).sort(
+    (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  )[0];
   return (
     <>
-      {" "}
       {birthdayData && birthdayData.length > 0 && (
         <div className="relative">
           <img
@@ -96,7 +119,7 @@ export default function DashBoard() {
     }`}
       >
         <div className="flex gap-2 items-stretch flex-wrap">
-          <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-primary p-4 bg-white">
+          <div className="lg:w-[calc(20%-6.4px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-primary p-4 bg-white">
             <div className="flex justify-between items-start">
               <p className="text-sm font-normal text-[#7D7D7D]">Target</p>
               <div className="h-9 w-9 rounded-full bg-primary/10 flex justify-center items-center">
@@ -107,8 +130,7 @@ export default function DashBoard() {
               {ProductData?.totalTarget || 0}
             </p>
           </div>
-
-          <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#28A745] p-4 bg-white">
+          <div className="lg:w-[calc(20%-6.4px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#28A745] p-4 bg-white">
             <div className="flex justify-between items-start">
               <p className="text-sm font-normal text-[#7D7D7D]">Achievement</p>
               <div className="h-9 w-9 rounded-full bg-[#28A745]/10 flex justify-center items-center">
@@ -124,8 +146,7 @@ export default function DashBoard() {
               <MdOutlineTrendingUp color="#28A745" size={18} />
             </div>
           </div>
-
-          <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#C47301] p-4 bg-white">
+          <div className="lg:w-[calc(20%-6.4px)] md:w-[calc(50%-4px)] h-[130px] w-full  flex flex-col justify-between rounded-xl text-[#C47301] p-4 bg-white">
             <div className="flex justify-between items-start">
               <p className="text-sm font-normal text-[#7D7D7D]">Percentage</p>
               <div className="h-9 w-9 rounded-full bg-[#C47301]/10 flex justify-center items-center">
@@ -140,8 +161,69 @@ export default function DashBoard() {
               <MdOutlineTrendingDown color="#C47301" size={18} />
             </div>
           </div>
+          <div className="lg:w-[calc(20%-6.4px)] md:w-[calc(50%-4px)] h-[130px] w-full   rounded-xl  p-4 bg-white">
+            <div className="flex justify-between items-start">
+              <div>
+                {" "}
+                <p className="text-sm font-normal text-[#7D7D7D]">Attendence</p>
+                {/* <div className="flex gap-3 text-[#7d7d7d]">
+                  <p className="text-xs">
+                    Total Employee:{" "}
+                    <span className="text-[#131313]">
+                      {" "}
+                      {summary?.data?.data?.totalEmployees}
+                    </span>
+                  </p>
+                  <p className="text-xs">
+                    New Employee:{" "}
+                    <span className="text-[#131313]">
+                      {" "}
+                      {summary?.data?.data?.totalNewUsers}
+                    </span>
+                  </p>
+                </div> */}
+              </div>
+              <div className="h-9 min-w-9 rounded-full bg-[#F59E0B]/10 flex justify-center items-center">
+                <Icon
+                  icon="raphael:users"
+                  height={20}
+                  width={20}
+                  color="#F59E0B"
+                />
+              </div>
+            </div>
 
-          <div className="lg:w-[calc(25%-6px)] md:w-[calc(50%-4px)] h-[130px] w-full   rounded-xl text-[#9C27B0] p-4 bg-white">
+            <div className="flex justify-between items-center mt-4">
+              <div>
+                <p className="xl:text-xl lg:text-lg text-[#28A745]  leading-5 font-semibold">
+                  {summary?.data?.data?.present}
+                </p>
+                <p className="text-xs text-[#7D7D7D] font-normal">Present</p>
+              </div>
+              <div className="border-l-[1px] border-[#7D7D7D] h-7"></div>
+              <div>
+                <p className="xl:text-xl lg:text-lg text-[#F43378]  leading-5 font-semibold">
+                  {summary?.data?.data?.absent}
+                </p>
+                <p className="text-xs text-[#7D7D7D] font-normal">Absent</p>
+              </div>
+              <div className="border-l-[1px] border-[#7D7D7D] h-7"></div>
+              <div>
+                <p className="xl:text-xl lg:text-lg text-[#C47301]  leading-5 font-semibold">
+                  {summary?.data?.data?.leave}
+                </p>
+                <p className="text-xs text-[#7D7D7D] font-normal">Leaves</p>
+              </div>
+              <div className="border-l-[1px] border-[#7D7D7D] h-7"></div>
+              <div>
+                <p className="xl:text-xl lg:text-lg text-[#9C27B0]  leading-5 font-semibold">
+                  {summary?.data?.data?.late}
+                </p>
+                <p className="text-xs text-[#7D7D7D] font-normal">Late</p>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="lg:w-[calc(20%-6.4px)] md:w-[calc(50%-4px)] h-[130px] w-full   rounded-xl text-[#9C27B0] p-4 bg-white">
             <div className="flex justify-between items-start">
               <p className="text-sm font-normal text-[#7D7D7D]">
                 Engagement with KOL
@@ -170,7 +252,7 @@ export default function DashBoard() {
           </div>
         </div>
         <div className="flex flex-wrap mt-3 items-stretch md:gap-2 gap-3">
-          <div className="lg:w-[calc(75%-2px)] h-[47vh] w-full bg-white rounded-xl py-5 pr-5">
+          <div className="lg:w-[calc(75%-2px)] h-[46.3vh] w-full bg-white rounded-xl py-5 pr-5">
             <div className="flex flex-wrap xl:gap-5 gap-3 items-center pl-5 mb-4">
               <p className="xl:text-xl md:w-auto w-full sm:text-xl font-semibold text-heading">
                 Performance
@@ -189,7 +271,23 @@ export default function DashBoard() {
               <LineChart />
             </div>
           </div>
-          <div className="lg:w-[calc(25%-6px)] h-[47vh] w-full bg-[#E5EBF7] rounded-xl p-4">
+          <div className="lg:w-[calc(25%-6px)] h-[46.3vh] w-full bg-[#E5EBF7] rounded-xl p-4">
+            {" "}
+            <p className="text-xs text-[#131313] mb-3">Upcoming Events</p>
+            <div className="flex items-end flex-wrap justify-between">
+              <p className="font-semibold text-sm border-b-2 w-max border-[#0755E9] mb-2">
+                {upcomingEvent?.heading}
+              </p>{" "}
+              <p className="mb-2 text-sm text-[#7d7d7d]">
+                {dayjs(upcomingEvent?.date).format("YYYY-MM-DD")}
+              </p>
+            </div>
+            <img
+              src={upcomingEvent?.coverImage}
+              className="object-cover w-full rounded-lg 2xl:h-[350px] xl:h-auto"
+            />
+          </div>
+          {/* <div className="lg:w-[calc(25%-6px)] h-[47vh] w-full bg-[#E5EBF7] rounded-xl p-4">
             <p className="text-heading  text-xs  mb-4">MR Activity by Type</p>
 
             <div
@@ -236,7 +334,7 @@ export default function DashBoard() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex mt-3 flex-wrap items-stretch gap-2">
           <div className="lg:w-[calc(75%-2px)] w-full">

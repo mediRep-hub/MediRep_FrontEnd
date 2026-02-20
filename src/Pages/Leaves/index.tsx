@@ -102,10 +102,18 @@ export default function Leaves() {
         {openActionId === v._id && (
           <div className="absolute right-0 z-50 w-[160px] mt-2 bg-white rounded-lg shadow-lg">
             <button
-              disabled={v.status === "Approved" || v.status === "Rejected"}
+              // disabled={v.status === "Approved" || v.status === "Rejected"}
               onClick={() => {
-                setEditing(v);
-                setOpenModel(true);
+                if (v.status === "Approved") {
+                  notifyError("Approved leaves cannot be edited");
+                } else if (v.status === "Rejected") {
+                  notifyError("Rejected leaves cannot be edited");
+                } else {
+                  setEditing(v);
+                  setOpenModel(true);
+                }
+
+                // Always close the action menu
                 setOpenActionId(null);
               }}
               className="px-4 py-2 text-sm w-full hover:bg-[#E5EBF7] cursor-pointer flex items-center gap-2 disabled:text-[#7d7d7d]/48"
@@ -114,10 +122,19 @@ export default function Leaves() {
             </button>
 
             <button
-              disabled={v.status === "Approved" || v.status === "Rejected"}
+              // disabled={v.status === "Approved" || v.status === "Rejected"}
               onClick={() => {
-                setDeleteConfirmation(true);
-                setEditing(v);
+                if (v.status === "Approved") {
+                  notifyError("Approved leaves cannot be deleted");
+                } else if (v.status === "Rejected") {
+                  notifyError("Rejected leaves cannot be deleted");
+                } else {
+                  setDeleteConfirmation(true);
+                  setEditing(v);
+                }
+
+                // Optional: close action menu if you are using one
+                setOpenActionId(null);
               }}
               className="px-4 py-2 text-sm w-full hover:bg-[#E5EBF7] cursor-pointer flex items-center gap-2 disabled:text-[#7d7d7d]/48"
             >
@@ -215,7 +232,7 @@ export default function Leaves() {
               setEditing(null);
               setOpenModel(true);
             }}
-            className="h-10 w-full md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
+            className="h-[55px] w-full md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
           >
             <Icon
               icon="mingcute:add-fill"
@@ -229,7 +246,7 @@ export default function Leaves() {
         <div className="bg-[#E5EBF7] mt-4 p-4 rounded-xl h-auto">
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(74vh-0px)] xl:h-[calc(62.4vh-0px)]  overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(72.3vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
           >
             {" "}
             <CustomTable

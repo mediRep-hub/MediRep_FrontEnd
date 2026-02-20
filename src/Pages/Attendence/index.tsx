@@ -135,7 +135,7 @@ export default function Attendance() {
         {v?.status}
       </p>,
       <button
-        disabled={v.status == "On Leave"}
+        // disabled={v.status == "On Leave"}
         className="text-[#0755E9] disabled:text-[#7d7d7d]/48"
       >
         <TbEdit
@@ -143,8 +143,12 @@ export default function Attendance() {
           size={18}
           className="cursor-pointer "
           onClick={() => {
-            setEditing(v);
-            setOpenModel(true);
+            if (v.status == "On Leave") {
+              notifyError("Employee on leave cannot be edited");
+            } else {
+              setEditing(v);
+              setOpenModel(true);
+            }
           }}
         />
       </button>,
@@ -229,7 +233,7 @@ export default function Attendance() {
               />{" "}
             </div>
           </div>
-          <div className="flex flex-wrap gap-3 md:flex-nowrap">
+          <div className="flex flex-wrap gap-3 md:flex-nowrap items-center">
             <div className="w-full md:w-[180px] lg:w-[270px]">
               {" "}
               <SearchById value={searchId} onChange={setSearchId} />
@@ -239,7 +243,7 @@ export default function Attendance() {
             </div>{" "}
             <button
               onClick={handleGenerateAttendance}
-              className="h-10 w-full md:mb-0 mb-4  text-white md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:mb-0 mb-4  text-white md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
             >
               {isloadingAttendance ? (
                 <Spin indicator={antIcon} />
@@ -258,7 +262,7 @@ export default function Attendance() {
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="mt-2 overflow-y-auto bg-white rounded-xl 2xl:h-[calc(71vh-0px)] xl:h-[calc(57vh-0px)]"
+          className="mt-2 overflow-y-auto bg-white rounded-xl 2xl:h-[calc(69.5vh-0px)] xl:h-[calc(54.5vh-0px)]"
         >
           <CustomTable
             titles={titles}

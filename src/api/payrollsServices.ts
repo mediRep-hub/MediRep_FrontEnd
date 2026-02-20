@@ -1,5 +1,5 @@
 import { HTTP_CLIENT } from "../utils/httpClient";
-import { ENDPOINTS } from "./endPoints";
+import { ENDPOINTS } from "./endpoints";
 
 export const generatePayroll = (values: any) => {
   return HTTP_CLIENT.post(ENDPOINTS.GENERATE_PAYROLL, values);
@@ -8,7 +8,7 @@ export const generatePayroll = (values: any) => {
 export const approvePayroll = (id: string, data: { approvedBy: string }) => {
   return HTTP_CLIENT.put(
     `${ENDPOINTS.APPROVE_PAYROLL.replace(":id", id)}`,
-    data
+    data,
   );
 };
 
@@ -16,7 +16,7 @@ export const getAllPayrolls = (
   employeeId?: string,
   employeeName?: string,
   month?: string,
-  year?: number
+  year?: number,
 ) => {
   const params: any = {};
   if (employeeId) params.employeeId = employeeId;
@@ -29,7 +29,7 @@ export const getAllPayrolls = (
 
 export const getEmployeePayrolls = (employeeId: string) => {
   return HTTP_CLIENT.get(
-    ENDPOINTS.GET_EMPLOYEE_PAYROLLS.replace(":employeeId", employeeId)
+    ENDPOINTS.GET_EMPLOYEE_PAYROLLS.replace(":employeeId", employeeId),
   );
 };
 

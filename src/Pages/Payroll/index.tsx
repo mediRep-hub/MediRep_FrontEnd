@@ -160,21 +160,33 @@ export default function Payroll() {
         {openActionId === v._id && (
           <div className="absolute right-0 z-50 w-40 mt-2 bg-white rounded-lg shadow-lg">
             <button
-              disabled={v.payrollStatus == "Approved"}
+              // disabled={v.payrollStatus == "Approved"}
               onClick={() => {
-                setEditing(v);
-                setOpenModel(true);
-                setOpenActionId(null);
+                if (v.payrollStatus === "Approved") {
+                  notifyError("Approved payroll cannot be edited");
+                  setOpenActionId(null);
+                  return;
+                } else {
+                  setEditing(v);
+                  setOpenModel(true);
+                  setOpenActionId(null);
+                }
               }}
               className="px-4 py-2 w-full text-sm hover:bg-[#E5EBF7] cursor-pointer flex items-center gap-2 disabled:text-[#7d7d7d]/48"
             >
               Edit
             </button>
             <button
-              disabled={v.payrollStatus == "Approved"}
+              // disabled={v.payrollStatus == "Approved"}
               onClick={() => {
-                handleApprove(v);
-                setOpenActionId(null);
+                if (v.payrollStatus === "Approved") {
+                  notifyError("This payroll is already approved.");
+                  setOpenActionId(null);
+                  return;
+                } else {
+                  handleApprove(v);
+                  setOpenActionId(null);
+                }
               }}
               className="px-4 py-2 w-full text-sm hover:bg-[#E5EBF7] cursor-pointer flex items-center gap-2 disabled:text-[#7d7d7d]/48"
             >
@@ -268,7 +280,7 @@ export default function Payroll() {
                 setOpenModel(true);
                 setEditing(null);
               }}
-              className="h-10 w-full md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
+              className="h-[55px] w-full md:w-[180px] bg-[#0755E9] rounded-md gap-3 cursor-pointer flex justify-center items-center"
             >
               <Icon
                 icon="mingcute:add-fill"
@@ -283,7 +295,7 @@ export default function Payroll() {
         <div className="bg-[#E5EBF7] mt-4 p-4 rounded-xl h-auto">
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(74vh-0px)] xl:h-[calc(62.4vh-0px)]  overflow-y-auto scrollbar-none"
+            className="scroll-smooth bg-white rounded-xl 2xl:h-[calc(72.3vh-0px)] xl:h-[calc(59vh-0px)]  overflow-y-auto scrollbar-none"
           >
             <CustomTable
               titles={tableHeaders}
