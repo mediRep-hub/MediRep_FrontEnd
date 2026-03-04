@@ -31,34 +31,6 @@ export default function SalewiseTargetDetail() {
     navigate("/targets-achievements");
   };
 
-  const handleOpenAsmTarget = () => {
-    const dummyAsmData = [
-      {
-        employeeName: "Dummy Employee 1",
-        city: "Dummy City 1",
-        brick: "Dummy Brick 1",
-        target: "100,000",
-        achievement: "50,000",
-        percentage: "50%",
-      },
-      {
-        employeeName: "Dummy Employee 2",
-        city: "Dummy City 2",
-        brick: "Dummy Brick 2",
-        target: "200,000",
-        achievement: "150,000",
-        percentage: "75%",
-      },
-    ];
-
-    navigate("/asm-target", {
-      state: {
-        row: { asm: "ASM Name" },
-        asmData: dummyAsmData,
-      },
-    });
-  };
-
   console.log(rowData);
   const tableData = rowData?.details?.map((d: any) => [
     d.employeeName,

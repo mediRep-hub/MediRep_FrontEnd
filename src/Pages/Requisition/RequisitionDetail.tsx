@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import CustomInput from "../../Components/CustomInput";
-import { IoMdCloseCircle } from "react-icons/io";
 import CustomSelect from "../../Components/Select";
 import { Icon } from "@iconify/react";
 

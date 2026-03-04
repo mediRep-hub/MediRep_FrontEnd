@@ -63,7 +63,6 @@ export default function Payroll() {
   const [searchName, setSearchName] = useState("");
   const debouncedSearchId = useDebounce(searchId, 500);
   const debouncedSearchName = useDebounce(searchName, 500);
-  const currentMonth = months[new Date().getMonth()];
   const currentYear = new Date().getFullYear();
 
   const [selectedMonthYear, setSelectedMonthYear] = useState({

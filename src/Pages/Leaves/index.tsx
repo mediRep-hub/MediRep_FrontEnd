@@ -21,7 +21,6 @@ import CustomInput from "../../Components/CustomInput";
 import DatePicker from "../../Components/DatePicker";
 import CustomSelect from "../../Components/Select";
 import { Spin } from "antd";
-import { RiAlertFill } from "react-icons/ri";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
 import Dummay from "../../assets/Holiday SVG.png";

@@ -34,7 +34,6 @@ export default function AsmTarget() {
     d.achievement,
     d.percentage,
   ]);
-  const asmName = state?.row?.asm || "ASM";
 
   return (
     <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">

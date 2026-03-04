@@ -18,7 +18,6 @@ import {
 } from "../../api/eventsServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { useQuery } from "@tanstack/react-query";
-import { RiAlertFill } from "react-icons/ri";
 import dayjs from "dayjs";
 import { EventSchema } from "../../utils/validation";
 export default function Events() {

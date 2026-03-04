@@ -51,11 +51,6 @@ export default function Attendance() {
   useEffect(() => {
     document.title = "HR-Management | Attendance";
   }, []);
-
-  const [activeTab, setActiveTab] = useState<
-    "sales" | "Marketing" | "distributor"
-  >("sales");
-
   const [searchId, setSearchId] = useState("");
   const [searchName, setSearchName] = useState("");
   const [rotated, setRotated] = useState(false);
@@ -108,9 +103,7 @@ export default function Attendance() {
   });
 
   const filteredData = data?.data.filter((v: any) => {
-    // if (activeTab === "Marketing") return v.position === "Marketing";
-    // if (activeTab === "sales") return v.position === "sales";
-    // if (activeTab === "distributor") return v.position === "distributor";
+    console.log(v);
     return true;
   });
   const tableData =

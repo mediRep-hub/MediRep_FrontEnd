@@ -26,7 +26,6 @@ import { bricksData } from "../../utils/brick";
 import { useDebounce } from "../../Components/Debounce";
 import DatePicker from "../../Components/DatePicker";
 import dayjs from "dayjs";
-import MultiSelect from "../../Components/MultiSelect";
 import MultiSelectNew from "../../Components/MultiSelectNew";
 
 const leaveOptions = [
