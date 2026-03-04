@@ -67,7 +67,7 @@ export default function Setting() {
         >
           <p className="mb-2 text-lg font-semibold">Office Timing</p>
 
-          <div className="flex gap-5 pt-3 w-200">
+          <div className="flex gap-4 pt-3 w-200">
             <TimePicker
               placeholder="Select Start Time"
               label="Start Time"

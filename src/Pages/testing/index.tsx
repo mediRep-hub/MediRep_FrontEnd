@@ -4,8 +4,6 @@ import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import * as XLSX from "xlsx";
-
-// PDF (Vite Compatible)
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
 import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker?url";
 
@@ -226,7 +224,7 @@ export default function Testing() {
           <p className="text-[22px] font-medium">Stock Reports</p>
           <button
             onClick={() => setOpenModel(true)}
-            className="h-[55px] w-full md:w-[180px] bg-[#fff] px-6 py-3 rounded flex items-center gap-3"
+            className="h-[55px] w-full md:w-[180px] bg-[hsl(0,0%,100%)] px-6 py-3 rounded flex items-center gap-3"
           >
             <Icon
               icon="solar:download-broken"
@@ -265,9 +263,9 @@ export default function Testing() {
                   {headers.map((key) => (
                     <td
                       key={key}
-                      className="px-5 py-2 border-b-[0.5px] border-[#0755E9] min-w-max  text-[13px] font-normal text-[#131313] break-words"
+                      className="px-5 py-2 border-[0.5px] border-[#0755E9] min-w-max  text-[13px] font-normal text-[#131313] break-words"
                     >
-                      {(row as any)[key]}
+                      {(row as any)[key] || "-"}
                     </td>
                   ))}
                 </tr>
@@ -347,9 +345,13 @@ export default function Testing() {
             )}
 
             {file && <p className="mb-2 text-sm">{file.name}</p>}
-
             <div className="flex justify-end gap-3 p-4">
-              <button onClick={() => setOpenModel(false)}>Cancel</button>
+              <button
+                className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] transition-all"
+                onClick={() => setOpenModel(false)}
+              >
+                Cancel
+              </button>
               <button
                 onClick={handleUpload}
                 className="bg-primary text-white px-4 py-2 rounded"

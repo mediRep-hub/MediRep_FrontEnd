@@ -428,7 +428,7 @@ export default function Leaves() {
             </div>
             <div className="text-center">
               <p className="text-base font-normal text-[#131313] mt-5">
-                Are you sure to delete this account?
+                Are you sure to delete this leave?
               </p>
               <p className="mb-6 text-[#7D7D7D]/40">
                 Once you delete it will not restored

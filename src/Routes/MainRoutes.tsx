@@ -2,19 +2,17 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
-import TrackSale from "../Pages/Orders/trackSale";
-import AsmTarget from "../Pages/Targets/AsmTarget";
-import Testing from "../Pages/testing";
-import Attendence from "../Pages/Attendence";
-import Events from "../Pages/Events";
-import Leaves from "../Pages/Leaves";
-import Payroll from "../Pages/Payroll";
-import PayrollDetails from "../Pages/Payroll/payRollDetails";
-import Setting from "../Pages/Setting";
-// import Setting from "../Pages/Setting";
 
+const TrackSale = lazy(() => import("../Pages/Orders/trackSale"));
+const AsmTarget = lazy(() => import("../Pages/Targets/AsmTarget"));
+const Testing = lazy(() => import("../Pages/testing"));
+const Attendence = lazy(() => import("../Pages/Attendence"));
+const Events = lazy(() => import("../Pages/Events"));
+const Leaves = lazy(() => import("../Pages/Leaves"));
+const Payroll = lazy(() => import("../Pages/Payroll"));
+const PayrollDetails = lazy(() => import("../Pages/Payroll/payRollDetails"));
+const Setting = lazy(() => import("../Pages/Setting"));
 const Tragets = lazy(() => import("../Pages/Targets"));
-
 const CallReporting = lazy(() => import("../Pages/CallReporting"));
 const CallReportingDetail = lazy(
   () => import("../Pages/CallReporting/CallReportingDetail"),
@@ -28,7 +26,6 @@ const WeeklyPlans = lazy(() => import("../Pages/Plan Management/WeeklyPlans"));
 const MonthlyPlans = lazy(
   () => import("../Pages/Plan Management/MonthlyPlans"),
 );
-
 const DoctorMeetingExpense = lazy(
   () => import("../Pages/Expense Management/Doctor Meeting Expense"),
 );
@@ -44,49 +41,37 @@ const RouteWiseExpense = lazy(
 const CategoryWiseExpense = lazy(
   () => import("../Pages/Expense Management/Category-wise Expense"),
 );
-
 const ProductWiseDistribution = lazy(
   () => import("../Pages/Reports/Product Wise Distribution"),
 );
-
 const GroupDetails = lazy(() => import("../Pages/Group/groupDetails"));
 const AccountDetails = lazy(
   () => import("../Pages/ManageAccount/AccountDetails"),
 );
 const PendingOrders = lazy(() => import("../Pages/Orders/pendingOrder"));
-
 const DailyCallReport = lazy(() => import("../Pages/Reports/DailyCallReport"));
-
 const MRProductivityReport = lazy(
   () => import("../Pages/Reports/MRProductivityReport"),
 );
-
 const GeoLocationReport = lazy(
   () => import("../Pages/Reports/Geo-locationReport"),
 );
-
 const DoctorCoverageReport = lazy(
   () => import("../Pages/Reports/DoctorCoverageReport"),
 );
-
 const RouteComplianceReport = lazy(
   () => import("../Pages/Reports/RouteComplianceReport"),
 );
-
 const SampleDistributionReport = lazy(
   () => import("../Pages/Reports/SampleDistributionReport"),
 );
-
 const TeamPerformanceReport = lazy(
   () => import("../Pages/Reports/TeamPerformanceReport"),
 );
-
 const DailyCallReportingDetail = lazy(
   () => import("../Pages/Reports/DailyCallReport/DailyCallReportingDetail"),
 );
-
 const BrickWiseSale = lazy(() => import("../Pages/SaleData/BrickWiseSale"));
-
 const ChannelWiseSale = lazy(() => import("../Pages/SaleData/ChannelwiseSale"));
 const PrimarySale = lazy(
   () => import("../Pages/SaleData/PrimarySales/primarySale"),
@@ -100,7 +85,6 @@ const SecondarySale = lazy(
 const SecondarySaleDetails = lazy(
   () => import("../Pages/SaleData/SecondarySales/secondarySaleDetails"),
 );
-
 const TrackRequisition = lazy(
   () => import("../Pages/Requisition/trackRequisition"),
 );
