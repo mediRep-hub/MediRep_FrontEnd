@@ -457,7 +457,7 @@ export const defaultLinks: SidebarLink[] = [
   },
   {
     name: "Distributor Sheets",
-    icon: "icon-park-solid:plan",
+    icon: "roentgen:sheets",
     path: "/distributorSheets",
   },
 ];

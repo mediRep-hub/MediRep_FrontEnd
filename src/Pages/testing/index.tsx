@@ -320,28 +320,7 @@ export default function Testing() {
                 Upload Document
               </p>
             </div>
-            <div className="flex gap-4 mb-4">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="reportType"
-                  value="A"
-                  checked={reportType === "A"}
-                  onChange={() => setReportType("A")}
-                />
-                Report A
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="reportType"
-                  value="B"
-                  checked={reportType === "B"}
-                  onChange={() => setReportType("B")}
-                />
-                Report B
-              </label>
-            </div>
+
             <div className="flex relative p-4 flex-col items-center justify-center">
               <label
                 htmlFor="fileUpload"
