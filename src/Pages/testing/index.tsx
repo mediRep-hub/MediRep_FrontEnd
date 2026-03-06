@@ -12,19 +12,20 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 interface StockItem {
   itemDescription: string;
   rate: number;
-  openingBalance: number;
-  purchase: number;
-  purchaseReturn: number;
-  purchaseTotal: number;
-  sale: number;
-  saleReturn: number;
-  saleTotal: number;
+  openingBalance: string;
+  purchase: string;
+  purchaseReturn: string;
+  purchaseTotal: string;
+  sale: string;
+  saleReturn: string;
+  saleTotal: string;
   value: number;
-  adjustment: number;
-  closingBalance: number;
+  adjustment: string;
+  closingBalance: string;
   closingValue: number;
   todaySale: number;
   todayReturn: number;
+  pack: string; // <-- new field
 }
 
 export default function Testing() {
@@ -33,6 +34,7 @@ export default function Testing() {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [tableData, setTableData] = useState<StockItem[]>([]);
+  const [reportType, setReportType] = useState<"A" | "B" | "">("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -58,7 +60,7 @@ export default function Testing() {
   const cleanTableData = (rawData: any[][]) => {
     const skipKeywords = [
       "powered by",
-      "Item Description",
+      "item description",
       "print",
       "page",
       "version",
@@ -68,16 +70,23 @@ export default function Testing() {
       "www.",
       "include blocked items",
       "rate type",
+      "zero sales",
       "sort by",
       "total for group",
       "report total",
+      "opening",
+      "sale",
+      "closing",
+      "today",
+      "balance",
+      "group",
+      "default",
+      "/",
     ];
 
     return rawData.filter((row) => {
       if (!row || row.length === 0) return false;
-
       const rowString = row.join(" ").toLowerCase();
-
       return !skipKeywords.some((keyword) => rowString.includes(keyword));
     });
   };
@@ -153,24 +162,42 @@ export default function Testing() {
       const cleaned = cleanTableData(rawData);
       const dataRows = cleaned.slice(1);
 
-      const structuredData: StockItem[] = dataRows.map((row) => ({
-        itemDescription: row[0] ?? "",
-        rate: Number(row[1] ?? 0),
-        openingBalance: Number(row[2] ?? 0),
-        purchase: Number(row[4] ?? 0),
-        purchaseReturn: Number(row[3] ?? 0),
-        purchaseTotal: Number(row[8] ?? 0),
-        sale: Number(row[10] ?? 0),
-        saleReturn: Number(row[12] ?? 0),
-        saleTotal: Number(row[14] ?? 0),
-        value: Number(row[16] ?? 0),
-        adjustment: Number(row[17] ?? 0),
-        closingBalance: Number(row[19] ?? 0),
-        closingValue: Number(row[21] ?? 0),
-        todaySale: Number(row[22] ?? 0),
-        todayReturn: Number(row[23] ?? 0),
-      }));
+      const structuredData: StockItem[] = dataRows.map((row) => {
+        const itemDescriptionParts: string[] = [];
+        for (let i = 0; i <= 4; i++) {
+          if (row[i] && isNaN(Number(row[i]))) {
+            itemDescriptionParts.push(row[i].toString().trim());
+          }
+        }
+        const itemDescription = itemDescriptionParts.join(" ");
 
+        // Assign pack based on report type
+        let pack = "";
+        if (reportType === "A") {
+          pack = row[24] ?? ""; // adjust index for Report A
+        } else if (reportType === "B") {
+          pack = row[25] ?? ""; // adjust index for Report B
+        }
+
+        return {
+          itemDescription: (itemDescription || row[0]) ?? "",
+          rate: Number(row[1] ?? 0),
+          openingBalance: `${row[2] ?? 0} ${row[3] ?? 0}`,
+          purchase: `${row[4] ?? 0} ${row[5] ?? 0}`,
+          purchaseReturn: `${row[6] ?? 0} ${row[7] ?? 0}`,
+          purchaseTotal: `${row[8] ?? 0} ${row[9] ?? 0}`,
+          sale: `${row[10] ?? 0} ${row[11] ?? 0}`,
+          saleReturn: `${row[12] ?? 0} ${row[13] ?? 0}`,
+          saleTotal: `${row[14] ?? 0} ${row[15] ?? 0}`,
+          value: Number(row[16] ?? 0),
+          adjustment: `${row[17] ?? 0} ${row[18] ?? 0}`,
+          closingBalance: `${row[19] ?? 0} ${row[20] ?? 0}`,
+          closingValue: Number(row[21] ?? 0),
+          todaySale: Number(row[22] ?? 0),
+          todayReturn: Number(row[23] ?? 0),
+          pack, // add new field
+        };
+      });
       localStorage.setItem("stockData", JSON.stringify(structuredData));
       setTableData(structuredData);
 
@@ -263,9 +290,20 @@ export default function Testing() {
                   {headers.map((key) => (
                     <td
                       key={key}
-                      className="px-5 py-2 border-[0.5px] border-[#0755E9] min-w-max  text-[13px] font-normal text-[#131313] break-words"
+                      className="px-5 py-2 border min-w-max text-[13px] font-normal text-[#131313]"
                     >
-                      {(row as any)[key] || "-"}
+                      {typeof (row as any)[key] === "string" &&
+                      (row as any)[key].includes(" ") ? (
+                        <div className="flex justify-between">
+                          {(row as any)[key]
+                            .split(" ")
+                            .map((v: string, i: number) => (
+                              <span key={i}>{v}</span>
+                            ))}
+                        </div>
+                      ) : (
+                        ((row as any)[key] ?? "-")
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -281,6 +319,28 @@ export default function Testing() {
               <p className="text-[16px] leading-[100%] text-heading font-medium">
                 Upload Document
               </p>
+            </div>
+            <div className="flex gap-4 mb-4">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="reportType"
+                  value="A"
+                  checked={reportType === "A"}
+                  onChange={() => setReportType("A")}
+                />
+                Report A
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="reportType"
+                  value="B"
+                  checked={reportType === "B"}
+                  onChange={() => setReportType("B")}
+                />
+                Report B
+              </label>
             </div>
             <div className="flex relative p-4 flex-col items-center justify-center">
               <label

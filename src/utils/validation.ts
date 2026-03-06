@@ -250,6 +250,33 @@ export const defaultLinks: SidebarLink[] = [
     icon: "material-symbols-light:space-dashboard-rounded",
   },
   {
+    name: "HR-Management",
+    path: "/attendance",
+    icon: "material-symbols-light:space-dashboard-rounded",
+    children: [
+      {
+        name: "Attendance",
+        path: "/attendance",
+      },
+      {
+        name: "Leaves",
+        path: "/leaves",
+      },
+      {
+        name: "Events",
+        path: "/events",
+      },
+      {
+        name: "Payroll",
+        path: "/payroll",
+      },
+      {
+        name: "Setting",
+        path: "/setting",
+      },
+    ],
+  },
+  {
     name: "Healthcare Experts",
     icon: "fontisto:doctor",
     path: "/doctors",
