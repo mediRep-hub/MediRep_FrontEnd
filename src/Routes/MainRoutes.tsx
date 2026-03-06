@@ -226,7 +226,7 @@ export default function MainRoutes() {
           element={<DoctorMeetingExpense />}
         />
         <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
-        <Route path="/testing" element={<Testing />} />
+        <Route path="/distributorSheets" element={<Testing />} />
       </Routes>
     </Suspense>
   );
