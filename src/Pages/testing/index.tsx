@@ -34,7 +34,6 @@ export default function Testing() {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [tableData, setTableData] = useState<StockItem[]>([]);
-  const [reportType, setReportType] = useState<"A" | "B" | "">("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -173,11 +172,6 @@ export default function Testing() {
 
         // Assign pack based on report type
         let pack = "";
-        if (reportType === "A") {
-          pack = row[24] ?? ""; // adjust index for Report A
-        } else if (reportType === "B") {
-          pack = row[25] ?? ""; // adjust index for Report B
-        }
 
         return {
           itemDescription: (itemDescription || row[0]) ?? "",
@@ -383,7 +377,7 @@ export default function Testing() {
               </div>
             )}
 
-            {file && <p className="mb-2 text-sm">{file.name}</p>}
+            {file && <p className="mb-2 px-4 text-sm">{file.name}</p>}
             <div className="flex justify-end gap-3 p-4">
               <button
                 className="h-[48px] px-6 bg-[#F2FAFD] text-[#131313] rounded-[6px] transition-all"
