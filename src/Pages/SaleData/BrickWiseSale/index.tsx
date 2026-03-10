@@ -80,9 +80,6 @@ export default function BrickWiseSale() {
   const handleClose = () => {
     setGenerateReport(false);
   };
-  useEffect(() => {
-    document.title = "MediRep | Channel Wise Sale";
-  }, []);
 
   const handleDownloadExcel = () => {
     const worksheetData = [titles, ...tableDataTitles];

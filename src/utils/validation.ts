@@ -349,11 +349,24 @@ export const defaultLinks: SidebarLink[] = [
       },
     ],
   },
+
   {
     name: "Sale Data",
     icon: "academicons:open-data",
     path: "/primarySale",
     children: [
+      {
+        name: "Upload Sales",
+        path: "/uploadSales",
+      },
+      {
+        name: "Upload Reports",
+        path: "/uploadReports",
+      },
+      {
+        name: "Sale Summary",
+        path: "/saleSummary",
+      },
       {
         name: "Primary Sale",
         path: "/primarySale",

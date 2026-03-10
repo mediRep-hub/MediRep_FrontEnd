@@ -6,7 +6,6 @@ import { Spin } from "antd";
 import { Icon } from "@iconify/react";
 import { useFormik } from "formik";
 import { useQuery } from "@tanstack/react-query";
-
 import CustomTable from "../../Components/CustomTable";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
@@ -98,7 +97,6 @@ export default function ManageAccount() {
   const [searchBrick, setSearchBrick] = useState("");
   const itemsPerPage = 10;
   const navigate = useNavigate();
-
   const brickOptions: string[] = bricksData.map(
     (brick: any) => brick.brickName,
   );
@@ -134,7 +132,7 @@ export default function ManageAccount() {
     Object.keys(leaveLabelMap)
       .map((label) => ({
         label,
-        amount: leave?.[leaveLabelMap[label]]?.total || 0, // total amount
+        amount: leave?.[leaveLabelMap[label]]?.total || 0,
       }))
       .filter((v) => v.amount > 0);
 
@@ -150,7 +148,7 @@ export default function ManageAccount() {
     arr.forEach((item) => {
       result[leaveLabelMap[item.label]] = {
         total: Number(item.amount),
-        consumed: 0, // start with 0 consumed
+        consumed: 0,
       };
     });
 
@@ -240,7 +238,7 @@ export default function ManageAccount() {
       },
       leaveMultiSelect: editingAccount
         ? objectToMultiSelect(editingAccount.leaveEntitlements)
-        : [], // empty array for new
+        : [],
       leaveEntitlements: editingAccount?.leaveEntitlements || {
         casualLeave: 0,
         sickLeave: 0,
@@ -320,6 +318,7 @@ export default function ManageAccount() {
   useEffect(() => {
     document.title = "MediRep | Manage Accounts";
   }, []);
+
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] h-auto rounded-[12px] p-4">

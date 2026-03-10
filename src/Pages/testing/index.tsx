@@ -25,7 +25,7 @@ interface StockItem {
   closingValue: number;
   todaySale: number;
   todayReturn: number;
-  pack: string; // <-- new field
+  pack: string;
 }
 
 export default function Testing() {

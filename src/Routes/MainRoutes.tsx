@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
+import UploadSales from "../Pages/SaleData/SalesDataUpload";
+import SaleSummary from "../Pages/SaleData/SaleSummary";
 
 const TrackSale = lazy(() => import("../Pages/Orders/trackSale"));
 const AsmTarget = lazy(() => import("../Pages/Targets/AsmTarget"));
@@ -227,6 +229,8 @@ export default function MainRoutes() {
         />
         <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
         <Route path="/distributorSheets" element={<Testing />} />
+        <Route path="/uploadSales" element={<UploadSales />} />
+        <Route path="/saleSummary" element={<SaleSummary />} />
       </Routes>
     </Suspense>
   );
