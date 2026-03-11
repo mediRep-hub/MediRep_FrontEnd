@@ -24,6 +24,7 @@ import { Icon } from "@iconify/react";
 import { bricksData } from "../../utils/brick";
 import SearchByName from "../../Components/SearchBar/searchByName";
 import { useDebounce } from "../../Components/Debounce";
+import type { AxiosResponse } from "axios";
 
 interface Doctor {
   _id?: string;
@@ -69,7 +70,7 @@ export default function Doctors() {
   const itemsPerPage = 6;
 
   const debouncedName = useDebounce(searchName, 500);
-  const { data, isFetching, refetch } = useQuery({
+  const { data, isFetching, refetch } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllDoctors", currentPage, debouncedName],
     queryFn: () =>
       getAllDoctors({
@@ -77,6 +78,10 @@ export default function Doctors() {
         limit: itemsPerPage,
         name: debouncedName || undefined,
       }),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const doctorsList: Doctor[] = data?.data?.data || [];

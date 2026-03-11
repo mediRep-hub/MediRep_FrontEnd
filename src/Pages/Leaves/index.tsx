@@ -64,7 +64,10 @@ export default function Leaves() {
   const { data, refetch, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: ["Leaves", searchValue],
     queryFn: () => getAllLeaves(searchValue),
-    placeholderData: (previousData) => previousData,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   const tableData =
     data?.data?.map((v: any) => [

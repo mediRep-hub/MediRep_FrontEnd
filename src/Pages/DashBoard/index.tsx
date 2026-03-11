@@ -19,11 +19,15 @@ import { getAttendanceSummary } from "../../api/attendanceServices";
 import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
 import { getAllEvents } from "../../api/eventsServices";
+import type { AxiosResponse } from "axios";
 export default function DashBoard() {
-  const { data, refetch } = useQuery({
+  const { data, refetch } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllProducts"],
     queryFn: () => getAllProducts({}),
+    placeholderData: (prev) => prev,
     staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   let ProductData = data?.data?.totalSummary;
@@ -36,20 +40,26 @@ export default function DashBoard() {
   const handleGOtoSeeAll = () => {
     navigate("/requisitionsList");
   };
-  const { data: Requisition } = useQuery({
+  const { data: Requisition } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllRequisition"],
     queryFn: () => getAllRequisition(),
+    placeholderData: (prev) => prev,
     staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   let AllRequisition = Requisition?.data?.requisitions;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeData = AllRequisition?.[activeIndex] || {};
 
-  const { data: summary } = useQuery({
+  const { data: summary } = useQuery<AxiosResponse<any>>({
     queryKey: ["getAttendanceSummary"],
     queryFn: getAttendanceSummary,
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const requisitions = Array.isArray(AllRequisition?.data)
@@ -59,16 +69,22 @@ export default function DashBoard() {
       : [];
 
   const recent = requisitions.slice(0, 5);
-  const { data: Birthday } = useQuery({
+  const { data: Birthday } = useQuery<AxiosResponse<any>>({
     queryKey: ["Birthday"],
     queryFn: getBirthday,
+    placeholderData: (prev) => prev,
     staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   let birthdayData = Birthday?.data?.data;
-  const { data: Events } = useQuery({
+  const { data: Events } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllEvents"],
     queryFn: () => getAllEvents(),
+    placeholderData: (prev) => prev,
     staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   const AllEvents = Events?.data || [];
 

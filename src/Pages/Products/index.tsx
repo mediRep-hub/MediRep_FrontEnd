@@ -22,6 +22,7 @@ import Pagination from "../../Components/Pagination";
 import { Icon } from "@iconify/react";
 import SearchByName from "../../Components/SearchBar/searchByName";
 import { useDebounce } from "../../Components/Debounce";
+import type { AxiosResponse } from "axios";
 
 const titles = [
   "Product SKU",
@@ -97,10 +98,13 @@ export default function Products() {
     limit,
   };
 
-  const { data, refetch, isFetching } = useQuery({
+  const { data, refetch, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllProducts", params],
     queryFn: () => getAllProducts(params),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   let ProductData = data?.data?.data;

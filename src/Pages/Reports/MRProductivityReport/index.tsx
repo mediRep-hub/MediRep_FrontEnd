@@ -9,6 +9,7 @@ import { getAllDoctors } from "../../../api/doctorServices";
 import ReportFilterModalStatic from "../../../Components/ReportFilter";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import type { AxiosResponse } from "axios";
 
 const title = [
   "MR Name",
@@ -31,7 +32,7 @@ export default function MRProductivityReport() {
   let currentPage = 1;
   let itemsPerPage = 7;
 
-  const { data: Doctor } = useQuery({
+  const { data: Doctor } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllPharmacies", currentPage],
     queryFn: () =>
       getAllDoctors({
@@ -39,6 +40,9 @@ export default function MRProductivityReport() {
         limit: itemsPerPage,
       }),
     placeholderData: (previous) => previous,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   let AllDoctor = Doctor?.data?.data;
   const Data = [

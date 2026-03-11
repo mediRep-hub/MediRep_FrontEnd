@@ -7,6 +7,7 @@ import Pagination from "../../Components/Pagination";
 import { SearchSelection } from "../../Components/SearchBar/SearchSelection";
 import { getAllAccounts } from "../../api/adminServices";
 import SearchDateRange from "../../Components/SearchBar/SearchDateRange";
+import type { AxiosResponse } from "axios";
 
 const titles = [
   "Requisition ID",
@@ -32,7 +33,7 @@ export default function Requisition() {
   });
   const [page, setPage] = useState(1);
   const limit = 10;
-  const { data, isFetching } = useQuery({
+  const { data, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: [
       "AllRequisition",
       page,
@@ -48,13 +49,18 @@ export default function Requisition() {
         selectedDate.start || undefined,
         selectedDate.end || undefined,
       ),
-    placeholderData: (previous) => previous,
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
-  const { data: allMr } = useQuery({
+  const { data: allMr } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   const AllMR = allMr?.data?.admins ?? [];
   const result = data?.data;

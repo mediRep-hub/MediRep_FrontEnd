@@ -25,6 +25,7 @@ import { Icon } from "@iconify/react";
 import { getAllProductsMR } from "../../api/productServices";
 import MultiSelect from "../../Components/MultiSelect";
 import { bricksData } from "../../utils/brick";
+import type { AxiosResponse } from "axios";
 
 const titles = [
   "Call ID",
@@ -113,25 +114,36 @@ export default function CallReporting() {
   const doctorLimit = 10;
 
   const navigate = useNavigate();
-  const { data: doctorss } = useQuery({
+  const { data: doctorss } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllDoctorsss", selectedArea],
     queryFn: () => getAllDoctorsLIst(selectedArea),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
-  const { data: Products } = useQuery({
+  const { data: Products } = useQuery<AxiosResponse<any>>({
     queryKey: ["getAllProductsMR"],
     queryFn: () => getAllProductsMR(),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
-  const { data: allMr } = useQuery({
+  const { data: allMr } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   const AllMR = allMr?.data?.admins ?? [];
   const {
     data: result,
     refetch,
     isFetching,
-  } = useQuery({
+  } = useQuery<AxiosResponse<any>>({
     queryKey: [
       "reports",
       page,
@@ -152,6 +164,10 @@ export default function CallReporting() {
         selectedDate.end || undefined,
         capitalize(selectedArea?.toLowerCase()),
       ),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   useEffect(() => {
     const bricks = result?.data?.data ?? [];
@@ -380,7 +396,6 @@ export default function CallReporting() {
               <p className="text-[#7D7D7D] font-medium text-sm">Bricks List</p>
               <Pagination
                 currentPage={page}
-                totalItems={result?.totalItems}
                 itemsPerPage={limit}
                 onPageChange={(newPage) => setPage(newPage)}
               />

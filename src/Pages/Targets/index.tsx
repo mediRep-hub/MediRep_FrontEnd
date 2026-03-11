@@ -14,6 +14,7 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { MonthYearPicker } from "../../Components/FilterMonthYear";
 import SearchByName from "../../Components/SearchBar/searchByName";
+import type { AxiosResponse } from "axios";
 
 const SaleData = [
   {
@@ -164,14 +165,17 @@ export default function Targets() {
     document.title = "MediRep | Targets & Achievements";
   }, []);
 
-  const { data, refetch, isFetching } = useQuery({
+  const { data, refetch, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllProducts", debouncedSku, debouncedProductName],
     queryFn: () =>
       getAllProducts({
         sku: debouncedSku,
         productName: debouncedProductName,
       }),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const ProductData = data?.data?.data || [];

@@ -9,6 +9,7 @@ import { getAllAccounts } from "../../api/adminServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { Icon } from "@iconify/react";
 import CustomInput from "../../Components/CustomInput";
+import type { AxiosResponse } from "axios";
 
 const titles = [
   "Order ID",
@@ -45,15 +46,18 @@ export default function PendingOrders() {
 
   const queryClient = useQueryClient();
 
-  const { data: allMr } = useQuery({
+  const { data: allMr } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const AllMR = allMr?.data?.admins ?? [];
 
-  const { data, isFetching } = useQuery({
+  const { data, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: [
       "GetOrder",
       currentPage,
@@ -71,7 +75,10 @@ export default function PendingOrders() {
         selectedDate.end || undefined,
         "pending",
       ),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const allOrders: Order[] = Array.isArray(data?.data.data)

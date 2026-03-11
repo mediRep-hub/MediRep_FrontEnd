@@ -20,6 +20,7 @@ import { notifyError, notifySuccess } from "../../Components/Toast";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { EventSchema } from "../../utils/validation";
+import type { AxiosResponse } from "axios";
 export default function Events() {
   const [editing, setEditing] = useState<any>(null);
   const [openModel, setOpenModel] = useState(false);
@@ -27,11 +28,16 @@ export default function Events() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isloadingDelete, setLoadingDelete] = useState(false);
 
-  const { data, refetch, isFetching, isLoading } = useQuery({
-    queryKey: ["AllEvents"],
-    queryFn: () => getAllEvents(),
-    staleTime: 5 * 60 * 1000,
-  });
+  const { data, refetch, isFetching, isLoading } = useQuery<AxiosResponse<any>>(
+    {
+      queryKey: ["AllEvents"],
+      queryFn: () => getAllEvents(),
+      placeholderData: (prev) => prev,
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 10,
+      refetchOnWindowFocus: false,
+    },
+  );
   let AllEvents = data?.data;
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import {
   Area,
 } from "recharts";
 import { productGraph } from "../../api/productServices";
+import type { AxiosResponse } from "axios";
 
 const monthNames = [
   "Jan",
@@ -31,7 +32,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const uniquePayload = payload.filter(
       (item: any, index: number, self: any) =>
-        index === self.findIndex((t: any) => t.dataKey === item.dataKey)
+        index === self.findIndex((t: any) => t.dataKey === item.dataKey),
     );
 
     const dotColors: Record<string, string> = {
@@ -60,10 +61,13 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function LineChart() {
-  const { data: Graph, refetch } = useQuery({
+  const { data: Graph, refetch } = useQuery<AxiosResponse<any>>({
     queryKey: ["productGraph"],
     queryFn: () => productGraph(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

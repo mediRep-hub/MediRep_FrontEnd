@@ -22,6 +22,7 @@ import { getAllPharmacies } from "../../api/pharmacyServices";
 import { notifyError, notifySuccess } from "../../Components/Toast";
 import { BrickSchema } from "../../utils/validation";
 import { useDebounce } from "../../Components/Debounce";
+import type { AxiosResponse } from "axios";
 
 const aeraSelection = [
   "Johar Town",
@@ -71,36 +72,54 @@ export default function Brick() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const debouncedBrickName = useDebounce(searchBrickName, 500);
 
-  const { data: allMr } = useQuery({
+  const { data: allMr } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   let limit = 100;
 
-  const { data: pharmacies } = useQuery({
+  const { data: pharmacies } = useQuery<AxiosResponse<any>>({
     queryKey: ["pharmacies", limit],
     queryFn: () => getAllPharmacies({ limit }),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
-  const { data: doctorss } = useQuery({
+  const { data: doctorss } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllDoctors"],
     queryFn: () => getAllDoctorsLIst(),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
-  const { data: Products } = useQuery({
+  const { data: Products } = useQuery<AxiosResponse<any>>({
     queryKey: ["getAllProductsMR"],
     queryFn: () => getAllProductsMR(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const {
     data: BrickData,
     isFetching,
     refetch,
-  } = useQuery({
+  } = useQuery<AxiosResponse<any>>({
     queryKey: ["bricks", debouncedBrickName],
     queryFn: () => getAllBricks(debouncedBrickName),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

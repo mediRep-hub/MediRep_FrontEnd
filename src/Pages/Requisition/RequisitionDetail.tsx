@@ -17,6 +17,7 @@ import { Spin } from "antd";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
 import { Icon } from "@iconify/react";
+import type { AxiosResponse } from "axios";
 
 interface Product {
   _id: string;
@@ -91,10 +92,13 @@ export default function RequisitionDetail() {
     }
   };
 
-  const { refetch } = useQuery({
+  const { refetch } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllRequisition"],
     queryFn: () => getAllRequisition(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (previous) => previous,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const handleBack = () => navigate("/requisitionsList");

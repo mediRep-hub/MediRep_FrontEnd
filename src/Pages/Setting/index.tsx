@@ -8,6 +8,7 @@ import {
 import CustomInput from "../../Components/CustomInput";
 import { useQuery } from "@tanstack/react-query";
 import { notifyError, notifySuccess } from "../../Components/Toast";
+import type { AxiosResponse } from "axios";
 
 export default function Setting() {
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
@@ -18,10 +19,13 @@ export default function Setting() {
   useEffect(() => {
     document.title = "MediRep | Setting";
   }, []);
-  const { data } = useQuery({
+  const { data } = useQuery<AxiosResponse<any>>({
     queryKey: ["GetCompanyTimingAPI"],
     queryFn: GetCompanyTimingAPI,
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

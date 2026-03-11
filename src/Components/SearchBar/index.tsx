@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAccounts } from "../../api/adminServices";
 import { setIsFilter } from "../../redux/userSlice";
+import type { AxiosResponse } from "axios";
 
 const areaOptions: string[] = [
   "All Area",
@@ -31,10 +32,13 @@ export default function SearchBar() {
   const [selectedMR, setSelectedMR] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const { data: allMr } = useQuery({
+  const { data: allMr } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   const AllMR = allMr?.data?.admins || [];
   useEffect(() => {

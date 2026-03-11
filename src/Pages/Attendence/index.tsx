@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CustomTable from "../../Components/CustomTable";
 import {
   createDailyAttendance,
@@ -99,7 +99,10 @@ export default function Attendance() {
         month: selectedMonthYear.month,
         year: selectedMonthYear.year,
       }),
-    placeholderData: (previousData) => previousData,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const filteredData = data?.data.filter((v: any) => {
@@ -127,10 +130,7 @@ export default function Attendance() {
       >
         {v?.status}
       </p>,
-      <button
-        // disabled={v.status == "On Leave"}
-        className="text-[#0755E9] disabled:text-[#7d7d7d]/48"
-      >
+      <button className="text-[#0755E9] disabled:text-[#7d7d7d]/48">
         <TbEdit
           key={v._id}
           size={18}
@@ -146,6 +146,7 @@ export default function Attendance() {
         />
       </button>,
     ]) || [];
+  const queryClient = useQueryClient();
 
   const formik = useFormik<{
     checkIn: Dayjs | null;
@@ -173,7 +174,7 @@ export default function Attendance() {
           setOpenModel(false);
           setEditing(null);
           formik.resetForm();
-          refetch();
+          queryClient.invalidateQueries({ queryKey: ["Attendance"] });
         })
         .catch(() => notifyError("Failed to update Attendance"))
         .finally(() => setLoading(false));

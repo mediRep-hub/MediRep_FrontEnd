@@ -24,6 +24,7 @@ import { Icon } from "@iconify/react";
 import { bricksData } from "../../utils/brick";
 import SearchByName from "../../Components/SearchBar/searchByName";
 import { useDebounce } from "../../Components/Debounce";
+import type { AxiosResponse } from "axios";
 interface Pharmacy {
   _id?: string;
   name: string;
@@ -63,7 +64,7 @@ export default function Pharmacies() {
   const itemsPerPage = 6;
   const [searchName, setSearchName] = useState("");
   const debouncedName = useDebounce(searchName, 500);
-  const { data, refetch, isFetching } = useQuery({
+  const { data, refetch, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllPharmacies", currentPage, debouncedName],
     queryFn: () =>
       getAllPharmacies({
@@ -72,6 +73,9 @@ export default function Pharmacies() {
         name: debouncedName || undefined,
       }),
     placeholderData: (previous) => previous,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const pharmaciesList: Pharmacy[] = data?.data?.data || [];

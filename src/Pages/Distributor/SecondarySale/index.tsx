@@ -43,7 +43,7 @@ export default function SecondarySaleDistributor() {
   }>({});
   const { user } = useSelector((state: any) => state.user);
 
-  const { data: allAccounts } = useQuery({
+  const { data: allAccounts } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
     staleTime: 5 * 60 * 1000,

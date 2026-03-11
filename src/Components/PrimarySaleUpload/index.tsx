@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllAccounts } from "../../api/adminServices";
 import { uploadBulkSECONDARYSales } from "../../api/secondaryServices";
 import { Icon } from "@iconify/react";
+import type { AxiosResponse } from "axios";
 export default function PrimarySaleUpload({ closeModle, refetch }: any) {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
@@ -13,10 +14,13 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
     null,
   );
 
-  const { data: Distributor } = useQuery({
+  const { data: Distributor } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   const AllDistributor =

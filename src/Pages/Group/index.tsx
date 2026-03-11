@@ -24,6 +24,7 @@ import { GroupSchema } from "../../utils/validation";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { getAllPharmacies } from "../../api/pharmacyServices";
 import { useNavigate } from "react-router-dom";
+import type { AxiosResponse } from "axios";
 
 interface ProductRow {
   name: string;
@@ -120,32 +121,51 @@ export default function Group() {
     }
   };
 
-  const { data: doctorss } = useQuery({
+  const { data: doctorss } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllDoctorsss"],
     queryFn: () => getAllDoctorsLIst(),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   let limit = 100;
-  const { data: pharmacies } = useQuery({
+  const { data: pharmacies } = useQuery<AxiosResponse<any>>({
     queryKey: ["pharmacies", limit],
     queryFn: () => getAllPharmacies({ limit }),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
-  const { data: Products, isLoading: productsLoading } = useQuery({
+  const { data: Products, isLoading: productsLoading } = useQuery<
+    AxiosResponse<any>
+  >({
     queryKey: ["getAllProductsMR"],
     queryFn: () => getAllProductsMR(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
-  const { data: allMr } = useQuery({
+  const { data: allMr } = useQuery<AxiosResponse<any>>({
     queryKey: ["AllAccount"],
     queryFn: () => getAllAccounts(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
-  const { data: brickGroup, refetch } = useQuery({
+  const { data: brickGroup, refetch } = useQuery<AxiosResponse<any>>({
     queryKey: ["getAllGroups"],
     queryFn: () => getAllGroups(),
-    staleTime: 5 * 60 * 1000,
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
   let Allpharmacies = pharmacies?.data?.data || [];

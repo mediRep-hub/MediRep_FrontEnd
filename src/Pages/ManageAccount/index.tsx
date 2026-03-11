@@ -5,7 +5,7 @@ import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { Icon } from "@iconify/react";
 import { useFormik } from "formik";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CustomTable from "../../Components/CustomTable";
 import CustomInput from "../../Components/CustomInput";
 import CustomSelect from "../../Components/Select";
@@ -26,6 +26,7 @@ import { useDebounce } from "../../Components/Debounce";
 import DatePicker from "../../Components/DatePicker";
 import dayjs from "dayjs";
 import MultiSelectNew from "../../Components/MultiSelectNew";
+import type { AxiosResponse } from "axios";
 
 const leaveOptions = [
   "Casual Leave",
@@ -118,8 +119,14 @@ export default function ManageAccount() {
   };
   const debouncedName = useDebounce(searchName, 500);
   const debouncedBrick = useDebounce(searchBrick, 500);
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: ["AllAccount", debouncedName, debouncedBrick, currentPage],
+  const { data, refetch, isFetching } = useQuery<AxiosResponse<any>>({
+    queryKey: [
+      "AllAccount",
+      debouncedName,
+      debouncedBrick,
+      currentPage,
+      itemsPerPage,
+    ],
     queryFn: () =>
       getAllAccounts({
         name: debouncedName || undefined,
@@ -127,6 +134,10 @@ export default function ManageAccount() {
         page: currentPage,
         limit: itemsPerPage,
       }),
+    placeholderData: (prev) => prev,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
   const objectToMultiSelect = (leave: any) =>
     Object.keys(leaveLabelMap)
@@ -154,7 +165,7 @@ export default function ManageAccount() {
 
     return result;
   };
-
+  const queryClient = useQueryClient();
   const AllAccounts: Account[] = data?.data?.admins ?? [];
   const rowsByDivision: RowsByDivision = useMemo(() => {
     const buildRow = (v: Account) => {
@@ -282,7 +293,7 @@ export default function ManageAccount() {
           setCreateAccount(false);
           setEditingAccount(null);
           formik.resetForm();
-          refetch();
+          queryClient.invalidateQueries({ queryKey: ["AllAccount"] });
         })
         .catch((error: any) => {
           console.error(error);
