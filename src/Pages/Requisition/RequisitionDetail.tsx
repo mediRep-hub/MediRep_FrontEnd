@@ -230,7 +230,6 @@ export default function RequisitionDetail() {
         </div>
         <div className="bg-[#E5EBF7] mt-4 rounded-[12px] p-4 2xl:h-[calc(77.2vh-0px)] xl:h-[calc(66vh-0px)] h-auto">
           <p className="text-[#7d7d7d]">Requisition Details</p>
-
           <div
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             className="scroll-smooth mt-5  bg-white border border-primary rounded-lg 2xl:h-[calc(69.3vh-0px)] xl:h-[calc(54vh-0px)] overflow-y-auto scrollbar-none"

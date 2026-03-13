@@ -18,6 +18,7 @@ import jsPDF from "jspdf";
 import dayjs from "dayjs";
 import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
+import type { AxiosResponse } from "axios";
 
 const titles = [
   "Order ID",
@@ -53,7 +54,7 @@ export default function SecondarySaleDistributor() {
       (mr: any) => mr.position === "MedicalRep(MR)",
     ) ?? [];
 
-  const { data: ordersData, isFetching } = useQuery({
+  const { data: ordersData, isFetching } = useQuery<AxiosResponse<any>>({
     queryKey: [
       "GetOrder",
       currentPage,
