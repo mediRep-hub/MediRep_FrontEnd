@@ -4,6 +4,7 @@ import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
 import UploadSales from "../Pages/SaleData/SalesDataUpload";
 import SaleSummary from "../Pages/SaleData/SaleSummary";
+import PivotSaleSummary from "../Pages/SaleData/PivotSaleSummary";
 
 const TrackSale = lazy(() => import("../Pages/Orders/trackSale"));
 const AsmTarget = lazy(() => import("../Pages/Targets/AsmTarget"));
@@ -180,6 +181,8 @@ export default function MainRoutes() {
           element={<PrimarySaleDetails />}
         />{" "}
         <Route path="/secondarySale" element={<SecondarySale />} />
+        {/* <Route path="/pivotSaleSummary" element={<PivotSaleSummary />} /> */}
+
         <Route
           path="/secondarySale/secondarySaleDetails"
           element={<SecondarySaleDetails />}
@@ -230,7 +233,7 @@ export default function MainRoutes() {
         <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
         <Route path="/distributorSheets" element={<Testing />} />
         <Route path="/uploadSales" element={<UploadSales />} />
-        <Route path="/saleSummary" element={<SaleSummary />} />
+        <Route path="/saleSummary" element={<PivotSaleSummary />} />
       </Routes>
     </Suspense>
   );

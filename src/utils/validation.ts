@@ -363,10 +363,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Upload Reports",
         path: "/uploadReports",
       },
-      {
-        name: "Sale Summary",
-        path: "/saleSummary",
-      },
+      // {
+      //   name: "Sale Summary",
+      //   path: "/saleSummary",
+      // },
       {
         name: "Primary Sale",
         path: "/primarySale",
@@ -374,6 +374,10 @@ export const defaultLinks: SidebarLink[] = [
       {
         name: "Secondary Sale",
         path: "/secondarySale",
+      },
+      {
+        name: "Pivot Sale Summary",
+        path: "/saleSummary",
       },
       {
         name: "Channel Wise Sale",
