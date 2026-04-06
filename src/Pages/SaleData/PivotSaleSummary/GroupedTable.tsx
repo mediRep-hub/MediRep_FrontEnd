@@ -40,7 +40,7 @@ const GroupedTable: React.FC<Props> = ({ columns, data }) => {
                 col.children!.map((child, idx) => (
                   <th
                     key={idx}
-                    className="text-[12px] font-medium text-center px-4 py-2 border-b border-[#dbe3f3]"
+                    className="text-[12px] font-medium text-center px-8 py-2 border-b border-[#dbe3f3]"
                   >
                     {child}
                   </th>
@@ -56,14 +56,16 @@ const GroupedTable: React.FC<Props> = ({ columns, data }) => {
               key={i}
               className="hover:bg-[#eef4ff] transition-all duration-150"
             >
-              {row.map((cell, j) => (
-                <td
+              {row.map((cell, j) => {
+                return(
+                     <td
                   key={j}
                   className="text-[13px] px-4 py-3 border-b border-[#edf1fa] text-center"
                 >
                   {cell}
                 </td>
-              ))}
+                )
+              })}
             </tr>
           ))}
         </tbody>

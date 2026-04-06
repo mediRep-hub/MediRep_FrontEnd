@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import CustomTable from "../../../Components/CustomTable";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import { Icon } from "@iconify/react";
 import * as XLSX from "xlsx";
@@ -108,7 +107,6 @@ export default function PivotSaleSummary() {
   const [generateReport, setGenerateReport] = useState(false);
   const [animate, setAnimate] = useState(false);
   const { salesData } = useSelector((state: any) => state.user);
-  console.log("🚀 ~ PivotSaleSummary ~ salesData:", salesData);
 
   useEffect(() => {
     const timer = setTimeout(() => setAnimate(true), 10);
@@ -164,6 +162,7 @@ export default function PivotSaleSummary() {
     setSelected([]);
   };
 
+  const addSpace = "\u00A0\u00A0\u00A0\u00A0\u00A0";
   const mapDataToRows = (apiData: any[]) => {
     return apiData.map((item) => [
       // Basic Info
@@ -182,16 +181,15 @@ export default function PivotSaleSummary() {
       item["Purchase Bonus"] || "-",
       item["Purchase Return Quantity"] || "-",
       item["Purchase Bonus Return"] || "-",
-
-      [
-        item["Purchase Total Quantity"] || "-",
-        item["Purchase Total Bonus"] || "-",
-      ].join(" "),
+      `${item["Purchase Total Quantity"] || "-"} ${addSpace} ${item["Purchase Total Bonus"] || "-"}`,
       // Sale / Net Sale & Return
+      item["Gross Sale"] || "-",
+      item["Gross Return"] || "-",
+      item["Bonus Claim"] || "-",
       item["Sale Quantity"] || "-",
       item["Sale Bonus"] || "-",
       item["Sale Return"] || "-",
-      item["Sale Bonus Return"]|| "-",
+      item["Sale Bonus Return"] || "-",
       item["Total Sale Quantity"] || "-",
       item["Total Sale Bonus"] || "-",
       item["Sale Value"] || "-",
@@ -199,10 +197,7 @@ export default function PivotSaleSummary() {
       // Expiry & Adjustment
 
       item["Expiry"] || "-",
-      [
-        item["Adjustment Quantity"] || "-",
-        item["Adjustment Bonus"] || "-",
-      ].join(""),
+      `${item["Adjustment Quantity"] || "-"} ${addSpace} ${item["Adjustment Bonus"] || "-"}`,
 
       // Transfer
       item["Transfer In"] || "-",
@@ -213,15 +208,16 @@ export default function PivotSaleSummary() {
       item["Avaialbility Total"] || "-",
 
       // Closing
-      [
-        item["Closing Balance Quantity"] || "-",
-        item["Closing Balance Bonus"] || "-",
-      ].join(""),
+
+      `${item["Closing Balance Quantity"] || "-"} ${addSpace} ${item["Closing Balance Bonus"] || "-"}`,
+
       item["Closing Value"] || "-",
 
       // Today
       item["Today Sale"] || "-",
       item["Today Return"] || "-",
+         item["Day Sale"] || "-",
+      item["Day Sale Value"] || "-",
 
       // To Date
       item["To Date Sale"] || "-",
@@ -230,7 +226,6 @@ export default function PivotSaleSummary() {
   };
 
   const rows = mapDataToRows(salesData || []);
-  console.log("🚀 ~ PivotSaleSummary ~ rows:", rows);
 
   return (
     <>
@@ -312,6 +307,10 @@ export default function PivotSaleSummary() {
                     "Total",
                   ],
                 },
+                { label: "Gross Sale", rowSpan: 2 },
+                { label: "Gross Return", rowSpan: 2 },
+                { label: "Bonus Claim", rowSpan: 2 },
+
                 {
                   label: "Sale / Net Sale & Return",
                   colSpan: 7,
@@ -344,6 +343,8 @@ export default function PivotSaleSummary() {
                 },
                 { label: "Today Sale", rowSpan: 2 },
                 { label: "Today Return", rowSpan: 2 },
+                { label: "Day Sale", rowSpan: 2 },
+                { label: "Day Sale Value", rowSpan: 2 },
                 {
                   label: "To Date",
                   colSpan: 2,

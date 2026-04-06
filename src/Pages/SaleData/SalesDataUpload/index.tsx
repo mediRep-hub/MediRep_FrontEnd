@@ -7,7 +7,6 @@ import { notifyError, notifySuccess } from "../../../Components/Toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setSalesData } from "../../../redux/userSlice";
 import { parseFile } from "./fileParser";
-import { cleanTableData } from "./tableCleaner";
 import { structureData } from "./structureData";
 import { getHeadersByDistributor } from "./headersConfig";
 
@@ -62,10 +61,10 @@ export default function SaleUpload() {
   const [loading, setLoading] = useState(false);
   const [headers, setHeaders] = useState<string[]>([]);
   const { salesData } = useSelector((state: any) => state.user);
-  console.log("🚀 ~ SaleUpload ~ salesData:", salesData)
+  // console.log("🚀 ~ SaleUpload ~ salesData:", salesData)
   const dispatch = useDispatch();
 
-console.log("Last item:", salesData[salesData.length - 1]);
+// console.log("Last item:", salesData[salesData.length - 1]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
