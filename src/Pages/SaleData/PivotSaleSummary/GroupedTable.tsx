@@ -15,7 +15,7 @@ interface Props {
 const GroupedTable: React.FC<Props> = ({ columns, data }) => {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-[#dbe3f3]">
-      <table className="w-full border-collapse">
+      <table className="min-w-max border-collapse">
         {/* HEADER */}
         <thead>
           {/* Top Header */}
