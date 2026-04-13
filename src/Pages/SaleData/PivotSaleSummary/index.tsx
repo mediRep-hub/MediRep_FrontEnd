@@ -1,11 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { MonthYearPicker } from "../../../Components/FilterMonthYear";
 import { Icon } from "@iconify/react";
-import * as XLSX from "xlsx";
+import * as XLSX from "xlsx-js-style";
 import { saveAs } from "file-saver";
 import { IoMdCloseCircle } from "react-icons/io";
 import GroupedTable from "./GroupedTable";
 import { useSelector } from "react-redux";
+import {
+  PivotSalesData,
+  PivotSalesData2,
+  purchaseChildren,
+  saleChildren,
+  titles,
+} from "../../../utils/validation";
 
 type Column = {
   label: any;
@@ -14,113 +21,17 @@ type Column = {
   children?: string[];
 };
 
-const titles = [
-  "Month",
-  "Distributor_Name",
-  "Brick ID",
-  "Brick Name",
-  "Chemist Code",
-  "Chemist Name",
-  "Product Code",
-  "Product Name",
-  "Wimits Product Name",
-  "Group",
-  "Doctor Name ",
-  "Activity Type",
-  "TM Name",
-  "SM Name",
-  "NSM Name",
-  "TP",
-  "Sales Qty",
-  "Sale Return",
-  "Gross Sale Qty",
-  "Gross Value",
-  "Disc %",
-  "Disc Value",
-  "Bonus Qty",
-  "Bonus Amount",
-  "Activity Amount",
-  "Net Value",
-];
-
-const tableDataTitles = [
-  [
-    "Jan, 2026",
-    "Drug Services & Zaheer Pharma",
-    "1011601",
-    "Ali Pur",
-
-    "468066",
-    "GREEN HILLS PHARMACY",
-    "075039",
-    "VALTA-AM 5/160MG TABS",
-    "VALTA-AM 5MG/160MG TAB",
-    "GM",
-    "-",
-    "-",
-    " MR UZAIR ",
-    "MR WASEEM MAQBOOL",
-    " WAHEED ASLAM",
-    "345",
-    "1",
-    "-",
-    "1",
-    "262",
-    "-",
-    "-",
-    "-",
-    "-",
-    "-",
-    "262",
-  ],
-];
-const fields = [
-  "All",
-  "Distributor Name",
-  "Month",
-  "Item Description",
-  "Opening Balance",
-  "Purchase",
-  // "Pack",
-  "Purchase Bonus",
-  "Purchase Return",
-  "Purchase Bonus Return",
-  "Purchase Total",
-  "Purchase Total Bonus",
-  "Sale",
-  "Sale Bonus",
-  "Sale Return",
-  "Sale Bonus Return",
-  "Total Sale Qty",
-  "Total Sale Bonus",
-  "Sale Value",
-  "Expiry",
-  "Adjustment Quantity",
-  "Adjustment Bonus",
-  "Transfer In",
-  "Transfer Out",
-  "Availability",
-  "Closing",
-  "Closing Balance Bonus",
-  "Today Sale",
-  "Today Return",
-  "Day Sale",
-  "To Date Sale",
-  "To Date Return",
-];
-
-const fields222 = [
-  "Rate",
-  "Pack",
-  "Quantity",
-  "Value",
-  "Gross Sale",
-  "Closing Value",
-];
-
 export default function PivotSaleSummary() {
   const [generateReport, setGenerateReport] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
+  const [itemSearch, setItemSearch] = useState("");
+  const [selectedDistributor, setSelectedDistributor] = useState<string>("");
+  const [selected, setSelected] = useState<string[]>([
+    ...PivotSalesData,
+    ...PivotSalesData2,
+  ]);
   const { salesData } = useSelector((state: any) => state.user);
 
   useEffect(() => {
@@ -129,12 +40,118 @@ export default function PivotSaleSummary() {
   }, []);
 
   const handleDownloadExcel = () => {
-    const worksheetData = [titles, ...tableDataTitles];
+    if (!rows.length) return;
+
+    // ✅ Prepare headers (same as table)
+    const headerRow: string[] = [];
+
+    orderedSelected.forEach((col) => {
+      if (col === "Month") headerRow.push("Month");
+      else if (col === "Distributor Name") headerRow.push("Distributor Name");
+      else if (col === "Item Description") headerRow.push("Item Description");
+      else if (col === "Rate") headerRow.push("Rate");
+      else if (col === "Pack") headerRow.push("Pack");
+      else if (col === "Today Sale") headerRow.push("Today Sale");
+      else if (col === "Today Return") headerRow.push("Today Return");
+      // Opening Balance
+      else if (col === "Opening Balance") {
+        headerRow.push("Opening Qty");
+        if (selected.includes("Value")) {
+          headerRow.push("Opening Value");
+        }
+      }
+
+      // Purchase
+      else if (col === "Purchase") {
+        headerRow.push("Purchase Qty");
+        if (selected.includes("Purchase Bonus"))
+          headerRow.push("Purchase Bonus");
+        if (selected.includes("Purchase Return"))
+          headerRow.push("Purchase Return");
+        if (selected.includes("Purchase Bonus Return"))
+          headerRow.push("Purchase Bonus Return");
+        if (selected.includes("Purchase Total"))
+          headerRow.push("Purchase Total");
+        if (selected.includes("Purchase Total Bonus"))
+          headerRow.push("Purchase Total Bonus");
+      }
+
+      // Sale
+      else if (col === "Sale") {
+        headerRow.push("Sale Qty");
+        if (selected.includes("Sale Bonus")) headerRow.push("Sale Bonus");
+        if (selected.includes("Sale Return")) headerRow.push("Sale Return");
+        if (selected.includes("Sale Bonus Return"))
+          headerRow.push("Sale Bonus Return");
+        if (selected.includes("Total Sale Qty"))
+          headerRow.push("Total Sale Qty");
+        if (selected.includes("Total Sale Bonus"))
+          headerRow.push("Total Sale Bonus");
+        if (selected.includes("Sale Value")) headerRow.push("Sale Value");
+      }
+
+      // Adjustment
+      else if (col === "Adjustment Quantity")
+        headerRow.push("Adjustment Quantity");
+      else if (col === "Adjustment Bonus") headerRow.push("Adjustment Bonus");
+      // Transfer
+      else if (col === "Transfer In") headerRow.push("Transfer In");
+      else if (col === "Transfer Out") headerRow.push("Transfer Out");
+        else if (col === "Availability Current") headerRow.push("Availability Current");
+        else if (col === "Availability Total") headerRow.push("Availability Total");
+         else if (col === "To Date Sale") headerRow.push("To Date Sale");
+        else if (col === "To Date Return") headerRow.push("To Date Return");
+      // Closing
+      else if (col === "Closing") {
+        headerRow.push("Closing Qty");
+        if (selected.includes("Closing Balance Bonus"))
+          headerRow.push("Closing Bonus");
+        if (selected.includes("Closing Value")) headerRow.push("Closing Value");
+      }
+    });
+
+    // ✅ Combine header + rows
+    const worksheetData = [headerRow, ...rows];
 
     const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-    const workbook = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Summary");
+    // 👇 1. HEADER STYLE (pehle)
+    headerRow.forEach((_, colIndex) => {
+      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: colIndex });
+
+      if (!worksheet[cellAddress]) {
+        worksheet[cellAddress] = { t: "s", v: headerRow[colIndex] };
+      }
+
+      worksheet[cellAddress].s = {
+        alignment: { horizontal: "center", vertical: "center" },
+        font: { color: { rgb: "000000" }, bold: true },
+        fill: { patternType: "solid", fgColor: { rgb: "F2F2F2" } },
+      };
+    });
+
+    // 👇 2. DATA CENTER ALIGNMENT (yahan add karo)
+    const range = XLSX.utils.decode_range(worksheet["!ref"] || "");
+
+    for (let row = 1; row <= range.e.r; row++) {
+      for (let col = 0; col <= range.e.c; col++) {
+        const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+        const cell = worksheet[cellAddress];
+
+        if (cell) {
+          cell.s = {
+            alignment: {
+              horizontal: "center",
+              vertical: "center",
+            },
+          };
+        }
+      }
+    }
+
+    // 👇 3. phir workbook
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Pivot Sales");
 
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
@@ -145,35 +162,32 @@ export default function PivotSaleSummary() {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
-    saveAs(blob, "Sales_Summary.xlsx");
+    saveAs(blob, "Pivot_Sales_Report.xlsx");
   };
-  // useEffect(() => {
-  //   document.title = "MediRep | Pivot Sales Summary";
-  // }, []);
-  const [selectedDistributor, setSelectedDistributor] = useState<string>("");
-  const [selected, setSelected] = useState<string[]>([...fields, ...fields222]);
-  console.log("🚀 ~ PivotSaleSummary ~ salesData:", salesData);
 
   useEffect(() => {
-    if (selected.length === fields.length - 1) {
-      setSelected(fields);
+    if (selected.length === PivotSalesData.length - 1) {
+      setSelected(PivotSalesData);
     }
-    if (!selected.includes("Opening Balance")) {
-      setSelected((prev) => prev.filter((f) => f !== "Value"));
-    }
+    // if (!selected.includes("Opening Balance")) {
+    //   setSelected((prev) => prev.filter((f) => f !== "Value"));
+    // }
   }, [selected]);
+  const isAllSelected = selected.includes("All");
+
   const handleSelect = (field: string) => {
-    // ✅ If "All" clicked
+    // ✅ ALL logic
     if (field === "All") {
-      if (selected.includes("All")) {
-        // unselect all
+      if (isAllSelected) {
         setSelected([]);
       } else {
-        // select all fields
-        setSelected(fields);
+        setSelected([...PivotSalesData, ...PivotSalesData2]);
       }
       return;
     }
+
+    // ❌ agar All selected hai to baqi kuch na ho
+    if (isAllSelected) return;
 
     // normal toggle
     if (selected.includes(field)) {
@@ -186,16 +200,16 @@ export default function PivotSaleSummary() {
   const clearFilters = () => {
     setSelected([]);
   };
+
   const clearFilters22 = () => {
     setSelected([]);
   };
-  const [fromDate, setFromDate] = useState<Date | null>(null);
-  const [toDate, setToDate] = useState<Date | null>(null);
 
   const parseDMY = (dateStr: string) => {
     const [day, month, year] = dateStr.split("/");
     return new Date(Number(year), Number(month) - 1, Number(day));
   };
+
   const getDistributor = (item: any) => {
     return (
       item["distributor"] ||
@@ -204,49 +218,39 @@ export default function PivotSaleSummary() {
       ""
     );
   };
-  const filteredData = useMemo(() => {
-    return (salesData || []).filter((item: any) => {
-      const itemDate = parseDMY(item["Date From"]);
+const filteredData = useMemo(() => {
+  return (salesData || []).filter((item: any) => {
+    const itemDate = parseDMY(item["Date From"]);
 
-      const dateOk =
-        !fromDate || !toDate
-          ? true
-          : itemDate >= fromDate && itemDate <= toDate;
+    const dateOk =
+      !fromDate || !toDate
+        ? true
+        : itemDate >= fromDate && itemDate <= toDate;
 
-      const distributorValue = getDistributor(item);
+    const distributorValue = getDistributor(item);
 
-      const distributorOk =
-        !selectedDistributor || distributorValue === selectedDistributor;
+    const distributorOk =
+      !selectedDistributor || distributorValue === selectedDistributor;
 
-      return dateOk && distributorOk;
-    });
-  }, [salesData, fromDate, toDate, selectedDistributor]);
+    // 🔥 NEW: Item Description filter
+    const itemOk =
+      !itemSearch ||
+      item["Item Description"]
+        ?.toLowerCase()
+        .includes(itemSearch.toLowerCase());
 
-  const saleChildren = [
-    "Sale Bonus",
-    "Sale Return",
-    "Sale Bonus Return",
-    "Total Sale Qty",
-    "Total Sale Bonus",
-    "Sale Value",
-  ];
-
-  const purchaseChildren = [
-    "Purchase Bonus",
-    "Purchase Return",
-    "Purchase Bonus Return",
-    "Purchase Total",
-    "Purchase Total Bonus",
-  ];
+    return dateOk && distributorOk && itemOk;
+  });
+}, [salesData, fromDate, toDate, selectedDistributor, itemSearch]);
+  console.log("🚀 ~ PivotSaleSummary ~ filteredData...:", filteredData);
 
   const closingChildren = ["Closing Balance Bonus", "Closing Value"];
   const orderedSelected = [
     ...selected.filter((f) => f === "Month"),
     ...selected.filter((f) => f === "Distributor Name"),
     ...selected.filter((f) => f === "Item Description"),
-    ...selected.filter((f) => f === "Rate"), // 👈 yahan control
+    ...selected.filter((f) => f === "Rate"),
     ...selected.filter((f) => f === "Pack"),
-
     ...selected.filter(
       (f) =>
         ![
@@ -258,13 +262,23 @@ export default function PivotSaleSummary() {
           "Pack",
           "Adjustment Quantity",
           "Adjustment Bonus",
+          "Transfer In",
+          "Transfer Out",
+          "Availability Current",
+          "Availability Total",
+          "To Date Sale",
+          "To Date Return",
           ...saleChildren,
           ...purchaseChildren,
           ...closingChildren,
         ].includes(f),
     ),
-     ...selected.filter((f) => f === "Transfer In"),
+    ...selected.filter((f) => f === "Transfer In"),
     ...selected.filter((f) => f === "Transfer Out"),
+    ...selected.filter((f) => f === "Availability Current"),
+    ...selected.filter((f) => f === "Availability Total"),
+    ...selected.filter((f) => f === "To Date Sale"),
+    ...selected.filter((f) => f === "To Date Return"),
     ...selected.filter((f) => f === "Adjustment Quantity"),
     ...selected.filter((f) => f === "Adjustment Bonus"),
   ];
@@ -280,7 +294,7 @@ export default function PivotSaleSummary() {
         if (col === "Today Return") return item["Today Return"] || "-";
 
         // ✅ Opening Balance
-        if (col === "Opening Balance") { 
+        if (col === "Opening Balance") {
           return [
             item["Opening Balance Quantity"] || "-",
             ...(selected.includes("Value")
@@ -339,9 +353,12 @@ export default function PivotSaleSummary() {
           return item["Adjustment Quantity"] || "-";
         if (col === "Adjustment Bonus") return item["Adjustment Bonus"] || "-";
 
-
-         if (col === "Transfer In") return item["Transfer In"] || "-";
-          if (col === "Transfer Out") return item["Transfer Out"] || "-";
+        if (col === "Transfer In") return item["Transfer In"] || "-";
+        if (col === "Transfer Out") return item["Transfer Out"] || "-";
+        if (col === "Availability Current") return item["Availability Current"] || "-";
+        if (col === "Availability Total") return item["Availability Total"] || "-";
+          if (col === "To Date Sale") return item["To Date Sale"] || "-";
+        if (col === "To Date Return") return item["To Date Return"] || "-";
 
         if (col === "Closing") {
           return [
@@ -368,44 +385,70 @@ export default function PivotSaleSummary() {
       return [
         {
           label: (
-            <select
-              value={selectedDistributor}
-              onChange={(e) => setSelectedDistributor(e.target.value)}
-              className="bg-transparent border-none outline-none text-sm font-medium"
-            >
-              <option value="">Distributor_Name </option>
-              <option value="Abdullah Enterprises - Chakwal">
-                Abdullah Enterprises - Chakwal
-              </option>
-              <option value="Al-Fateh Medicine Co - Burewala">
-                Al-Fateh Medicine Co - Burewala
-              </option>
-              <option value="AL Aziz Distributors - Sargodha">
-                AL Aziz Distributors - Sargodha
-              </option>
-              <option value="Al Qamar">Al Qamar</option>
-              <option value="Drug Services">Drug Services</option>
-              <option value="Allied Enterprises">Allied Enterprises</option>
+            <div className="flex justify-center pb-0 position-abzsolute top-[40px] w-full">
+              <select
+                value={selectedDistributor}
+                onChange={(e) => setSelectedDistributor(e.target.value)}
+                className="inline-block w-auto bg-white border border-gray-300 rounded-md px-1 py-1 text-[12px] outline-none text-center"
+              >
+                <option value="">All Distributors</option>
+                <option value="Abdullah Enterprises - Chakwal">
+                  Abdullah Enterprises - Chakwal
+                </option>
+                <option value="Al-Fateh Medicine Co - Burewala">
+                  Al-Fateh Medicine Co - Burewala
+                </option>
+                <option value="AL Aziz Distributors - Sargodha">
+                  AL Aziz Distributors - Sargodha
+                </option>
+                <option value="Al Qamar">Al Qamar</option>
+                <option value="Drug Services">Drug Services</option>
+                <option value="Allied Enterprises">Allied Enterprises</option>
+                <option value="New Mohed Traders">New Mohed Traders</option>
+                <option value="Zaheer Pharma  ">Zaheer Pharma</option>
 
-            </select>
+
+                
+              </select>
+            </div>
           ),
           rowSpan: 2,
         },
       ];
     }
-    if (col === "Item Description")
-      return [{ label: "Item Description", rowSpan: 2 }];
+if (col === "Item Description")
+  return [
+    {
+      label: (
+        <div className="flex flex-col items-center gap-1 w-full">
+          <span>Item Description</span>
+          <input
+            type="text"
+            placeholder="Search..."
+           value={itemSearch}
+            onChange={(e) => setItemSearch(e.target.value)}
+            className="w-[140px] border border-gray-300 rounded px-2 py-1 text-[12px] outline-none text-left"
+          />
+        </div>
+      ),
+      rowSpan: 2,
+    },
+  ];
     if (col === "Rate") return [{ label: "Rate", rowSpan: 2 }];
     if (col === "Pack") return [{ label: "Pack", rowSpan: 2 }];
     if (col === "Today Sale") return [{ label: "Today Sale", rowSpan: 2 }];
     if (col === "Today Return") return [{ label: "Today Return", rowSpan: 2 }];
-    if (col === "Transfer In") return [{ label: "Transfer In", rowSpan: 2 }];
-    if (col === "Transfer Out") return [{ label: "Transfer Out", rowSpan: 2 }];
+
     if (col === "Adjustment Quantity")
       return [{ label: "Adjustment Quantity", rowSpan: 2 }];
     if (col === "Adjustment Bonus")
       return [{ label: "Adjustment Bonus", rowSpan: 2 }];
-
+    if (col === "Transfer In") return [{ label: "Transfer In", rowSpan: 2 }];
+    if (col === "Transfer Out") return [{ label: "Transfer Out", rowSpan: 2 }];
+    if (col === "Availability Current") return [{ label: "Availability Current", rowSpan: 2 }];
+      if (col === "Availability Total") return [{ label: "Availability Total", rowSpan: 2 }];
+        if (col === "To Date Sale") return [{ label: "To Date Sale", rowSpan: 2 }];
+        if (col === "To Date Return") return [{ label: "To Date Return", rowSpan: 2 }];
     // if (col === "Pack") return [{ label: "Pack", rowSpan: 2 }];
 
     // ✅ Opening Balance
@@ -609,18 +652,19 @@ export default function PivotSaleSummary() {
               }}
               className="bg-[#E5EBF7] h-[31vh] overflow-y-auto rounded-xl w-full p-4 mt-4 grid-cols-1 grid md:grid-cols-3 gap-4"
             >
-              {fields.map((field, index) => (
+              {PivotSalesData.map((field, index) => (
                 <div
                   key={index}
                   onClick={() => handleSelect(field)}
                   className={`border-primary border flex gap-3 items-center bg-white p-4 rounded-md cursor-pointer ${
                     selected.includes(field) ? "bg-blue-100" : ""
-                  }`}
+                  } ${isAllSelected && field !== "All" ? "opacity-50 pointer-events-none" : ""}`}
                 >
                   <input
-                    type="checkbox"
                     className="cursor-pointer"
+                    type="checkbox"
                     checked={selected.includes(field)}
+                    disabled={isAllSelected && field !== "All"}
                     onChange={() => handleSelect(field)}
                   />
 
@@ -633,12 +677,12 @@ export default function PivotSaleSummary() {
                 Choose Fields to add to report
               </p>
 
-              <p
+              {/* <p
                 onClick={clearFilters22}
                 className="text-[12px] text-[#0000FF] underline font-normal cursor-pointer"
               >
                 Clear Filters
-              </p>
+              </p> */}
             </div>
             <div
               style={{
@@ -647,17 +691,18 @@ export default function PivotSaleSummary() {
               }}
               className="bg-[#E5EBF7] h-[31vh] overflow-y-auto rounded-xl w-full p-4 mt-4 grid-cols-1 grid md:grid-cols-3 gap-4"
             >
-              {fields222.map((field, index) => (
+              {PivotSalesData2.map((field, index) => (
                 <div
                   key={index}
                   onClick={() => handleSelect(field)}
                   className={`border-primary border flex gap-3 items-center bg-white p-4 rounded-md cursor-pointer ${
                     selected.includes(field) ? "bg-blue-100" : ""
-                  }`}
+                  } ${isAllSelected ? "opacity-50 pointer-events-none" : ""}`}
                 >
                   <input
                     className="cursor-pointer"
                     type="checkbox"
+                    disabled={isAllSelected}
                     checked={selected.includes(field)}
                     onChange={() => handleSelect(field)}
                   />

@@ -687,3 +687,126 @@ export const logo_medi2: string = `
       </linearGradient>
     </defs>
   </svg>`;
+
+
+  export const PivotSalesData = [
+    "All",
+    "Distributor Name",
+    "Month",
+    "Item Description",
+    "Opening Balance",
+    "Purchase",
+    "Purchase Bonus",
+    "Purchase Return",
+    "Purchase Bonus Return",
+    "Purchase Total",
+    "Purchase Total Bonus",
+    "Sale",
+    "Sale Bonus",
+    "Sale Return",
+    "Sale Bonus Return",
+    "Total Sale Qty",
+    "Total Sale Bonus",
+    "Sale Value",
+    "Expiry",
+    "Adjustment Quantity",
+    "Adjustment Bonus",
+  "Transfer In",
+  "Transfer Out",
+    "Availability Current",
+    "Availability Total",
+    "Closing",
+    "Closing Balance Bonus",
+    "Today Sale",
+    "Today Return",
+    "Day Sale",
+    "To Date Sale",
+    "To Date Return",
+  ];
+  
+  export const PivotSalesData2 = [
+    "Rate",
+    "Pack",
+    "Quantity",
+    "Value",
+    "Gross Sale",
+    "Closing Value",
+  ];
+
+  export const titles = [
+  "Month",
+  "Distributor_Name",
+  "Brick ID",
+  "Brick Name",
+  "Chemist Code",
+  "Chemist Name",
+  "Product Code",
+  "Product Name",
+  "Wimits Product Name",
+  "Group",
+  "Doctor Name ",
+  "Activity Type",
+  "TM Name",
+  "SM Name",
+  "NSM Name",
+  "TP",
+  "Sales Qty",
+  "Sale Return",
+  "Gross Sale Qty",
+  "Gross Value",
+  "Disc %",
+  "Disc Value",
+  "Bonus Qty",
+  "Bonus Amount",
+  "Activity Amount",
+  "Net Value",
+];
+
+  export const saleChildren = [
+    "Sale Bonus",
+    "Sale Return",
+    "Sale Bonus Return",
+    "Total Sale Qty",
+    "Total Sale Bonus",
+    "Sale Value",
+  ];
+
+  export const purchaseChildren = [
+    "Purchase Bonus",
+    "Purchase Return",
+    "Purchase Bonus Return",
+    "Purchase Total",
+    "Purchase Total Bonus",
+  ];
+
+  export const tableDataTitles = [
+    [
+      "Jan, 2026",
+      "Drug Services & Zaheer Pharma",
+      "1011601",
+      "Ali Pur",
+  
+      "468066",
+      "GREEN HILLS PHARMACY",
+      "075039",
+      "VALTA-AM 5/160MG TABS",
+      "VALTA-AM 5MG/160MG TAB",
+      "GM",
+      "-",
+      "-",
+      " MR UZAIR ",
+      "MR WASEEM MAQBOOL",
+      " WAHEED ASLAM",
+      "345",
+      "1",
+      "-",
+      "1",
+      "262",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "262",
+    ],
+  ];

@@ -14,7 +14,7 @@ interface Props {
 
 const GroupedTable: React.FC<Props> = ({ columns, data }) => {
   return (
-    <div className="w-full overflow-x-auto rounded-xl border border-[#dbe3f3]">
+    <div className="w-full overflow-y-auto h-full rounded-xl border border-[#dbe3f3]">
       <table className="min-w-max border-collapse">
         {/* HEADER */}
         <thead>
@@ -25,7 +25,7 @@ const GroupedTable: React.FC<Props> = ({ columns, data }) => {
                 key={index}
                 rowSpan={col.rowSpan || 1}
                 colSpan={col.colSpan || 1}
-                className="text-[13px] font-semibold text-center px-4 py-3 border-b border-[#dbe3f3]"
+                className="sticky top-0 z-20 bg-[#f5f7fb] text-[13px] font-semibold text-center px-4 py-3 border-b border-[#dbe3f3]"
               >
                 {col.label}
               </th>
@@ -40,11 +40,11 @@ const GroupedTable: React.FC<Props> = ({ columns, data }) => {
                 col.children!.map((child, idx) => (
                   <th
                     key={idx}
-                    className="text-[12px] font-medium text-center px-8 py-2 border-b border-[#dbe3f3]"
+                    className="sticky top-[48px] z-10 bg-[#f9fbff] text-[12px] font-medium text-center px-8 py-2 border-b border-[#dbe3f3]"
                   >
                     {child}
                   </th>
-                ))
+                )),
               )}
           </tr>
         </thead>
@@ -57,14 +57,14 @@ const GroupedTable: React.FC<Props> = ({ columns, data }) => {
               className="hover:bg-[#eef4ff] transition-all duration-150"
             >
               {row.map((cell, j) => {
-                return(
-                     <td
-                  key={j}
-                  className="text-[13px] px-4 py-3 border-b border-[#edf1fa] text-center"
-                >
-                  {cell}
-                </td>
-                )
+                return (
+                  <td
+                    key={j}
+                    className="text-[13px] px-4 py-3 border-b border-[#edf1fa] text-center"
+                  >
+                    {cell}
+                  </td>
+                );
               })}
             </tr>
           ))}

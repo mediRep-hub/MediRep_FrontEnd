@@ -180,8 +180,8 @@ export const structureData = (dataRows: Row[], distributor: string) => {
           Expiry: 0,
           "Transfer In": row[12] || "",
           "Transfer Out": row[13] || "",
-          "Avaialbility Current": row[14] || "",
-          "Avaialbility Total": row[15] || "",
+          "Availability Current": row[14] || "",
+          "Availability Total": row[15] || "",
           "Closing Balance Quantity": row[16] || "",
           "Closing Value": row[17] || "",
         };
@@ -203,7 +203,7 @@ export const structureData = (dataRows: Row[], distributor: string) => {
           "Sale Bonus Return": row[8] || "-",
           "Sale Quantity": row[9] || "-",
           "Sale Bonus": row[10] || "-",
-          "Total Sale Quantity": row[11] || "-",
+          "Sale Value": row[11] || "-",
           "Closing Balance Quantity": row[12] || "-",
         };
         break;
