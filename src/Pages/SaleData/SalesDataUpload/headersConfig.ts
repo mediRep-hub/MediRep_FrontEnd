@@ -15,17 +15,17 @@ const typeA = {
   "Bonus Claim": 0,
   "Sale Quantity": 0,
   "Sale Bonus": 0,
-  "Net Sale":0,
+  "Net Sale": 0,
   "Sale Return": 0,
   "Sale Bonus Return": 0,
   "Total Sale Qnatity": 0,
   "Total Sale Bonus": 0,
   "Sale Value": 0,
-  "Invoice Return" : 0,
+  "Invoice Return": 0,
   Expiry: 0,
-  "Adjustment Quantity": 0, 
+  "Adjustment Quantity": 0,
   "Adjustment Bonus": 0,
-  "Gross Sale":0,
+  "Gross Sale": 0,
   "Transfer In": 0,
   "Transfer Out": 0,
   "Avaialbility Current": 0,
@@ -37,12 +37,12 @@ const typeA = {
   "Today Return": 0,
   "To Date Sale": 0,
   "To Date Return": 0,
-  "Day Sale":0,
-  "Day Sale Value":0,
-  "Month":null
+  "Day Sale": 0,
+  "Day Sale Value": 0,
+  Month: null,
 };
 
-export const getHeadersByDistributor = (distributor: string, data: any[]) => {
+export const getHeadersByDistributor = (data: any[]) => {
   const baseHeaders: any = { ...typeA };
 
   if (!data || data.length === 0) return baseHeaders;

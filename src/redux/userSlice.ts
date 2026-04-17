@@ -1,24 +1,25 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 type Distributor =
-    "Abdullah Enterprises - Chakwal"|
-  "AL Aziz Distributors - Sargodha"|
-  "Al-Fateh Medicine Co - Burewala"|
-  "Al Qamar"|
-  "Drug Services"|
-  "Allied Enterprises"|
-  "New Mohed Traders"|
-  "Zaheer Pharma"|
-  "MZ Pharma Distribution (Pakpattan)"|
-  "Sajjad Enterprises"|
-  "Pharma Link Distributor"|
-  "Ali Pharma (Distribution)"|
-  "Al-Rehmat Distributors"|
-  "Faisal Pharma"|
-  "Latif & Sons Distributors"|
-  "Pharma Page Plus"|
-  "Sheryar Distributor"|
-  "Umer Brothers"
+  | "Abdullah Enterprises - Chakwal"
+  | "AL Aziz Distributors - Sargodha"
+  | "Al-Fateh Medicine Co - Burewala"
+  | "Al Qamar"
+  | "Drug Services"
+  | "Allied Enterprises"
+  | "New Mohed Traders"
+  | "Zaheer Pharma"
+  | "MZ Pharma Distribution (Pakpattan)"
+  | "Sajjad Enterprises"
+  | "Pharma Link Distributor"
+  | "Ali Pharma (Distribution)"
+  | "Al-Rehmat Distributors"
+  | "Faisal Pharma"
+  | "Latif & Sons Distributors"
+  | "Pharma Page Plus"
+  | "Sheryar Distributor"
+  | "Umer Brothers";
 
 // 👇 basic data type (tum isko aur improve kar sakte ho)
 interface SaleItem {

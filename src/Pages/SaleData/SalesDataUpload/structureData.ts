@@ -16,8 +16,6 @@ import {
 
 type Row = any[];
 
-const safe = (v: any, fallback = "-") => v ?? fallback;
-
 const join = (...vals: any[]) =>
   vals.filter((v) => v !== undefined && v !== null && v !== "").join(" ");
 
@@ -92,7 +90,7 @@ export const structureData = (dataRows: Row[], distributor: string) => {
     ({ fromDate, toDate } = extractDates(dataRows));
   }
   return dataRows.filter(isValidRow).map((row) => {
-    console.log("🚀 ~ structureData ~ row:", row)
+    console.log("🚀 ~ structureData ~ row:", row);
     let result: any;
 
     switch (distributor) {
@@ -127,7 +125,7 @@ export const structureData = (dataRows: Row[], distributor: string) => {
           "Today Sale": row[22] || "-",
           "Today Return": row[23] || "-",
         };
-        
+
         break;
 
       // ===============================

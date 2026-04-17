@@ -60,11 +60,10 @@ export default function SaleUpload() {
   const [reportType, setReportType] = useState("");
   const [loading, setLoading] = useState(false);
   const [headers, setHeaders] = useState<string[]>([]);
-  const { salesData } = useSelector((state: any) => state.user);
   // console.log("🚀 ~ SaleUpload ~ salesData:", salesData)
   const dispatch = useDispatch();
 
-// console.log("Last item:", salesData[salesData.length - 1]);
+  // console.log("Last item:", salesData[salesData.length - 1]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -128,7 +127,7 @@ export default function SaleUpload() {
           desc.length > 3 &&
           !isDate &&
           !isTime &&
-          !isDateTime && 
+          !isDateTime &&
           // ❌ remove "Date From..."
           !lower.includes("date from") &&
           !lower.startsWith("date") &&
@@ -139,7 +138,7 @@ export default function SaleUpload() {
           !lower.includes("@") &&
           !lower.includes("+92") &&
           !lower.includes("support") &&
-        !lower.includes("version") &&
+          !lower.includes("version") &&
           !lower.includes("company") &&
           !lower.includes("nutra") &&
           !lower.includes("sales") &&
@@ -189,9 +188,6 @@ export default function SaleUpload() {
           !lower.includes("gram") &&
           !lower.includes("latif") &&
           !lower.includes("win2pdf.") &&
-
-          
-
           // ❌ remove pure numbers like "475779"
           !/^\d+$/.test(desc)
         );

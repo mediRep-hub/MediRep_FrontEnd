@@ -202,10 +202,6 @@ export default function PivotSaleSummary() {
     setSelected([]);
   };
 
-  const clearFilters22 = () => {
-    setSelected([]);
-  };
-
   const parseDMY = (dateStr: string) => {
     const [day, month, year] = dateStr.split("/");
     return new Date(Number(year), Number(month) - 1, Number(day));
