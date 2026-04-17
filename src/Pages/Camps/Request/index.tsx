@@ -1,4 +1,3 @@
-import React from "react";
 import CustomTable from "../../../Components/CustomTable";
 
 const titles = [

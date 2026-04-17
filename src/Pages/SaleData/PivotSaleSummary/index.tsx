@@ -11,7 +11,6 @@ import {
   PivotSalesData2,
   purchaseChildren,
   saleChildren,
-  titles,
 } from "../../../utils/validation";
 
 type Column = {
@@ -97,10 +96,12 @@ export default function PivotSaleSummary() {
       // Transfer
       else if (col === "Transfer In") headerRow.push("Transfer In");
       else if (col === "Transfer Out") headerRow.push("Transfer Out");
-        else if (col === "Availability Current") headerRow.push("Availability Current");
-        else if (col === "Availability Total") headerRow.push("Availability Total");
-         else if (col === "To Date Sale") headerRow.push("To Date Sale");
-        else if (col === "To Date Return") headerRow.push("To Date Return");
+      else if (col === "Availability Current")
+        headerRow.push("Availability Current");
+      else if (col === "Availability Total")
+        headerRow.push("Availability Total");
+      else if (col === "To Date Sale") headerRow.push("To Date Sale");
+      else if (col === "To Date Return") headerRow.push("To Date Return");
       // Closing
       else if (col === "Closing") {
         headerRow.push("Closing Qty");
@@ -218,30 +219,30 @@ export default function PivotSaleSummary() {
       ""
     );
   };
-const filteredData = useMemo(() => {
-  return (salesData || []).filter((item: any) => {
-    const itemDate = parseDMY(item["Date From"]);
+  const filteredData = useMemo(() => {
+    return (salesData || []).filter((item: any) => {
+      const itemDate = parseDMY(item["Date From"]);
 
-    const dateOk =
-      !fromDate || !toDate
-        ? true
-        : itemDate >= fromDate && itemDate <= toDate;
+      const dateOk =
+        !fromDate || !toDate
+          ? true
+          : itemDate >= fromDate && itemDate <= toDate;
 
-    const distributorValue = getDistributor(item);
+      const distributorValue = getDistributor(item);
 
-    const distributorOk =
-      !selectedDistributor || distributorValue === selectedDistributor;
+      const distributorOk =
+        !selectedDistributor || distributorValue === selectedDistributor;
 
-    // 🔥 NEW: Item Description filter
-    const itemOk =
-      !itemSearch ||
-      item["Item Description"]
-        ?.toLowerCase()
-        .includes(itemSearch.toLowerCase());
+      // 🔥 NEW: Item Description filter
+      const itemOk =
+        !itemSearch ||
+        item["Item Description"]
+          ?.toLowerCase()
+          .includes(itemSearch.toLowerCase());
 
-    return dateOk && distributorOk && itemOk;
-  });
-}, [salesData, fromDate, toDate, selectedDistributor, itemSearch]);
+      return dateOk && distributorOk && itemOk;
+    });
+  }, [salesData, fromDate, toDate, selectedDistributor, itemSearch]);
   console.log("🚀 ~ PivotSaleSummary ~ filteredData...:", filteredData);
 
   const closingChildren = ["Closing Balance Bonus", "Closing Value"];
@@ -355,9 +356,11 @@ const filteredData = useMemo(() => {
 
         if (col === "Transfer In") return item["Transfer In"] || "-";
         if (col === "Transfer Out") return item["Transfer Out"] || "-";
-        if (col === "Availability Current") return item["Availability Current"] || "-";
-        if (col === "Availability Total") return item["Availability Total"] || "-";
-          if (col === "To Date Sale") return item["To Date Sale"] || "-";
+        if (col === "Availability Current")
+          return item["Availability Current"] || "-";
+        if (col === "Availability Total")
+          return item["Availability Total"] || "-";
+        if (col === "To Date Sale") return item["To Date Sale"] || "-";
         if (col === "To Date Return") return item["To Date Return"] || "-";
 
         if (col === "Closing") {
@@ -406,9 +409,6 @@ const filteredData = useMemo(() => {
                 <option value="Allied Enterprises">Allied Enterprises</option>
                 <option value="New Mohed Traders">New Mohed Traders</option>
                 <option value="Zaheer Pharma  ">Zaheer Pharma</option>
-
-
-                
               </select>
             </div>
           ),
@@ -416,24 +416,24 @@ const filteredData = useMemo(() => {
         },
       ];
     }
-if (col === "Item Description")
-  return [
-    {
-      label: (
-        <div className="flex flex-col items-center gap-1 w-full">
-          <span>Item Description</span>
-          <input
-            type="text"
-            placeholder="Search..."
-           value={itemSearch}
-            onChange={(e) => setItemSearch(e.target.value)}
-            className="w-[140px] border border-gray-300 rounded px-2 py-1 text-[12px] outline-none text-left"
-          />
-        </div>
-      ),
-      rowSpan: 2,
-    },
-  ];
+    if (col === "Item Description")
+      return [
+        {
+          label: (
+            <div className="flex flex-col items-center gap-1 w-full">
+              <span>Item Description</span>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={itemSearch}
+                onChange={(e) => setItemSearch(e.target.value)}
+                className="w-[140px] border border-gray-300 rounded px-2 py-1 text-[12px] outline-none text-left"
+              />
+            </div>
+          ),
+          rowSpan: 2,
+        },
+      ];
     if (col === "Rate") return [{ label: "Rate", rowSpan: 2 }];
     if (col === "Pack") return [{ label: "Pack", rowSpan: 2 }];
     if (col === "Today Sale") return [{ label: "Today Sale", rowSpan: 2 }];
@@ -445,10 +445,13 @@ if (col === "Item Description")
       return [{ label: "Adjustment Bonus", rowSpan: 2 }];
     if (col === "Transfer In") return [{ label: "Transfer In", rowSpan: 2 }];
     if (col === "Transfer Out") return [{ label: "Transfer Out", rowSpan: 2 }];
-    if (col === "Availability Current") return [{ label: "Availability Current", rowSpan: 2 }];
-      if (col === "Availability Total") return [{ label: "Availability Total", rowSpan: 2 }];
-        if (col === "To Date Sale") return [{ label: "To Date Sale", rowSpan: 2 }];
-        if (col === "To Date Return") return [{ label: "To Date Return", rowSpan: 2 }];
+    if (col === "Availability Current")
+      return [{ label: "Availability Current", rowSpan: 2 }];
+    if (col === "Availability Total")
+      return [{ label: "Availability Total", rowSpan: 2 }];
+    if (col === "To Date Sale") return [{ label: "To Date Sale", rowSpan: 2 }];
+    if (col === "To Date Return")
+      return [{ label: "To Date Return", rowSpan: 2 }];
     // if (col === "Pack") return [{ label: "Pack", rowSpan: 2 }];
 
     // ✅ Opening Balance
