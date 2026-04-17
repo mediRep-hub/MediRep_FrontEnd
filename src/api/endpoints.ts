@@ -1,5 +1,5 @@
-export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-// export const BASE_URL = "http://localhost:5001";
+// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
@@ -114,4 +114,8 @@ export const ENDPOINTS = {
   ATTENDANCE_GETATTENDANCEGRAPH: "/attendance/getMonthlyAttendanceGraph",
   ATTENDANCE_UPDATECOMPANYTIMING: "/attendance/setCompanyTiming",
   ATTENDANCE_COMPANYTIMING: "/attendance/getCompanyTiming",
+
+  //   ---------------Camps----------
+  CAMPS_GET_ALL: "/get/allcamps",
+  CAMPS_ChANGE_STATUS: "/camps/status/",
 };

@@ -4,7 +4,12 @@ import Logo from "../assets/medirep-logoBIg.png";
 import { useSelector } from "react-redux";
 import UploadSales from "../Pages/SaleData/SalesDataUpload";
 import SaleSummary from "../Pages/SaleData/SaleSummary";
+<<<<<<< Updated upstream
 import PivotSaleSummary from "../Pages/SaleData/PivotSaleSummary";
+=======
+import CampRequest from "../Pages/Camps/Request";
+import CampDashboard from "../Pages/Camps/Dashboard";
+>>>>>>> Stashed changes
 
 const TrackSale = lazy(() => import("../Pages/Orders/trackSale"));
 const AsmTarget = lazy(() => import("../Pages/Targets/AsmTarget"));
@@ -233,7 +238,13 @@ export default function MainRoutes() {
         <Route path="/monthlyTandEReport" element={<MonthlyTEReport />} />
         <Route path="/distributorSheets" element={<Testing />} />
         <Route path="/uploadSales" element={<UploadSales />} />
+<<<<<<< Updated upstream
         <Route path="/saleSummary" element={<PivotSaleSummary />} />
+=======
+        <Route path="/saleSummary" element={<SaleSummary />} />
+        <Route path="/camps/dashboard" element={<CampDashboard />} />
+        <Route path="/camps/request" element={<CampRequest />} />
+>>>>>>> Stashed changes
       </Routes>
     </Suspense>
   );

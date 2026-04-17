@@ -477,6 +477,20 @@ export const defaultLinks: SidebarLink[] = [
     icon: "roentgen:sheets",
     path: "/distributorSheets",
   },
+  {
+    name: "Camps",
+    icon: "material-symbols:camping-rounded",
+    children: [
+      {
+        name: "Dashboard",
+        path: "/camps/dashboard",
+      },
+      {
+        name: "Request",
+        path: "/camps/request",
+      },
+    ],
+  },
 ];
 
 export const DistributorLinks: SidebarLink[] = [
