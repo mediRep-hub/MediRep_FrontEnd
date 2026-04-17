@@ -1,10 +1,10 @@
 import { Avatar } from "antd";
 import Notification from "../Notifications";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAccounts } from "../../api/adminServices";
-import { setIsFilter } from "../../redux/userSlice";
+// import { setIsFilter } from "../../redux/userSlice";
 import type { AxiosResponse } from "axios";
 
 const areaOptions = [
@@ -25,7 +25,7 @@ const dateOptions = [
 ];
 
 export default function SearchBar() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state.user);
 
   const [selectedMR, setSelectedMR] = useState("");
@@ -48,17 +48,17 @@ export default function SearchBar() {
         AllMR.find((mr: any) => mr.position === "MedicalRep(MR)")?.name || "";
 
       setSelectedMR(firstMR);
-      dispatch(setIsFilter({ mr: firstMR }));
+      // dispatch(setIsFilter({ mr: firstMR }));
     }
 
     if (!selectedArea) {
       setSelectedArea(areaOptions[0]);
-      dispatch(setIsFilter({ area: areaOptions[0] }));
+      // dispatch(setIsFilter({ area: areaOptions[0] }));
     }
 
     if (!selectedDate) {
       setSelectedDate(dateOptions[0]);
-      dispatch(setIsFilter({ date: dateOptions[0] }));
+      // dispatch(setIsFilter({ date: dateOptions[0] }));
     }
   }, [AllMR]);
 

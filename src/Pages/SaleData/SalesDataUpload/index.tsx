@@ -4,7 +4,7 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
 import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker?url";
 import CustomSelect from "../../../Components/Select";
 import { notifyError, notifySuccess } from "../../../Components/Toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSalesData } from "../../../redux/userSlice";
 import { parseFile } from "./fileParser";
 import { structureData } from "./structureData";
@@ -97,7 +97,7 @@ export default function SaleUpload() {
       const structuredData: any = structureData(rawData, distributor);
 
       // ✅ yahan data pass karo
-      const headersObj = getHeadersByDistributor(distributor, structuredData);
+      const headersObj = getHeadersByDistributor(distributor);
 
       setHeaders(Object.keys(headersObj));
 
