@@ -101,10 +101,10 @@ export default function CampDashboard() {
             onClick={() => {
               setFilter(true);
             }}
-            className="h-14 w-[228px] bg-primary rounded-md items-center  text-white justify-center gap-2 flex"
+            className="h-14 w-[128px] bg-primary rounded-md items-center  text-white justify-center gap-2 flex"
           >
             <Icon icon="mingcute:add-fill" className="" />
-            <p>Generate Dashboard</p>
+            <p>Filters</p>
           </button>
         </div>
         <div className="flex flex-wrap  gap-3 pb mt-3">
