@@ -202,10 +202,32 @@ export default function PivotSaleSummary() {
     setSelected([]);
   };
 
-  const parseDMY = (dateStr: string) => {
-    const [day, month, year] = dateStr.split("/");
-    return new Date(Number(year), Number(month) - 1, Number(day));
+  const clearFilters22 = () => {
+    setSelected([]);
   };
+
+ const parseDMY = (dateStr: string) => {
+  if (!dateStr) return null;
+
+  const clean = dateStr.trim();
+
+  // Case 1: DD/MM/YYYY
+  if (clean.includes("/")) {
+    const [day, month, year] = clean.split("/");
+    return new Date(Number(year), Number(month) - 1, Number(day));
+  }
+
+  // Case 2: "01 Jan, 2026"
+  const parsed = new Date(clean);
+
+  if (isNaN(parsed.getTime())) return null;
+
+  return new Date(
+    parsed.getFullYear(),
+    parsed.getMonth(),
+    parsed.getDate()
+  );
+};
 
   const getDistributor = (item: any) => {
     return (
@@ -219,27 +241,44 @@ export default function PivotSaleSummary() {
     return (salesData || []).filter((item: any) => {
       const itemDate = parseDMY(item["Date From"]);
 
-      const dateOk =
-        !fromDate || !toDate
-          ? true
-          : itemDate >= fromDate && itemDate <= toDate;
+    if (!itemDate) return false;
+
+    let dateOk = true;
+
+    if (fromDate) {
+      dateOk = dateOk && itemDate >= fromDate;
+    }
+
+    if (toDate) {
+      dateOk = dateOk && itemDate <= toDate;
+    }
 
       const distributorValue = getDistributor(item);
 
       const distributorOk =
         !selectedDistributor || distributorValue === selectedDistributor;
 
-      // 🔥 NEW: Item Description filter
-      const itemOk =
-        !itemSearch ||
-        item["Item Description"]
-          ?.toLowerCase()
-          .includes(itemSearch.toLowerCase());
+    const itemOk =
+      !itemSearch ||
+      item["Item Description"]
+        ?.toLowerCase()
+        .includes(itemSearch.toLowerCase());
 
       return dateOk && distributorOk && itemOk;
     });
   }, [salesData, fromDate, toDate, selectedDistributor, itemSearch]);
   console.log("🚀 ~ PivotSaleSummary ~ filteredData...:", filteredData);
+
+  const formatToDMY = (dateStr: string) => {
+  const date = parseDMY(dateStr);
+  if (!date) return "-";
+
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const y = date.getFullYear();
+
+  return `${d}/${m}/${y}`;
+};
 
   const closingChildren = ["Closing Balance Bonus", "Closing Value"];
   const orderedSelected = [
@@ -282,7 +321,7 @@ export default function PivotSaleSummary() {
   const mapDataToRows = (apiData: any[]) => {
     return apiData.map((item) =>
       orderedSelected.flatMap((col) => {
-        if (col === "Month") return item["Date From"] || "-";
+        if (col === "Month") return formatToDMY(item["Date From"]) || "-";
         if (col === "Distributor Name") return item["distributor"] || "-";
         if (col === "Item Description") return item["Item Description"] || "-";
         if (col === "Rate") return [item["Rate"] || "-"];

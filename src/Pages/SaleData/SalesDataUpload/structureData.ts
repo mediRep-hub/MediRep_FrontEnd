@@ -88,9 +88,10 @@ export const structureData = (dataRows: Row[], distributor: string) => {
     ({ fromDate, toDate } = extractUmerBrothersDates(dataRows));
   } else {
     ({ fromDate, toDate } = extractDates(dataRows));
+
   }
   return dataRows.filter(isValidRow).map((row) => {
-    console.log("🚀 ~ structureData ~ row:", row);
+    console.log("🚀 ~ structureData ~ row:", row[0])
     let result: any;
 
     switch (distributor) {

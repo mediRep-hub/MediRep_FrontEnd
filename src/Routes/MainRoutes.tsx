@@ -7,6 +7,7 @@ import SaleSummary from "../Pages/SaleData/SaleSummary";
 import PivotSaleSummary from "../Pages/SaleData/PivotSaleSummary";
 import CampDashboard from "../Pages/Camps/Dashboard";
 import CampRequest from "../Pages/Camps/Request";
+import BrickWiseSaleSummary from "../Pages/SaleData/BrickWiseSaleSummary";
 
 const TrackSale = lazy(() => import("../Pages/Orders/trackSale"));
 const AsmTarget = lazy(() => import("../Pages/Targets/AsmTarget"));
@@ -238,6 +239,8 @@ export default function MainRoutes() {
         <Route path="/saleSummary" element={<SaleSummary />} />
         <Route path="/camps/dashboard" element={<CampDashboard />} />
         <Route path="/camps/request" element={<CampRequest />} />
+        <Route path="/brickWiseSummary" element={<BrickWiseSaleSummary />} />
+
       </Routes>
     </Suspense>
   );

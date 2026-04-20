@@ -379,6 +379,10 @@ export const defaultLinks: SidebarLink[] = [
         name: "Pivot Sale Summary",
         path: "/saleSummary",
       },
+        {
+        name: "Brick Wise Sale Summary",
+        path: "/brickWiseSummary",
+      },
       {
         name: "Channel Wise Sale",
         path: "/channelWiseSale",

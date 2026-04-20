@@ -92,7 +92,7 @@ export default function SaleUpload() {
         distributor === "Latif & Sons Distributors" ? "Latif" : distributor;
 
       let rawData: any = await parseFile(file, handleDistributorName);
-      console.log("🚀 ~ handleUpload ~ rawData:", rawData);
+      // console.log("🚀 ~ handleUpload ~ rawData......:", rawData);
 
       const structuredData: any = structureData(rawData, distributor);
 
