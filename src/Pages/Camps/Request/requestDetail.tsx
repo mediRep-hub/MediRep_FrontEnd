@@ -165,7 +165,7 @@ export default function RequestDetail() {
           <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 ">
               {camp?.patients?.length
-                ? camp.patients.map((p: any, i: number) => (
+                ? camp.patients.map((p: any) => (
                     <div className="bg-white text-sm rounded-[12px] p-3 shadow-sm space-y-1">
                       <div className="text-[#7d7d7d] flex ">
                         <p className="text-[#131313] font-medium w-[90px]">
