@@ -119,5 +119,4 @@ export const ENDPOINTS = {
   CAMPS_GET_ALL: "/camp/allcamps",
   CAMPS_ChANGE_STATUS: "/camp/status/",
   CAMPS_DASHBOARD_STATS: "/camp/dashboard-stats",
-  CAMPS_BAR_STATS: "/camp/bar-stats",
 };

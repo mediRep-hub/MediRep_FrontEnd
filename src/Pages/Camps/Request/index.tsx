@@ -3,7 +3,7 @@ import CustomTable from "../../../Components/CustomTable";
 import type { AxiosResponse } from "axios";
 import { getAllCamps, updateCampStatus } from "../../../api/campsServices";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { notifyError, notifySuccess } from "../../../Components/Toast";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -144,7 +144,7 @@ export default function CampRequest() {
             </div>
           )}
         </div>,
-        item?.mrType || "-",
+        item?.mrType || item?.mrName || "-",
         item?.brickCode || "-",
 
         item?.patients.length || "0",
@@ -161,7 +161,9 @@ export default function CampRequest() {
         </button>,
       ];
     }) || [];
-
+  useEffect(() => {
+    document.title = "MediRep | Camps Request";
+  }, []);
   return (
     <>
       <div className="bg-secondary md:h-[calc(100vh-129px)] rounded-[12px] p-4">

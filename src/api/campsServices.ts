@@ -11,10 +11,8 @@ export const updateCampStatus = async (id: string, status: string) => {
   return HTTP_CLIENT.patch(`${ENDPOINTS.CAMPS_ChANGE_STATUS}${id}`, { status });
 };
 
-export const getAllDashboardStats = async () => {
-  return HTTP_CLIENT.get(`${ENDPOINTS.CAMPS_DASHBOARD_STATS}`);
-};
-
-export const getBarStats = async () => {
-  return HTTP_CLIENT.get(`${ENDPOINTS.CAMPS_BAR_STATS}`);
+export const getAllDashboardStats = async (params: any) => {
+  return HTTP_CLIENT.get(`${ENDPOINTS.CAMPS_DASHBOARD_STATS}`, {
+    params,
+  });
 };
