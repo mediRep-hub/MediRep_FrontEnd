@@ -33,7 +33,7 @@ export default function CampDashboard() {
     },
     {
       title: "Executed Camps",
-      count: stats?.totalCompleted,
+      count: stats?.executedCamps,
       icon: "mdi:campfire",
     },
     {
@@ -109,7 +109,7 @@ export default function CampDashboard() {
         </div>
         <div className="flex flex-wrap  gap-3 pb mt-3">
           <div className="grid xl:grid-cols-4 2xl:grid-cols-5 md:grid-cols-3 lg:grid-cols-3 w-full lg:w-[calc(75%-6px)] gap-3">
-            {cards.map((item, index) => (
+            {/* {cards.map((item, index) => (
               <div
                 key={index}
                 className=" w-full flex flex-col justify-between rounded-xl text-primary p-4 bg-white"
@@ -128,10 +128,32 @@ export default function CampDashboard() {
                   {item.count}
                 </p>
               </div>
+            ))} */}
+
+            {cards.map((item, index) => (
+              <div
+                key={index}
+                className="w-full flex flex-col items-center text-center justify-between rounded-xl text-primary p-6 bg-white"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex justify-center items-center">
+                    <Icon icon={item.icon} className="text-primary text-xl" />
+                  </div>
+
+                  <p className="text-sm font-normal text-[#7D7D7D]">
+                    {item.title}
+                  </p>
+                </div>
+
+                {/* Increased text sizes: text-3xl to 4xl for a bolder look */}
+                <p className="xl:text-4xl lg:text-3xl text-2xl font-bold mt-4">
+                  {item.count}
+                </p>
+              </div>
             ))}
           </div>
           <div className="bg-white rounded-xl items-end w-full lg:w-[calc(25%-6px)]">
-            <PieCharts pieData={pieData} total={stats?.totalCamps} />
+            <PieCharts pieData={pieData} total={stats?.plannedCamps} />
           </div>
         </div>
         <div className="flex flex-wrap gap-3 mt-3">
@@ -190,7 +212,7 @@ export default function CampDashboard() {
           >
             <div className="flex items-center xl:p-6 p-4  bg-[#E5EBF7] justify-between">
               <p className="text-[24px] text-heading capitalize font-semibold">
-                Select Report Type
+                Select Filters
               </p>
               <div className="h-[35px] group w-[35px] p-2 rounded-full  hover:shadow-[rgba(99,99,99,0.25)_0px_4px_12px_2px] flex items-center justify-center">
                 <div className="group-hover:bg-white">
@@ -213,11 +235,11 @@ export default function CampDashboard() {
               <CustomInput label="Camp Type" />
               <CustomInput label="Doctor" />
               <CustomInput label="Chemist" />
+              {/* <CustomInput />
               <CustomInput />
               <CustomInput />
               <CustomInput />
-              <CustomInput />
-              <CustomInput />
+              <CustomInput /> */}
             </div>
           </div>
         </div>

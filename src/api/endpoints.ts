@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://medi-rep-back-end.vercel.app";
-export const BASE_URL = "http://localhost:5001";
+export const BASE_URL = "https://medi-rep-back-end.vercel.app";
+// export const BASE_URL = "http://localhost:5001";
 
 export const ENDPOINTS = {
   //   -----------Accounts-------------
