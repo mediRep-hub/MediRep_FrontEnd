@@ -52,6 +52,7 @@ export default function Setting() {
       };
 
       const response = await setCompanyTimingAPI(payload);
+      console.log("🚀 ~ response:", response);
       notifySuccess("Company timing updated successfully!");
     } catch (error: any) {
       console.error(error);

@@ -105,7 +105,7 @@ export default function Attendance() {
     refetchOnWindowFocus: false,
   });
 
-  const filteredData = data?.data.filter((v: any) => {
+  const filteredData = data?.data.filter(() => {
     // console.log(v);
     return true;
   });
