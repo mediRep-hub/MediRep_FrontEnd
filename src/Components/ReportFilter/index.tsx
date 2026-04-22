@@ -36,7 +36,6 @@ export default function ReportFilterModalStatic({ close }: any) {
       reports: [] as string[],
     },
     onSubmit: (values) => {
-      console.log("Generated Report with values:", values);
       alert("Check console for submitted values!");
     },
   });

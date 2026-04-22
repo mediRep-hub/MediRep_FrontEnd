@@ -11,6 +11,7 @@ import { adminLogin } from "../../api/adminServices";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { setIsLoggedIn, setUser } from "../../redux/userSlice";
+import { getFCMToken } from "../../utils/notifications";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,10 +26,18 @@ const Login = () => {
       await handleLogin(values);
     },
   });
+
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
+
     try {
-      const response = await adminLogin(values);
+      const fcmToken = await getFCMToken();
+
+      const response = await adminLogin({
+        ...values,
+        fcmToken: fcmToken ?? undefined,
+      });
+
       const data = response.data ?? response;
 
       dispatch(

@@ -106,7 +106,7 @@ export default function Group() {
   const [rows, setRows] = useState([
     { name: "", target: 0, amount: 0, bonus: 0 },
   ]);
-  console.log("🚀 ~ Group ~ rows:", rows);
+
   const [productsData, setProductsData] = useState<any[]>([]);
 
   const navigate = useNavigate();

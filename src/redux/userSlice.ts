@@ -21,14 +21,14 @@ type Distributor =
   | "Sheryar Distributor"
   | "Umer Brothers";
 
-// 👇 basic data type (tum isko aur improve kar sakte ho)
 interface SaleItem {
   [key: string]: any;
 }
 
 interface RootState {
   user: string;
-  token: string | null;
+  token: string | null; // JWT token
+  fcmToken: string | null; // 🔥 ADD THIS (VERY IMPORTANT)
   isLoggedIn: boolean;
   isfilter: Distributor | null;
   salesData: SaleItem[];
@@ -37,6 +37,7 @@ interface RootState {
 const initialState: RootState = {
   user: "chala",
   token: null,
+  fcmToken: null, // 🔥 ADD THIS
   isLoggedIn: false,
   isfilter: null,
   salesData: [],
@@ -58,6 +59,11 @@ const userSlice = createSlice({
       state.token = action.payload;
     },
 
+    // 🔥 ADD THIS REDUCER
+    setFcmToken: (state, action: PayloadAction<string>) => {
+      state.fcmToken = action.payload;
+    },
+
     setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
     },
@@ -72,17 +78,14 @@ const userSlice = createSlice({
     ) => {
       const { distributor, data } = action.payload;
 
-      // ✅ flatten (nested arrays fix)
       const flatData = data.flat();
 
-      // ✅ normalize + tag
       const formatted: SaleItem[] = flatData.map((item) => ({
         ...item,
         distributor,
         createdAt: Date.now(),
       }));
 
-      // ✅ remove duplicates
       const newData = formatted.filter(
         (item) =>
           !state.salesData.some(
@@ -92,18 +95,22 @@ const userSlice = createSlice({
           ),
       );
 
-      // ✅ merge
       state.salesData = [...state.salesData, ...newData];
     },
 
-    // ✅ clear all data
     clearSalesData: (state) => {
       state.salesData = [];
     },
   },
 });
 
-export const { setUser, setToken, setIsLoggedIn, setIsFilter, setSalesData } =
-  userSlice.actions;
+export const {
+  setUser,
+  setToken,
+  setIsLoggedIn,
+  setIsFilter,
+  setSalesData,
+  setFcmToken, // 🔥 EXPORT THIS
+} = userSlice.actions;
 
 export default userSlice.reducer;

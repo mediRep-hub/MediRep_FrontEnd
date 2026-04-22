@@ -60,11 +60,8 @@ export default function SaleUpload() {
   const [reportType, setReportType] = useState("");
   const [loading, setLoading] = useState(false);
   const [headers, setHeaders] = useState<string[]>([]);
-  // console.log("🚀 ~ SaleUpload ~ salesData:", salesData)
+
   const dispatch = useDispatch();
-
-  // console.log("Last item:", salesData[salesData.length - 1]);
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
@@ -92,7 +89,6 @@ export default function SaleUpload() {
         distributor === "Latif & Sons Distributors" ? "Latif" : distributor;
 
       let rawData: any = await parseFile(file, handleDistributorName);
-      console.log("🚀 ~ handleUpload ~ rawData:", rawData);
 
       const structuredData: any = structureData(rawData, distributor);
 
@@ -192,9 +188,6 @@ export default function SaleUpload() {
           !/^\d+$/.test(desc)
         );
       });
-      // console.log("🚀 ~ handleUpload ~ cleanData:", cleanData)
-
-      // console.log("🚀 ~ handleUpload ~ structuredData:", cleanData);
 
       setTableData(cleanData);
       setFile(null);
@@ -294,7 +287,6 @@ export default function SaleUpload() {
             </thead>
             <tbody>
               {tableData.map((row, i) => {
-                // console.log("🚀 ~ SaleUpload ~ row:", row)
                 return (
                   <tr key={i}>
                     {headers.map((key) => {

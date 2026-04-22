@@ -3,7 +3,7 @@ const skipKeywords = [
   // "item description",
   // "print",
   // "page",
-  // "version",   
+  // "version",
   // "company",
   "group.",
   // "street" ,
@@ -12,7 +12,7 @@ const skipKeywords = [
   // "gyne & peads",
   // "sale and stock report",
   // "Brains",
-  // "www.",                                     
+  // "www.",
   // "include blocked items",
   // "rate type",
   // "Include,",
@@ -34,7 +34,7 @@ const skipKeywords = [
   // "Software",
   // "enterprises",
   "Grand",
-//   "/",
+  //   "/",
   // "558843",
   // "944833",
   // "19444",
@@ -53,7 +53,7 @@ const skipKeywords = [
   // "By:",
   // "ABDULLAH",
   // "Al-Fateh",
-  // "From",  
+  // "From",
   // "alliedenterprisesswat@yahoo.com",
   // "allied",
   //  "description",
@@ -79,20 +79,16 @@ const skipKeywords = [
 ];
 
 export const cleanTableData = (rawData: any[][]) => {
-  const keywords = skipKeywords.map(k => k.toLowerCase());
+  const keywords = skipKeywords.map((k) => k.toLowerCase());
 
   return rawData.filter((row) => {
     if (!row || row.length === 0) return false;
 
-    const words = row
-      .join(" ")
-      .toLowerCase()
-      .split(/\s+/)       // words me split
+    const words = row.join(" ").toLowerCase().split(/\s+/); // words me split
 
-    const matched = words.find(word => keywords.includes(word));
+    const matched = words.find((word) => keywords.includes(word));
 
     if (matched) {
-      // console.log("⚠️ Keyword:", matched);
       return false;
     }
 

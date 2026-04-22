@@ -28,8 +28,6 @@ export default function PrimarySaleUpload({ closeModle, refetch }: any) {
       (item: any) => item.position === "Distributor",
     ) ?? [];
 
-  console.log("all DIstributor ", AllDistributor);
-
   const handleUpload = async () => {
     if (!file || !selectedDistributor) {
       return notifyError("Please select a file and distributor!");

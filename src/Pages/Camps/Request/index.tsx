@@ -17,7 +17,7 @@ const titles = [
   "Camp Start Date",
   "Camp End Date",
   "Action",
-  "Mr Type",
+  "Mr Name",
   "Brick Code",
   "Total Patient",
   "Doctors",
@@ -49,12 +49,15 @@ export default function CampRequest() {
   const { data: allcamps } = useQuery<AxiosResponse<any>>({
     queryKey: ["getAllCamps"],
     queryFn: () => getAllCamps(),
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 60,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    placeholderData: (previous) => previous,
   });
 
   const camps = allcamps?.data?.data || [];
-  console.log("🚀 ~ camps:", camps);
   const { mutate: changeStatus, isPending } = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>
       updateCampStatus(id, status),

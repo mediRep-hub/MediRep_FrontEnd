@@ -7,7 +7,6 @@ export default function RequestDetail() {
   const location = useLocation();
 
   const camp = location.state;
-  console.log("🚀 ~ camp:", camp);
   const handleBack = () => {
     navigate("/camps/request");
   };
@@ -56,8 +55,8 @@ export default function RequestDetail() {
             {camp?.campType}
           </p>
           <p className="text-[#7d7d7d] text-sm">
-            <b className="text-[#131313] font-medium mr-2">Mr Type :</b>{" "}
-            {camp?.mrType}
+            <b className="text-[#131313] font-medium mr-2">Mr Name :</b>{" "}
+            {camp?.mrName}
           </p>{" "}
           <p className="text-[#7d7d7d] text-sm">
             <b className="text-[#131313] font-medium mr-2">Sample Type :</b>{" "}

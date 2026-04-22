@@ -1,19 +1,17 @@
+import { getToken } from "firebase/messaging";
 import { HTTP_CLIENT } from "../utils/httpClient";
 import { getFCMToken } from "../utils/notifications";
 import { ENDPOINTS } from "./endpoints";
+import { messaging } from "../firebase";
 
 export const adminLogin = async (values: {
   email: string;
   password: string;
+  fcmToken?: string;
 }) => {
   try {
-    const fcmToken = await getFCMToken();
-    const response = await HTTP_CLIENT.post(ENDPOINTS.ACCOUNTS_LOGIN, {
-      ...values,
-      fcmToken,
-    });
+    const response = await HTTP_CLIENT.post(ENDPOINTS.ACCOUNTS_LOGIN, values);
 
-    console.log("Login response:", response.data);
     return response.data;
   } catch (error: any) {
     console.error("Login error:", error.response?.data || error.message);
@@ -21,6 +19,24 @@ export const adminLogin = async (values: {
   }
 };
 
+const askPermissionAndGetToken = async () => {
+  const permission = await Notification.requestPermission();
+
+  if (permission !== "granted") {
+    return null;
+  }
+
+  const registration = await navigator.serviceWorker.register(
+    "/firebase-messaging-sw.js",
+  );
+
+  const token = await getToken(messaging, {
+    vapidKey: "YOUR_VAPID_KEY",
+    serviceWorkerRegistration: registration,
+  });
+
+  return token;
+};
 export const adminLogout = () => {
   return HTTP_CLIENT.post(ENDPOINTS.ACCOUNTS_LOGOUT);
 };

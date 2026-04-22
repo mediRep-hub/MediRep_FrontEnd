@@ -93,7 +93,7 @@ export default function MRWiseExpense() {
       initialValue={row.status}
       order={{ _id: row.id, discount: 0 }}
       onStatusChange={(id, duration, discount) => {
-        console.log("Status Changed:", id, duration, discount);
+        // console.log("Status Changed:", id, duration, discount);
         setData((prev) =>
           prev.map((r) => (r.id === id ? { ...r, status: true } : r)),
         );
@@ -180,7 +180,7 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState(initialValue);
   const [duration, setDuration] = useState<number>(0);
-  console.log("🚀 ~ StatusDropdown ~ setDuration:", setDuration);
+
   const [discount, setDiscount] = useState<number>(order.discount ?? 0);
   console.log(setDiscount);
 

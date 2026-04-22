@@ -106,7 +106,7 @@ export default function Attendance() {
   });
 
   const filteredData = data?.data.filter((v: any) => {
-    console.log(v);
+    // console.log(v);
     return true;
   });
   const tableData =

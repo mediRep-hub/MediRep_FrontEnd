@@ -56,7 +56,6 @@ export default function CampDashboard() {
   });
   const [isFilter, setFilter] = useState(false);
   const stats = allstats?.data?.data ?? {};
-  console.log("🚀 ~ stats:", stats);
 
   useEffect(() => {
     const timer = setTimeout(() => setAnimate(true), 10);
@@ -172,7 +171,10 @@ export default function CampDashboard() {
     })
     .sort((a, b) => b.totalCamps - a.totalCamps);
   const totalCamps =
-    (stats?.approved || 0) + (stats?.executed || 0) + (stats?.pending || 0);
+    (stats?.approved || 0) +
+    (stats?.executed || 0) +
+    (stats?.pending || 0) +
+    (stats?.rejected || 0);
   const { data: allcamps } = useQuery<AxiosResponse<any>>({
     queryKey: ["getAllCamps"],
     queryFn: () => getAllCamps(),
